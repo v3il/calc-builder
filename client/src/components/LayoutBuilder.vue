@@ -4,7 +4,7 @@
         <button @click="collect">Collect</button>
 
 
-        <Draggable v-if="containers.length" v-model="containers" @start="drag=true" @end="drag=false">
+        <Draggable v-if="containers.length" v-model="containers">
             <LayoutContainer
                 @removeContainer="removeContainer($event)"
                 v-for="container in containers"

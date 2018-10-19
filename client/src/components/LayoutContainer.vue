@@ -11,10 +11,16 @@
         <button @click="resize(1)">+</button>
         <br>
         {{containerData}}
+
+        <br>
+
+        <Draggable class="drag" :options="{group: 'items'}"></Draggable>
     </div>
 </template>
 
 <script>
+
+    import Draggable from 'vuedraggable';
 
     const sizes = [/*0.25, */0.3333, 0.5, 0.6666, /*0.75,*/ 1];
 
@@ -23,6 +29,10 @@
 
         props: {
             container: Object,
+        },
+
+        components: {
+            Draggable,
         },
 
         data() {
@@ -65,6 +75,7 @@
         display: inline-block;
         border: 1px solid gray;
         padding: 12px 24px;
+        vertical-align: top;
 
         &.non-float {
             display: block;
@@ -79,5 +90,11 @@
         width: 100px;
         height: 50px;
         background: black;
+    }
+
+    .drag {
+        width: 100px;
+        height: 100px;
+        border: 1px dashed royalblue;
     }
 </style>

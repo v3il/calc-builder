@@ -2,6 +2,13 @@
     <div class="page">
         <div class="sidebar">
             Sidebar
+
+            <Draggable :options="{
+                group: {name: 'items', pull: 'clone', put: false,},
+                sort: false,
+            }">
+                <div v-for="i in items">{{i}}</div>
+            </Draggable>
         </div>
 
         <div class="content">
@@ -15,8 +22,20 @@
 </template>
 
 <script>
+    import Draggable from 'vuedraggable';
+
     export default {
         name: 'MainPage',
+
+        data() {
+            return {
+                items: [1, 2, 3, 4, 5, 6]
+            }
+        },
+
+        components: {
+            Draggable,
+        }
     };
 </script>
 
