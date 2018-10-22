@@ -15,25 +15,18 @@
         <br>
         <br>
 
-
-        <!--<div v-for="(a,i) in c" :key="i">-->
-            <!--{{a}}-->
-        <!--</div>-->
-
         <Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{
             group: 'items',
         }">
-            <template v-for="(field, index) in containerData.fields">
+            <template v-for="field in containerData.fields">
                 <component
-                    :key="`field${index}`"
+                    :key="field.id"
                     @optionsUpdate="mergeOptions(field, $event)"
                     ref="field"
                     :is="field.type"
                     :options="field.params"
                 ></component>
             </template>
-
-
         </Draggable>
     </div>
 </template>
@@ -41,8 +34,8 @@
 <script>
     import Draggable from 'vuedraggable';
 
-    import Button from './fields/Button.vue';
-    import Text from './fields/Text.vue';
+    import ButtonField from './fields/ButtonField.vue';
+    import TextField from './fields/TextField.vue';
 
     const sizes = [/*0.25, */0.33, 0.5, 0.66, /*0.75,*/ 1];
 
@@ -55,8 +48,8 @@
 
         components: {
             Draggable,
-            Button,
-            Text1: Text,
+            ButtonField,
+            TextField,
         },
 
         data() {
@@ -95,15 +88,12 @@
                 const itemElement = event.item;
 
                 this.containerData.fields.push({
+                    id: this.containerData.fields.length++,
                     type: itemElement.children[0].dataset.item,
                     params: {},
                 });
 
                 itemElement.remove();
-            },
-
-            getFieldsData() {
-                this.containerData.fields = this.$refs.field.map(fieldComponent => fieldComponent.getData());
             },
 
             mergeOptions(field, newOptions) {

@@ -47,12 +47,12 @@
                 items: [
                     {
                         id: 0,
-                        type: 'Button',
+                        type: 'ButtonField',
                         text: 'Button',
                     },
                     {
                         id: 1,
-                        type: 'Text1',
+                        type: 'TextField',
                         text: 'Text',
                     }
                 ],

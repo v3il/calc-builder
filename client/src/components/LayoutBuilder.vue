@@ -50,7 +50,8 @@
                     pullToRight: false,
                     fields: [
                         {
-                            type: 'Text1',
+                            id: 0,
+                            type: 'TextField',
                             params: {
                                 text: 'Test input'
                             }
