@@ -1,33 +1,47 @@
 <template>
-    <div>
+    <div class="layout-builder">
         <button @click="add">Add</button>
         <button @click="collect">Collect</button>
 
 
-        <Draggable v-if="containers.length" v-model="containers">
-            <LayoutContainer
-                @removeContainer="removeContainer($event)"
-                v-for="container in containers"
-                :container="container"
-                :key="container.id"
-                ref="container"
-            ></LayoutContainer>
-        </Draggable>
+        <!--<v-card>-->
+            <v-container fluid grid-list-md>
+                <v-layout row wrap>
+                    <Draggable v-if="containers.length" v-model="containers">
+                        <LayoutContainer
+                                @removeContainer="removeContainer($event)"
+                                v-for="container in containers"
+                                :container="container"
+                                :key="container.id"
+                        ></LayoutContainer>
+                    </Draggable>
+                </v-layout>
+            </v-container>
+        <!--</v-card>-->
 
-        <div v-else>
-            Empty
-        </div>
+
+        <!--<Draggable v-if="containers.length" v-model="containers">-->
+            <!--<LayoutContainer-->
+                <!--@removeContainer="removeContainer($event)"-->
+                <!--v-for="container in containers"-->
+                <!--:container="container"-->
+                <!--:key="container.id"-->
+            <!--&gt;</LayoutContainer>-->
+        <!--</Draggable>-->
+
+        <!--<div v-else>-->
+            <!--Empty-->
+        <!--</div>-->
     </div>
 </template>
 
 <script>
-
-    var key = 1;
-
     import LayoutContainerModel from '../models/LayoutContainer';
 
     import Draggable from 'vuedraggable';
     import LayoutContainer from './LayoutContainer.vue';
+
+    import getNextId from '../utils/getNextId';
 
     export default {
         name: "LayoutBuilder",
@@ -43,31 +57,23 @@
 
         data() {
             return {
-                containers: this.layout.concat(new LayoutContainerModel({
-                    id: key++,
-                    width: 0.5,
-                    float: true,
-                    pullToRight: false,
-                    fields: [
-                        {
-                            id: 0,
-                            type: 'TextField',
-                            params: {
-                                text: 'Test input'
-                            }
-                        }
-                    ],
-                })),
+                containers: this.layout,
+
+                cards: [
+                    { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
+                    { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
+                    { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 }
+                ]
             }
         },
 
         methods: {
             add() {
                 this.containers.push(new LayoutContainerModel({
-                    id: key++,
+                    id: getNextId(this.containers),
                     width: 0.5,
                     float: true,
-                    pullToRight: false,
+                    align: 'left',
                     fields: [],
                 }));
             },
@@ -77,23 +83,7 @@
             },
 
             collect() {
-                // const fields = [...this.$children[0].$children[0].$children[0].$children].map(child => {
-                //     return child.getData();
-                // });
-                //
-                // console.log(fields)
-
-                // console.log(JSON.stringify(this.containers));
-
-                this.$nextTick(() => {
-                    var a = this.containers.map(container => {
-                        return container;
-                    })
-
-                    console.log(777, JSON.stringify(this.containers))
-
-                    // console.log(JSON.stringify(a))
-                })
+                console.log(777, JSON.stringify(this.containers))
             }
         }
     }

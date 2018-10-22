@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-navigation-drawer v-model="drawer" clipped fixed app>
-            <v-list dense>
+            <v-list>
                 <Draggable :options="{
                     group: {name: 'items', pull: 'clone', put: false,},
                     sort: false,
@@ -18,21 +18,23 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-toolbar app fixed clipped-left>
+        <v-toolbar color="indigo" dark app fixed clipped-left>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title>Application</v-toolbar-title>
         </v-toolbar>
 
-        <v-content>
-            <router-link :to="{name: 'constructor'}">Constructor</router-link>
-            <router-link :to="{name: 'formula'}">Formula</router-link>
+        <v-content class="page-content">
+            <div class="page-content">
+                <router-link :to="{name: 'constructor'}">Constructor</router-link>
+                <router-link :to="{name: 'formula'}">Formula</router-link>
 
-            <router-view></router-view>
+                <router-view></router-view>
+            </div>
         </v-content>
 
-        <v-footer app fixed>
-            <span>&copy; 2017</span>
-        </v-footer>
+        <!--<v-footer app fixed>-->
+            <!--<span>&copy; 2017</span>-->
+        <!--</v-footer>-->
     </div>
 </template>
 
@@ -56,6 +58,7 @@
                         text: 'Text',
                     }
                 ],
+
                 drawer: true
             }
         },
@@ -69,3 +72,9 @@
         },
     };
 </script>
+
+<style lang="scss">
+    .page-content {
+        padding: 12px 24px;
+    }
+</style>

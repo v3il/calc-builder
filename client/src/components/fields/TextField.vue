@@ -15,7 +15,7 @@
         data() {
             return {
                 defaultOptions: {
-                    text: '',
+                    text: 'Input',
                     borderColor: 'red'
                 },
             }
