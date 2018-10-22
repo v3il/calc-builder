@@ -1,10 +1,14 @@
 <template>
-    <button>1</button>
+    <button>Button 1</button>
 </template>
 
 <script>
     export default {
         name: "Button",
+
+        props: {
+            options: Object,
+        },
 
         methods: {
             getData() {

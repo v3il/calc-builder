@@ -13,16 +13,24 @@
         {{containerData}}
 
         <br>
-
-        {{JSON.stringify(containerData.fields)}}
-
         <br>
+
+
+        <!--<div v-for="(a,i) in c" :key="i">-->
+            <!--{{a}}-->
+        <!--</div>-->
 
         <Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{
             group: 'items',
         }">
-            <template v-for="field in containerData.fields">
-                <component :is="field"></component>
+            <template v-for="(field, index) in containerData.fields">
+                <component
+                    :key="`field${index}`"
+                    @optionsUpdate="mergeOptions(field, $event)"
+                    ref="field"
+                    :is="field.type"
+                    :options="field.params"
+                ></component>
             </template>
 
 
@@ -31,13 +39,12 @@
 </template>
 
 <script>
-
     import Draggable from 'vuedraggable';
 
     import Button from './fields/Button.vue';
     import Text from './fields/Text.vue';
 
-    const sizes = [/*0.25, */0.3333, 0.5, 0.6666, /*0.75,*/ 1];
+    const sizes = [/*0.25, */0.33, 0.5, 0.66, /*0.75,*/ 1];
 
     export default {
         name: 'LayoutContainer',
@@ -85,15 +92,22 @@
             },
 
             onAdd(event) {
-                var itemEl = event.item;  // dragged HTMLElement
+                const itemElement = event.item;
 
-                this.containerData.fields.push(itemEl.children[0].dataset.item);
+                this.containerData.fields.push({
+                    type: itemElement.children[0].dataset.item,
+                    params: {},
+                });
 
-                console.log(this.containerData.fields)
+                itemElement.remove();
+            },
 
-                itemEl.remove();
+            getFieldsData() {
+                this.containerData.fields = this.$refs.field.map(fieldComponent => fieldComponent.getData());
+            },
 
-                console.log(111, itemEl.children[0].dataset.item, event)
+            mergeOptions(field, newOptions) {
+                field.params = newOptions;
             }
         },
     }

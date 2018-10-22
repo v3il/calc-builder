@@ -10,6 +10,7 @@
                 v-for="container in containers"
                 :container="container"
                 :key="container.id"
+                ref="container"
             ></LayoutContainer>
         </Draggable>
 
@@ -42,7 +43,20 @@
 
         data() {
             return {
-                containers: this.layout,
+                containers: this.layout.concat(new LayoutContainerModel({
+                    id: key++,
+                    width: 0.5,
+                    float: true,
+                    pullToRight: false,
+                    fields: [
+                        {
+                            type: 'Text1',
+                            params: {
+                                text: 'Test input'
+                            }
+                        }
+                    ],
+                })),
             }
         },
 
@@ -53,7 +67,7 @@
                     width: 0.5,
                     float: true,
                     pullToRight: false,
-                    fields: []
+                    fields: [],
                 }));
             },
 
@@ -62,13 +76,23 @@
             },
 
             collect() {
-                const fields = [...this.$children[0].$children[0].$children[0].$children].map(child => {
-                    return child.getData();
-                });
+                // const fields = [...this.$children[0].$children[0].$children[0].$children].map(child => {
+                //     return child.getData();
+                // });
+                //
+                // console.log(fields)
 
-                console.log(fields)
+                // console.log(JSON.stringify(this.containers));
 
-                console.log(JSON.stringify(this.containers));
+                this.$nextTick(() => {
+                    var a = this.containers.map(container => {
+                        return container;
+                    })
+
+                    console.log(777, JSON.stringify(this.containers))
+
+                    // console.log(JSON.stringify(a))
+                })
             }
         }
     }
