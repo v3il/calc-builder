@@ -53,6 +53,7 @@
                     width: 0.5,
                     float: true,
                     pullToRight: false,
+                    fields: []
                 }));
             },
 
@@ -61,6 +62,12 @@
             },
 
             collect() {
+                const fields = [...this.$children[0].$children[0].$children[0].$children].map(child => {
+                    return child.getData();
+                });
+
+                console.log(fields)
+
                 console.log(JSON.stringify(this.containers));
             }
         }
