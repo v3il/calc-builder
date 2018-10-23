@@ -1,9 +1,6 @@
 <template>
     <v-card>
         <v-container fluid grid-list-md>
-            <button @click="add">Add</button>
-            <button @click="collect">Collect</button>
-
             <Draggable v-if="containers.length" v-model="containers" class="layout wrap row" :options="{
                 handle: '.js-drag-icon'
             }">
@@ -65,5 +62,4 @@
 </script>
 
 <style scoped>
-
 </style>

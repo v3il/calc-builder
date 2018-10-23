@@ -24,6 +24,11 @@ export default new Router({
             name: 'formula',
             component: () => import('./views/FormulaConstructor.vue'),
         },
+      {
+          path: 'relations',
+          name: 'relations',
+          component: () => import('./views/FieldsRelationShips.vue'),
+      },
       ],
     },
   ],

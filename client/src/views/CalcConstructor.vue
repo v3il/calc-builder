@@ -16,8 +16,7 @@
 
         data() {
             return {
-                layout: [
-                ],
+                layout: [],
             }
         }
     }

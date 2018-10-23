@@ -12,11 +12,11 @@
                 <v-spacer></v-spacer>
 
                 <v-btn icon @click="resize(-1)">
-                    <v-icon>format_indent_decrease</v-icon>
+                    <v-icon>zoom_out</v-icon>
                 </v-btn>
 
                 <v-btn icon @click="resize(1)">
-                    <v-icon>format_indent_increase</v-icon>
+                    <v-icon>zoom_in</v-icon>
                 </v-btn>
 
                 <v-btn icon v-if="containerData.float" @click="toggleFloatState">
