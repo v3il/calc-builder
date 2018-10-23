@@ -1,7 +1,6 @@
 <template>
     <v-card>
         <v-container fluid grid-list-md>
-
             <button @click="add">Add</button>
             <button @click="collect">Collect</button>
 
@@ -15,43 +14,12 @@
                     :key="container.id"
                 ></LayoutContainer>
             </Draggable>
+
+            <div v-else>
+                Empty
+            </div>
         </v-container>
     </v-card>
-
-    <!--<div class="layout-builder">-->
-        <!--<button @click="add">Add</button>-->
-        <!--<button @click="collect">Collect</button>-->
-
-
-        <!--&lt;!&ndash;<v-card>&ndash;&gt;-->
-            <!--<v-container fluid grid-list-md>-->
-                <!--<v-layout row wrap>-->
-                    <!--<Draggable v-if="containers.length" v-model="containers">-->
-                        <!--<LayoutContainer-->
-                                <!--@removeContainer="removeContainer($event)"-->
-                                <!--v-for="container in containers"-->
-                                <!--:container="container"-->
-                                <!--:key="container.id"-->
-                        <!--&gt;</LayoutContainer>-->
-                    <!--</Draggable>-->
-                <!--</v-layout>-->
-            <!--</v-container>-->
-        <!--</v-card>-->
-
-
-        <!--<Draggable v-if="containers.length" v-model="containers">-->
-            <!--<LayoutContainer-->
-                <!--@removeContainer="removeContainer($event)"-->
-                <!--v-for="container in containers"-->
-                <!--:container="container"-->
-                <!--:key="container.id"-->
-            <!--&gt;</LayoutContainer>-->
-        <!--</Draggable>-->
-
-        <!--<div v-else>-->
-            <!--Empty-->
-        <!--</div>-->
-    <!--</div>-->
 </template>
 
 <script>
@@ -77,24 +45,12 @@
         data() {
             return {
                 containers: this.layout,
-
-                cards: [
-                    { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-                    { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
-                    { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 }
-                ]
             }
         },
 
         methods: {
             add() {
-                this.containers.push(new LayoutContainerModel({
-                    id: getNextId(this.containers),
-                    width: 0.5,
-                    float: true,
-                    align: 'left',
-                    fields: [],
-                }));
+                this.containers.push(new LayoutContainerModel(getNextId(this.containers)));
             },
 
             removeContainer(removedContainer) {

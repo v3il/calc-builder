@@ -1,8 +1,9 @@
 <template>
-
-    <v-flex v-bind="{ [`xs6`]: true }">
-
-        <v-card>
+    <v-flex v-bind="{
+        [`xs6`]: true,
+        [`xs12`]: !containerData.float
+    }">
+        <v-card :style="{width: `${containerData.width * 100}%`}">
             <v-toolbar color="blue-grey darken-4" dense dark>
                 <v-btn icon class="js-drag-icon">
                     <v-icon>drag_indicator</v-icon>
@@ -10,126 +11,69 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon>
+                <v-btn icon @click="resize(-1)">
                     <v-icon>format_indent_decrease</v-icon>
                 </v-btn>
 
-                <v-btn icon>
+                <v-btn icon @click="resize(1)">
                     <v-icon>format_indent_increase</v-icon>
                 </v-btn>
 
-                <v-btn icon>
-                    <v-icon>wrap_text</v-icon>
+                <v-btn icon v-if="containerData.float" @click="toggleFloatState">
+                    <v-icon>layers_clear</v-icon>
+                </v-btn>
+
+                <v-btn icon v-else @click="toggleFloatState">
+                    <v-icon>layers</v-icon>
                 </v-btn>
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon>
-                    <v-icon>format_align_left</v-icon>
+                <v-btn
+                    icon flat
+                    v-for="position in positions"
+                    :key="position"
+                    @click="setAlignment(position)"
+                    :class="{blured: containerData.alignment !== position}"
+                >
+                    <v-icon>format_align_{{position}}</v-icon>
                 </v-btn>
 
-                <v-btn icon>
-                    <v-icon>format_align_center</v-icon>
+                <v-spacer></v-spacer>
+
+                <v-btn icon @click="remove">
+                    <v-icon>delete</v-icon>
                 </v-btn>
-
-                <v-btn icon>
-                    <v-icon>format_align_right</v-icon>
-                </v-btn>
-
-                <!--<v-spacer></v-spacer>-->
-
-                <!--<v-btn icon>-->
-                    <!--<v-icon>settings</v-icon>-->
-                <!--</v-btn>-->
-
-                <!--<v-btn icon>-->
-                    <!--<v-icon>delete</v-icon>-->
-                <!--</v-btn>-->
             </v-toolbar>
 
             <v-container fill-height fluid pa-2>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
-                        <span class="headline white--text1" v-text="card.title"></span>
-
                         {{containerData.id}}
+
+                        <br>
+
+                        {{containerData}}
+
+                        <br>
+
+                        <Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{
+                            group: 'items',
+                        }">
+                            <template v-for="field in containerData.fields">
+                                <component
+                                    @optionsUpdate="updateOptions(field, $event)"
+                                    :key="field.id"
+                                    :is="field.type"
+                                    :options="field.params"
+                                ></component>
+                            </template>
+                        </Draggable>
                     </v-flex>
                 </v-layout>
             </v-container>
-
-
-            <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn icon>
-                    <v-icon>settings</v-icon>
-                </v-btn>
-
-                <v-btn icon>
-                    <v-icon>delete</v-icon>
-                </v-btn>
-            </v-card-actions>
         </v-card>
     </v-flex>
-    <!--</v-layout>-->
-    <!--</v-container>-->
-    <!--</v-card>-->
-
-        <!--<v-card class="blue-grey darken-2">-->
-            <!--<v-container fluid pa-2>-->
-                <!--<v-layout >-->
-                    <!--<v-flex xs12 align-end flexbox>-->
-                        <!--&lt;!&ndash;<div class="layout-container" :style="{width: containerData.width * 100 + '%'}" :class="{&ndash;&gt;-->
-                            <!--&lt;!&ndash;'non-float': !containerData.float,&ndash;&gt;-->
-                            <!--&lt;!&ndash;'pulled-right': containerData.pullToRight,&ndash;&gt;-->
-                        <!--&lt;!&ndash;}">&ndash;&gt;-->
-
-                                <!--<button @click="remove">Remove</button>-->
-                                <!--<button @click="float">Float</button>-->
-                                <!--<button @click="right">Right</button>-->
-
-                                <!--<button @click="resize(-1)">-</button>-->
-                                <!--<button @click="resize(1)">+</button>-->
-                                <!--<br>-->
-                                <!--{{containerData}}-->
-
-                                <!--<br>-->
-                                <!--<br>-->
-
-
-
-                                <!--<Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{-->
-                                    <!--group: 'items',-->
-                                <!--}">-->
-                                    <!--<template v-for="field in containerData.fields">-->
-                                        <!--<component-->
-                                                <!--@optionsUpdate="mergeOptions(field, $event)"-->
-                                                <!--:key="field.id"-->
-                                                <!--:is="field.type"-->
-                                                <!--:options="field.params"-->
-                                        <!--&gt;</component>-->
-                                    <!--</template>-->
-                                <!--</Draggable>-->
-                         <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--</v-flex>-->
-                <!--</v-layout>-->
-            <!--</v-container>-->
-
-            <!--<v-card-actions>-->
-                <!--<v-spacer></v-spacer>-->
-                <!--<v-btn icon>-->
-                    <!--<v-icon>favorite</v-icon>-->
-                <!--</v-btn>-->
-                <!--<v-btn icon>-->
-                    <!--<v-icon>bookmark</v-icon>-->
-                <!--</v-btn>-->
-                <!--<v-btn icon>-->
-                    <!--<v-icon>share</v-icon>-->
-                <!--</v-btn>-->
-            <!--</v-card-actions>-->
-        <!--</v-card>-->
-    <!--</v-flex>-->
-
 </template>
 
 <script>
@@ -140,7 +84,8 @@
 
     import getNextId from '../utils/getNextId';
 
-    const sizes = [0.33, 0.5, 0.66, 1];
+    import ContainerAlignmentPositions from '../constants/ContainerAlignmentPositions';
+    import ContainerSizes from '../constants/ContainerSizes';
 
     export default {
         name: 'LayoutContainer',
@@ -158,33 +103,7 @@
         data() {
             return {
                 containerData: this.container,
-
-                items2: [
-                    { header: 'Today' },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                        title: 'Brunch this weekend?',
-                        subtitle: "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-                        subtitle: "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                        title: 'Oui oui',
-                        subtitle: "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-                    }
-                ],
-
-                card:
-                    { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-                    // { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
-                    // { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 }
-
+                positions: ContainerAlignmentPositions.positions,
             };
         },
 
@@ -194,24 +113,18 @@
             },
 
             resize(direction) {
+                const sizes = ContainerSizes.sizes;
+
                 const currentIndex = sizes.indexOf(this.containerData.width);
                 this.containerData.width = sizes[currentIndex + direction];
             },
 
-            float() {
+            toggleFloatState() {
                 this.containerData.float = !this.containerData.float;
-
-                if (this.containerData.float) {
-                    this.containerData.align = 'left';
-                }
             },
 
-            right() {
-                if (!this.containerData.float) {
-                    this.containerData.pullToRight = !this.containerData.pullToRight;
-                } else {
-                    this.containerData.pullToRight = false;
-                }
+            setAlignment(alignment) {
+                this.containerData.alignment = alignment;
             },
 
             onAdd(event) {
@@ -227,7 +140,7 @@
                 itemElement.remove();
             },
 
-            mergeOptions(field, newOptions) {
+            updateOptions(field, newOptions) {
                 field.params = newOptions;
             }
         },
@@ -258,8 +171,14 @@
     }
 
     .drag {
-        width: 100px;
+        width: 100%;
         height: 100px;
+        padding: 12px;
         border: 1px dashed royalblue;
+        border-radius: 4px;
+    }
+
+    .blured {
+        opacity: 0.5;
     }
 </style>
