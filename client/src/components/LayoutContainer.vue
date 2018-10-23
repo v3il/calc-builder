@@ -4,29 +4,55 @@
 
         <v-card>
             <v-toolbar color="blue-grey darken-4" dense dark>
-                <v-toolbar-side-icon></v-toolbar-side-icon>
-
-                <v-toolbar-title>Inbox</v-toolbar-title>
+                <v-btn icon class="js-drag-icon">
+                    <v-icon>drag_indicator</v-icon>
+                </v-btn>
 
                 <v-spacer></v-spacer>
 
                 <v-btn icon>
-                    <v-icon>search</v-icon>
+                    <v-icon>format_indent_decrease</v-icon>
                 </v-btn>
 
                 <v-btn icon>
-                    <v-icon>more_vert</v-icon>
+                    <v-icon>format_indent_increase</v-icon>
                 </v-btn>
+
+                <v-btn icon>
+                    <v-icon>wrap_text</v-icon>
+                </v-btn>
+
+                <v-spacer></v-spacer>
+
+                <v-btn icon>
+                    <v-icon>format_align_left</v-icon>
+                </v-btn>
+
+                <v-btn icon>
+                    <v-icon>format_align_center</v-icon>
+                </v-btn>
+
+                <v-btn icon>
+                    <v-icon>format_align_right</v-icon>
+                </v-btn>
+
+                <!--<v-spacer></v-spacer>-->
+
+                <!--<v-btn icon>-->
+                    <!--<v-icon>settings</v-icon>-->
+                <!--</v-btn>-->
+
+                <!--<v-btn icon>-->
+                    <!--<v-icon>delete</v-icon>-->
+                <!--</v-btn>-->
             </v-toolbar>
 
-            <v-container
-                    fill-height
-                    fluid
-                    pa-2
-            >
+            <v-container fill-height fluid pa-2>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
                         <span class="headline white--text1" v-text="card.title"></span>
+
+                        {{containerData.id}}
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -34,14 +60,13 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
+
                 <v-btn icon>
-                    <v-icon>favorite</v-icon>
+                    <v-icon>settings</v-icon>
                 </v-btn>
+
                 <v-btn icon>
-                    <v-icon>bookmark</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>share</v-icon>
+                    <v-icon>delete</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>

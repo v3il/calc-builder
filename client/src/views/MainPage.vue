@@ -23,10 +23,9 @@
             <v-toolbar-title>Application</v-toolbar-title>
         </v-toolbar>
 
-        <v-content class="page-content">
+        <v-content>
             <div class="page-content">
-
-                <v-tabs fixed-tabs>
+                <v-tabs fixed-tabs class="page-tabs">
                     <v-tab :to="{name: 'constructor'}">
                         Constructor
                     </v-tab>
@@ -84,5 +83,9 @@
 <style lang="scss">
     .page-content {
         padding: 12px 24px;
+    }
+
+    .page-tabs {
+        margin-bottom: 24px;
     }
 </style>

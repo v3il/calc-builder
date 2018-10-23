@@ -5,12 +5,14 @@
             <button @click="add">Add</button>
             <button @click="collect">Collect</button>
 
-            <Draggable v-if="containers.length" v-model="containers" element="v-layout" wrap row>
+            <Draggable v-if="containers.length" v-model="containers" class="layout wrap row" :options="{
+                handle: '.js-drag-icon'
+            }">
                 <LayoutContainer
-                        @removeContainer="removeContainer($event)"
-                        v-for="container in containers"
-                        :container="container"
-                        :key="container.id"
+                    @removeContainer="removeContainer($event)"
+                    v-for="container in containers"
+                    :container="container"
+                    :key="container.id"
                 ></LayoutContainer>
             </Draggable>
         </v-container>
