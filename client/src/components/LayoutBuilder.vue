@@ -1,22 +1,39 @@
 <template>
-    <div class="layout-builder">
-        <button @click="add">Add</button>
-        <button @click="collect">Collect</button>
+    <v-card>
+        <v-container fluid grid-list-md>
+
+            <button @click="add">Add</button>
+            <button @click="collect">Collect</button>
+
+            <Draggable v-if="containers.length" v-model="containers" element="v-layout" wrap row>
+                <LayoutContainer
+                        @removeContainer="removeContainer($event)"
+                        v-for="container in containers"
+                        :container="container"
+                        :key="container.id"
+                ></LayoutContainer>
+            </Draggable>
+        </v-container>
+    </v-card>
+
+    <!--<div class="layout-builder">-->
+        <!--<button @click="add">Add</button>-->
+        <!--<button @click="collect">Collect</button>-->
 
 
-        <!--<v-card>-->
-            <v-container fluid grid-list-md>
-                <v-layout row wrap>
-                    <Draggable v-if="containers.length" v-model="containers">
-                        <LayoutContainer
-                                @removeContainer="removeContainer($event)"
-                                v-for="container in containers"
-                                :container="container"
-                                :key="container.id"
-                        ></LayoutContainer>
-                    </Draggable>
-                </v-layout>
-            </v-container>
+        <!--&lt;!&ndash;<v-card>&ndash;&gt;-->
+            <!--<v-container fluid grid-list-md>-->
+                <!--<v-layout row wrap>-->
+                    <!--<Draggable v-if="containers.length" v-model="containers">-->
+                        <!--<LayoutContainer-->
+                                <!--@removeContainer="removeContainer($event)"-->
+                                <!--v-for="container in containers"-->
+                                <!--:container="container"-->
+                                <!--:key="container.id"-->
+                        <!--&gt;</LayoutContainer>-->
+                    <!--</Draggable>-->
+                <!--</v-layout>-->
+            <!--</v-container>-->
         <!--</v-card>-->
 
 
@@ -32,7 +49,7 @@
         <!--<div v-else>-->
             <!--Empty-->
         <!--</div>-->
-    </div>
+    <!--</div>-->
 </template>
 
 <script>

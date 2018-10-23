@@ -1,7 +1,5 @@
 <template>
     <div>
-        constructor
-
         <LayoutBuilder :layout="layout"></LayoutBuilder>
     </div>
 </template>

@@ -1,45 +1,36 @@
 <template>
 
-    <v-flex>
-        <v-card class="blue-grey darken-2">
-            <v-container fluid pa-2>
-                <v-layout >
+    <v-flex v-bind="{ [`xs6`]: true }">
+
+        <v-card>
+            <v-toolbar color="blue-grey darken-4" dense dark>
+                <v-toolbar-side-icon></v-toolbar-side-icon>
+
+                <v-toolbar-title>Inbox</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-btn icon>
+                    <v-icon>search</v-icon>
+                </v-btn>
+
+                <v-btn icon>
+                    <v-icon>more_vert</v-icon>
+                </v-btn>
+            </v-toolbar>
+
+            <v-container
+                    fill-height
+                    fluid
+                    pa-2
+            >
+                <v-layout fill-height>
                     <v-flex xs12 align-end flexbox>
-                        <!--<div class="layout-container" :style="{width: containerData.width * 100 + '%'}" :class="{-->
-                            <!--'non-float': !containerData.float,-->
-                            <!--'pulled-right': containerData.pullToRight,-->
-                        <!--}">-->
-
-                                <button @click="remove">Remove</button>
-                                <button @click="float">Float</button>
-                                <button @click="right">Right</button>
-
-                                <button @click="resize(-1)">-</button>
-                                <button @click="resize(1)">+</button>
-                                <br>
-                                {{containerData}}
-
-                                <br>
-                                <br>
-
-
-
-                                <Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{
-                                    group: 'items',
-                                }">
-                                    <template v-for="field in containerData.fields">
-                                        <component
-                                                @optionsUpdate="mergeOptions(field, $event)"
-                                                :key="field.id"
-                                                :is="field.type"
-                                                :options="field.params"
-                                        ></component>
-                                    </template>
-                                </Draggable>
-                         <!--</div>-->
+                        <span class="headline white--text1" v-text="card.title"></span>
                     </v-flex>
                 </v-layout>
             </v-container>
+
 
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -55,6 +46,64 @@
             </v-card-actions>
         </v-card>
     </v-flex>
+    <!--</v-layout>-->
+    <!--</v-container>-->
+    <!--</v-card>-->
+
+        <!--<v-card class="blue-grey darken-2">-->
+            <!--<v-container fluid pa-2>-->
+                <!--<v-layout >-->
+                    <!--<v-flex xs12 align-end flexbox>-->
+                        <!--&lt;!&ndash;<div class="layout-container" :style="{width: containerData.width * 100 + '%'}" :class="{&ndash;&gt;-->
+                            <!--&lt;!&ndash;'non-float': !containerData.float,&ndash;&gt;-->
+                            <!--&lt;!&ndash;'pulled-right': containerData.pullToRight,&ndash;&gt;-->
+                        <!--&lt;!&ndash;}">&ndash;&gt;-->
+
+                                <!--<button @click="remove">Remove</button>-->
+                                <!--<button @click="float">Float</button>-->
+                                <!--<button @click="right">Right</button>-->
+
+                                <!--<button @click="resize(-1)">-</button>-->
+                                <!--<button @click="resize(1)">+</button>-->
+                                <!--<br>-->
+                                <!--{{containerData}}-->
+
+                                <!--<br>-->
+                                <!--<br>-->
+
+
+
+                                <!--<Draggable v-model="containerData.fields" class="drag" @add="onAdd" :options="{-->
+                                    <!--group: 'items',-->
+                                <!--}">-->
+                                    <!--<template v-for="field in containerData.fields">-->
+                                        <!--<component-->
+                                                <!--@optionsUpdate="mergeOptions(field, $event)"-->
+                                                <!--:key="field.id"-->
+                                                <!--:is="field.type"-->
+                                                <!--:options="field.params"-->
+                                        <!--&gt;</component>-->
+                                    <!--</template>-->
+                                <!--</Draggable>-->
+                         <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</v-flex>-->
+                <!--</v-layout>-->
+            <!--</v-container>-->
+
+            <!--<v-card-actions>-->
+                <!--<v-spacer></v-spacer>-->
+                <!--<v-btn icon>-->
+                    <!--<v-icon>favorite</v-icon>-->
+                <!--</v-btn>-->
+                <!--<v-btn icon>-->
+                    <!--<v-icon>bookmark</v-icon>-->
+                <!--</v-btn>-->
+                <!--<v-btn icon>-->
+                    <!--<v-icon>share</v-icon>-->
+                <!--</v-btn>-->
+            <!--</v-card-actions>-->
+        <!--</v-card>-->
+    <!--</v-flex>-->
 
 </template>
 
@@ -105,6 +154,12 @@
                         subtitle: "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
                     }
                 ],
+
+                card:
+                    { title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
+                    // { title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
+                    // { title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 }
+
             };
         },
 

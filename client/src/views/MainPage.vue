@@ -18,15 +18,23 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-toolbar color="indigo" dark app fixed clipped-left>
+        <v-toolbar color="blue-grey darken-4" dark app fixed clipped-left>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title>Application</v-toolbar-title>
         </v-toolbar>
 
         <v-content class="page-content">
             <div class="page-content">
-                <router-link :to="{name: 'constructor'}">Constructor</router-link>
-                <router-link :to="{name: 'formula'}">Formula</router-link>
+
+                <v-tabs fixed-tabs>
+                    <v-tab :to="{name: 'constructor'}">
+                        Constructor
+                    </v-tab>
+
+                    <v-tab :to="{name: 'formula'}">
+                        Formula
+                    </v-tab>
+                </v-tabs>
 
                 <router-view></router-view>
             </div>
