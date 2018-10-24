@@ -1,20 +1,22 @@
 <template>
-    <v-card>
+    <v-card id="asd">
         <v-container fluid grid-list-md>
-            <Draggable v-if="containers.length" v-model="containers" class="layout wrap row" :options="{
-                handle: '.js-drag-icon'
-            }">
-                <LayoutContainer
-                    @removeContainer="removeContainer($event)"
-                    v-for="container in containers"
-                    :container="container"
-                    :key="container.id"
-                ></LayoutContainer>
-            </Draggable>
 
-            <div v-else>
-                Empty
-            </div>
+            {{JSON.stringify(this.fields)}}
+
+            <Draggable v-model="fields" class="drag" @add="onAdd" :options="{
+                group: 'items',
+            }">
+                <template v-for="field in fields">
+                    <component
+                        @removeField="removeField(field)"
+                        @optionsUpdate="updateOptions(field, $event)"
+                        :key="field.id"
+                        :is="field.type"
+                        :options="field.params"
+                    ></component>
+                </template>
+            </Draggable>
         </v-container>
     </v-card>
 </template>
@@ -25,14 +27,22 @@
     import Draggable from 'vuedraggable';
     import LayoutContainer from './LayoutContainer.vue';
 
+    import ButtonField from './fields/ButtonField.vue';
+    import TextField from './fields/TextField.vue';
+
     import getNextId from '../utils/getNextId';
+
+    import ContainerAlignmentPositions from '../constants/ContainerAlignmentPositions';
+    import ContainerSizes from '../constants/ContainerSizes';
 
     export default {
         name: "LayoutBuilder",
 
         components: {
             Draggable,
-            LayoutContainer,
+            // LayoutContainer,
+            ButtonField,
+            TextField,
         },
 
         props: {
@@ -41,25 +51,49 @@
 
         data() {
             return {
-                containers: this.layout,
+                fields: this.layout,
             }
         },
 
         methods: {
             add() {
-                this.containers.push(new LayoutContainerModel(getNextId(this.containers)));
+                this.fields.push(new LayoutContainerModel(getNextId(this.fields)));
             },
 
-            removeContainer(removedContainer) {
-                this.containers = this.containers.filter(container => container !== removedContainer);
+            removeField(removedField) {
+                this.fields = this.fields.filter(field => field !== removedField);
             },
 
             collect() {
-                console.log(777, JSON.stringify(this.containers))
+                console.log(777, JSON.stringify(this.fields))
+            },
+
+            onAdd(event) {
+                const itemElement = event.item;
+                const fieldIndex = event.newIndex;
+
+                this.fields.splice(fieldIndex, 0, {
+                    id: getNextId(this.fields),
+                    type: itemElement.children[0].dataset.item,
+                    params: {},
+                });
+
+                itemElement.remove();
+            },
+
+            updateOptions(field, newOptions) {
+                field.params = newOptions;
             }
         }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .drag {
+        width: 100%;
+        padding: 12px;
+        border: 1px dashed royalblue;
+        border-radius: 4px;
+        min-height: 300px;
+    }
 </style>

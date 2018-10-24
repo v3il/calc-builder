@@ -3,11 +3,11 @@
         <v-navigation-drawer v-model="drawer" clipped fixed app>
             <v-list>
 
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-btn block class="primary" @click="">Добавить контейнер</v-btn>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <!--<v-list-tile>-->
+                    <!--<v-list-tile-content>-->
+                        <!--<v-btn block class="primary" @click="">Добавить контейнер</v-btn>-->
+                    <!--</v-list-tile-content>-->
+                <!--</v-list-tile>-->
 
                 <v-list-tile>
                     <v-list-tile-content>
