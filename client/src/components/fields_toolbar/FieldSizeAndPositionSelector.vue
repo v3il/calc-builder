@@ -1,54 +1,102 @@
 <template>
+    <v-menu :close-on-content-click="false" :nudge-bottom="12" offset-y bottom>
+        <v-btn small icon @click="" slot="activator">
+            <v-icon>control_camera</v-icon>
+        </v-btn>
 
-    <div class="text-xs-center">
-        <v-menu
-                :close-on-content-click="false"
-                :nudge-bottom="12"
-                offset-y
-                bottom
+        <v-card dark>
+            <v-list class="options-list">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Размеры и положение</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
 
-        >
-            <v-btn small icon @click="" slot="activator">
-                <v-icon>control_camera</v-icon>
-            </v-btn>
+            <v-divider></v-divider>
 
-            <v-card>
-                <v-list color="blue-grey darken-4" text-color="white" dark>
-                    <v-list-tile dark color="blue-grey darken-4">
-                        <v-list-tile-content>
-                            <v-list-tile-title>Размеры и положение</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
+            <v-list class="options-list">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Размер поля</v-list-tile-title>
 
-                <v-divider></v-divider>
+                        {{sizes}}
+                        <br>
+                        {{params.width}}
+                        <br>
 
-                <v-list>
-                    <v-list-tile dark color="blue-grey darken-4">
-                        <v-list-tile-action>
-                            <v-switch  color="purple"></v-switch>
-                        </v-list-tile-action>
-                        <v-list-tile-title>Enable messages</v-list-tile-title>
-                    </v-list-tile>
+                        <div class="size-selector">
+                            <div
+                                v-for="size in sizes"
+                                @click="setSize(size)"
+                                :class="{selected: size <= params.width}"
+                                :style="{width: `${100 / sizes.length}%`}"
+                                class="size-selector-item"
+                            ></div>
+                        </div>
+                    </v-list-tile-content>
+                </v-list-tile>
 
-                    <v-list-tile dark color="blue-grey darken-4">
-                        <v-list-tile-action>
-                            <v-switch  color="purple"></v-switch>
-                        </v-list-tile-action>
-                        <v-list-tile-title>Enable hints</v-list-tile-title>
-                    </v-list-tile>
-                </v-list>
-            </v-card>
-        </v-menu>
-    </div>
+                <v-list-tile>
+                    <v-list-tile-action>
+                        <v-switch dark color="purple"></v-switch>
+                    </v-list-tile-action>
+                    <v-list-tile-title>Enable hints</v-list-tile-title>
+                </v-list-tile>
+            </v-list>
+        </v-card>
+    </v-menu>
 </template>
 
 <script>
+    import ContainerSizes from '../../constants/ContainerSizes';
+
     export default {
-        name: "FieldSizeAndPositionSelector"
+        name: "FieldSizeAndPositionSelector",
+
+        props: {
+            options: Object,
+        },
+
+        data() {
+            return {
+                params: this.options,
+                sizes: ContainerSizes.sizes,
+            }
+        },
+
+        methods: {
+            setSize(size) {
+                this.params.width = size;
+            }
+        }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .options-list {
+        background: #263238 !important;
+        color: white;
+        min-width: 250px;
+    }
 
+    .size-selector {
+        width: 100%;
+        border: 1px solid royalblue;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+    .size-selector-item {
+        height: 18px;
+        cursor: pointer;
+        border-top: 1px solid royalblue;
+        border-bottom: 1px solid royalblue;
+        border-right: 1px solid #555;
+
+        &.selected {
+            background: royalblue;
+        }
+    }
 </style>

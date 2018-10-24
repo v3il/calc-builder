@@ -2,9 +2,7 @@
     <v-card id="asd">
         <v-container fluid grid-list-md>
 
-            {{JSON.stringify(this.fields)}}
-
-            <Draggable v-model="fields" class="drag" @add="onAdd" :options="{
+            <Draggable v-model="fields" class="drag layout row wrap" @add="onAdd" :options="{
                 group: 'items',
             }">
                 <template v-for="field in fields">
@@ -17,6 +15,10 @@
                     ></component>
                 </template>
             </Draggable>
+
+            {{JSON.stringify(this.fields)}}
+
+
         </v-container>
     </v-card>
 </template>
@@ -94,6 +96,6 @@
         padding: 12px;
         border: 1px dashed royalblue;
         border-radius: 4px;
-        min-height: 300px;
+        min-height: 100px;
     }
 </style>

@@ -1,7 +1,12 @@
 <template>
-    <div class="field-wrapper">
+    <v-flex v-bind="{
+        [`xs3`]: params.size.width === 0.33,
+        [`xs6`]: params.size.width === 0.5,
+        [`xs9`]: params.size.width === 0.66,
+        [`xs12`]: params.size.width === 1.0,
+    }" class="field-wrapper">
         <FieldsParamsToolbar>
-            <FieldSizeAndPositionSelector></FieldSizeAndPositionSelector>
+            <FieldSizeAndPositionSelector :options="params.size"></FieldSizeAndPositionSelector>
             <RemoveFieldToolbarItem @fieldRemove="emitFieldRemove"></RemoveFieldToolbarItem>
         </FieldsParamsToolbar>
 
@@ -13,7 +18,7 @@
             hide-details
             v-model="params.text"
         ></v-text-field>
-    </div>
+    </v-flex>
 </template>
 
 <script>
@@ -38,7 +43,12 @@
             return {
                 defaultOptions: {
                     text: 'Input',
-                    borderColor: 'red'
+                    borderColor: 'red',
+
+                    size: {
+                        width: 0.5,
+                        position: 'left',
+                    }
                 },
             }
         },

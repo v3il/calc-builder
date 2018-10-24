@@ -23,7 +23,8 @@
         },
 
         created() {
-            this.params = Object.assign({}, this.defaultOptions, this.options);
+            const params = Object.assign({}, this.defaultOptions, this.options);
+            this.params = params;
             this.$emit('optionsUpdate', this.params);
         },
     }
