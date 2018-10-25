@@ -1,7 +1,7 @@
 <template>
-    <v-chip color="blue-grey darken-4" text-color="white" dark class="field-wrapper-toolbar">
+    <div class="field-wrapper-toolbar">
         <slot></slot>
-    </v-chip>
+    </div>
 </template>
 
 <script>

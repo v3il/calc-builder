@@ -1,24 +1,21 @@
 <template>
-    <v-flex v-bind="{
-        [`xs3`]: params.size.width === 0.33,
-        [`xs6`]: params.size.width === 0.5,
-        [`xs9`]: params.size.width === 0.66,
-        [`xs12`]: params.size.width === 1.0,
+    <div :style="{
+        width: params.size.width * 100 + '%',
     }" class="field-wrapper">
         <FieldsParamsToolbar>
             <FieldSizeAndPositionSelector :options="params.size"></FieldSizeAndPositionSelector>
             <RemoveFieldToolbarItem @fieldRemove="emitFieldRemove"></RemoveFieldToolbarItem>
         </FieldsParamsToolbar>
 
-        <v-text-field
+        <input type="text"
             single-line
             full-width
             label="Outline"
             outline
             hide-details
             v-model="params.text"
-        ></v-text-field>
-    </v-flex>
+        >
+    </div>
 </template>
 
 <script>

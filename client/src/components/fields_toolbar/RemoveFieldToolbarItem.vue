@@ -1,7 +1,7 @@
 <template>
-    <v-btn small icon @click="emitFieldRemove">
-        <v-icon>delete</v-icon>
-    </v-btn>
+    <button @click="emitFieldRemove">
+        <i class="material-icons">delete</i>
+    </button>
 </template>
 
 <script>

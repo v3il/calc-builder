@@ -1,53 +1,57 @@
 <template>
-    <div class="text-xs-center">
-    <v-menu :close-on-content-click="false" :nudge-bottom="12" :nudge-right="6" offset-y bottom left>
-        <v-btn small icon @click="" slot="activator">
-            <v-icon>control_camera</v-icon>
-        </v-btn>
 
-        <v-card dark>
-            <v-list class="options-list">
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Размеры и положение</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
+    <button>
+        <i class="material-icons">settings</i>
+    </button>
 
-            <v-divider></v-divider>
+    <!--<div>-->
+        <!--<v-btn small icon @click="" slot="activator">-->
+            <!--<v-icon>control_camera</v-icon>-->
+        <!--</v-btn>-->
 
-            <v-list class="options-list">
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Размер поля</v-list-tile-title>
+        <!--<v-card dark>-->
+            <!--<v-list class="options-list">-->
+                <!--<v-list-tile>-->
+                    <!--<v-list-tile-content>-->
+                        <!--<v-list-tile-title>Размеры и положение</v-list-tile-title>-->
+                    <!--</v-list-tile-content>-->
+                <!--</v-list-tile>-->
+            <!--</v-list>-->
 
-                        {{sizes}}
-                        <br>
-                        {{params.width}}
-                        <br>
+            <!--<v-divider></v-divider>-->
 
-                        <div class="size-selector">
-                            <div
-                                v-for="size in sizes"
-                                @click="setSize(size)"
-                                :class="{selected: size <= params.width}"
-                                :style="{width: `${100 / sizes.length}%`}"
-                                class="size-selector-item"
-                            ></div>
-                        </div>
-                    </v-list-tile-content>
-                </v-list-tile>
+            <!--<v-list class="options-list">-->
+                <!--<v-list-tile>-->
+                    <!--<v-list-tile-content>-->
+                        <!--<v-list-tile-title>Размер поля</v-list-tile-title>-->
 
-                <v-list-tile>
-                    <v-list-tile-action>
-                        <v-switch dark color="purple"></v-switch>
-                    </v-list-tile-action>
-                    <v-list-tile-title>Enable hints</v-list-tile-title>
-                </v-list-tile>
-            </v-list>
-        </v-card>
-    </v-menu>
-    </div>
+                        <!--{{sizes}}-->
+                        <!--<br>-->
+                        <!--{{params.width}}-->
+                        <!--<br>-->
+
+                        <!--<div class="size-selector">-->
+                            <!--<div-->
+                                <!--v-for="size in sizes"-->
+                                <!--@click="setSize(size)"-->
+                                <!--:class="{selected: size <= params.width}"-->
+                                <!--:style="{width: `${100 / sizes.length}%`}"-->
+                                <!--class="size-selector-item"-->
+                            <!--&gt;</div>-->
+                        <!--</div>-->
+                    <!--</v-list-tile-content>-->
+                <!--</v-list-tile>-->
+
+                <!--<v-list-tile>-->
+                    <!--<v-list-tile-action>-->
+                        <!--<v-switch dark color="purple"></v-switch>-->
+                    <!--</v-list-tile-action>-->
+                    <!--<v-list-tile-title>Enable hints</v-list-tile-title>-->
+                <!--</v-list-tile>-->
+            <!--</v-list>-->
+        <!--</v-card>-->
+    <!--</v-menu>-->
+    <!--</div>-->
 </template>
 
 <script>

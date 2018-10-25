@@ -9,7 +9,7 @@
                 sort: false,
             }">
                 <li v-for="item in items" :key="item.id" :data-item="item.type" class="js-item">
-                    {{item}}
+                    {{item.text}}
                 </li>
             </Draggable>
 
@@ -139,15 +139,32 @@
     .layout-builder-wrapper {
         padding: 24px;
         overflow-y: auto;
-        margin-left: 350px;
+        margin-left: 450px;
+        background: #fafafa;
     }
 
     .layout-builder-menu {
-        width: 350px;
+        width: 450px;
         padding: 12px 24px;
-        background-color: darkcyan;
         position: fixed;
         top: 64px;
         bottom: 0;
+        background-color: #fff;
+        border-right: 1px solid rgba(0,0,0,0.12);
+        z-index: 2;
+    }
+
+    li {
+        align-items: center;
+        color: inherit;
+        display: flex;
+        font-size: 16px;
+        font-weight: 400;
+        height: 48px;
+        margin: 0;
+        padding: 0 16px;
+        position: relative;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>

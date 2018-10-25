@@ -35,5 +35,6 @@
         border: 1px solid violet;
         padding: 18px 18px;
         position: relative;
+        display: inline-block;
     }
 </style>

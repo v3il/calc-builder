@@ -1,11 +1,11 @@
 <template>
-    <v-flex class="field-wrapper">
+    <div class="field-wrapper">
         <FieldsParamsToolbar>
             <RemoveFieldToolbarItem @fieldRemove="emitFieldRemove"></RemoveFieldToolbarItem>
         </FieldsParamsToolbar>
 
-        <v-btn block>{{params.text}}</v-btn>
-    </v-flex>
+        <button>{{params.text}}</button>
+    </div>
 </template>
 
 <script>
