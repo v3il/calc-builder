@@ -2,16 +2,77 @@
 
     <div class="layout-builder">
         <div class="layout-builder-menu">
-            <div>Доступные элементы</div>
 
-            <Draggable element="ul" :options="{
-                group: {name: 'items', pull: 'clone', put: false,},
-                sort: false,
-            }">
-                <li v-for="item in items" :key="item.id" :data-item="item.type" class="js-item">
-                    {{item.text}}
-                </li>
-            </Draggable>
+            <div v-if="selectedField">
+                edit field
+
+                {{selectedField}}
+
+                {{400 * selectedField.params.size.width}}
+
+                <br>
+
+                <button @click="selectedField = null">Сохранить</button>
+                <br>
+                <br>
+                <br>
+                <br>
+
+
+                <div class="size-selector">
+                    <div
+                        v-for="size in sizes"
+                        @click="selectedField.params.size.width = size"
+                        :class="{selected: size <= selectedField.params.size.width}"
+                        :style="{width: `${100 / sizes.length}%`}"
+                        class="size-selector-item"
+                    ></div>
+                </div>
+
+                <div>Float</div>
+                <input type="checkbox" v-model="selectedField.params.size.float">
+
+                <div>Alignment</div>
+                <div>Left</div>
+                <input type="radio" value="left" name="a" v-model="selectedField.params.size.position">
+                <div>Center</div>
+                <input type="radio" value="center" name="a" v-model="selectedField.params.size.position">
+                <div>Right</div>
+                <input type="radio" value="right" name="a" v-model="selectedField.params.size.position">
+
+
+                <div class="size-selector">
+                    <div
+                            v-for="size in sizes"
+                            :style="{width: `${100 / sizes.length}%`}"
+                            class="size-selector-item"
+                    ></div>
+
+                    <VueDragResize :parentLimitation="true" axis="x" :resizable="false" :w="a" @dragging="onDrag">
+                    </VueDragResize>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div v-else>
+                <div>Доступные элементы</div>
+
+                <Draggable element="ul" :options="{
+                    group: {name: 'items', pull: 'clone', put: false,},
+                    sort: false,
+                }">
+                    <li v-for="item in items" :key="item.id" :data-item="item.type" class="js-item">
+                        {{item.text}}
+                    </li>
+                </Draggable>
+
+
+            </div>
+
 
             <br>
             <br>
@@ -26,6 +87,7 @@
                 <template v-for="field in fields">
                     <component
                         @removeField="removeField(field)"
+                        @editField="triggerFieldEdit(field)"
                         @optionsUpdate="updateOptions(field, $event)"
                         :key="field.id"
                         :is="field.type"
@@ -66,9 +128,24 @@
             layout: Array,
         },
 
+        computed: {
+            a() {
+                return this.selectedField ? 400 * this.selectedField.params.size.width : 0;
+            }
+        },
+
         data() {
             return {
+                sizes: ContainerSizes.sizes,
+
                 fields: this.layout,
+
+                selectedField: null,
+
+                left: 0,
+                mousepressed: false,
+                pressX: 0,
+
 
                 items: [
                     {
@@ -94,6 +171,10 @@
                 this.fields = this.fields.filter(field => field !== removedField);
             },
 
+            triggerFieldEdit(field) {
+                this.selectedField = field;
+            },
+
             collect() {
                 console.log(777, JSON.stringify(this.fields))
             },
@@ -116,6 +197,10 @@
 
             updateOptions(field, newOptions) {
                 field.params = newOptions;
+            },
+
+            onDrag(left) {
+                console.log(left / 400 * 100)
             }
         }
     }
@@ -166,5 +251,30 @@
         position: relative;
         text-decoration: none;
         cursor: pointer;
+    }
+
+    .size-selector {
+        width: 100%;
+        border: 1px solid royalblue;
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    .size-selector-item {
+        height: 18px;
+        cursor: pointer;
+        border-top: 1px solid royalblue;
+        border-bottom: 1px solid royalblue;
+        border-right: 1px solid #555;
+
+        &.selected {
+            background: royalblue;
+        }
+    }
+
+    .vdr {
+        background: royalblue;
     }
 </style>

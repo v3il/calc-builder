@@ -1,6 +1,6 @@
 <template>
 
-    <button>
+    <button @click="emitFieldEdit">
         <i class="material-icons">settings</i>
     </button>
 
@@ -60,20 +60,26 @@
     export default {
         name: "FieldSizeAndPositionSelector",
 
-        props: {
-            options: Object,
-        },
-
-        data() {
-            return {
-                params: this.options,
-                sizes: ContainerSizes.sizes,
-            }
-        },
+        // props: {
+        //     options: Object,
+        // },
+        //
+        // data() {
+        //     return {
+        //         params: this.options,
+        //         sizes: ContainerSizes.sizes,
+        //     }
+        // },
+        //
+        // methods: {
+        //     setSize(size) {
+        //         this.params.width = size;
+        //     }
+        // }
 
         methods: {
-            setSize(size) {
-                this.params.width = size;
+            emitFieldEdit() {
+                this.$emit('editField');
             }
         }
     }

@@ -19,6 +19,10 @@
         methods: {
             emitFieldRemove() {
                 this.$emit('removeField');
+            },
+
+            emitFieldEdit() {
+                this.$emit('editField');
             }
         },
 

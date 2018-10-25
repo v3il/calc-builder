@@ -4,6 +4,10 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import VueDragResize from 'vue-drag-resize'
+
+Vue.component('VueDragResize', VueDragResize)
+
 Vue.config.productionTip = false;
 
 new Vue({
