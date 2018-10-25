@@ -1,65 +1,10 @@
 <template>
-    <div>
-        <v-navigation-drawer v-model="drawer" clipped fixed app>
-            <v-list>
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Доступные элементы</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+    <div class="page">
+        <div class="header"></div>
 
-                <Draggable :options="{
-                    group: {name: 'items', pull: 'clone', put: false,},
-                    sort: false,
-                }">
-                    <v-list-tile v-for="item in items" :key="item.id" :data-item="item.type" class="js-item">
-                        <v-list-tile-action>
-                            <v-icon>extension</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{item.text}}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </Draggable>
-            </v-list>
-        </v-navigation-drawer>
-
-        <v-toolbar color="blue-grey darken-4" dark app fixed clipped-left>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>Calc constructor</v-toolbar-title>
-        </v-toolbar>
-
-        <v-content>
-            <div class="page-content">
-                <v-layout row>
-                    <v-tabs fixed-tabs class="page-tabs" color="transparent">
-                        <v-tab :to="{name: 'constructor'}">
-                            Элементы
-                        </v-tab>
-
-                        <v-tab :to="{name: 'formula'}">
-                            Формула
-                        </v-tab>
-
-                        <v-tab :to="{name: 'relations'}">
-                            Связи элементов
-                        </v-tab>
-                    </v-tabs>
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn class="primary">
-                        Сохранить
-                    </v-btn>
-                </v-layout>
-
-                <router-view></router-view>
-            </div>
-        </v-content>
-
-        <!--<v-footer app fixed>-->
-            <!--<span>&copy; 2017</span>-->
-        <!--</v-footer>-->
+        <div class="content">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -99,11 +44,25 @@
 </script>
 
 <style lang="scss">
-    .page-content {
-        padding: 8px 24px;
+    .page {
+        display: flex;
+        flex-direction: column;
+        /*padding: 12px 24px;*/
+
+        min-height: 100vh;
     }
 
-    .page-tabs {
-        margin-bottom: 24px;
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background-color: #000;
+    }
+
+    .content {
+        margin-top: 64px;
+        height: calc(100vh - 64px);
     }
 </style>

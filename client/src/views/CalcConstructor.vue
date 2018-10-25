@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <LayoutBuilder :layout="layout"></LayoutBuilder>
-    </div>
+    <LayoutBuilder :layout="layout"></LayoutBuilder>
 </template>
 
 <script>
@@ -17,6 +15,8 @@
         data() {
             return {
                 layout: [],
+
+
             }
         }
     }

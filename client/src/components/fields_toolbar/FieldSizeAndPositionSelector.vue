@@ -1,5 +1,6 @@
 <template>
-    <v-menu :close-on-content-click="false" :nudge-bottom="12" offset-y bottom>
+    <div class="text-xs-center">
+    <v-menu :close-on-content-click="false" :nudge-bottom="12" :nudge-right="6" offset-y bottom left>
         <v-btn small icon @click="" slot="activator">
             <v-icon>control_camera</v-icon>
         </v-btn>
@@ -46,6 +47,7 @@
             </v-list>
         </v-card>
     </v-menu>
+    </div>
 </template>
 
 <script>
