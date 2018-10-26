@@ -8,54 +8,44 @@
 
                 {{selectedField}}
 
-                {{400 * selectedField.params.size.width}}
+                {{400 * selectedField.params.width}}
 
                 <br>
 
-                <button @click="selectedField = null">Сохранить</button>
-                <br>
-                <br>
-                <br>
+
+                <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
+
                 <br>
 
 
-                <div class="size-selector">
-                    <div
-                        v-for="size in sizes"
-                        @click="selectedField.params.size.width = size"
-                        :class="{selected: size <= selectedField.params.size.width}"
-                        :style="{width: `${100 / sizes.length}%`}"
-                        class="size-selector-item"
-                    ></div>
+
+
+                <br>
+
+                <div class="block">
+                    <span class="demonstration">Ширина элемента {{selectedField.params.width}}%</span>
+                    <el-slider
+                        v-model="selectedField.params.width"
+                        :step="sizes[0]"
+                        :min="sizes[0]"
+                        :max="sizes[3]"
+                        :format-tooltip="(value) => `${value}%`"
+                    ></el-slider>
                 </div>
 
-                <div>Float</div>
-                <input type="checkbox" v-model="selectedField.params.size.float">
 
-                <div>Alignment</div>
-                <div>Left</div>
-                <input type="radio" value="left" name="a" v-model="selectedField.params.size.position">
-                <div>Center</div>
-                <input type="radio" value="center" name="a" v-model="selectedField.params.size.position">
-                <div>Right</div>
-                <input type="radio" value="right" name="a" v-model="selectedField.params.size.position">
+                <el-checkbox v-model="selectedField.params.float">Обтекаемый элемент</el-checkbox>
 
+                <div>Сдвиг элемента слева {{selectedField.params.marginLeft}}%</div>
 
-                <div class="size-selector">
-                    <div
-                            v-for="size in sizes"
-                            :style="{width: `${100 / sizes.length}%`}"
-                            class="size-selector-item"
-                    ></div>
+                <el-slider
+                    v-model="selectedField.params.marginLeft"
+                    :max="100 - selectedField.params.width"
+                    :disabled="selectedField.params.float"
+                    :format-tooltip="(value) => `${value}%`"
+                ></el-slider>
 
-                    <VueDragResize :parentLimitation="true" axis="x" :resizable="false" :w="a" @dragging="onDrag">
-                    </VueDragResize>
-
-
-
-
-
-                </div>
+                <el-input v-model="selectedField.params.label"></el-input>
             </div>
 
             <div v-else>
@@ -81,21 +71,22 @@
         </div>
 
         <div class="layout-builder-wrapper">
-            <Draggable v-model="fields" class="drag" @add="onAdd" :options="{
-                group: 'items',
-            }">
-                <template v-for="field in fields">
-                    <component
-                        @removeField="removeField(field)"
-                        @editField="triggerFieldEdit(field)"
-                        @optionsUpdate="updateOptions(field, $event)"
-                        :key="field.id"
-                        :is="field.type"
-                        :options="field.params"
-                    ></component>
-                </template>
-            </Draggable>
-
+            <el-form @submit.native.prevent>
+                <Draggable v-model="fields" class="drag" @add="onAdd" :options="{
+                    group: 'items',
+                }">
+                    <template v-for="field in fields">
+                        <component
+                            @removeField="removeField(field)"
+                            @editField="triggerFieldEdit(field)"
+                            @optionsUpdate="updateOptions(field, $event)"
+                            :key="field.id"
+                            :is="field.type"
+                            :options="field.params"
+                        ></component>
+                    </template>
+                </Draggable>
+            </el-form>
 
         </div>
     </div>
@@ -129,8 +120,17 @@
         },
 
         computed: {
-            a() {
-                return this.selectedField ? 400 * this.selectedField.params.size.width : 0;
+            draggerWidth() {
+                if (this.selectedField) {
+                    if (this.selectedField.params.float) {
+                        return 400;
+                    } else {
+                        return 400 / 100 * this.selectedField.params.width
+                    }
+                }
+
+                return 0
+                // return this.selectedField ? 400 * this.selectedField.params.size.width : 0;
             }
         },
 
@@ -142,9 +142,13 @@
 
                 selectedField: null,
 
-                left: 0,
-                mousepressed: false,
-                pressX: 0,
+                // left: 0,
+                // mousepressed: false,
+                // pressX: 0,
+                //
+                //
+                // x: 0,
+                // w: 50,
 
 
                 items: [
@@ -199,9 +203,18 @@
                 field.params = newOptions;
             },
 
-            onDrag(left) {
-                console.log(left / 400 * 100)
-            }
+            // onDrag(newRect) {
+            //     this.selectedField.params.marginLeft = Math.ceil(newRect.left / 400 * 100);
+            // }
+        },
+
+        watch: {
+            // draggerWidth() {
+            //     if (this.selectedField) {
+            //         this.$children[1].left = 0;
+            //         this.selectedField.params.marginLeft = 0;
+            //     }
+            // }
         }
     }
 </script>
@@ -237,6 +250,7 @@
         background-color: #fff;
         border-right: 1px solid rgba(0,0,0,0.12);
         z-index: 2;
+        overflow-x: hidden;
     }
 
     li {
@@ -253,28 +267,28 @@
         cursor: pointer;
     }
 
-    .size-selector {
-        width: 100%;
-        border: 1px solid royalblue;
-        display: flex;
-        align-items: center;
-        border-radius: 4px;
-        position: relative;
-    }
+    /*.size-selector {*/
+        /*width: 100%;*/
+        /*border: 1px solid royalblue;*/
+        /*display: flex;*/
+        /*align-items: center;*/
+        /*border-radius: 4px;*/
+        /*position: relative;*/
+    /*}*/
 
-    .size-selector-item {
-        height: 18px;
-        cursor: pointer;
-        border-top: 1px solid royalblue;
-        border-bottom: 1px solid royalblue;
-        border-right: 1px solid #555;
+    /*.size-selector-item {*/
+        /*height: 18px;*/
+        /*cursor: pointer;*/
+        /*border-top: 1px solid royalblue;*/
+        /*border-bottom: 1px solid royalblue;*/
+        /*border-right: 1px solid #555;*/
 
-        &.selected {
-            background: royalblue;
-        }
-    }
+        /*&.selected {*/
+            /*background: royalblue;*/
+        /*}*/
+    /*}*/
 
-    .vdr {
-        background: royalblue;
-    }
+    /*.vdr {*/
+        /*background: royalblue;*/
+    /*}*/
 </style>

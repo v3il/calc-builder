@@ -1,6 +1,6 @@
 <template>
     <div :style="{
-        width: params.size.float ? params.size.width * 100 + '%' : '100%',
+        width: params.float ? params.width + '%' : '100%',
     }" class="field-wrapper">
         <FieldsParamsToolbar>
             <FieldSizeAndPositionSelector @editField="emitFieldEdit"></FieldSizeAndPositionSelector>
@@ -8,13 +8,13 @@
         </FieldsParamsToolbar>
 
         <div :style="{
-            width: params.size.float ? '100%' : params.size.width * 100 + '%',
-        }" :class="{
-            'at-left': !params.size.float && params.size.position === 'left',
-            'at-center': !params.size.float && params.size.position === 'center',
-            'at-right': !params.size.float && params.size.position === 'right',
+            width: params.float ? '100%' : params.width + '%',
+            'margin-left': params.float ? '0' : params.marginLeft + '%',
         }">
-            <input type="text" v-model="params.text">
+            <el-form-item>
+                <label for="a1" class="el-form-item__label">{{params.label}}</label>
+                <el-input v-model="params.text" id="a1"></el-input>
+            </el-form-item>
         </div>
     </div>
 </template>
@@ -43,14 +43,20 @@
                     text: 'Input',
                     borderColor: 'red',
 
-                    size: {
-                        width: 0.5,
-                        float: true,
-                        position: 'left',
-                    }
+                    label: 'Label for input',
+
+                    width: 100,
+                    float: true,
+                    marginLeft: 0,
                 },
             }
         },
+
+        methods: {
+            onInput(event) {
+                this.params.label = event.target.textContent;
+            }
+        }
     }
 </script>
 

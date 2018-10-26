@@ -4,7 +4,7 @@
             <RemoveFieldToolbarItem @fieldRemove="emitFieldRemove"></RemoveFieldToolbarItem>
         </FieldsParamsToolbar>
 
-        <button>{{params.text}}</button>
+        <el-button size="medium">{{params.text}}</el-button>
     </div>
 </template>
 
