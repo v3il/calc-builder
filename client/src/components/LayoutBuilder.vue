@@ -4,14 +4,7 @@
         <div class="layout-builder-menu">
 
             <div v-if="selectedField">
-                edit field
-
-                {{selectedField}}
-
-                {{400 * selectedField.params.width}}
-
-                <br>
-
+                <h3>Редактирование элемента</h3>
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
@@ -49,18 +42,27 @@
             </div>
 
             <div v-else>
-                <div>Доступные элементы</div>
+                <h3>Доступные элементы</h3>
 
-                <Draggable element="ul" :options="{
-                    group: {name: 'items', pull: 'clone', put: false,},
-                    sort: false,
-                }">
-                    <li v-for="item in items" :key="item.id" :data-item="item.type" class="js-item">
-                        {{item.text}}
-                    </li>
-                </Draggable>
-
-
+                <el-row class="tac">
+                    <el-col :span="24">
+                        <Draggable element="el-menu" class="el-menu-vertical-demo menu" :options="{
+                            group: {name: 'items', pull: 'clone', put: false,},
+                            sort: false,
+                        }">
+                            <el-menu-item
+                                v-for="item in items"
+                                :key="item.id"
+                                index="`${item.id}`"
+                                :data-item="item.type"
+                                class="menu-item js-item"
+                            >
+                                <i class="material-icons menu-item-icon">extension</i>
+                                <span>{{item.text}}</span>
+                            </el-menu-item>
+                        </Draggable>
+                    </el-col>
+                </el-row>
             </div>
 
 
@@ -93,18 +95,15 @@
 </template>
 
 <script>
-    import LayoutContainerModel from '../models/LayoutContainer';
-
     import Draggable from 'vuedraggable';
-    import LayoutContainer from './LayoutContainer.vue';
 
     import ButtonField from './fields/ButtonField.vue';
     import TextField from './fields/TextField.vue';
 
     import getNextId from '../utils/getNextId';
 
-    import ContainerAlignmentPositions from '../constants/ContainerAlignmentPositions';
     import ContainerSizes from '../constants/ContainerSizes';
+    import availableFields from '../constants/AvailableFields';
 
     export default {
         name: "LayoutBuilder",
@@ -120,18 +119,7 @@
         },
 
         computed: {
-            draggerWidth() {
-                if (this.selectedField) {
-                    if (this.selectedField.params.float) {
-                        return 400;
-                    } else {
-                        return 400 / 100 * this.selectedField.params.width
-                    }
-                }
 
-                return 0
-                // return this.selectedField ? 400 * this.selectedField.params.size.width : 0;
-            }
         },
 
         data() {
@@ -142,35 +130,11 @@
 
                 selectedField: null,
 
-                // left: 0,
-                // mousepressed: false,
-                // pressX: 0,
-                //
-                //
-                // x: 0,
-                // w: 50,
-
-
-                items: [
-                    {
-                        id: 0,
-                        type: 'ButtonField',
-                        text: 'Кнопка',
-                    },
-                    {
-                        id: 1,
-                        type: 'TextField',
-                        text: 'Текстовое поле',
-                    }
-                ],
+                items: availableFields,
             }
         },
 
         methods: {
-            add() {
-                this.fields.push(new LayoutContainerModel(getNextId(this.fields)));
-            },
-
             removeField(removedField) {
                 this.fields = this.fields.filter(field => field !== removedField);
             },
@@ -192,7 +156,7 @@
 
                 this.fields.splice(fieldIndex, 0, {
                     id: getNextId(this.fields),
-                    type: itemElement./*children[0].*/dataset.item,
+                    type: itemElement.dataset.item,
                     params: {},
                 });
 
@@ -202,20 +166,7 @@
             updateOptions(field, newOptions) {
                 field.params = newOptions;
             },
-
-            // onDrag(newRect) {
-            //     this.selectedField.params.marginLeft = Math.ceil(newRect.left / 400 * 100);
-            // }
         },
-
-        watch: {
-            // draggerWidth() {
-            //     if (this.selectedField) {
-            //         this.$children[1].left = 0;
-            //         this.selectedField.params.marginLeft = 0;
-            //     }
-            // }
-        }
     }
 </script>
 
@@ -267,28 +218,13 @@
         cursor: pointer;
     }
 
-    /*.size-selector {*/
-        /*width: 100%;*/
-        /*border: 1px solid royalblue;*/
-        /*display: flex;*/
-        /*align-items: center;*/
-        /*border-radius: 4px;*/
-        /*position: relative;*/
-    /*}*/
+    .menu {
+        margin-top: 12px;
+        border-right: none;
+    }
 
-    /*.size-selector-item {*/
-        /*height: 18px;*/
-        /*cursor: pointer;*/
-        /*border-top: 1px solid royalblue;*/
-        /*border-bottom: 1px solid royalblue;*/
-        /*border-right: 1px solid #555;*/
-
-        /*&.selected {*/
-            /*background: royalblue;*/
-        /*}*/
-    /*}*/
-
-    /*.vdr {*/
-        /*background: royalblue;*/
-    /*}*/
+    .menu-item-icon {
+        color: #909399 !important;
+        margin-right: 12px;
+    }
 </style>
