@@ -1,18 +1,15 @@
 <template>
     <div class="field-wrapper">
-        <FieldsParamsToolbar>
-            <RemoveFieldToolbarItem @fieldRemove="emitFieldRemove"></RemoveFieldToolbarItem>
-        </FieldsParamsToolbar>
+        <FieldsParamsToolbar />
 
         <el-button size="medium">{{params.text}}</el-button>
     </div>
 </template>
 
 <script>
-    import FieldBase from './FieldBase.vue';
+    import FieldBase from '../BaseField/field-base-script.js';
 
-    import FieldsParamsToolbar from '../fields_toolbar/FieldsParamsToolbar';
-    import RemoveFieldToolbarItem from '../fields_toolbar/RemoveFieldToolbarItem';
+    import FieldsParamsToolbar from '../../fields_toolbar/FieldsParamsToolbar';
 
     export default {
         name: "ButtonField",
@@ -21,7 +18,6 @@
 
         components: {
             FieldsParamsToolbar,
-            RemoveFieldToolbarItem,
         },
 
         data() {

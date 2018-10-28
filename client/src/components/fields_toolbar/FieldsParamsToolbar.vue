@@ -1,12 +1,25 @@
 <template>
     <div class="field-wrapper-toolbar">
-        <slot></slot>
+        <i class="material-icons" @click="emitFieldEdit">settings</i>
+        <i class="material-icons" @click="emitFieldRemove">delete</i>
     </div>
 </template>
 
 <script>
     export default {
-        name: "FieldsToolbar"
+        name: "FieldsToolbar",
+
+        methods: {
+            emitFieldRemove() {
+                this.$emit('fieldRemove');
+                console.log('re')
+            },
+
+            emitFieldEdit() {
+                this.$emit('editField');
+                console.log('ed')
+            }
+        }
     }
 </script>
 
@@ -16,6 +29,7 @@
         right: 0;
         top: -18px;
         margin: 0;
+        background: #000;
 
         .v-btn {
             margin: 0 2px;

@@ -97,8 +97,8 @@
 <script>
     import Draggable from 'vuedraggable';
 
-    import ButtonField from './fields/ButtonField.vue';
-    import TextField from './fields/TextField.vue';
+    import ButtonField from './fields/ButtonField/ButtonField.vue';
+    import TextField from './fields/TextField/TextField.vue';
 
     import getNextId from '../utils/getNextId';
 
