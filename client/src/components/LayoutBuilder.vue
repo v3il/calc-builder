@@ -100,6 +100,8 @@
     import ButtonField from './fields/ButtonField.vue';
     import TextField from './fields/TextField.vue';
     import TextAreaField from './fields/TextAreaField.vue';
+    import SliderField from './fields/SliderField.vue';
+    import SelectField from './fields/SelectField.vue';
 
     import getNextId from '../utils/getNextId';
 
@@ -115,6 +117,8 @@
             ButtonField,
             TextField,
             TextAreaField,
+            SliderField,
+            SelectField,
         },
 
         props: {

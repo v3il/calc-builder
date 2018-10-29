@@ -4,26 +4,26 @@
     import getTemplateForComponent from './getTemplateForComponent';
 
     export default {
-        name: "TextAreaField",
+        name: "SelectField",
 
         extends: FieldBase,
 
         template: getTemplateForComponent({
             'default': `
-                <el-form-item>
-                    <label for="a1" class="el-form-item__label">{{params.label}}</label>
-                    <el-input type="textarea" :rows="2" v-model="params.text" id="a1"></el-input>
-                </el-form-item>
+                <el-select v-model="params.value" placeholder="Select"></el-select>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    text: 'Input',
+                    text: 'Button',
                     borderColor: 'red',
 
-                    label: 'Label for input',
+                    value: 0,
+                    min: 0,
+                    max: 10,
+                    step: 1,
 
                     width: 100,
                     float: true,
@@ -31,11 +31,22 @@
                 },
             }
         },
+
+        methods: {
+            action() {
+                console.log(123, this.params, this.options);
+            }
+        }
     }
 </script>
 
-<style scoped  lang="scss">
-    textarea {
+<style scoped lang="scss">
+    .field-wrapper {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .el-select {
         width: 100%;
     }
 </style>
