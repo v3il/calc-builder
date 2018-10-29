@@ -99,6 +99,7 @@
 
     import ButtonField from './fields/ButtonField.vue';
     import TextField from './fields/TextField.vue';
+    import TextAreaField from './fields/TextAreaField.vue';
 
     import getNextId from '../utils/getNextId';
 
@@ -110,8 +111,10 @@
 
         components: {
             Draggable,
+
             ButtonField,
             TextField,
+            TextAreaField,
         },
 
         props: {
@@ -136,12 +139,10 @@
 
         methods: {
             removeField(removedField) {
-                console.log('remove')
                 this.fields = this.fields.filter(field => field !== removedField);
             },
 
             triggerFieldEdit(field) {
-                console.log('edit')
                 this.selectedField = field;
             },
 
