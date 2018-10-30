@@ -11,8 +11,8 @@
         template: getTemplateForComponent({
             'default': `
                 <el-form-item>
-                    <label for="a1" class="el-form-item__label">{{params.label}}</label>
-                    <el-input v-model="params.text" id="a1"></el-input>
+                    <label for="a1" class="el-form-item__label">{{fieldObject.params.label}}</label>
+                    <el-input v-model="fieldObject.params.text" id="a1"></el-input>
                 </el-form-item>
             `,
         }),
@@ -26,7 +26,7 @@
         },
 
         created() {
-            console.log(this.defaultOptions)
+            console.log(this.fieldObject.id)
         }
     }
 </script>

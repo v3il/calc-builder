@@ -6,7 +6,7 @@
     export default {
         data() {
             return {
-                params: {},
+                fieldObject: this.field,
 
                 defaultOptions: {
                     width: ContainerSizes.default,
@@ -23,7 +23,7 @@
         },
 
         props: {
-            options: Object,
+            field: Object,
         },
 
         methods: {
@@ -37,8 +37,7 @@
         },
 
         created() {
-            this.params = Object.assign({}, this.defaultOptions, this.options);
-            this.$emit('optionsUpdate', this.params);
+            this.fieldObject.params = Object.assign({}, this.defaultOptions, this.fieldObject.params);
         },
     }
 </script>

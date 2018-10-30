@@ -10,7 +10,7 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-checkbox v-model="params.value">Option</el-checkbox>
+                <el-checkbox v-model="fieldObject.params.value">Option</el-checkbox>
             `,
         }),
 

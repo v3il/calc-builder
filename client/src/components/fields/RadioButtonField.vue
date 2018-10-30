@@ -10,7 +10,7 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-radio v-model="params.value" label="1">Option A</el-radio>
+                <el-radio v-model="fieldObject.params.value" label="1">Option A</el-radio>
             `,
         }),
 

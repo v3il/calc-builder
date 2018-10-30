@@ -11,10 +11,10 @@
         template: getTemplateForComponent({
             'default': `
                 <el-slider
-                    v-model="params.value"
-                    :step="params.step"
-                    :min="params.min"
-                    :max="params.max"
+                    v-model="fieldObject.params.value"
+                    :step="fieldObject.params.step"
+                    :min="fieldObject.params.min"
+                    :max="fieldObject.params.max"
                 ></el-slider>
             `,
         }),

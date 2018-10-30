@@ -81,10 +81,9 @@
                         <component
                             @removeField="removeField(field)"
                             @editField="triggerFieldEdit(field)"
-                            @optionsUpdate="updateOptions(field, $event)"
                             :key="field.id"
                             :is="field.type"
-                            :options="field.params"
+                            :field="field"
                         ></component>
                     </template>
                 </Draggable>
@@ -161,9 +160,6 @@
             },
 
             onAdd(event) {
-
-                console.log(event)
-
                 const itemElement = event.item;
                 const fieldIndex = event.newIndex;
 
@@ -174,10 +170,6 @@
                 });
 
                 itemElement.remove();
-            },
-
-            updateOptions(field, newOptions) {
-                field.params = newOptions;
             },
         },
     }

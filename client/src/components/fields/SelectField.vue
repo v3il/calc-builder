@@ -10,7 +10,7 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-select v-model="params.value" placeholder="Select"></el-select>
+                <el-select v-model="fieldObject.params.value" placeholder="Select"></el-select>
             `,
         }),
 

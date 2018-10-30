@@ -1,14 +1,13 @@
 export default (slots) => {
     let fieldBaseTemplate = `
         <div :style="{
-            width: params.float ? params.width + '%' : '100%',
+            width: fieldObject.params.float ? fieldObject.params.width + '%' : '100%',
         }" class="field-wrapper">
-        
             <FieldsParamsToolbar @fieldRemove="emitFieldRemove" @fieldEdit="emitFieldEdit"></FieldsParamsToolbar>
     
             <div :style="{
-                width: params.float ? '100%' : params.width + '%',
-                'margin-left': params.float ? '0' : params.marginLeft + '%',
+                width: fieldObject.params.float ? '100%' : fieldObject.params.width + '%',
+                'margin-left': fieldObject.params.float ? '0' : fieldObject.params.marginLeft + '%',
             }">
                 <slot></slot>
             </div>
