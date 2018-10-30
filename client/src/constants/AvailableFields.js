@@ -1,7 +1,7 @@
 const availableFields = [
     {
         type: 'TextField',
-        text: '1. Текстовое поле',
+        text: 'Текстовое поле',
     },
     {
         type: 'TextAreaField',
@@ -29,7 +29,7 @@ const availableFields = [
     },
     {
         type: 'ButtonField',
-        text: '2. Кнопка',
+        text: 'Кнопка',
     },
 ];
 

@@ -1,10 +1,18 @@
 <script>
     import FieldsParamsToolbar from '../fields_toolbar/FieldsParamsToolbar';
 
+    import ContainerSizes from '../../constants/ContainerSizes';
+
     export default {
         data() {
             return {
                 params: {},
+
+                defaultOptions: {
+                    width: ContainerSizes.default,
+                    float: true,
+                    marginLeft: 0,
+                },
             }
         },
 
@@ -20,12 +28,10 @@
 
         methods: {
             emitFieldRemove() {
-                console.log(1)
                 this.$emit('removeField');
             },
 
             emitFieldEdit() {
-                console.log(2)
                 this.$emit('editField');
             }
         },
@@ -40,10 +46,11 @@
 <style lang="scss">
     .field-wrapper {
         border: 1px solid royalblue;
-        margin: 1px;
+        /*margin: 1px;*/
         padding: 0 18px;
         position: relative;
         display: inline-block;
+        vertical-align: top;
 
         &:hover {
             .field-wrapper-toolbar {

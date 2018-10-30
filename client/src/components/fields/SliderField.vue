@@ -29,10 +29,6 @@
                     min: 0,
                     max: 10,
                     step: 1,
-
-                    width: 100,
-                    float: true,
-                    marginLeft: 0,
                 },
             }
         },

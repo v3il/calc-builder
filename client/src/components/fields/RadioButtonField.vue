@@ -4,13 +4,13 @@
     import getTemplateForComponent from './getTemplateForComponent';
 
     export default {
-        name: "SelectField",
+        name: "RadioButtonField",
 
         extends: FieldBase,
 
         template: getTemplateForComponent({
             'default': `
-                <el-select v-model="params.value" placeholder="Select"></el-select>
+                <el-radio v-model="params.value" label="1">Option A</el-radio>
             `,
         }),
 
@@ -20,10 +20,7 @@
                     text: 'Button',
                     borderColor: 'red',
 
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    step: 1,
+                    value: true,
                 },
             }
         },
@@ -42,7 +39,10 @@
         padding-bottom: 6px;
     }
 
-    .el-select {
-        width: 100%;
+    img {
+        max-width: 100%;
+        max-height: 300px;
+        display: block;
+        margin: 0 auto;
     }
 </style>

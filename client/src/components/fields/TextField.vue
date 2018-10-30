@@ -20,17 +20,14 @@
         data() {
             return {
                 defaultOptions: {
-                    text: 'Input',
-                    borderColor: 'red',
-
                     label: 'Label for input',
-
-                    width: 100,
-                    float: true,
-                    marginLeft: 0,
                 },
             }
         },
+
+        created() {
+            console.log(this.defaultOptions)
+        }
     }
 </script>
 

@@ -102,6 +102,9 @@
     import TextAreaField from './fields/TextAreaField.vue';
     import SliderField from './fields/SliderField.vue';
     import SelectField from './fields/SelectField.vue';
+    import ImageField from './fields/ImageField.vue';
+    import CheckBoxField from './fields/CheckBoxField';
+    import RadioButtonField from './fields/RadioButtonField';
 
     import getNextId from '../utils/getNextId';
 
@@ -119,6 +122,9 @@
             TextAreaField,
             SliderField,
             SelectField,
+            ImageField,
+            CheckBoxField,
+            RadioButtonField,
         },
 
         props: {

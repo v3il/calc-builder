@@ -24,10 +24,6 @@
                     borderColor: 'red',
 
                     label: 'Label for input',
-
-                    width: 100,
-                    float: true,
-                    marginLeft: 0,
                 },
             }
         },

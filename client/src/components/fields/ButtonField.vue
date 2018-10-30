@@ -21,10 +21,6 @@
                     borderColor: 'red',
 
                     label: 'Button',
-
-                    width: 100,
-                    float: true,
-                    marginLeft: 0,
                 },
             }
         },
