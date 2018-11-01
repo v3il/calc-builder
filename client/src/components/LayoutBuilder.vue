@@ -10,6 +10,10 @@
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
+                <PropertiesEditor :params="selectedField.params"></PropertiesEditor>
+
+
+
                 <br>
 
 
@@ -17,30 +21,30 @@
 
                 <br>
 
-                <div class="block">
-                    <span class="demonstration">Ширина элемента {{selectedField.params.width}}%</span>
-                    <el-slider
-                        v-model="selectedField.params.width"
-                        :step="sizes[0]"
-                        :min="sizes[0]"
-                        :max="sizes[3]"
-                        :format-tooltip="(value) => `${value}%`"
-                    ></el-slider>
-                </div>
+                <!--<div class="block">-->
+                    <!--<span class="demonstration">Ширина элемента {{selectedField.params.width}}%</span>-->
+                    <!--<el-slider-->
+                        <!--v-model="selectedField.params.width"-->
+                        <!--:step="sizes[0]"-->
+                        <!--:min="sizes[0]"-->
+                        <!--:max="sizes[3]"-->
+                        <!--:format-tooltip="(value) => `${value}%`"-->
+                    <!--&gt;</el-slider>-->
+                <!--</div>-->
 
 
-                <el-checkbox v-model="selectedField.params.float">Обтекаемый элемент</el-checkbox>
+                <!--<el-checkbox v-model="selectedField.params.float">Обтекаемый элемент</el-checkbox>-->
 
-                <div>Сдвиг элемента слева {{selectedField.params.marginLeft}}%</div>
+                <!--<div>Сдвиг элемента слева {{selectedField.params.marginLeft}}%</div>-->
 
-                <el-slider
-                    v-model="selectedField.params.marginLeft"
-                    :max="100 - selectedField.params.width"
-                    :disabled="selectedField.params.float"
-                    :format-tooltip="(value) => `${value}%`"
-                ></el-slider>
+                <!--<el-slider-->
+                    <!--v-model="selectedField.params.marginLeft"-->
+                    <!--:max="100 - selectedField.params.width"-->
+                    <!--:disabled="selectedField.params.float"-->
+                    <!--:format-tooltip="(value) => `${value}%`"-->
+                <!--&gt;</el-slider>-->
 
-                <el-input v-model="selectedField.params.label"></el-input>
+                <!--<el-input v-model="selectedField.params.label"></el-input>-->
             </div>
 
             <div v-else>
@@ -113,6 +117,7 @@
     import availableFields from '../constants/AvailableFields';
 
     import {mapGetters} from 'vuex';
+    import PropertiesEditor from './field_properties_editors/PropertiesEditor';
 
     export default {
         name: "LayoutBuilder",
@@ -128,6 +133,8 @@
             ImageField,
             CheckBoxField,
             RadioButtonField,
+
+            PropertiesEditor,
         },
 
         props: {
