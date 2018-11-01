@@ -3,6 +3,8 @@
     <div class="layout-builder">
         <div class="layout-builder-menu">
 
+
+
             <div v-if="selectedField">
                 <h3>Редактирование элемента</h3>
 
@@ -110,6 +112,8 @@
     import ContainerSizes from '../constants/ContainerSizes';
     import availableFields from '../constants/AvailableFields';
 
+    import {mapGetters} from 'vuex';
+
     export default {
         name: "LayoutBuilder",
 
@@ -131,7 +135,9 @@
         },
 
         computed: {
-
+            ...mapGetters([
+                'selectedCalculator',
+            ]),
         },
 
         data() {
@@ -172,6 +178,10 @@
                 itemElement.remove();
             },
         },
+
+        mounted() {
+            console.log(this.$store.getters)
+        }
     }
 </script>
 
