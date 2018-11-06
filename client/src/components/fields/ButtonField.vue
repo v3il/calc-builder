@@ -10,7 +10,7 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-button @click="action" size="medium">{{fieldObject.params.label}}</el-button>
+                <el-button @click="action" size="medium">123</el-button>
             `,
         }),
 
