@@ -3,12 +3,14 @@
     <div class="layout-builder">
         <div class="layout-builder-menu">
 
+
+
             <div v-if="selectedField">
                 <h3>Редактирование элемента</h3>
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
-                <PropertiesEditor :params="selectedField.params"></PropertiesEditor>
+                <PropertiesEditor :params="selectedField.params" :selectedField="selectedField"></PropertiesEditor>
 
 
 
@@ -89,6 +91,8 @@
                             :is="field.type"
                             :field="field"
                         ></component>
+
+                        {{field}}
                     </template>
                 </Draggable>
             </el-form>
@@ -114,6 +118,7 @@
     import ContainerSizes from '../constants/ContainerSizes';
     import availableFields from '../constants/AvailableFields';
 
+    import {mapGetters} from 'vuex';
     import PropertiesEditor from './field_properties_editors/PropertiesEditor';
 
     export default {
@@ -139,7 +144,9 @@
         },
 
         computed: {
-
+            ...mapGetters([
+                'selectedCalculator',
+            ]),
         },
 
         data() {
@@ -180,6 +187,10 @@
                 itemElement.remove();
             },
         },
+
+        mounted() {
+            console.log(this.$store.getters)
+        }
     }
 </script>
 

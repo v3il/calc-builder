@@ -2,6 +2,13 @@
     <div>
         {{propertiesComponents()}}
 
+
+        <br>
+        <br>
+        {{selectedField}}
+        <br>
+        <br>
+
         <template v-for="(c, i) in propertiesComponents()" v-if="c.component">
             <component :key="i" :is="c.component" :params="params" :propertyName="c.propertyName"></component>
         </template>
@@ -18,6 +25,7 @@
 
         props: {
             params: Object,
+            selectedField: Object,
         },
 
         components: {
@@ -34,6 +42,8 @@
             propertiesComponents() {
                 return Object.keys(this.a)
                     .map((propertyName) => {
+                        console.log(1)
+
                         return Object.assign({}, propertiesToUIMapping[propertyName] || {}, {
                             propertyName,
                         })
