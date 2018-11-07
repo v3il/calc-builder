@@ -12,7 +12,13 @@
             'default': `
                 <el-form-item>
                     <label for="a1" class="el-form-item__label">{{fieldObject.params.label}}</label>
-                    <el-input v-model="fieldObject.params.text" id="a1"></el-input>
+                    <input
+                        type="text"
+                        v-model="fieldObject.params.text"
+                        id="a1"
+                        :style="{'border-color': fieldObject.params.borderColor}"
+                        class="el-input__inner"
+                    >
                 </el-form-item>
             `,
         }),
@@ -21,6 +27,7 @@
             return {
                 defaultOptions: {
                     label: 'Label for input',
+                    borderColor: '#0000ff',
                 },
             }
         },

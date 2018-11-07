@@ -14,7 +14,7 @@
 
         data() {
             return {
-                layout: [],
+                layout: [{"id":1,"type":"TextField","params":{"label":"Label for input","borderColor":"rgb(207, 119, 24)","width":50,"float":true,"marginLeft":50}}],
 
 
             }

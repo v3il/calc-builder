@@ -18,15 +18,13 @@
 </template>
 
 <script>
-    import propertiesToUIMapping from './propertiesToUIMapping';
-
     import TFProps from '../fields/text_field/PropertiesComponentsData';
-
-    console.log(TFProps({width: 123}))
 
     import SizeSelector from './SizeSelector';
     import MarginSelector from './MarginSelector';
     import CheckBoxSelector from './CheckBoxSelector';
+    import TextField from './TextField';
+    import ColorSelector from './ColorSelector';
 
     export default {
         name: "PropertiesEditor",
@@ -40,6 +38,8 @@
             SizeSelector,
             MarginSelector,
             CheckBoxSelector,
+            TextField,
+            ColorSelector,
         },
 
         data() {
@@ -51,15 +51,6 @@
         methods: {
             propertiesComponents() {
                 return TFProps(this.a);
-
-                return Object.keys(this.a)
-                    .map((propertyName) => {
-                        console.log(1)
-
-                        return Object.assign({}, propertiesToUIMapping[propertyName] || {}, {
-                            propertyName,
-                        })
-                    });
             }
         }
     }

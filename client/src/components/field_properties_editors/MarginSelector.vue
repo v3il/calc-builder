@@ -24,11 +24,11 @@
             // Fix: When current value is changing, because "max" value has become lesser,
             // slider does not trigger "change" event
             'options.value'(newValue) {
-                // When click on slider and "max" value is 0, newValue === NaN
-                const value = isNaN(value) ? 0 : newValue;
+                // Fix: When click on slider and "max" value is 0, newValue === NaN
+                const value = isNaN(newValue) ? 0 : newValue;
                 this.onValueChanged(value);
             }
-        }
+        },
     }
 </script>
 

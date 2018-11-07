@@ -26,6 +26,16 @@ export default (fieldParams) => {
                 return fieldParams.float;
             },
         },
+
+        label: {
+            component: 'TextField',
+            title: 'Надпись кнопки',
+        },
+
+        borderColor: {
+            component: 'ColorSelector',
+            title: 'Цвет границы',
+        },
     };
 
     Object.keys(propertiesComponentsData).forEach((key) => {
