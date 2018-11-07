@@ -2,9 +2,9 @@ import mixBasePropertiesComponentsData from '../mixBasePropertiesComponentsData'
 
 export default (fieldParams) => {
     const propertiesComponentsData = {
-        label: {
+        text: {
             component: 'TextField',
-            title: 'Заголовок поля',
+            title: 'Текст кнопки',
         },
 
         borderColor: {

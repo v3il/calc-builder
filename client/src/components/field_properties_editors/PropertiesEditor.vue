@@ -18,7 +18,8 @@
 </template>
 
 <script>
-    import TFProps from '../fields/text_field/PropertiesComponentsData';
+    import textFieldProperties from '../fields/text_field/PropertiesComponentsData';
+    import buttonFieldProperties from '../fields/button_field/PropertiesComponentsData';
 
     import SizeSelector from './SizeSelector';
     import MarginSelector from './MarginSelector';
@@ -44,13 +45,16 @@
 
         data() {
             return {
-                a: this.params
+                selectedFieldParams: this.params
             }
         },
 
         methods: {
             propertiesComponents() {
-                return TFProps(this.a);
+                switch(this.selectedField.type) {
+                    case 'TextField': return textFieldProperties(this.selectedFieldParams);
+                    case 'ButtonField': return buttonFieldProperties(this.selectedFieldParams);
+                }
             }
         }
     }

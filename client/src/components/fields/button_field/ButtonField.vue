@@ -1,7 +1,7 @@
 <script>
-    import FieldBase from './BaseField.vue';
+    import FieldBase from '../BaseField.vue';
 
-    import getTemplateForComponent from './getTemplateForComponent';
+    import getTemplateForComponent from '../getTemplateForComponent';
 
     export default {
         name: "ButtonField",
@@ -10,7 +10,7 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-button @click="action" size="medium">123</el-button>
+                <el-button @click="action" size="medium">{{fieldObject.params.text}}</el-button>
             `,
         }),
 
@@ -19,8 +19,6 @@
                 defaultOptions: {
                     text: 'Button',
                     borderColor: 'red',
-
-                    label: 'Button',
                 },
             }
         },

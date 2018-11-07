@@ -102,7 +102,7 @@
 <script>
     import Draggable from 'vuedraggable';
 
-    import ButtonField from './fields/ButtonField.vue';
+    import ButtonField from './fields/button_field/ButtonField.vue';
     import TextField from './fields/text_field/TextField.vue';
     import TextAreaField from './fields/TextAreaField.vue';
     import SliderField from './fields/SliderField.vue';
