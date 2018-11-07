@@ -1,6 +1,6 @@
 export default {
     width: {
-        component: 'Slider',
+        component: 'SizeSelector',
         min: 0,
         max: 150,
     }

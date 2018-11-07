@@ -10,7 +10,9 @@
         <br>
 
         <template v-for="(c, i) in propertiesComponents()" v-if="c.component">
-            <component :key="i" :is="c.component" :params="params" :propertyName="c.propertyName"></component>
+            <component :key="i" :is="c.component" :componentProperties="c"
+                @valueChanged="selectedField.params[c.propertyName] = $event"
+            ></component>
         </template>
     </div>
 </template>
@@ -18,7 +20,13 @@
 <script>
     import propertiesToUIMapping from './propertiesToUIMapping';
 
-    import Slider from './Slider';
+    import TFProps from '../fields/text_field/PropertiesComponentsData';
+
+    console.log(TFProps({width: 123}))
+
+    import SizeSelector from './SizeSelector';
+    import MarginSelector from './MarginSelector';
+    import CheckBoxSelector from './CheckBoxSelector';
 
     export default {
         name: "PropertiesEditor",
@@ -29,7 +37,9 @@
         },
 
         components: {
-            Slider,
+            SizeSelector,
+            MarginSelector,
+            CheckBoxSelector,
         },
 
         data() {
@@ -40,6 +50,8 @@
 
         methods: {
             propertiesComponents() {
+                return TFProps(this.a);
+
                 return Object.keys(this.a)
                     .map((propertyName) => {
                         console.log(1)

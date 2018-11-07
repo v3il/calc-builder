@@ -91,8 +91,6 @@
                             :is="field.type"
                             :field="field"
                         ></component>
-
-                        {{field}}
                     </template>
                 </Draggable>
             </el-form>
@@ -105,7 +103,7 @@
     import Draggable from 'vuedraggable';
 
     import ButtonField from './fields/ButtonField.vue';
-    import TextField from './fields/TextField.vue';
+    import TextField from './fields/text_field/TextField.vue';
     import TextAreaField from './fields/TextAreaField.vue';
     import SliderField from './fields/SliderField.vue';
     import SelectField from './fields/SelectField.vue';

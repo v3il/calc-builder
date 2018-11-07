@@ -8,13 +8,20 @@
 
         data() {
             return {
-                options: this.componentParams,
+                options: this.componentProperties,
             }
         },
 
         props: {
-            params: Object,
-            componentParams: Object,
+            componentProperties: Object,
+        },
+
+        methods: {
+            onValueChanged(value) {
+                console.log(1, value)
+                this.options.value = value;
+                this.$emit('valueChanged', value)
+            }
         }
     }
 </script>
