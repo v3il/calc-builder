@@ -11,9 +11,11 @@
         template: getTemplateForComponent({
             'default': `
                 <el-form-item>
-                    <label :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
-                        {{fieldObject.params.label}}
-                    </label>
+                    <transition name="fade">
+                        <label v-if="this.fieldObject.params.label" :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
+                            {{fieldObject.params.label}}
+                        </label>
+                    </transition>
 
                     <input
                         type="text"
@@ -22,6 +24,7 @@
                         :id="'textfield' + this.fieldObject.id"
                         :style="styleObject"
                         class="el-input__inner"
+                        readonly
                     >
                 </el-form-item>
             `,
@@ -52,8 +55,16 @@
     }
 </script>
 
-<style scoped  lang="scss">
+<style scoped lang="scss">
     input {
         width: 100%;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 </style>

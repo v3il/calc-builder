@@ -26,6 +26,17 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .property-editor-field {
+        margin: 12px 0;
+    }
 
+    .property-editor-field_field-element {
+        margin: 6px 0;
+    }
+
+    .property-editor-field_field-description {
+        font-size: 14px;
+        color: #909399;
+    }
 </style>

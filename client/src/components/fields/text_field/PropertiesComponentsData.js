@@ -5,6 +5,7 @@ export default (fieldParams) => {
         label: {
             component: 'TextField',
             title: 'Заголовок поля',
+            description: 'Оставьте пустым, чтобы скрыть элемент надписи'
         },
 
         placeholder: {
