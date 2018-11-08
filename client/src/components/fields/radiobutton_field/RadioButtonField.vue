@@ -1,21 +1,16 @@
 <script>
-    import FieldBase from './BaseField.vue';
+    import FieldBase from '../BaseField.vue';
 
-    import getTemplateForComponent from './getTemplateForComponent';
+    import getTemplateForComponent from '../getTemplateForComponent';
 
     export default {
-        name: "SliderField",
+        name: "RadioButtonField",
 
         extends: FieldBase,
 
         template: getTemplateForComponent({
             'default': `
-                <el-slider
-                    v-model="fieldObject.params.value"
-                    :step="fieldObject.params.step"
-                    :min="fieldObject.params.min"
-                    :max="fieldObject.params.max"
-                ></el-slider>
+                <el-radio v-model="fieldObject.params.value" label="1">Option A</el-radio>
             `,
         }),
 
@@ -25,10 +20,7 @@
                     text: 'Button',
                     borderColor: 'red',
 
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    step: 1,
+                    value: true,
                 },
             }
         },
@@ -47,7 +39,10 @@
         padding-bottom: 6px;
     }
 
-    button {
-        width: 100%;
+    img {
+        max-width: 100%;
+        max-height: 300px;
+        display: block;
+        margin: 0 auto;
     }
 </style>

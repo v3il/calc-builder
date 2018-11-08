@@ -1,16 +1,16 @@
 <script>
-    import FieldBase from './BaseField.vue';
+    import FieldBase from '../BaseField.vue';
 
-    import getTemplateForComponent from './getTemplateForComponent';
+    import getTemplateForComponent from '../getTemplateForComponent';
 
     export default {
-        name: "CheckBoxField",
+        name: "ImageField",
 
         extends: FieldBase,
 
         template: getTemplateForComponent({
             'default': `
-                <el-checkbox v-model="fieldObject.params.value">Option</el-checkbox>
+                <img src="https://beebom.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg" />
             `,
         }),
 
@@ -20,7 +20,10 @@
                     text: 'Button',
                     borderColor: 'red',
 
-                    value: true,
+                    value: 0,
+                    min: 0,
+                    max: 10,
+                    step: 1,
                 },
             }
         },

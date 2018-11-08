@@ -41,7 +41,5 @@ export default (fieldPropertiesComponentsData, fieldParams) => {
         paramsObject.value = fieldParams[key];
     });
 
-    console.log(111, propertiesComponentsData);
-
     return propertiesComponentsData;
 }

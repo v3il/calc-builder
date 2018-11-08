@@ -7,15 +7,10 @@ export default (fieldParams) => {
             title: 'Заголовок поля',
         },
 
-        placeholder: {
-            component: 'TextField',
-            title: 'Подсказка поля',
+        borderColor: {
+            component: 'ColorSelector',
+            title: 'Цвет границы',
         },
-
-        // borderColor: {
-        //     component: 'ColorSelector',
-        //     title: 'Цвет границы',
-        // },
     };
 
     return mixBasePropertiesComponentsData(propertiesComponentsData, fieldParams);

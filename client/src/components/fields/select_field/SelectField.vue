@@ -1,16 +1,16 @@
 <script>
-    import FieldBase from './BaseField.vue';
+    import FieldBase from '../BaseField.vue';
 
-    import getTemplateForComponent from './getTemplateForComponent';
+    import getTemplateForComponent from '../getTemplateForComponent';
 
     export default {
-        name: "ImageField",
+        name: "SelectField",
 
         extends: FieldBase,
 
         template: getTemplateForComponent({
             'default': `
-                <img src="https://beebom.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg" />
+                <el-select v-model="fieldObject.params.value" placeholder="Select"></el-select>
             `,
         }),
 
@@ -42,10 +42,7 @@
         padding-bottom: 6px;
     }
 
-    img {
-        max-width: 100%;
-        max-height: 300px;
-        display: block;
-        margin: 0 auto;
+    .el-select {
+        width: 100%;
     }
 </style>

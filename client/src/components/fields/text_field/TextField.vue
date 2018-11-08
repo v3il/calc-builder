@@ -11,29 +11,43 @@
         template: getTemplateForComponent({
             'default': `
                 <el-form-item>
-                    <label for="a1" class="el-form-item__label">{{fieldObject.params.label}}</label>
+                    <label :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
+                        {{fieldObject.params.label}}
+                    </label>
+
                     <input
                         type="text"
                         v-model="fieldObject.params.text"
-                        id="a1"
-                        :style="{'border-color': fieldObject.params.borderColor}"
+                        :placeholder="fieldObject.params.placeholder"
+                        :id="'textfield' + this.fieldObject.id"
+                        :style="styleObject"
                         class="el-input__inner"
                     >
                 </el-form-item>
             `,
         }),
 
+        computed: {
+            styleObject() {
+                return {
+                    // 'border-color': this.fieldObject.params.borderColor,
+                }
+            }
+        },
+
         data() {
             return {
                 defaultOptions: {
+                    text: '',
                     label: 'Label for input',
-                    borderColor: '#0000ff',
+                    placeholder: 'Placeholder for input',
+                    // borderColor: '#0000ff',
                 },
             }
         },
 
         created() {
-            console.log(this.fieldObject.id)
+            // console.log(this.fieldObject.id)
         }
     }
 </script>

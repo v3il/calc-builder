@@ -3,48 +3,12 @@
     <div class="layout-builder">
         <div class="layout-builder-menu">
 
-
-
             <div v-if="selectedField">
                 <h3>Редактирование элемента</h3>
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
-                <PropertiesEditor :params="selectedField.params" :selectedField="selectedField"></PropertiesEditor>
-
-
-
-                <br>
-
-
-
-
-                <br>
-
-                <!--<div class="block">-->
-                    <!--<span class="demonstration">Ширина элемента {{selectedField.params.width}}%</span>-->
-                    <!--<el-slider-->
-                        <!--v-model="selectedField.params.width"-->
-                        <!--:step="sizes[0]"-->
-                        <!--:min="sizes[0]"-->
-                        <!--:max="sizes[3]"-->
-                        <!--:format-tooltip="(value) => `${value}%`"-->
-                    <!--&gt;</el-slider>-->
-                <!--</div>-->
-
-
-                <!--<el-checkbox v-model="selectedField.params.float">Обтекаемый элемент</el-checkbox>-->
-
-                <!--<div>Сдвиг элемента слева {{selectedField.params.marginLeft}}%</div>-->
-
-                <!--<el-slider-->
-                    <!--v-model="selectedField.params.marginLeft"-->
-                    <!--:max="100 - selectedField.params.width"-->
-                    <!--:disabled="selectedField.params.float"-->
-                    <!--:format-tooltip="(value) => `${value}%`"-->
-                <!--&gt;</el-slider>-->
-
-                <!--<el-input v-model="selectedField.params.label"></el-input>-->
+                <PropertiesEditor :selectedField="selectedField"></PropertiesEditor>
             </div>
 
             <div v-else>
@@ -104,12 +68,12 @@
 
     import ButtonField from './fields/button_field/ButtonField.vue';
     import TextField from './fields/text_field/TextField.vue';
-    import TextAreaField from './fields/TextAreaField.vue';
-    import SliderField from './fields/SliderField.vue';
-    import SelectField from './fields/SelectField.vue';
-    import ImageField from './fields/ImageField.vue';
-    import CheckBoxField from './fields/CheckBoxField';
-    import RadioButtonField from './fields/RadioButtonField';
+    import TextAreaField from './fields/textarea_field/TextAreaField.vue';
+    import SliderField from './fields/slider_field/SliderField.vue';
+    import SelectField from './fields/select_field/SelectField.vue';
+    import ImageField from './fields/image_field/ImageField.vue';
+    import CheckBoxField from './fields/checkbox_field/CheckBoxField';
+    import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
 
     import getNextId from '../utils/getNextId';
 
@@ -149,7 +113,7 @@
 
         data() {
             return {
-                sizes: ContainerSizes.sizes,
+                // sizes: ContainerSizes.sizes,
 
                 fields: this.layout,
 
