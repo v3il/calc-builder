@@ -1,8 +1,5 @@
 <template>
-    <div>
-        {{selectedField}}
-        <br>
-
+    <div class="properties-editor">
         <template v-for="(componentData, index) in getFieldSettingsComponents()">
             <component
                 :key="index"
@@ -18,7 +15,7 @@
     import getFieldPropComponents from '../fields/getAllFieldsPropComponents';
 
     import SizeSelector from './SizeSelector';
-    import MarginSelector from './MarginSelector';
+    import MarginSelector from './Slider';
     import CheckBoxSelector from './CheckBoxSelector';
     import TextField from './TextField';
     import ColorSelector from './ColorSelector';
@@ -52,5 +49,7 @@
 </script>
 
 <style scoped>
-
+    .properties-editor {
+        margin: 12px 0;
+    }
 </style>

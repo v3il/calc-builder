@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h4>{{options.title}}</h4>
+    <div class="property-editor-field">
+        <h4 class="property-editor-field_field-title">{{options.title}}</h4>
 
         <el-slider
             :min="options.min"
@@ -8,7 +8,10 @@
             :step="options.step || 1"
             :disabled="options.disabled"
             v-model="options.value"
+            class="property-editor-field_field-element"
         ></el-slider>
+
+        <p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>
     </div>
 </template>
 
@@ -32,6 +35,12 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .property-editor-field_field-element {
+        margin: 0;
+    }
 
+    .el-slider__runway {
+        margin: 9px 0;
+    }
 </style>

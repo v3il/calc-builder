@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h4>{{options.title}}</h4>
+    <div class="property-editor-field">
+        <h4 class="property-editor-field_field-title">{{options.title}}</h4>
 
-        <el-button-group>
+        <el-button-group class="property-editor-field_field-element">
             <el-button
                 size="small"
                 v-for="value in options.values"

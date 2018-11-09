@@ -2,7 +2,11 @@
     <div class="property-editor-field">
         <h4 class="property-editor-field_field-title">{{options.title}}</h4>
 
-        <el-input class="property-editor-field_field-element" @input="onValueChanged($event)" v-model="options.value"></el-input>
+        <el-input
+            class="property-editor-field_field-element"
+            @input="onValueChanged($event)"
+            v-model="options.value"
+        ></el-input>
 
         <p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>
     </div>

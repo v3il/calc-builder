@@ -28,10 +28,10 @@
 
 <style>
     .property-editor-field {
-        margin: 12px 0;
+        margin: 18px 0;
     }
 
-    .property-editor-field_field-element {
+    .property-editor-field .property-editor-field_field-element {
         margin: 6px 0;
     }
 

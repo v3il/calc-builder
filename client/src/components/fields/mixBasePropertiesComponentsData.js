@@ -16,6 +16,7 @@ export default (fieldPropertiesComponentsData, fieldParams) => {
         marginLeft: {
             component: 'MarginSelector',
             title: 'Сдвиг элемента',
+            description: 'Применимо только к необтекаемым элементам',
             min: 0,
 
             get max() {
