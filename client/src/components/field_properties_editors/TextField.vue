@@ -6,6 +6,7 @@
             class="property-editor-field_field-element"
             @input="onValueChanged($event)"
             v-model="options.value"
+            clearable
         ></el-input>
 
         <p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>

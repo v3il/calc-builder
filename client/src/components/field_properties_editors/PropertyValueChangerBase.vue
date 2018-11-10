@@ -39,4 +39,10 @@
         font-size: 14px;
         color: #909399;
     }
+
+    .property-editor-field_field-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 </style>

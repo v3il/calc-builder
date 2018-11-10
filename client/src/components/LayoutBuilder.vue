@@ -126,6 +126,10 @@
         methods: {
             removeField(removedField) {
                 this.fields = this.fields.filter(field => field !== removedField);
+
+                if (removedField === this.selectedField) {
+                    this.selectedField = null;
+                }
             },
 
             triggerFieldEdit(field) {

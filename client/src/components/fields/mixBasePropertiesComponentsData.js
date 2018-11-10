@@ -1,16 +1,19 @@
 import ContainerSizes from '../../constants/ContainerSizes';
+import { CategoriesIds } from '../../constants/SettingsFieldsCategories';
 
 export default (fieldPropertiesComponentsData, fieldParams) => {
     const baseFieldPropertiesComponentsData = {
         width: {
             component: 'SizeSelector',
             values: ContainerSizes.sizes,
-            title: 'Ширина элемента'
+            title: 'Ширина элемента',
+            category: CategoriesIds.SIZE_AND_POSITION,
         },
 
         float: {
             component: 'CheckBoxSelector',
             title: 'Обтекаемый элемент',
+            category: CategoriesIds.SIZE_AND_POSITION,
         },
 
         marginLeft: {
@@ -18,6 +21,7 @@ export default (fieldPropertiesComponentsData, fieldParams) => {
             title: 'Сдвиг элемента',
             description: 'Применимо только к необтекаемым элементам',
             min: 0,
+            category: CategoriesIds.SIZE_AND_POSITION,
 
             get max() {
                 return 100 - fieldParams.width;

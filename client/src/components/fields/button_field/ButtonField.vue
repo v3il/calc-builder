@@ -10,15 +10,27 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-button @click="action" size="medium">{{fieldObject.params.text}}</el-button>
+                <button
+                    class="el-button el-button--default el-button--medium"
+                    :style="styleObject"
+                    @click="action"
+                >{{fieldObject.params.text}}</button>
             `,
         }),
+
+        computed: {
+            styleObject() {
+                return {
+                    'border-radius': `${this.fieldObject.params.borderRadius}px`,
+                }
+            }
+        },
 
         data() {
             return {
                 defaultOptions: {
                     text: 'Button',
-                    borderColor: 'red',
+                    borderRadius: 1,
                 },
             }
         },

@@ -1,6 +1,10 @@
 <template>
     <div class="property-editor-field">
-        <h4 class="property-editor-field_field-title">{{options.title}}</h4>
+        <h4 class="property-editor-field_field-title">
+            {{options.title}}
+
+            <p>[{{options.min}} - {{options.max}}]</p>
+        </h4>
 
         <el-slider
             :min="options.min"
@@ -19,7 +23,7 @@
     import PropertyValueChangerBase from './PropertyValueChangerBase';
 
     export default {
-        name: "MarginSelector",
+        name: "Slider",
 
         extends: PropertyValueChangerBase,
 
