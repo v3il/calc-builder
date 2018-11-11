@@ -10,11 +10,18 @@
 
         template: getTemplateForComponent({
             'default': `
+                <transition name="fade">
+                    <label v-if="this.fieldObject.params.label" :for="'slider' + this.fieldObject.id" class="el-form-item__label">
+                        {{fieldObject.params.label}}
+                    </label>
+                </transition>
+
                 <el-slider
                     v-model="fieldObject.params.value"
                     :step="fieldObject.params.step"
                     :min="fieldObject.params.min"
                     :max="fieldObject.params.max"
+                    :id="'slider' + this.fieldObject.id"
                 ></el-slider>
             `,
         }),
@@ -22,8 +29,7 @@
         data() {
             return {
                 defaultOptions: {
-                    text: 'Button',
-                    borderColor: 'red',
+                    label: 'Label for slider',
 
                     value: 0,
                     min: 0,
@@ -47,7 +53,7 @@
         padding-bottom: 6px;
     }
 
-    button {
-        width: 100%;
-    }
+    /*button {*/
+        /*width: 100%;*/
+    /*}*/
 </style>

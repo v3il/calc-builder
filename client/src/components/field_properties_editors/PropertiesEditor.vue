@@ -1,9 +1,7 @@
 <template>
     <div class="properties-editor">
-
-
         <template v-for="(value, key, index) in fieldSettingsComponentsData">
-            <h3>{{value.title}}</h3>
+            <h3 v-if="value.components.length">{{value.title}}</h3>
 
             <component
                 v-for="(component, cIndex) in value.components"
@@ -28,6 +26,7 @@
     import TextField from './TextField';
     import ColorSelector from './ColorSelector';
     import Slider from './Slider';
+    import TextFieldNumber from './TextFieldNumber';
 
     import {CategoriesIds, CategoriesNames} from "../../constants/SettingsFieldsCategories";
 
@@ -45,6 +44,7 @@
             TextField,
             ColorSelector,
             Slider,
+            TextFieldNumber,
         },
 
         data() {
