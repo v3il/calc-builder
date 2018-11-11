@@ -62,4 +62,12 @@
         padding: 9px 0;
         margin-bottom: 0;
     }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .3s;
+    }
+
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>

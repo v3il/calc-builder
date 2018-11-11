@@ -11,8 +11,19 @@
         template: getTemplateForComponent({
             'default': `
                 <el-form-item>
-                    <label for="a1" class="el-form-item__label">{{fieldObject.params.label}}</label>
-                    <el-input type="textarea" :rows="2" v-model="fieldObject.params.text" id="a1"></el-input>
+                    <transition name="fade">
+                        <label v-if="this.fieldObject.params.label" :for="'textarea' + this.fieldObject.id" class="el-form-item__label">
+                            {{fieldObject.params.label}}
+                        </label>
+                    </transition>
+
+                    <textarea
+                        class="el-textarea__inner"
+                        rows="2"
+                        v-model="fieldObject.params.text"
+                        :id="'textarea' + this.fieldObject.id"
+                        :placeholder="this.fieldObject.params.placeholder"
+                    ></textarea>
                 </el-form-item>
             `,
         }),
@@ -20,11 +31,18 @@
         data() {
             return {
                 defaultOptions: {
-                    text: 'Input',
-                    borderColor: 'red',
-
+                    text: '',
                     label: 'Label for input',
+                    placeholder: 'Placeholder for input',
                 },
+            }
+        },
+
+        computed: {
+            styleObject() {
+                return {
+                    // 'border-color': this.fieldObject.params.borderColor,
+                }
             }
         },
     }
