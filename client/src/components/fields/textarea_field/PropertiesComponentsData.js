@@ -16,10 +16,11 @@ export default (fieldParams) => {
             category: CategoriesIds.MODEL,
         },
 
-        // borderColor: {
-        //     component: 'ColorSelector',
-        //     title: 'Цвет границы',
-        // },
+        resizable: {
+            component: 'CheckBoxSelector',
+            title: 'Разрешить увеличение размера',
+            category: CategoriesIds.STYLE,
+        },
     };
 
     return mixBasePropertiesComponentsData(propertiesComponentsData, fieldParams);

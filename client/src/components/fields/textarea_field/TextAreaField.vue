@@ -23,6 +23,7 @@
                         v-model="fieldObject.params.text"
                         :id="'textarea' + this.fieldObject.id"
                         :placeholder="this.fieldObject.params.placeholder"
+                        :style="styleObject"
                     ></textarea>
                 </el-form-item>
             `,
@@ -34,6 +35,7 @@
                     text: '',
                     label: 'Label for input',
                     placeholder: 'Placeholder for input',
+                    resizable: true,
                 },
             }
         },
@@ -41,7 +43,7 @@
         computed: {
             styleObject() {
                 return {
-                    // 'border-color': this.fieldObject.params.borderColor,
+                    resize: this.fieldObject.params.resizable ? 'vertical' : 'none',
                 }
             }
         },
