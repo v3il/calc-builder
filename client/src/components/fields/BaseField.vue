@@ -33,10 +33,17 @@
 
             emitFieldEdit() {
                 this.$emit('editField');
+            },
+
+            generateFieldId() {
+                console.log(`${this.$options.name.toLowerCase()}-${this.fieldObject.id}`)
+                return `${this.$options.name.toLowerCase()}-${this.fieldObject.id}`
             }
         },
 
         created() {
+            console.log(this.$options.name)
+            console.log(this.generateFieldId())
             this.fieldObject.params = Object.assign({}, this.defaultOptions, this.fieldObject.params);
         },
     }
