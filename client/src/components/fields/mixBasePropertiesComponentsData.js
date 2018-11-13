@@ -4,8 +4,8 @@ import { CategoriesIds } from '../../constants/SettingsFieldsCategories';
 export default (fieldPropertiesComponentsData, fieldParams) => {
     const baseFieldPropertiesComponentsData = {
         width: {
-            component: 'SizeSelector',
-            values: ContainerSizes.sizes,
+            component: 'ButtonsGroup',
+            values: ContainerSizes.sizes.map(size => ({label: `${size}%`, value: size})),
             title: 'Ширина элемента',
             category: CategoriesIds.SIZE_AND_POSITION,
         },

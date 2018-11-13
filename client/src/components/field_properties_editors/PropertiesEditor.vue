@@ -20,7 +20,7 @@
 <script>
     import getFieldPropComponents from '../fields/getAllFieldsPropComponents';
 
-    import SizeSelector from './SizeSelector';
+    import ButtonsGroup from './ButtonsGroup';
     import MarginSelector from './Slider';
     import CheckBoxSelector from './CheckBoxSelector';
     import TextField from './TextField';
@@ -38,7 +38,7 @@
         },
 
         components: {
-            SizeSelector,
+            ButtonsGroup,
             MarginSelector,
             CheckBoxSelector,
             TextField,
