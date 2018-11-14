@@ -27,6 +27,7 @@
     import ColorSelector from './ColorSelector';
     import Slider from './Slider';
     import TextFieldNumber from './TextFieldNumber';
+    import SelectOptionsManager from './SelectOptionsManager';
 
     import {CategoriesIds, CategoriesNames} from "../../constants/SettingsFieldsCategories";
 
@@ -45,6 +46,7 @@
             ColorSelector,
             Slider,
             TextFieldNumber,
+            SelectOptionsManager,
         },
 
         data() {

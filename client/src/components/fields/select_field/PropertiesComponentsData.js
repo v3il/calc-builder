@@ -1,16 +1,13 @@
 import mixBasePropertiesComponentsData from '../mixBasePropertiesComponentsData';
 
+import { CategoriesIds } from '../../../constants/SettingsFieldsCategories';
+
 export default (fieldParams) => {
     const propertiesComponentsData = {
-        label: {
-            component: 'TextField',
-            title: 'Заголовок поля',
-        },
-
-        borderColor: {
-            component: 'ColorSelector',
-            title: 'Цвет границы',
-        },
+        selectOptions: {
+            component: 'SelectOptionsManager',
+            category: CategoriesIds.MODEL,
+        }
     };
 
     return mixBasePropertiesComponentsData(propertiesComponentsData, fieldParams);

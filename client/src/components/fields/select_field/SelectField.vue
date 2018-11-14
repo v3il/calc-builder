@@ -10,29 +10,35 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-select v-model="fieldObject.params.value" placeholder="Select"></el-select>
+                <el-select v-model="fieldObject.params.value">
+                    <el-option
+                        v-for="(option, index) in fieldObject.params.selectOptions"
+                        :value="option.value"
+                        :key="option.text + index"
+                    >{{option.text}}</el-option>
+                </el-select>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    text: 'Button',
-                    borderColor: 'red',
-
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    step: 1,
+                    value: 1,
+                    selectOptions: [
+                        {
+                            value: 1,
+                            text: 'Option 1'
+                        },
+                        {
+                            value: 2,
+                            text: 'Option 2'
+                        }
+                    ],
                 },
             }
         },
 
-        methods: {
-            action() {
-                console.log(123, this.params, this.options);
-            }
-        }
+        methods: {}
     }
 </script>
 

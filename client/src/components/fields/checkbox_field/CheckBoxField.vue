@@ -23,11 +23,7 @@
             }
         },
 
-        methods: {
-            action() {
-                console.log(123, this.params, this.options);
-            }
-        }
+        methods: {}
     }
 </script>
 
