@@ -1,4 +1,6 @@
 <script>
+    import EventBus from '../../../EventBus';
+
     import FieldBase from '../BaseField.vue';
 
     import getTemplateForComponent from '../getTemplateForComponent';
@@ -38,7 +40,21 @@
             }
         },
 
-        methods: {}
+        methods: {},
+
+        created() {
+            EventBus.$on('removeOption', (option) => {
+                this.fieldObject.params.selectOptions = this.fieldObject.params
+                    .selectOptions.filter(opt => opt !== option);
+            });
+
+            EventBus.$on('addOption', () => {
+                this.fieldObject.params.selectOptions.push({
+                    value: 1,
+                    text: 'Option',
+                });
+            });
+        }
     }
 </script>
 

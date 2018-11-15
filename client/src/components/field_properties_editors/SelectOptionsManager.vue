@@ -1,13 +1,19 @@
 <template>
     <div>
-        <div v-for="option in options.selectOptions">
-            123
+        {{options.value}}
+
+        <div class="option-item" v-for="option in opts" :key="'option' + Math.random()">
             <el-input type="text" v-model="option.text"></el-input>
+            <i @click="removeOption(option)" class="material-icons">delete</i>
         </div>
+
+        <el-button @click="addOption" type="primary" size="mini">Добавить поле</el-button>
     </div>
 </template>
 
 <script>
+    import EventBus from '../../EventBus';
+
     import PropertyValueChangerBase from './PropertyValueChangerBase';
 
     export default {
@@ -15,18 +21,32 @@
 
         extends: PropertyValueChangerBase,
 
-        // props: {
-            // selectOptions: Array,
-        // },
+        computed: {
+            opts() {
+                return this.options.value;
+                1;
+            }
+        },
 
-        // data() {
-        //     return {
-        //         // selectOpts: this.options.selectOptions,
-        //     }
-        // }
+        methods: {
+            removeOption(option) {
+                EventBus.$emit('removeOption', option);
+            },
+
+            addOption() {
+                EventBus.$emit('addOption');
+            },
+        }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .option-item {
+        display: flex;
+        align-items: center;
 
+        i {
+            margin-left: 6px;
+        }
+    }
 </style>
