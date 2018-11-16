@@ -83,6 +83,16 @@
 
         methods: {
 
+        },
+
+        watch: {
+            'selectedField.params': {
+                deep: true,
+
+                handler(nv) {
+                    console.log(555, nv)
+                }
+            }
         }
     }
 </script>

@@ -1,15 +1,15 @@
 <template>
     <div class="property-editor-field">
-        <h4 class="property-editor-field_field-title">{{options.title}}</h4>
+        <!--<h4 class="property-editor-field_field-title">{{options.title}}</h4>-->
 
         <el-input
             class="property-editor-field_field-element"
             @input="onValueChanged($event)"
-            v-model="options.value"
+            v-model="val"
             clearable
         ></el-input>
 
-        <p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>
+        <!--<p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>-->
     </div>
 </template>
 
@@ -19,7 +19,23 @@
     export default {
         name: "TextField",
 
-        extends: PropertyValueChangerBase,
+        props: {
+            value: String,
+        },
+
+        data() {
+            return {
+                val: this.value,
+            }
+        },
+
+        methods: {
+            onValueChanged() {
+                this.$emit('valueChanged', this.val);
+            }
+        }
+
+        // extends: PropertyValueChangerBase,
     }
 </script>
 

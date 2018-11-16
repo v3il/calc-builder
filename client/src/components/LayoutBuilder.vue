@@ -8,7 +8,9 @@
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
-                <PropertiesEditor :selectedField="selectedField"></PropertiesEditor>
+                <SelectSettingsComponent :fieldData="selectedField"></SelectSettingsComponent>
+
+                <!--<PropertiesEditor :selectedField="selectedField"></PropertiesEditor>-->
             </div>
 
             <div v-else>
@@ -75,6 +77,8 @@
     import CheckBoxField from './fields/checkbox_field/CheckBoxField';
     import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
 
+    import SelectSettingsComponent from './fields/select_field/SelectSettingsComponent.vue';
+
     import getNextId from '../utils/getNextId';
 
     import ContainerSizes from '../constants/ContainerSizes';
@@ -99,6 +103,8 @@
             RadioButtonField,
 
             PropertiesEditor,
+
+            SelectSettingsComponent,
         },
 
         props: {

@@ -1,8 +1,8 @@
 <template>
     <div>
-        {{options.value}}
+        {{selectOptions.length}}
 
-        <div class="option-item" v-for="option in opts" :key="'option' + Math.random()">
+        <div class="option-item" v-for="(option,index) in selectOptions" :key="'option' + index">
             <el-input type="text" v-model="option.text"></el-input>
             <i @click="removeOption(option)" class="material-icons">delete</i>
         </div>
@@ -19,14 +19,22 @@
     export default {
         name: "SelectOptionsManager",
 
-        extends: PropertyValueChangerBase,
-
-        computed: {
-            opts() {
-                return this.options.value;
-                1;
-            }
+        props: {
+            selectOptions: Array,
         },
+
+        created() {
+            console.log(123, this.selectOptions)
+        },
+
+        // extends: PropertyValueChangerBase,
+
+        // computed: {
+        //     opts() {
+        //         return this.options.value;
+        //         1;
+        //     }
+        // },
 
         methods: {
             removeOption(option) {
@@ -36,7 +44,17 @@
             addOption() {
                 EventBus.$emit('addOption');
             },
-        }
+        },
+        //
+        // watch: {
+        //     options: {
+        //         deep: true,
+        //
+        //         handler(nv) {
+        //             console.log(nv)
+        //         }
+        //     }
+        // }
     }
 </script>
 

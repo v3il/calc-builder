@@ -12,6 +12,8 @@
 
         template: getTemplateForComponent({
             'default': `
+                {{fieldObject.params.label}}
+
                 <el-select v-model="fieldObject.params.value">
                     <el-option
                         v-for="(option, index) in fieldObject.params.selectOptions"
@@ -26,6 +28,7 @@
             return {
                 defaultOptions: {
                     value: 1,
+                    label: '',
                     selectOptions: [
                         {
                             value: 1,
