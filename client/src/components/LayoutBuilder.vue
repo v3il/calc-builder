@@ -8,7 +8,13 @@
 
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
-                <SelectSettingsComponent :fieldData="selectedField"></SelectSettingsComponent>
+                <component
+                    :fieldData="selectedField"
+                    :is="selectedField.type + 'Settings'"
+                ></component>
+
+                <!--<SelectSettings :fieldData="selectedField"></SelectSettings>-->
+                <!--<TextFieldSettings :fieldData="selectedField"></TextFieldSettings>-->
 
                 <!--<PropertiesEditor :selectedField="selectedField"></PropertiesEditor>-->
             </div>
@@ -77,7 +83,8 @@
     import CheckBoxField from './fields/checkbox_field/CheckBoxField';
     import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
 
-    import SelectSettingsComponent from './fields/select_field/SelectSettingsComponent.vue';
+    import SelectFieldSettings from './fields/select_field/SelectFieldSettings.vue';
+    import TextFieldSettings from './fields/text_field/TextFieldSettings.vue';
 
     import getNextId from '../utils/getNextId';
 
@@ -104,7 +111,8 @@
 
             PropertiesEditor,
 
-            SelectSettingsComponent,
+            SelectFieldSettings,
+            TextFieldSettings,
         },
 
         props: {

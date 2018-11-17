@@ -1,15 +1,18 @@
 <template>
     <div class="property-editor-field">
-        <!--<h4 class="property-editor-field_field-title">{{options.title}}</h4>-->
+        <h4 class="property-editor-field_field-title">{{title}}</h4>
 
         <el-input
             class="property-editor-field_field-element"
-            @input="onValueChanged($event)"
-            v-model="val"
+            @input="handleInput"
+            v-model="content"
             clearable
         ></el-input>
 
-        <!--<p class="property-editor-field_field-description" v-if="options.description">{{options.description}}</p>-->
+        <p
+            class="property-editor-field_field-description"
+            v-if="description"
+        >{{description}}</p>
     </div>
 </template>
 
@@ -21,17 +24,19 @@
 
         props: {
             value: String,
+            title: String,
+            description: String,
         },
 
         data() {
             return {
-                val: this.value,
+                content: this.value,
             }
         },
 
         methods: {
-            onValueChanged() {
-                this.$emit('valueChanged', this.val);
+            handleInput() {
+                this.$emit('input', this.content);
             }
         }
 

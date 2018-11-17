@@ -1,12 +1,12 @@
 <template>
     <div class="property-editor-field">
-        <h4 class="property-editor-field_field-title">{{options.title}}</h4>
+        <h4 class="property-editor-field_field-title">{{title}}</h4>
 
         <el-button-group class="property-editor-field_field-element">
             <el-button
                 size="small"
-                v-for="valueObject in options.values"
-                :type="options.value === valueObject.value ? 'primary' : 'info'"
+                v-for="valueObject in variants"
+                :type="value === valueObject.value ? 'primary' : 'info'"
                 @click="onValueChanged(valueObject.value)"
             >
                 {{valueObject.label}}
@@ -21,7 +21,19 @@
     export default {
         name: "ButtonsGroup",
 
-        extends: PropertyValueChangerBase,
+        props: {
+            value: [String, Number],
+            variants: Array,
+            title: String,
+        },
+
+        methods: {
+            onValueChanged(newValue) {
+                this.$emit('valueChanged', newValue);
+            }
+        }
+
+        // extends: PropertyValueChangerBase,
     }
 </script>
 

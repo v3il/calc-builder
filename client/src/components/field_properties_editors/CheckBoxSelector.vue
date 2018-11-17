@@ -1,11 +1,11 @@
 <template>
     <div class="property-editor-field">
         <el-checkbox
-            v-model="options.value"
-            @change="onValueChanged(options.value)"
+            v-model="isChecked"
+            @change="processChange($event)"
             class="property-editor-field_field-element"
         >
-            {{options.title}}
+            {{title}}
         </el-checkbox>
     </div>
 </template>
@@ -16,7 +16,24 @@
     export default {
         name: "CheckBoxSelector",
 
-        extends: PropertyValueChangerBase,
+        props: {
+            value: Boolean,
+            title: String,
+        },
+
+        data() {
+            return {
+                isChecked: this.value,
+            }
+        },
+
+        methods: {
+            processChange(newValue) {
+                this.$emit('input', newValue);
+            }
+        }
+
+        // extends: PropertyValueChangerBase,
     }
 </script>
 
