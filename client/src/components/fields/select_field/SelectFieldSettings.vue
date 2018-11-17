@@ -14,21 +14,14 @@
             title="Обтекаемый элемент"
         ></CheckBoxSelector>
 
-        marginLeft: {
-        component: 'MarginSelector',
-        title: 'Сдвиг элемента',
-        description: 'Применимо только к необтекаемым элементам',
-        min: 0,
-        category: CategoriesIds.SIZE_AND_POSITION,
-
-        get max() {
-        return 100 - fieldParams.width;
-        },
-
-        get disabled() {
-        return fieldParams.float;
-        },
-        },
+        <Slider
+            title="Сдвиг элемента"
+            description="Применимо только к необтекаемым элементам"
+            :min="0"
+            :max="100 - fieldOptions.params.width"
+            :disabled="fieldOptions.params.float"
+            v-model="fieldOptions.params.marginLeft"
+        ></Slider>
 
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 

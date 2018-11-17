@@ -1,7 +1,5 @@
 <template>
     <div>
-        {{selectOptions.length}}
-
         <div class="option-item" v-for="(option,index) in selectOptions" :key="'option' + index">
             <el-input type="text" v-model="option.text"></el-input>
             <i @click="removeOption(option)" class="material-icons">delete</i>
