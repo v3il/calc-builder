@@ -57,14 +57,12 @@
             }
         },
 
-        // extends: PropertyValueChangerBase,
-
         watch: {
             // Fix: When current value is changing, because "max" value has become lesser,
             // slider does not trigger "change" event
             val(newValue) {
                 // Fix: When click on slider and "max" value is 0, newValue === NaN
-                const value = isNaN(newValue) ? 0 : newValue;
+                const value = Number.isNaN(newValue) ? 0 : newValue;
                 this.$emit('input', value);
             }
         },

@@ -25,8 +25,15 @@
 
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 
+        <TextField
+            v-model="fieldOptions.params.label"
+            title="Заголовок поля"
+            description="Оставьте пустым, чтобы скрыть элемент надписи"
+        ></TextField>
+
         <SelectOptionsManager
             :selectOptions="fieldOptions.params.selectOptions"
+            title="Пункты"
         ></SelectOptionsManager>
     </div>
 </template>

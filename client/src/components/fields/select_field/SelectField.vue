@@ -12,7 +12,11 @@
 
         template: getTemplateForComponent({
             'default': `
-                {{fieldObject.params.label}}
+                <transition name="fade">
+                    <label v-if="this.fieldObject.params.label" :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
+                        {{fieldObject.params.label}}
+                    </label>
+                </transition>
 
                 <el-select v-model="fieldObject.params.value">
                     <el-option
