@@ -11,8 +11,6 @@
 </template>
 
 <script>
-    import PropertyValueChangerBase from './PropertyValueChangerBase';
-
     export default {
         name: "CheckBoxSelector",
 
@@ -32,8 +30,6 @@
                 this.$emit('input', newValue);
             }
         }
-
-        // extends: PropertyValueChangerBase,
     }
 </script>
 

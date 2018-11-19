@@ -16,12 +16,12 @@
 </template>
 
 <script>
-    import PropertyValueChangerBase from './PropertyValueChangerBase';
+    // import PropertyValueChangerBase from './PropertyValueChangerBase';
 
     export default {
         name: "TextFieldNumber",
 
-        extends: PropertyValueChangerBase,
+        // extends: PropertyValueChangerBase,
     }
 </script>
 

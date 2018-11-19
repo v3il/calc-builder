@@ -16,8 +16,6 @@
 </template>
 
 <script>
-    import PropertyValueChangerBase from './PropertyValueChangerBase';
-
     export default {
         name: "ButtonsGroup",
 
@@ -32,8 +30,6 @@
                 this.$emit('valueChanged', newValue);
             }
         }
-
-        // extends: PropertyValueChangerBase,
     }
 </script>
 

@@ -16,8 +16,6 @@
 <script>
     import EventBus from '../../EventBus';
 
-    import PropertyValueChangerBase from './PropertyValueChangerBase';
-
     export default {
         name: "SelectOptionsManager",
 

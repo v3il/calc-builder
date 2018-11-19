@@ -20,8 +20,6 @@
 </template>
 
 <script>
-    import PropertyValueChangerBase from './PropertyValueChangerBase';
-
     export default {
         name: "Slider",
 
