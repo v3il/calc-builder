@@ -43,5 +43,5 @@
 </script>
 
 <style scoped>
-
+    @import "settings-component-base.scss";
 </style>

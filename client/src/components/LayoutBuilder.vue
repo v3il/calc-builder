@@ -77,8 +77,9 @@
     import { TextField, TextFieldSettings } from './fields/text_field';
     import { TextAreaField, TextAreaFieldSettings } from './fields/textarea_field';
     import { SelectField, SelectFieldSettings } from './fields/select_field';
+    import { ButtonField, ButtonFieldSettings } from './fields/button_field';
 
-    import ButtonField from './fields/button_field/ButtonField.vue';
+    // import ButtonField from './fields/button_field/ButtonField.vue';
     // import TextField from './fields/text_field/TextField.vue';
     // import TextAreaField from './fields/textarea_field/TextAreaField.vue';
     import SliderField from './fields/slider_field/SliderField.vue';
@@ -93,7 +94,7 @@
 
     import getNextId from '../utils/getNextId';
 
-    import ContainerSizes from '../constants/ContainerSizes';
+    // import ContainerSizes from '../constants/ContainerSizes';
     import availableFields from '../constants/AvailableFields';
 
     import {mapGetters} from 'vuex';
@@ -105,18 +106,15 @@
         components: {
             Draggable,
 
-            ButtonField,
-            TextField,
-            TextAreaField,
+            ButtonField, ButtonFieldSettings,
+            TextField, TextFieldSettings,
+            TextAreaField, TextAreaFieldSettings,
+            SelectField, SelectFieldSettings,
+
             SliderField,
-            SelectField,
             ImageField,
             CheckBoxField,
             RadioButtonField,
-
-            SelectFieldSettings,
-            TextFieldSettings,
-            TextAreaFieldSettings,
         },
 
         props: {

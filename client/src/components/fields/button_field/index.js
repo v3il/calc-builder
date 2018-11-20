@@ -1,7 +1,7 @@
-import TextAreaField from './TextAreaField'
-import TextAreaFieldSettings from './TextAreaFieldSettings'
+import ButtonField from './ButtonField'
+import ButtonFieldSettings from './ButtonFieldSettings'
 
 export {
-    TextAreaField,
-    TextAreaFieldSettings,
+    ButtonField,
+    ButtonFieldSettings,
 };

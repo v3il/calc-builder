@@ -49,6 +49,12 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .field-settings-component {
+        margin-top: 18px;
+    }
 
+    .category-title {
+        margin-top: 30px;
+    }
 </style>

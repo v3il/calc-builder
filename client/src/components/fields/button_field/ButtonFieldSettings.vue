@@ -23,19 +23,19 @@
             v-model="fieldOptions.params.marginLeft"
         ></Slider>
 
-
         <h3 class="category-title">{{propsCategoriesNames.MODEL}}</h3>
 
         <TextField
-            v-model="fieldOptions.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
+            v-model="fieldOptions.params.text"
+            title="Текст кнопки"
         ></TextField>
 
-        <TextField
-            v-model="fieldOptions.params.placeholder"
-            title="Подсказка поля"
-        ></TextField>
+        <Slider
+            title="Окружность углов"
+            :min="1"
+            :max="10"
+            v-model="fieldOptions.params.borderRadius"
+        ></Slider>
     </div>
 </template>
 
@@ -43,7 +43,7 @@
     import BaseFieldSettings from '../BaseFieldSettings';
 
     export default {
-        name: "TextFieldSettings",
+        name: "ButtonFieldSettings",
 
         extends: BaseFieldSettings,
     }

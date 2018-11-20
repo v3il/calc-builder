@@ -68,6 +68,8 @@
 </script>
 
 <style>
+    @import "settings-component-base.scss";
+
     .property-editor-field_field-element {
         margin: 0;
     }

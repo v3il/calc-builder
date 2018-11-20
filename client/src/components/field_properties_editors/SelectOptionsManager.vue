@@ -37,6 +37,8 @@
 </script>
 
 <style scoped lang="scss">
+    @import "settings-component-base.scss";
+
     .options-list {
         margin-top: 12px;
     }
