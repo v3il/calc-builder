@@ -11,12 +11,9 @@
                 <component
                     :fieldData="selectedField"
                     :is="selectedField.type + 'Settings'"
+                    :key="`settings-component-${selectedField.id}`"
                 ></component>
 
-                <!--<SelectSettings :fieldData="selectedField"></SelectSettings>-->
-                <!--<TextFieldSettings :fieldData="selectedField"></TextFieldSettings>-->
-
-                <!--<PropertiesEditor :selectedField="selectedField"></PropertiesEditor>-->
             </div>
 
             <div v-else>
@@ -78,17 +75,18 @@
     import { TextAreaField, TextAreaFieldSettings } from './fields/textarea_field';
     import { SelectField, SelectFieldSettings } from './fields/select_field';
     import { ButtonField, ButtonFieldSettings } from './fields/button_field';
+    import { SliderField, SliderFieldSettings } from './fields/slider_field';
 
     // import ButtonField from './fields/button_field/ButtonField.vue';
     // import TextField from './fields/text_field/TextField.vue';
     // import TextAreaField from './fields/textarea_field/TextAreaField.vue';
-    import SliderField from './fields/slider_field/SliderField.vue';
+    // import SliderField from './fields/slider_field/SliderField.vue';
     // import SelectField from './fields/select_field/SelectField.vue';
     import ImageField from './fields/image_field/ImageField.vue';
     import CheckBoxField from './fields/checkbox_field/CheckBoxField';
     import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
 
-    // import SelectFieldSettings from './fields/select_field/SelectFieldSettings.vue';
+    // import SelectFieldSettings from './fields/select_field/SliderFieldSettings.vue';
     // import TextFieldSettings from './fields/text_field/TextFieldSettings.vue';
     // import TextAreaFieldSettings from './fields/textarea_field/TextAreaFieldSettings.vue';
 
@@ -110,8 +108,8 @@
             TextField, TextFieldSettings,
             TextAreaField, TextAreaFieldSettings,
             SelectField, SelectFieldSettings,
+            SliderField, SliderFieldSettings,
 
-            SliderField,
             ImageField,
             CheckBoxField,
             RadioButtonField,
@@ -149,6 +147,7 @@
             },
 
             triggerFieldEdit(field) {
+                console.log(field)
                 this.selectedField = field;
             },
 

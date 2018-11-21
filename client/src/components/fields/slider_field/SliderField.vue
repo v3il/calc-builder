@@ -53,6 +53,10 @@
         padding-bottom: 6px;
     }
 
+    label {
+        float: none;
+    }
+
     /*button {*/
         /*width: 100%;*/
     /*}*/

@@ -1,7 +1,7 @@
-import TextAreaField from './TextAreaField'
-import TextAreaFieldSettings from './TextAreaFieldSettings'
+import SliderField from './SliderField'
+import SliderFieldSettings from './SliderFieldSettings'
 
 export {
-    TextAreaField,
-    TextAreaFieldSettings,
+    SliderField,
+    SliderFieldSettings,
 };
