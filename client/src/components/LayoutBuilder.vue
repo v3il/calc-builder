@@ -77,6 +77,7 @@
     import { ButtonField, ButtonFieldSettings } from './fields/button_field';
     import { SliderField, SliderFieldSettings } from './fields/slider_field';
     import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
+    import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
 
     // import ButtonField from './fields/button_field/ButtonField.vue';
     // import TextField from './fields/text_field/TextField.vue';
@@ -85,7 +86,7 @@
     // import SelectField from './fields/select_field/SelectField.vue';
     import ImageField from './fields/image_field/ImageField.vue';
     // import CheckBoxField from './fields/checkbox_field/CheckBoxField';
-    import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
+    // import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
 
     // import SelectFieldSettings from './fields/select_field/SliderFieldSettings.vue';
     // import TextFieldSettings from './fields/text_field/TextFieldSettings.vue';
@@ -111,9 +112,9 @@
             SelectField, SelectFieldSettings,
             SliderField, SliderFieldSettings,
             CheckBoxField, CheckBoxFieldSettings,
+            RadioButtonField, RadioButtonFieldSettings,
 
             ImageField,
-            RadioButtonField,
         },
 
         props: {

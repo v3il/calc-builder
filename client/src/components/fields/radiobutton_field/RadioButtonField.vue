@@ -1,6 +1,8 @@
 <script>
     import FieldBase from '../BaseField.vue';
 
+    import EventBus from '../../../EventBus';
+
     import getTemplateForComponent from '../getTemplateForComponent';
 
     export default {
@@ -10,25 +12,47 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-radio v-model="fieldObject.params.value" label="1">Option A</el-radio>
+                <el-radio
+                    v-for="option in fieldObject.params.selectOptions"
+                    v-model="fieldObject.params.value"
+                    :label="option.value"
+                >{{option.text}}</el-radio>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    text: 'Button',
-                    borderColor: 'red',
-
-                    value: true,
+                    value: 1,
+                    label: '',
+                    selectOptions: [
+                        {
+                            value: 1,
+                            text: 'Option 1'
+                        },
+                        {
+                            value: 2,
+                            text: 'Option 2'
+                        }
+                    ],
                 },
             }
         },
 
-        methods: {
-            action() {
-                console.log(123, this.params, this.options);
-            }
+        methods: {},
+
+        created() {
+            EventBus.$on('removeOption', (option) => {
+                this.fieldObject.params.selectOptions = this.fieldObject.params
+                    .selectOptions.filter(opt => opt !== option);
+            });
+
+            EventBus.$on('addOption', () => {
+                this.fieldObject.params.selectOptions.push({
+                    value: 1,
+                    text: 'Option',
+                });
+            });
         }
     }
 </script>

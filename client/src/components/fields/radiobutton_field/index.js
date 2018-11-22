@@ -1,7 +1,7 @@
-import TextAreaField from './TextAreaField'
-import TextAreaFieldSettings from './TextAreaFieldSettings'
+import RadioButtonField from './RadioButtonField'
+import RadioButtonFieldSettings from './RadioButtonFieldSettings'
 
 export {
-    TextAreaField,
-    TextAreaFieldSettings,
+    RadioButtonField,
+    RadioButtonFieldSettings,
 };
