@@ -1,7 +1,7 @@
-import TextAreaField from './TextAreaField'
-import TextAreaFieldSettings from './TextAreaFieldSettings'
+import CheckBoxField from './CheckBoxField'
+import CheckBoxFieldSettings from './CheckBoxFieldSettings'
 
 export {
-    TextAreaField,
-    TextAreaFieldSettings,
+    CheckBoxField,
+    CheckBoxFieldSettings,
 };

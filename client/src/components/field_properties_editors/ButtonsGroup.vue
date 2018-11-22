@@ -20,7 +20,7 @@
         name: "ButtonsGroup",
 
         props: {
-            value: [String, Number],
+            value: [String, Number, Boolean],
             variants: Array,
             title: String,
         },
