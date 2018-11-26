@@ -1,4 +1,6 @@
 export default {
+    namespaced: true,
+
     store: {
         calculators: [],
         selectedCalculator: [123, 321],

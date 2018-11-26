@@ -79,26 +79,13 @@
     import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
     import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
 
-    // import ButtonField from './fields/button_field/ButtonField.vue';
-    // import TextField from './fields/text_field/TextField.vue';
-    // import TextAreaField from './fields/textarea_field/TextAreaField.vue';
-    // import SliderField from './fields/slider_field/SliderField.vue';
-    // import SelectField from './fields/select_field/SelectField.vue';
     import ImageField from './fields/image_field/ImageField.vue';
-    // import CheckBoxField from './fields/checkbox_field/CheckBoxField';
-    // import RadioButtonField from './fields/radiobutton_field/RadioButtonField';
-
-    // import SelectFieldSettings from './fields/select_field/SliderFieldSettings.vue';
-    // import TextFieldSettings from './fields/text_field/TextFieldSettings.vue';
-    // import TextAreaFieldSettings from './fields/textarea_field/TextAreaFieldSettings.vue';
 
     import getNextId from '../utils/getNextId';
 
-    // import ContainerSizes from '../constants/ContainerSizes';
     import availableFields from '../constants/AvailableFields';
 
     import {mapGetters} from 'vuex';
-    // import PropertiesEditor from './field_properties_editors/PropertiesEditor';
 
     export default {
         name: "LayoutBuilder",
@@ -129,8 +116,6 @@
 
         data() {
             return {
-                // sizes: ContainerSizes.sizes,
-
                 fields: this.layout,
 
                 selectedField: null,
@@ -172,7 +157,20 @@
         },
 
         mounted() {
-            console.log(this.$store.getters)
+            console.log(this.selectedCalculator);
+            // console.log(this.$store.state.calc.calculators);
+            // console.log(this.$store.getters.calc);
+            // console.log(this.a);
+        },
+
+        watch: {
+            fields: {
+                handler(v) {
+                    this.$store.dispatch('updateLayout', v)
+                },
+
+                deep: true,
+            },
         }
     }
 </script>

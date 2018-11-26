@@ -30,12 +30,12 @@
             title="Текст кнопки"
         ></TextField>
 
-        <Slider
-            title="Окружность углов"
-            :min="1"
-            :max="10"
-            v-model="fieldOptions.params.borderRadius"
-        ></Slider>
+        <!--<Slider-->
+            <!--title="Окружность углов"-->
+            <!--:min="1"-->
+            <!--:max="10"-->
+            <!--v-model="fieldOptions.params.borderRadius"-->
+        <!--&gt;</Slider>-->
     </div>
 </template>
 
