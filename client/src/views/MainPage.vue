@@ -1,11 +1,27 @@
 <template>
     <div class="page">
         <div class="header">
-            <div class="header_title">Calc constructor</div>
+            <div class="header_title">Список калькуляторов</div>
         </div>
 
         <div class="content">
-            <router-view></router-view>
+            <div class="calculators">
+                <div class="calculators__item" v-for="calc in allCalculators">
+                    <div class="calculators__preview"></div>
+                    <div class="calculators__name">{{calc.name || ' '}}</div>
+
+                    <div class="calculators__actions">
+                        <button class="btn btn--primary" @click="edit(calc)">Редактировать</button>
+                        <button class="btn btn--error" @click="remove(calc)">Удалить</button>
+                    </div>
+                </div>
+
+                <div class="calculators__item calculators__item--prompt">
+                    <div class="calculators__actions">
+                        <button class="btn btn--primary" @click="add()">Создать</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -13,8 +29,17 @@
 <script>
     import Draggable from 'vuedraggable';
 
+    import {mapGetters, mapActions} from 'vuex';
+
     export default {
         name: 'MainPage',
+
+        computed: {
+            ...mapGetters([
+                'allCalculators',
+                'selectedCalculator',
+            ]),
+        },
 
         data() {
             return {
@@ -42,6 +67,27 @@
         props: {
             source: String
         },
+
+        methods: {
+            edit(calc) {
+                // this.$store.dispatch('selectCalc', calc);
+                this.$router.push({
+                    name: 'constructor',
+                    params: {
+                        id: calc.id,
+                    }
+                });
+            },
+
+            add() {
+                this.$store.dispatch('addCalculator');
+                // this.$router.push('/constructor');
+            },
+
+            remove(calc) {
+                this.$store.dispatch('removeCalculator', calc);
+            }
+        }
     };
 </script>
 
@@ -82,5 +128,44 @@
     .content {
         margin-top: 64px;
         height: calc(100vh - 64px);
+    }
+
+    .calculators {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-column-gap: 18px;
+        grid-row-gap: 18px;
+        padding: 24px;
+
+        .calculators__item {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 350px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+            min-height: 250px;
+
+            &--prompt {
+                justify-content: center;
+            }
+
+            .calculators__preview {
+                width: 100%;
+                height: 150px;
+                background: url("http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg") no-repeat top;
+                background-size: cover;
+            }
+
+            .calculators__name {
+                margin: 12px 6px;
+            }
+
+            .calculators__actions {
+                display: flex;
+                justify-content: center;
+                margin: 0 6px 12px;
+            }
+        }
     }
 </style>

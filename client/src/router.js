@@ -13,24 +13,21 @@ export default new Router({
       path: '/',
       name: 'home',
       component: MainPage,
-      redirect: '/constructor',
-      children: [
-        {
-            path: 'constructor',
-            name: 'constructor',
-            component: () => import('./views/CalcConstructor.vue'),
-        },
-        {
-            path: 'formula',
-            name: 'formula',
-            component: () => import('./views/FormulaConstructor.vue'),
-        },
-      {
-          path: 'relations',
-          name: 'relations',
-          component: () => import('./views/FieldsRelationShips.vue'),
-      },
-      ],
+    },
+    {
+      path: '/constructor/:id',
+      name: 'constructor',
+      component: () => import('./views/CalcConstructor.vue'),
+    },
+    {
+      path: '/formula',
+      name: 'formula',
+      component: () => import('./views/FormulaConstructor.vue'),
+    },
+    {
+      path: '/relations',
+      name: 'relations',
+      component: () => import('./views/FieldsRelationShips.vue'),
     },
   ],
 });

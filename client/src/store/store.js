@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import Calculators from './Calculators';
+import getNextId from '@/utils/getNextId';
 
 Vue.use(Vuex);
 
@@ -9,13 +9,8 @@ export default new Vuex.Store({
     // strict: true,
 
     state: {
-        calculators: [
-            {id: 1, layout: [], name: 'Calc 1'},
-            {id: 2, layout: [], name: 'Calc 2'},
-            {id: 3, layout: [], name: 'Calc 3'},
-        ],
-
-        selectedCalculator: {id: 1, layout: [], name: 'Calc 1'},
+        calculators: JSON.parse(localStorage.getItem('Calcs')) || [],
+        selectedCalculator: null,
     },
 
     getters: {
@@ -31,12 +26,28 @@ export default new Vuex.Store({
     mutations: {
         selectCalc(state, calc) {
             state.selectedCalculator = calc;
-            console.log(3, state.selectedCalculator)
         },
 
-        updateLayout(state, layout) {
-            state.selectedCalculator.layout = layout;
-        }
+        updateData(state) {
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
+
+        addCalculator(state) {
+            const id = getNextId(state.calculators);
+
+            state.calculators.push({
+                id,
+                name: `Calc${id}`,
+                layout: []
+            });
+
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
+
+        removeCalculator(state, calc) {
+            state.calculators = state.calculators.filter(item => item !== calc);
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
     },
 
     actions: {
@@ -44,12 +55,16 @@ export default new Vuex.Store({
             context.commit('selectCalc', payload);
         },
 
-        updateLayout(context, payload) {
-            context.commit('updateLayout', payload);
+        updateData(context) {
+            context.commit('updateData');
+        },
+
+        addCalculator(context) {
+            context.commit('addCalculator');
+        },
+
+        removeCalculator(context, payload) {
+            context.commit('removeCalculator', payload);
         }
     }
-
-    // modules: {
-    //     calc: Calculators,
-    // }
 });

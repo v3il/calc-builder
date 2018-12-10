@@ -105,7 +105,7 @@
         },
 
         props: {
-            layout: Array,
+            calculator: Object,
         },
 
         computed: {
@@ -116,7 +116,7 @@
 
         data() {
             return {
-                fields: this.layout,
+                fields: this.calculator.layout,
 
                 selectedField: null,
 
@@ -138,9 +138,9 @@
                 this.selectedField = field;
             },
 
-            collect() {
-                console.log(777, JSON.stringify(this.fields))
-            },
+            // collect() {
+            //     console.log(777, JSON.stringify(this.fields))
+            // },
 
             onAdd(event) {
                 const itemElement = event.item;
@@ -156,22 +156,15 @@
             },
         },
 
-        mounted() {
-            console.log(this.selectedCalculator);
-            // console.log(this.$store.state.calc.calculators);
-            // console.log(this.$store.getters.calc);
-            // console.log(this.a);
-        },
-
-        watch: {
-            fields: {
-                handler(v) {
-                    this.$store.dispatch('updateLayout', v)
-                },
-
-                deep: true,
-            },
-        }
+        // watch: {
+        //     fields: {
+        //         handler() {
+        //             this.$store.dispatch('updateData');
+        //         },
+        //
+        //         deep: true,
+        //     },
+        // }
     }
 </script>
 

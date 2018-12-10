@@ -1,21 +1,13 @@
 <template>
-
-    <div>
-        <div style="text-align: right">
-            <button v-for="calc in allCalculators" @click="sc(calc)">
-                {{calc.name}}
-            </button>
-
-            <br>
-
-            {{selectedCalculator}}
+    <div class="page">
+        <div class="header">
+            <div class="header_title">Редактирование калькулятора</div>
+            <button class="btn btn--primary save-button" @click="saveCalcData">Сохранить</button>
         </div>
 
-        <br>
-        <br>
-        <br>
-
-        <LayoutBuilder :layout="selectedCalculator.layout"></LayoutBuilder>
+        <div class="content">
+            <LayoutBuilder :calculator="selectedCalculator"></LayoutBuilder>
+        </div>
     </div>
 </template>
 
@@ -30,7 +22,6 @@
         computed: {
             ...mapGetters([
                 'allCalculators',
-                'selectedCalculator',
             ]),
         },
 
@@ -39,22 +30,21 @@
         },
 
         methods: {
-            ...mapActions([
-                'selectCalc',
-            ]),
-
-            sc(calc) {
-                console.log(1)
-                this.selectCalc(calc);
+            saveCalcData() {
+                this.$store.dispatch('updateData');
+                this.$router.back();
             }
         },
 
         data() {
             return {
-                layout: [{"id":1,"type":"TextField","params":{"text":"","label":"Label for input","placeholder":"Placeholder for input","width":50,"float":true,"marginLeft":50,"borderColor":"rgb(207, 119, 24)"}},{"id":2,"type":"SliderField","params":{"label":"Label for slider","value":5,"min":0,"max":10,"step":1,"width":50,"float":true,"marginLeft":0}}],
-
-
+                selectedCalculator: null,
             }
+        },
+
+        created() {
+            this.selectedCalculator = this.allCalculators
+                .find(calc => calc.id === +this.$route.params.id)
         }
     }
 </script>
