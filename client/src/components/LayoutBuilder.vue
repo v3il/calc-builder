@@ -131,16 +131,16 @@
                 if (removedField === this.selectedField) {
                     this.selectedField = null;
                 }
+
+                console.log(this.calculator.layout.length, this.fields.length)
+
+                this.$emit('layoutUpdate', this.fields);
             },
 
             triggerFieldEdit(field) {
                 console.log(field)
                 this.selectedField = field;
             },
-
-            // collect() {
-            //     console.log(777, JSON.stringify(this.fields))
-            // },
 
             onAdd(event) {
                 const itemElement = event.item;
@@ -153,18 +153,10 @@
                 });
 
                 itemElement.remove();
+
+                this.$emit('layoutUpdate', this.fields);
             },
         },
-
-        // watch: {
-        //     fields: {
-        //         handler() {
-        //             this.$store.dispatch('updateData');
-        //         },
-        //
-        //         deep: true,
-        //     },
-        // }
     }
 </script>
 

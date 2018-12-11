@@ -29,6 +29,7 @@ export default new Vuex.Store({
         },
 
         updateData(state) {
+            console.log(state.calculators)
             localStorage.setItem('Calcs', JSON.stringify(state.calculators));
         },
 

@@ -6,7 +6,7 @@
         </div>
 
         <div class="content">
-            <LayoutBuilder :calculator="selectedCalculator"></LayoutBuilder>
+            <LayoutBuilder @layoutUpdate="updateLayout($event)" :calculator="selectedCalculator"></LayoutBuilder>
         </div>
     </div>
 </template>
@@ -33,6 +33,11 @@
             saveCalcData() {
                 this.$store.dispatch('updateData');
                 this.$router.back();
+            },
+
+            updateLayout(layout) {
+                this.selectedCalculator.layout = layout;
+                this.$store.dispatch('updateData');
             }
         },
 
