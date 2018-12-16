@@ -4,7 +4,7 @@
 
         <div class="options-list">
             <div class="option-item" v-for="(option,index) in selectOptions" :key="'option' + index">
-                <el-input type="text" v-model="option.text"></el-input>
+                <el-input type="text" v-model="option.label"></el-input>
                 <i @click="removeOption(option)" class="material-icons">delete</i>
             </div>
         </div>
@@ -22,15 +22,17 @@
         props: {
             selectOptions: Array,
             title: String,
+            fieldId: Number,
         },
 
         methods: {
             removeOption(option) {
-                EventBus.$emit('removeOption', option);
+                EventBus.$emit(`removeOption${this.fieldId}`, option);
             },
 
             addOption() {
-                EventBus.$emit('addOption');
+                console.log(1)
+                EventBus.$emit(`addOption${this.fieldId}`);
             },
         },
     }

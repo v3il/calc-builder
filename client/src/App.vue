@@ -1,10 +1,14 @@
 <template>
-    <div id="app">
+    <v-app id="app">
         <router-view />
-    </div>
+    </v-app>
 </template>
 
 <style lang="scss">
+    html {
+        font-size: 90%;
+    }
+
     * {
         padding: 0;
         margin: 0;

@@ -16,13 +16,10 @@
                     </label>
                 </transition>
 
-                <el-slider
+                <v-slider
                     v-model="fieldObject.params.value"
-                    :step="fieldObject.params.step"
-                    :min="fieldObject.params.min"
-                    :max="fieldObject.params.max"
-                    :id="'slider' + this.fieldObject.id"
-                ></el-slider>
+
+                ></v-slider>
             `,
         }),
 

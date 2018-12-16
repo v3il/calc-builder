@@ -12,11 +12,14 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-radio
-                    v-for="option in fieldObject.params.selectOptions"
+                <label>{{fieldObject.params.label}}</label>
+
+                <ui-radio-group
+                    :name="generateFieldId()"
+                    vertical
+                    :options="fieldObject.params.options"
                     v-model="fieldObject.params.value"
-                    :label="option.value"
-                >{{option.text}}</el-radio>
+                ></ui-radio-group>
             `,
         }),
 
@@ -24,15 +27,15 @@
             return {
                 defaultOptions: {
                     value: 1,
-                    label: '',
-                    selectOptions: [
+                    label: 'Заголовок поля',
+                    options: [
                         {
                             value: 1,
-                            text: 'Option 1'
+                            label: 'Option 1'
                         },
                         {
                             value: 2,
-                            text: 'Option 2'
+                            label: 'Option 2'
                         }
                     ],
                 },
@@ -42,15 +45,15 @@
         methods: {},
 
         created() {
-            EventBus.$on('removeOption', (option) => {
-                this.fieldObject.params.selectOptions = this.fieldObject.params
-                    .selectOptions.filter(opt => opt !== option);
+            EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
+                this.fieldObject.params.options = this.fieldObject.params
+                    .options.filter(opt => opt !== option);
             });
 
-            EventBus.$on('addOption', () => {
-                this.fieldObject.params.selectOptions.push({
+            EventBus.$on(`addOption${this.fieldObject.id}`, () => {
+                this.fieldObject.params.options.push({
                     value: 1,
-                    text: 'Option',
+                    label: 'Option',
                 });
             });
         }
@@ -61,12 +64,5 @@
     .field-wrapper {
         padding-top: 6px;
         padding-bottom: 6px;
-    }
-
-    img {
-        max-width: 100%;
-        max-height: 300px;
-        display: block;
-        margin: 0 auto;
     }
 </style>

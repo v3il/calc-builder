@@ -3,6 +3,8 @@
 
     import getTemplateForComponent from '../getTemplateForComponent';
 
+    import EventBus from '@/EventBus';
+
     export default {
         name: "CheckBoxField",
 
@@ -10,20 +12,54 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-checkbox v-model="fieldObject.params.value">{{fieldObject.params.label}}</el-checkbox>
+                <label>
+                    {{fieldObject.params.label}}
+                </label>
+
+                <ui-checkbox-group
+                    vertical
+                    :options="fieldObject.params.options"
+                    v-model="fieldObject.params.value"
+                ></ui-checkbox-group>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    label: 'Checkbox',
-                    value: true,
+                    value: [1],
+                    label: 'Заголовок поля',
+                    options: [
+                        {
+                            value: 1,
+                            label: 'Значение 1'
+                        },
+                        {
+                            value: 2,
+                            label: 'Значение 2'
+                        },
+                    ],
                 },
             }
         },
 
-        methods: {}
+        methods: {},
+
+        created() {
+            console.log(`removeOption${this.fieldObject.id}`)
+
+            EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
+                this.fieldObject.params.options = this.fieldObject.params
+                    .options.filter(opt => opt !== option);
+            });
+
+            EventBus.$on(`addOption${this.fieldObject.id}`, () => {
+                this.fieldObject.params.options.push({
+                    value: 1,
+                    label: 'Option',
+                });
+            });
+        }
     }
 </script>
 

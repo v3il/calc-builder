@@ -32,8 +32,9 @@
         ></TextField>
 
         <SelectOptionsManager
-            :selectOptions="fieldOptions.params.selectOptions"
+            :selectOptions="fieldOptions.params.options"
             title="Пункты"
+            :fieldId="fieldOptions.id"
         ></SelectOptionsManager>
     </div>
 </template>

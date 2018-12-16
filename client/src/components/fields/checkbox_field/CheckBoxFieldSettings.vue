@@ -27,18 +27,14 @@
 
         <TextField
             v-model="fieldOptions.params.label"
-            title="Текст чекбокса"
+            title="Название поля"
         ></TextField>
 
-        <ButtonsGroup
-            title="Состояние по умолчанию"
-            :value="fieldOptions.params.value"
-            @valueChanged="fieldOptions.params.value = $event"
-            :variants="[
-                { value: true, label: 'Включен' },
-                { value: false, label: 'Выключен' },
-            ]"
-        ></ButtonsGroup>
+        <SelectOptionsManager
+            :selectOptions="fieldOptions.params.options"
+            title="Пункты"
+            :fieldId="fieldOptions.id"
+        ></SelectOptionsManager>
     </div>
 </template>
 
