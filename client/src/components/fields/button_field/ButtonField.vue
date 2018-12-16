@@ -28,7 +28,7 @@
             return {
                 defaultOptions: {
                     text: 'Заголовок поля',
-                    borderRadius: 5,
+                    borderRadius: 1,
                 },
             }
         },

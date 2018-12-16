@@ -48,7 +48,7 @@
 
 <style lang="scss">
     .field-wrapper {
-        border: 1px solid #ccc;
+        border: 1px solid transparent;
         /*margin: 1px 0;*/
         padding: 0 18px;
         position: relative;
@@ -59,6 +59,8 @@
             .field-wrapper-toolbar {
                 opacity: 1;
             }
+
+            border: 1px solid #ccc;
         }
     }
 

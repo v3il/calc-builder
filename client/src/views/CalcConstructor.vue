@@ -2,7 +2,10 @@
     <div class="page">
         <div class="header">
             <div class="header_title">Редактирование калькулятора</div>
-            <button class="btn btn--primary save-button" @click="saveCalcData">Сохранить</button>
+
+            <ui-button class="save-calc-btn" color="primary" @click="saveCalcData()">
+                Сохранить
+            </ui-button>
         </div>
 
         <div class="content">
@@ -54,6 +57,8 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .save-calc-btn {
+        margin-left: auto;
+    }
 </style>

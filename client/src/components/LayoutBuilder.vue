@@ -51,6 +51,7 @@
             <el-form @submit.native.prevent>
                 <Draggable v-model="fields" class="drag" @add="onAdd" @update="updateLayout" :options="{
                     group: 'items',
+                    handle: '.js-drag-field',
                 }">
                     <template v-for="field in fields">
                         <component

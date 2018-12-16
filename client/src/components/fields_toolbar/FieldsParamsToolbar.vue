@@ -1,5 +1,6 @@
 <template>
     <div class="field-wrapper-toolbar">
+        <i class="material-icons js-drag-field">drag_indicator</i>
         <i class="material-icons" @click="emitFieldEdit">settings</i>
         <i class="material-icons" @click="emitFieldRemove">delete</i>
     </div>
@@ -48,13 +49,14 @@
         i {
             font-size: 20px;
             cursor: pointer;
+            margin-left: 6px;
 
             &:hover {
                 opacity: 0.8;
             }
 
             &:first-child {
-                margin-right: 6px;
+                margin-left: 0;
             }
         }
     }

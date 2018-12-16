@@ -11,14 +11,21 @@
                     <div class="calculators__name">{{calc.name || ' '}}</div>
 
                     <div class="calculators__actions">
-                        <button class="btn btn--primary" @click="edit(calc)">Редактировать</button>
-                        <button class="btn btn--error" @click="remove(calc)">Удалить</button>
+                        <ui-button color="primary" @click="edit(calc)">
+                            Редактировать
+                        </ui-button>
+
+                        <ui-button color="red" @click="remove(calc)">
+                            Удалить
+                        </ui-button>
                     </div>
                 </div>
 
                 <div class="calculators__item calculators__item--prompt">
                     <div class="calculators__actions">
-                        <button class="btn btn--primary" @click="add()">Создать</button>
+                        <ui-button color="primary" @click="add()">
+                            Создать
+                        </ui-button>
                     </div>
                 </div>
             </div>
