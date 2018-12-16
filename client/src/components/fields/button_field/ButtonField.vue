@@ -10,11 +10,9 @@
 
         template: getTemplateForComponent({
             'default': `
-                <button
-                    class="el-button el-button--default el-button--medium"
-                    :style="styleObject"
-                    @click="action"
-                >{{fieldObject.params.text}}</button>
+                <ui-button @click="action" color="primary" :style="styleObject">
+                    {{fieldObject.params.text}}
+                </ui-button>
             `,
         }),
 
@@ -29,8 +27,8 @@
         data() {
             return {
                 defaultOptions: {
-                    text: 'Button',
-                    borderRadius: 1,
+                    text: 'Заголовок поля',
+                    borderRadius: 5,
                 },
             }
         },

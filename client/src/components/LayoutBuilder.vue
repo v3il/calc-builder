@@ -49,7 +49,7 @@
 
         <div class="layout-builder-wrapper">
             <el-form @submit.native.prevent>
-                <Draggable v-model="fields" class="drag" @add="onAdd" :options="{
+                <Draggable v-model="fields" class="drag" @add="onAdd" @update="updateLayout" :options="{
                     group: 'items',
                 }">
                     <template v-for="field in fields">
@@ -134,7 +134,7 @@
 
                 console.log(this.calculator.layout.length, this.fields.length)
 
-                this.$emit('layoutUpdate', this.fields);
+                this.updateLayout();
             },
 
             triggerFieldEdit(field) {
@@ -154,8 +154,12 @@
 
                 itemElement.remove();
 
-                this.$emit('layoutUpdate', this.fields);
+                this.updateLayout();
             },
+
+            updateLayout() {
+                this.$emit('layoutUpdate', this.fields);
+            }
         },
     }
 </script>

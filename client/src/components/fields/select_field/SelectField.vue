@@ -12,35 +12,33 @@
 
         template: getTemplateForComponent({
             'default': `
-                <transition name="fade">
-                    <label v-if="this.fieldObject.params.label" :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
-                        {{fieldObject.params.label}}
-                    </label>
-                </transition>
+                <label v-if="this.fieldObject.params.label">
+                    {{fieldObject.params.label}}
+                </label>
 
-                <el-select v-model="fieldObject.params.value">
-                    <el-option
-                        v-for="(option, index) in fieldObject.params.selectOptions"
-                        :value="option.value"
-                        :key="option.text + index"
-                    >{{option.text}}</el-option>
-                </el-select>
+                <ui-select
+                    :options="fieldObject.params.options"
+                    v-model="fieldObject.params.value"
+                ></ui-select>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    value: 1,
-                    label: '',
-                    selectOptions: [
+                    value: {
+                        value: 1,
+                        label: 'Option 1'
+                    },
+                    label: 'Заголовок поля',
+                    options: [
                         {
                             value: 1,
-                            text: 'Option 1'
+                            label: 'Option 1'
                         },
                         {
                             value: 2,
-                            text: 'Option 2'
+                            label: 'Option 2'
                         }
                     ],
                 },
@@ -50,17 +48,22 @@
         methods: {},
 
         created() {
-            EventBus.$on('removeOption', (option) => {
-                this.fieldObject.params.selectOptions = this.fieldObject.params
-                    .selectOptions.filter(opt => opt !== option);
+            EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
+                this.fieldObject.params.options = this.fieldObject.params
+                    .options.filter(opt => opt !== option);
             });
 
-            EventBus.$on('addOption', () => {
-                this.fieldObject.params.selectOptions.push({
+            EventBus.$on(`addOption${this.fieldObject.id}`, () => {
+                this.fieldObject.params.options.push({
                     value: 1,
-                    text: 'Option',
+                    label: 'Option',
                 });
             });
+        },
+
+        destroyed() {
+            EventBus.$off(`addOption${this.fieldObject.id}`);
+            EventBus.$off(`removeOption${this.fieldObject.id}`);
         }
     }
 </script>

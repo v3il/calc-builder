@@ -45,12 +45,12 @@
             :max="1000"
         ></TextFieldNumber>
 
-        <TextFieldNumber
-            title="Значение шага"
-            v-model="fieldOptions.params.step"
-            :min="0.5"
-            :max="1000"
-        ></TextFieldNumber>
+        <!--<TextFieldNumber-->
+            <!--title="Значение шага"-->
+            <!--v-model="fieldOptions.params.step"-->
+            <!--:min="0.5"-->
+            <!--:max="1000"-->
+        <!--&gt;</TextFieldNumber>-->
     </div>
 </template>
 

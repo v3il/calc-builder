@@ -56,6 +56,11 @@
                     label: 'Option',
                 });
             });
+        },
+
+        destroyed() {
+            EventBus.$off(`addOption${this.fieldObject.id}`);
+            EventBus.$off(`removeOption${this.fieldObject.id}`);
         }
     }
 </script>

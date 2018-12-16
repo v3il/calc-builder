@@ -11,22 +11,25 @@
         template: getTemplateForComponent({
             'default': `
                 <transition name="fade">
-                    <label v-if="this.fieldObject.params.label" :for="'slider' + this.fieldObject.id" class="el-form-item__label">
+                    <label v-if="this.fieldObject.params.label" :for="generateFieldId()">
                         {{fieldObject.params.label}}
                     </label>
                 </transition>
 
-                <v-slider
+                <el-slider
                     v-model="fieldObject.params.value"
-
-                ></v-slider>
+                    :step="fieldObject.params.step"
+                    :min="fieldObject.params.min"
+                    :max="fieldObject.params.max"
+                    :id="generateFieldId()"
+                ></el-slider>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    label: 'Label for slider',
+                    label: 'Заголовок поля',
 
                     value: 0,
                     min: 0,
@@ -36,11 +39,7 @@
             }
         },
 
-        methods: {
-            action() {
-                console.log(123, this.params, this.options);
-            }
-        }
+        methods: {}
     }
 </script>
 

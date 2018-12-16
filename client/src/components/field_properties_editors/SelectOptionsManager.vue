@@ -31,7 +31,6 @@
             },
 
             addOption() {
-                console.log(1)
                 EventBus.$emit(`addOption${this.fieldId}`);
             },
         },

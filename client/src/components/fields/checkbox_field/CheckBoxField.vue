@@ -46,8 +46,6 @@
         methods: {},
 
         created() {
-            console.log(`removeOption${this.fieldObject.id}`)
-
             EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
                 this.fieldObject.params.options = this.fieldObject.params
                     .options.filter(opt => opt !== option);
@@ -59,6 +57,11 @@
                     label: 'Option',
                 });
             });
+        },
+
+        destroyed() {
+            EventBus.$off(`addOption${this.fieldObject.id}`);
+            EventBus.$off(`removeOption${this.fieldObject.id}`);
         }
     }
 </script>

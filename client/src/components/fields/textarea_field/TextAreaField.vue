@@ -10,31 +10,29 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-form-item>
-                    <transition name="fade">
-                        <label v-if="this.fieldObject.params.label" :for="generateFieldId()" class="el-form-item__label">
-                            {{fieldObject.params.label}}
-                        </label>
-                    </transition>
+                <transition name="fade">
+                    <label v-if="this.fieldObject.params.label" :for="generateFieldId()">
+                        {{fieldObject.params.label}}
+                    </label>
+                </transition>
 
-                    <textarea
-                        class="el-textarea__inner"
-                        rows="2"
-                        v-model="fieldObject.params.text"
-                        :id="generateFieldId()"
-                        :placeholder="this.fieldObject.params.placeholder"
-                        :style="styleObject"
-                    ></textarea>
-                </el-form-item>
+                <ui-textbox
+                    type="text"
+                    v-model="fieldObject.params.value"
+                    :placeholder="fieldObject.params.placeholder"
+                    :id="generateFieldId()"
+                    :style="styleObject"
+                    :multiLine="true"
+                ></ui-textbox>
             `,
         }),
 
         data() {
             return {
                 defaultOptions: {
-                    text: '',
-                    label: 'Label for input',
-                    placeholder: 'Placeholder for input',
+                    value: '',
+                    label: 'Заголовок поля',
+                    placeholder: 'Подсказка поля',
                     resizable: true,
                 },
             }

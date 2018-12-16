@@ -10,23 +10,19 @@
 
         template: getTemplateForComponent({
             'default': `
-                <el-form-item>
-                    <transition name="fade">
-                        <label v-if="this.fieldObject.params.label" :for="'textfield' + this.fieldObject.id" class="el-form-item__label">
-                            {{fieldObject.params.label}}
-                        </label>
-                    </transition>
+                <transition name="fade">
+                    <label v-if="this.fieldObject.params.label" :for="generateFieldId()">
+                        {{fieldObject.params.label}}
+                    </label>
+                </transition>
 
-                    <input
-                        type="text"
-                        v-model="fieldObject.params.text"
-                        :placeholder="fieldObject.params.placeholder"
-                        :id="'textfield' + this.fieldObject.id"
-                        :style="styleObject"
-                        class="el-input__inner"
-                        readonly
-                    >
-                </el-form-item>
+                <ui-textbox
+                    type="text"
+                    v-model="fieldObject.params.value"
+                    :placeholder="fieldObject.params.placeholder"
+                    :id="generateFieldId()"
+                    :style="styleObject"
+                ></ui-textbox>
             `,
         }),
 
@@ -41,10 +37,9 @@
         data() {
             return {
                 defaultOptions: {
-                    text: '',
-                    label: 'Label for input',
-                    placeholder: 'Placeholder for input',
-                    // borderColor: '#0000ff',
+                    value: '',
+                    label: 'Заголовок поля',
+                    placeholder: 'Подсказка поля',
                 },
             }
         },

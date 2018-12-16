@@ -1,7 +1,7 @@
 <template>
-    <v-app id="app">
+    <div id="app">
         <router-view />
-    </v-app>
+    </div>
 </template>
 
 <style lang="scss">
@@ -16,6 +16,11 @@
 
         font-family: Roboto,sans-serif;
         line-height: 1.5;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 12px;
     }
 
     .btn {
