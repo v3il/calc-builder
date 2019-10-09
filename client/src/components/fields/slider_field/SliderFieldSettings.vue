@@ -55,13 +55,13 @@
 </template>
 
 <script>
-    import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from '../BaseFieldSettings';
 
-    export default {
-        name: "SliderFieldSettings",
+export default {
+  name: 'SliderFieldSettings',
 
-        extends: BaseFieldSettings,
-    }
+  extends: BaseFieldSettings,
+};
 </script>
 
 <style scoped>

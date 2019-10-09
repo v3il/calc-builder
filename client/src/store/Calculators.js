@@ -8,16 +8,12 @@ export default {
 
     getters: {
         selectedCalc(state) {
-            console.log(state)
+            console.log(state);
             return state.calculators;
-        }
+        },
     },
 
-    mutations: {
+    mutations: {},
 
-    },
-
-    actions: {
-
-    },
-}
+    actions: {},
+};

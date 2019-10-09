@@ -11,11 +11,11 @@
 </template>
 
 <script>
-    // import PropertyValueChangerBase from './PropertyValueChangerBase';
+// import PropertyValueChangerBase from './PropertyValueChangerBase';
 
-    export default {
-        name: "ColorSelector",
+export default {
+  name: 'ColorSelector',
 
-        // extends: PropertyValueChangerBase,
-    }
+  // extends: PropertyValueChangerBase,
+};
 </script>

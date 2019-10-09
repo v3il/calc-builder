@@ -40,12 +40,12 @@
 </template>
 
 <script>
-    import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from '../BaseFieldSettings';
 
-    export default {
-        name: "RadioButtonSettings",
-        extends: BaseFieldSettings,
-    }
+export default {
+  name: 'RadioButtonSettings',
+  extends: BaseFieldSettings,
+};
 </script>
 
 <style scoped>

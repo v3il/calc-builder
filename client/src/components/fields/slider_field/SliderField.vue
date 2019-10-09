@@ -1,15 +1,15 @@
 <script>
-    import FieldBase from '../BaseField.vue';
+import FieldBase from '../BaseField.vue';
 
-    import getTemplateForComponent from '../getTemplateForComponent';
+import getTemplateForComponent from '../getTemplateForComponent';
 
-    export default {
-        name: "SliderField",
+export default {
+  name: 'SliderField',
 
-        extends: FieldBase,
+  extends: FieldBase,
 
-        template: getTemplateForComponent({
-            'default': `
+  template: getTemplateForComponent({
+    default: `
                 <transition name="fade">
                     <label v-if="this.fieldObject.params.label" :for="generateFieldId()">
                         {{fieldObject.params.label}}
@@ -24,23 +24,23 @@
                     :id="generateFieldId()"
                 ></el-slider>
             `,
-        }),
+  }),
 
-        data() {
-            return {
-                defaultOptions: {
-                    label: 'Заголовок поля',
+  data() {
+    return {
+      defaultOptions: {
+        label: 'Заголовок поля',
 
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    step: 1,
-                },
-            }
-        },
+        value: 0,
+        min: 0,
+        max: 10,
+        step: 1,
+      },
+    };
+  },
 
-        methods: {}
-    }
+  methods: {},
+};
 </script>
 
 <style scoped lang="scss">

@@ -15,46 +15,46 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
-    import LayoutBuilder from '../components/LayoutBuilder';
+import LayoutBuilder from '../components/LayoutBuilder';
 
-    export default {
-        name: "CalcConstructor",
+export default {
+  name: 'CalcConstructor',
 
-        computed: {
-            ...mapGetters([
-                'allCalculators',
-            ]),
-        },
+  computed: {
+    ...mapGetters([
+      'allCalculators',
+    ]),
+  },
 
-        components: {
-            LayoutBuilder,
-        },
+  components: {
+    LayoutBuilder,
+  },
 
-        methods: {
-            saveCalcData() {
-                this.$store.dispatch('updateData');
-                this.$router.back();
-            },
+  methods: {
+    saveCalcData() {
+      this.$store.dispatch('updateData');
+      this.$router.back();
+    },
 
-            updateLayout(layout) {
-                this.selectedCalculator.layout = layout;
-                this.$store.dispatch('updateData');
-            }
-        },
+    updateLayout(layout) {
+      this.selectedCalculator.layout = layout;
+      this.$store.dispatch('updateData');
+    },
+  },
 
-        data() {
-            return {
-                selectedCalculator: null,
-            }
-        },
+  data() {
+    return {
+      selectedCalculator: null,
+    };
+  },
 
-        created() {
-            this.selectedCalculator = this.allCalculators
-                .find(calc => calc.id === +this.$route.params.id)
-        }
-    }
+  created() {
+    this.selectedCalculator = this.allCalculators
+      .find(calc => calc.id === +this.$route.params.id);
+  },
+};
 </script>
 
 <style scoped lang="scss">

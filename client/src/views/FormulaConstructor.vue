@@ -5,9 +5,9 @@
 </template>
 
 <script>
-    export default {
-        name: "FormulaConstructor"
-    }
+export default {
+  name: 'FormulaConstructor',
+};
 </script>
 
 <style scoped>

@@ -16,21 +16,21 @@
 </template>
 
 <script>
-    export default {
-        name: "ButtonsGroup",
+export default {
+  name: 'ButtonsGroup',
 
-        props: {
-            value: [String, Number, Boolean],
-            variants: Array,
-            title: String,
-        },
+  props: {
+    value: [String, Number, Boolean],
+    variants: Array,
+    title: String,
+  },
 
-        methods: {
-            onValueChanged(newValue) {
-                this.$emit('valueChanged', newValue);
-            }
-        }
-    }
+  methods: {
+    onValueChanged(newValue) {
+      this.$emit('valueChanged', newValue);
+    },
+  },
+};
 </script>
 
 <style scoped>

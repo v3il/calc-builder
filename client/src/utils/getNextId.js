@@ -1,7 +1,5 @@
 export default (collection) => {
-    const currentMaxId = collection.reduce((currentMax, current) => {
-        return Math.max(current.id, currentMax);
-    }, 0);
+  const currentMaxId = collection.reduce((currentMax, current) => Math.max(current.id, currentMax), 0);
 
-    return currentMaxId + 1;
-}
+  return currentMaxId + 1;
+};

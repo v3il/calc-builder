@@ -20,51 +20,51 @@
 </template>
 
 <script>
-    export default {
-        name: "Slider",
+export default {
+  name: 'Slider',
 
-        props: {
-            title: String,
-            value: Number,
-            description: String,
+  props: {
+    title: String,
+    value: Number,
+    description: String,
 
-            min: {
-                type: Number,
-                default: 1,
-            },
+    min: {
+      type: Number,
+      default: 1,
+    },
 
-            max: {
-                type: Number,
-                default: 10,
-            },
+    max: {
+      type: Number,
+      default: 10,
+    },
 
-            step: {
-                type: Number,
-                default: 1,
-            },
+    step: {
+      type: Number,
+      default: 1,
+    },
 
-            disabled: {
-                type: Boolean,
-                default: false,
-            },
-        },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
-        data() {
-            return {
-                val: this.value,
-            }
-        },
+  data() {
+    return {
+      val: this.value,
+    };
+  },
 
-        watch: {
-            // Fix: When current value is changing, because "max" value has become lesser,
-            // slider does not trigger "change" event
-            val(newValue) {
-                // Fix: When click on slider and "max" value is 0, newValue === NaN
-                const value = Number.isNaN(newValue) ? 0 : newValue;
-                this.$emit('input', value);
-            }
-        },
-    }
+  watch: {
+    // Fix: When current value is changing, because "max" value has become lesser,
+    // slider does not trigger "change" event
+    val(newValue) {
+      // Fix: When click on slider and "max" value is 0, newValue === NaN
+      const value = Number.isNaN(newValue) ? 0 : newValue;
+      this.$emit('input', value);
+    },
+  },
+};
 </script>
 
 <style>

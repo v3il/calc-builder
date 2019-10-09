@@ -40,13 +40,13 @@
 </template>
 
 <script>
-    import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from '../BaseFieldSettings';
 
-    export default {
-        name: "TextFieldSettings",
+export default {
+  name: 'TextFieldSettings',
 
-        extends: BaseFieldSettings,
-    }
+  extends: BaseFieldSettings,
+};
 </script>
 
 <style scoped>

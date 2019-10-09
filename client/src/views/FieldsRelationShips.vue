@@ -5,9 +5,9 @@
 </template>
 
 <script>
-    export default {
-        name: "FieldsRelationShips"
-    }
+export default {
+  name: 'FieldsRelationShips',
+};
 </script>
 
 <style scoped>

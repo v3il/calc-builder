@@ -34,68 +34,68 @@
 </template>
 
 <script>
-    import Draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
 
-    import {mapGetters, mapActions} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
-    export default {
-        name: 'MainPage',
+export default {
+  name: 'MainPage',
 
-        computed: {
-            ...mapGetters([
-                'allCalculators',
-                'selectedCalculator',
-            ]),
+  computed: {
+    ...mapGetters([
+      'allCalculators',
+      'selectedCalculator',
+    ]),
+  },
+
+  data() {
+    return {
+      items: [
+        {
+          id: 0,
+          type: 'ButtonField',
+          text: 'Кнопка',
         },
-
-        data() {
-            return {
-                items: [
-                    {
-                        id: 0,
-                        type: 'ButtonField',
-                        text: 'Кнопка',
-                    },
-                    {
-                        id: 1,
-                        type: 'TextField',
-                        text: 'Текстовое поле',
-                    }
-                ],
-
-                drawer: true
-            }
+        {
+          id: 1,
+          type: 'TextField',
+          text: 'Текстовое поле',
         },
+      ],
 
-        components: {
-            Draggable,
-        },
-
-        props: {
-            source: String
-        },
-
-        methods: {
-            edit(calc) {
-                // this.$store.dispatch('selectCalc', calc);
-                this.$router.push({
-                    name: 'constructor',
-                    params: {
-                        id: calc.id,
-                    }
-                });
-            },
-
-            add() {
-                this.$store.dispatch('addCalculator');
-                // this.$router.push('/constructor');
-            },
-
-            remove(calc) {
-                this.$store.dispatch('removeCalculator', calc);
-            }
-        }
+      drawer: true,
     };
+  },
+
+  components: {
+    Draggable,
+  },
+
+  props: {
+    source: String,
+  },
+
+  methods: {
+    edit(calc) {
+      // this.$store.dispatch('selectCalc', calc);
+      this.$router.push({
+        name: 'constructor',
+        params: {
+          id: calc.id,
+        },
+      });
+    },
+
+    add() {
+      this.$store.dispatch('addCalculator');
+      // this.$router.push('/constructor');
+    },
+
+    remove(calc) {
+      this.$store.dispatch('removeCalculator', calc);
+    },
+  },
+};
 </script>
 
 <style lang="scss">

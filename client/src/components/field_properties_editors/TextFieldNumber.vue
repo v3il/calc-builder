@@ -16,39 +16,39 @@
 </template>
 
 <script>
-    // import PropertyValueChangerBase from './PropertyValueChangerBase';
+// import PropertyValueChangerBase from './PropertyValueChangerBase';
 
-    export default {
-        name: "TextFieldNumber",
+export default {
+  name: 'TextFieldNumber',
 
-        props: {
-            value: Number,
+  props: {
+    value: Number,
 
-            title: String,
-            description: String,
+    title: String,
+    description: String,
 
-            min: {
-                type: Number,
-                default: 1,
-            },
+    min: {
+      type: Number,
+      default: 1,
+    },
 
-            max: {
-                type: Number,
-                default: 10,
-            },
+    max: {
+      type: Number,
+      default: 10,
+    },
 
-            step: {
-                type: Number,
-                default: 1,
-            },
-        },
+    step: {
+      type: Number,
+      default: 1,
+    },
+  },
 
-        data() {
-            return {
-                val: this.value,
-            }
-        }
-    }
+  data() {
+    return {
+      val: this.value,
+    };
+  },
+};
 </script>
 
 <style>

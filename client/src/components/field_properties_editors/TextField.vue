@@ -17,29 +17,29 @@
 </template>
 
 <script>
-    export default {
-        name: "TextField",
+export default {
+  name: 'TextField',
 
-        props: {
-            value: String,
-            title: String,
-            description: String,
-        },
+  props: {
+    value: String,
+    title: String,
+    description: String,
+  },
 
-        data() {
-            return {
-                content: this.value,
-            }
-        },
+  data() {
+    return {
+      content: this.value,
+    };
+  },
 
-        methods: {
-            handleInput() {
-                this.$emit('input', this.content);
-            }
-        }
+  methods: {
+    handleInput() {
+      this.$emit('input', this.content);
+    },
+  },
 
-        // extends: PropertyValueChangerBase,
-    }
+  // extends: PropertyValueChangerBase,
+};
 </script>
 
 <style scoped>

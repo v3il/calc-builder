@@ -1,5 +1,5 @@
 export default (slots) => {
-    let fieldBaseTemplate = `
+  let fieldBaseTemplate = `
         <div :style="{
             width: fieldObject.params.float ? fieldObject.params.width + '%' : '100%',
         }" class="field-wrapper">
@@ -14,36 +14,36 @@ export default (slots) => {
         </div>
     `;
 
-    Object.keys(slots).map((slotName) => {
-        let regexPattern = slotName === 'default' ? '<slot[\s\S]*>' : '<slot(.+name="('+slotName+')")?[\s\S]*>';
+  Object.keys(slots).map((slotName) => {
+    const regexPattern = slotName === 'default' ? '<slot[\s\S]*>' : `<slot(.+name="(${slotName})")?[\s\S]*>`;
 
-        let regex = new RegExp(regexPattern, 'ig');
+    const regex = new RegExp(regexPattern, 'ig');
 
-        let results = [];
-        let result;
+    const results = [];
+    let result;
 
-        while ((result = regex.exec(fieldBaseTemplate)) !== null) {
-            results.push(result);
+    while ((result = regex.exec(fieldBaseTemplate)) !== null) {
+      results.push(result);
+    }
+
+    if (!results.length) {
+      return false;
+    }
+
+    results.map((result, index) => {
+      if (slotName === 'default' || (result[2] !== null && result[2] === slotName)) {
+        const start = result.index + result[0].length;
+        const end = result.input.indexOf('</slot>', start);
+
+        if (end === -1) {
+          return;
         }
 
-        if (!results.length) {
-            return false;
-        }
-
-        results.map((result, index) => {
-            if (slotName === 'default' || (result[2] !== null && result[2] === slotName)) {
-                let start = result.index + result[0].length;
-                let end = result.input.indexOf('</slot>', start);
-
-                if (end === -1) {
-                    return;
-                }
-
-                fieldBaseTemplate = fieldBaseTemplate.substring(0, start) + slots[slotName] + fieldBaseTemplate.substring(end);
-            }
-        });
+        fieldBaseTemplate = fieldBaseTemplate.substring(0, start) + slots[slotName] + fieldBaseTemplate.substring(end);
+      }
     });
+  });
 
-    return fieldBaseTemplate;
-}
+  return fieldBaseTemplate;
+};
 

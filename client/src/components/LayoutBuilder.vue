@@ -9,9 +9,9 @@
                 <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
 
                 <component
-                    :fieldData="selectedField"
-                    :is="selectedField.type + 'Settings'"
-                    :key="`settings-component-${selectedField.id}`"
+                        :fieldData="selectedField"
+                        :is="selectedField.type + 'Settings'"
+                        :key="`settings-component-${selectedField.id}`"
                 ></component>
 
             </div>
@@ -26,11 +26,11 @@
                             sort: false,
                         }">
                             <el-menu-item
-                                v-for="item in items"
-                                :key="item.id"
-                                index="`${item.id}`"
-                                :data-item="item.type"
-                                class="menu-item js-item"
+                                    v-for="item in items"
+                                    :key="item.id"
+                                    index="`${item.id}`"
+                                    :data-item="item.type"
+                                    class="menu-item js-item"
                             >
                                 <i class="material-icons menu-item-icon">extension</i>
                                 <span>{{item.text}}</span>
@@ -55,11 +55,11 @@
                 }">
                     <template v-for="field in fields">
                         <component
-                            @removeField="removeField(field)"
-                            @editField="triggerFieldEdit(field)"
-                            :key="field.id"
-                            :is="field.type"
-                            :field="field"
+                                @remove-field="removeField(field)"
+                                @edit-field="triggerFieldEdit(field)"
+                                :key="field.id"
+                                :is="field.type"
+                                :field="field"
                         ></component>
                     </template>
                 </Draggable>
@@ -72,13 +72,13 @@
 <script>
     import Draggable from 'vuedraggable';
 
-    import { TextField, TextFieldSettings } from './fields/text_field';
-    import { TextAreaField, TextAreaFieldSettings } from './fields/textarea_field';
-    import { SelectField, SelectFieldSettings } from './fields/select_field';
-    import { ButtonField, ButtonFieldSettings } from './fields/button_field';
-    import { SliderField, SliderFieldSettings } from './fields/slider_field';
-    import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
-    import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
+    import {TextField, TextFieldSettings} from './fields/text_field';
+    import {TextAreaField, TextAreaFieldSettings} from './fields/textarea_field';
+    import {SelectField, SelectFieldSettings} from './fields/select_field';
+    import {ButtonField, ButtonFieldSettings} from './fields/button_field';
+    import {SliderField, SliderFieldSettings} from './fields/slider_field';
+    import {CheckBoxField, CheckBoxFieldSettings} from './fields/checkbox_field';
+    import {RadioButtonField, RadioButtonFieldSettings} from './fields/radiobutton_field';
 
     import ImageField from './fields/image_field/ImageField.vue';
 
@@ -89,18 +89,25 @@
     import {mapGetters} from 'vuex';
 
     export default {
-        name: "LayoutBuilder",
+        name: 'LayoutBuilder',
 
         components: {
             Draggable,
 
-            ButtonField, ButtonFieldSettings,
-            TextField, TextFieldSettings,
-            TextAreaField, TextAreaFieldSettings,
-            SelectField, SelectFieldSettings,
-            SliderField, SliderFieldSettings,
-            CheckBoxField, CheckBoxFieldSettings,
-            RadioButtonField, RadioButtonFieldSettings,
+            ButtonField,
+            ButtonFieldSettings,
+            TextField,
+            TextFieldSettings,
+            TextAreaField,
+            TextAreaFieldSettings,
+            SelectField,
+            SelectFieldSettings,
+            SliderField,
+            SliderFieldSettings,
+            CheckBoxField,
+            CheckBoxFieldSettings,
+            RadioButtonField,
+            RadioButtonFieldSettings,
 
             ImageField,
         },
@@ -122,7 +129,7 @@
                 selectedField: null,
 
                 items: availableFields,
-            }
+            };
         },
 
         methods: {
@@ -133,13 +140,13 @@
                     this.selectedField = null;
                 }
 
-                console.log(this.calculator.layout.length, this.fields.length)
+                console.log(this.calculator.layout.length, this.fields.length);
 
                 this.updateLayout();
             },
 
             triggerFieldEdit(field) {
-                console.log(field)
+                console.log(field);
                 this.selectedField = field;
             },
 
@@ -151,6 +158,7 @@
                     id: getNextId(this.fields),
                     type: itemElement.dataset.item,
                     params: {},
+                    style: {},
                 });
 
                 itemElement.remove();
@@ -160,9 +168,9 @@
 
             updateLayout() {
                 this.$emit('layoutUpdate', this.fields);
-            }
+            },
         },
-    }
+    };
 </script>
 
 <style scoped lang="scss">
@@ -173,7 +181,12 @@
         border-radius: 4px;
         min-height: calc(100vh - 112px);
         margin: 0 auto;
-        max-width: 1000px;
+        /*max-width: 1000px;*/
+
+        /*display: grid;*/
+        /*grid-template-columns: repeat(4, 1fr);*/
+        /*grid-gap: 12px;*/
+        /*grid-auto-rows: 100px;*/
     }
 
     .layout-builder {
@@ -194,7 +207,7 @@
         top: 64px;
         bottom: 0;
         background-color: #fff;
-        border-right: 1px solid rgba(0,0,0,0.12);
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
         z-index: 2;
         overflow-x: hidden;
     }

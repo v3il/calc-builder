@@ -1,7 +1,7 @@
-import RadioButtonField from './RadioButtonField'
-import RadioButtonFieldSettings from './RadioButtonFieldSettings'
+import RadioButtonField from './RadioButtonField';
+import RadioButtonFieldSettings from './RadioButtonFieldSettings';
 
 export {
-    RadioButtonField,
-    RadioButtonFieldSettings,
+  RadioButtonField,
+  RadioButtonFieldSettings,
 };

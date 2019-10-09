@@ -11,26 +11,26 @@
 </template>
 
 <script>
-    export default {
-        name: "CheckBoxSelector",
+export default {
+  name: 'CheckBoxSelector',
 
-        props: {
-            value: Boolean,
-            title: String,
-        },
+  props: {
+    value: Boolean,
+    title: String,
+  },
 
-        data() {
-            return {
-                isChecked: this.value,
-            }
-        },
+  data() {
+    return {
+      isChecked: this.value,
+    };
+  },
 
-        methods: {
-            processChange(newValue) {
-                this.$emit('input', newValue);
-            }
-        }
-    }
+  methods: {
+    processChange(newValue) {
+      this.$emit('input', newValue);
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
-import SelectField from './SelectField'
-import SelectFieldSettings from './SelectFieldSettings'
+import SelectField from './SelectField';
+import SelectFieldSettings from './SelectFieldSettings';
 
 export {
-    SelectField,
-    SelectFieldSettings,
+  SelectField,
+  SelectFieldSettings,
 };

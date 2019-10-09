@@ -39,13 +39,13 @@
 </template>
 
 <script>
-    import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from '../BaseFieldSettings';
 
-    export default {
-        name: "SelectSettings",
+export default {
+  name: 'SelectSettings',
 
-        extends: BaseFieldSettings,
-    }
+  extends: BaseFieldSettings,
+};
 </script>
 
 <style scoped>

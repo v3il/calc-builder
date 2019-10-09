@@ -14,27 +14,27 @@
 </template>
 
 <script>
-    import EventBus from '../../EventBus';
+import EventBus from '../../EventBus';
 
-    export default {
-        name: "SelectOptionsManager",
+export default {
+  name: 'SelectOptionsManager',
 
-        props: {
-            selectOptions: Array,
-            title: String,
-            fieldId: Number,
-        },
+  props: {
+    selectOptions: Array,
+    title: String,
+    fieldId: Number,
+  },
 
-        methods: {
-            removeOption(option) {
-                EventBus.$emit(`removeOption${this.fieldId}`, option);
-            },
+  methods: {
+    removeOption(option) {
+      EventBus.$emit(`removeOption${this.fieldId}`, option);
+    },
 
-            addOption() {
-                EventBus.$emit(`addOption${this.fieldId}`);
-            },
-        },
-    }
+    addOption() {
+      EventBus.$emit(`addOption${this.fieldId}`);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
