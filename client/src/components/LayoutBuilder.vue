@@ -157,8 +157,8 @@
                 this.fields.splice(fieldIndex, 0, {
                     id: getNextId(this.fields),
                     type: itemElement.dataset.item,
-                    params: {},
-                    style: {},
+                    // params: {},
+                    // style: {},
                 });
 
                 itemElement.remove();
@@ -187,6 +187,10 @@
         /*grid-template-columns: repeat(4, 1fr);*/
         /*grid-gap: 12px;*/
         /*grid-auto-rows: 100px;*/
+    }
+
+    .sortable-ghost {
+        background: #eee;
     }
 
     .layout-builder {

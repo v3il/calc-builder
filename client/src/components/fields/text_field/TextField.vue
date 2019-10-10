@@ -1,18 +1,15 @@
 <template>
     <field-base :field="field">
         <transition name="fade">
-            <label v-if="this.field.params.label" :for="generateFieldId()">
+            <label v-if="this.field.params.label" :for="generateFieldId()" :style="{ color: field.style.labelColor }">
                 {{field.params.label}}
             </label>
         </transition>
 
-        <ui-textbox
-            type="text"
-            v-model="field.params.value"
-            :placeholder="field.params.placeholder"
-            :id="generateFieldId()"
-            :style="field.style"
-        ></ui-textbox>
+        <input type="text" v-model="field.params.value"
+               :placeholder="field.params.placeholder"
+               :id="generateFieldId()"
+               :style="field.style">
 
         <template slot="toolbar">
             <toolbar-drag-button />
@@ -46,7 +43,7 @@
         data() {
             return {
                 defaultOptions: {
-                    value: '',
+                    value: 'Какое-то значение',
                     label: 'Заголовок поля',
                     placeholder: 'Подсказка поля',
                     width: ContainerSizes.default,
@@ -55,7 +52,10 @@
                 },
 
                 defaultStyle: {
-
+                    color: '#2c2e32',
+                    backgroundColor: '#ffffff',
+                    borderColor: '#e0e2e6',
+                    labelColor: '#2c2e32',
                 },
             };
         },
@@ -64,6 +64,19 @@
 
 <style scoped lang="scss">
     input {
+        padding: 0 18px;
+        font-size: 14px;
+        outline: none;
+        height: 36px;
+        color: #2c2e32;
+        border: 2px solid #e0e2e6;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 0;
+        z-index: 1;
+        position: relative;
+        transition: border .3s linear;
+        box-sizing: border-box;
         width: 100%;
     }
 </style>

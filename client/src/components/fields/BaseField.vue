@@ -6,10 +6,7 @@
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
 
-        <div :style="{
-            width: field.params.float ? '100%' : field.params.width + '%',
-            'margin-left': field.params.float ? '0' : field.params.marginLeft + '%',
-        }">
+        <div>
             <slot></slot>
         </div>
     </div>
@@ -21,18 +18,6 @@
     import ContainerSizes from '../../constants/ContainerSizes';
 
     export default {
-        data() {
-            return {
-                // fieldObject: this.field,
-
-                // defaultOptions: {
-                //     width: ContainerSizes.default,
-                //     float: true,
-                //     marginLeft: 0,
-                // },
-            };
-        },
-
         components: {
             FieldsParamsToolbar,
         },
@@ -45,31 +30,23 @@
         },
 
         methods: {
-            // emitFieldRemove() {
-            //     this.$emit('removeField');
-            // },
-            //
-            // emitFieldEdit() {
-            //     this.$emit('editField');
-            // },
-
             generateFieldId() {
                 return `${this.$options.name.toLowerCase()}-${this.field.id}`;
             },
         },
 
         created() {
-            this.field.params = { ...this.defaultOptions, ...this.field.params };
-            this.field.style = { ...this.defaultStyle, ...this.field.style };
+            this.$set(this.field, 'params', { ...this.defaultOptions, ...this.field.params });
+            this.$set(this.field, 'style', { ...this.defaultStyle, ...this.field.style });
         },
     };
 </script>
 
 <style lang="scss">
     .field-wrapper {
-        border: 1px solid #555;
+        border: 1px solid #eee;
         /*margin: 1px 0;*/
-        padding: 0 18px;
+        padding: 12px 18px;
         position: relative;
         display: inline-block;
         vertical-align: top;
