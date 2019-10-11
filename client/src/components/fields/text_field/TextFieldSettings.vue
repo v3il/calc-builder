@@ -1,52 +1,67 @@
 <template>
-    <div class="field-settings-component">
-        <h3 class="category-title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
+    <div class="field-settings">
+        <h3 class="field-settings__title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
             :value="fieldData.params.width"
             :variants="sizeVariants"
             title="Ширина элемента"
             @valueChanged="fieldData.params.width = $event"
+            class="field-settings__property-component"
         ></ButtonsGroup>
 
-        <h3 class="category-title">{{propsCategoriesNames.MODEL}}</h3>
+        <h3 class="field-settings__title">{{propsCategoriesNames.MODEL}}</h3>
 
-        <TextField
+        <TextFieldComponent
             v-model="fieldData.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
-        ></TextField>
+            :options="{
+                title: 'Заголовок поля',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+            }"
+            class="field-settings__property-component"
+        ></TextFieldComponent>
 
-        <TextField
+        <TextFieldComponent
             v-model="fieldData.params.placeholder"
-            title="Подсказка поля"
-        ></TextField>
+            :options="{
+                title: 'Подсказка поля',
+            }"
+            class="field-settings__property-component"
+        ></TextFieldComponent>
 
-        <h3 class="category-title">{{propsCategoriesNames.STYLE}}</h3>
+        <h3 class="field-settings__title">{{propsCategoriesNames.STYLE}}</h3>
 
         <ColorSelector
             v-model="fieldData.style.labelColor"
+            class="field-settings__property-component"
             :options="{
-            title: 'Цвет надписи поля',
-        }"></ColorSelector>
+                title: 'Цвет надписи поля',
+            }"
+        ></ColorSelector>
 
         <ColorSelector
             v-model="fieldData.style.color"
+            class="field-settings__property-component"
             :options="{
-            title: 'Цвет текста',
-        }"></ColorSelector>
+                title: 'Цвет текста',
+            }"
+        ></ColorSelector>
 
         <ColorSelector
             v-model="fieldData.style.borderColor"
+            class="field-settings__property-component"
             :options="{
-            title: 'Цвет границы поля',
-        }"></ColorSelector>
+                title: 'Цвет границы поля',
+            }"
+        ></ColorSelector>
 
         <ColorSelector
             v-model="fieldData.style.backgroundColor"
+            class="field-settings__property-component"
             :options="{
-            title: 'Цвет фона поля',
-        }" ></ColorSelector>
+                title: 'Цвет фона поля',
+            }"
+        ></ColorSelector>
     </div>
 </template>
 
@@ -60,6 +75,16 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .field-settings {
+        margin: 12px 0;
 
+        &__title {
+
+        }
+
+        &__property-component {
+            margin: 9px 0;
+        }
+    }
 </style>

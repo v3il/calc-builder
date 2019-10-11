@@ -44,7 +44,9 @@
             <br>
             <br>
 
-            {{JSON.stringify(this.fields)}}
+            <pre>
+                {{JSON.stringify(this.fields, null, 2)}}
+            </pre>
         </div>
 
         <div class="layout-builder-wrapper">

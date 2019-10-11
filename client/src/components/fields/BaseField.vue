@@ -1,6 +1,6 @@
 <template>
     <div :style="{
-        width: field.params.float ? field.params.width + '%' : '100%',
+        width: `${field.params.width}%`,
     }" class="field-wrapper">
         <fields-params-toolbar>
             <slot name="toolbar"></slot>
@@ -29,15 +29,23 @@
             },
         },
 
-        methods: {
-            generateFieldId() {
-                return `${this.$options.name.toLowerCase()}-${this.field.id}`;
-            },
+        data() {
+            return {
+                commonDefaultOptions: {
+                    width: ContainerSizes.default,
+                },
+
+                commonDefaultStyle: {
+                    color: '#2c2e32',
+                    backgroundColor: '#ffffff',
+                    borderColor: '#e0e2e6',
+                },
+            }
         },
 
         created() {
-            this.$set(this.field, 'params', { ...this.defaultOptions, ...this.field.params });
-            this.$set(this.field, 'style', { ...this.defaultStyle, ...this.field.style });
+            this.$set(this.field, 'params', { ...this.commonDefaultOptions, ...this.defaultOptions, ...this.field.params });
+            this.$set(this.field, 'style', { ...this.commonDefaultStyle, ...this.defaultStyle, ...this.field.style });
         },
     };
 </script>

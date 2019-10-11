@@ -8,7 +8,7 @@
     import ColorSelector from '../field_properties_editors/ColorSelector';
     import SelectOptionsManager from '../field_properties_editors/SelectOptionsManager';
     import Slider from '../field_properties_editors/Slider';
-    import TextField from '../field_properties_editors/TextField';
+    import TextFieldComponent from '../field_properties_editors/TextFieldComponent';
     import TextFieldNumber from '../field_properties_editors/TextFieldNumber';
 
     import ContainerSizes from '../../constants/ContainerSizes';
@@ -22,7 +22,7 @@
             ColorSelector,
             SelectOptionsManager,
             Slider,
-            TextField,
+            TextFieldComponent,
             TextFieldNumber,
         },
 
