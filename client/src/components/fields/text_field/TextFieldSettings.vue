@@ -3,11 +3,12 @@
         <h3 class="field-settings__title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldData.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldData.params.width = $event"
             class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
 
         <h3 class="field-settings__title">{{propsCategoriesNames.MODEL}}</h3>
@@ -80,7 +81,8 @@
         margin: 12px 0;
 
         &__title {
-
+            margin-top: 24px;
+            margin-bottom: 6px;
         }
 
         &__property-component {

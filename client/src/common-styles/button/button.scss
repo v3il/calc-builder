@@ -1,0 +1,20 @@
+.button {
+  padding: 0 18px;
+  font-size: 1rem;
+  height: 36px;
+  line-height: 32px;
+  outline: none;
+  color: #2c2e32;
+  border: 2px solid #e0e2e6;
+  background-color: #fafafc;
+  border-radius: 9px;
+  transition: border .2s linear, background-color .2s linear;
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.button--active {
+  background-color: #263238;
+  color: #fff;
+}

@@ -6,7 +6,8 @@
 
 <style lang="scss">
     html {
-        font-size: 90%;
+        font-size: 15px;
+        font-family: 'Roboto', sans-serif;
     }
 
     * {

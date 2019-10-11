@@ -58,5 +58,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../../common-styles/input/default-input';
+    @import '../../../common-styles/input/text-input';
 </style>
