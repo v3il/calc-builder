@@ -24,36 +24,40 @@
 
         <h3 class="category-title">{{propsCategoriesNames.STYLE}}</h3>
 
-        <TextField
+        <ColorSelector
             v-model="fieldData.style.labelColor"
-            title="Цвет надписи поля"
-        ></TextField>
+            :options="{
+            title: 'Цвет надписи поля',
+        }"></ColorSelector>
 
-        <TextField
+        <ColorSelector
             v-model="fieldData.style.color"
-            title="Цвет текста"
-        ></TextField>
+            :options="{
+            title: 'Цвет текста',
+        }"></ColorSelector>
 
-        <TextField
+        <ColorSelector
             v-model="fieldData.style.borderColor"
-            title="Цвет границы поля"
-        ></TextField>
+            :options="{
+            title: 'Цвет границы поля',
+        }"></ColorSelector>
 
-        <TextField
+        <ColorSelector
             v-model="fieldData.style.backgroundColor"
-            title="Цвет фона поля"
-        ></TextField>
+            :options="{
+            title: 'Цвет фона поля',
+        }" ></ColorSelector>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+    import BaseFieldSettings from '../BaseFieldSettings';
 
-export default {
-  name: 'TextFieldSettings',
+    export default {
+        name: 'TextFieldSettings',
 
-  extends: BaseFieldSettings,
-};
+        extends: BaseFieldSettings,
+    };
 </script>
 
 <style scoped>
