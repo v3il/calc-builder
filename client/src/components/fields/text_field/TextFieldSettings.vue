@@ -63,6 +63,15 @@
                 title: 'Цвет фона поля',
             }"
         ></ColorSelector>
+
+        <Slider
+            v-model="fieldData.style.borderRadius"
+            :options="{
+                title: 'Закруглённость углов',
+                min: 0,
+                max: 20,
+            }"
+        ></Slider>
     </div>
 </template>
 

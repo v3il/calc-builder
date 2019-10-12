@@ -14,4 +14,5 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
+  "indent": ["error", 4],
 };

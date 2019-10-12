@@ -49,30 +49,13 @@
     @import '../../common-styles/input/text-input';
 
     .text-field {
-        &__title {
-            margin-bottom: 6px;
+        &__input {
+            margin: 6px 0;
         }
-
-        /*&__input {*/
-        /*    padding: 0 18px;*/
-        /*    font-size: 14px;*/
-        /*    outline: none;*/
-        /*    height: 36px;*/
-        /*    color: #2c2e32;*/
-        /*    border: 2px solid #e0e2e6;*/
-        /*    background-color: #fff;*/
-        /*    border-radius: 10px;*/
-        /*    margin: 0;*/
-        /*    z-index: 1;*/
-        /*    position: relative;*/
-        /*    transition: border .3s linear;*/
-        /*    box-sizing: border-box;*/
-        /*    width: 100%;*/
-        /*}*/
 
         &__description {
             color: #777;
-            margin-top: 6px;
+            font-size: 0.8rem;
         }
     }
 </style>

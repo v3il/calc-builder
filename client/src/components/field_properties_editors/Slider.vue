@@ -1,70 +1,47 @@
 <template>
     <div class="property-editor-field">
-        <h4 class="property-editor-field_field-title">
-            {{title}}
+        <h4 class="property-editor-field_field-title" v-if="options.title">
+            {{options.title}}
 
-            <p>[{{min}} - {{max}}]</p>
+            <p>[{{options.min}} - {{options.max}}]</p>
         </h4>
 
         <el-slider
-            :min="min"
-            :max="max"
-            :step="step"
-            :disabled="disabled"
-            v-model="val"
+            :min="options.min || 0"
+            :max="options.max || 100"
+            :step="options.step || 1"
+            :disabled="options.disabled"
+            :value="value"
+            @input="emitValueChange"
             class="property-editor-field_field-element"
         ></el-slider>
 
-        <p class="property-editor-field_field-description" v-if="description">{{description}}</p>
+        <p class="property-editor-field_field-description" v-if="options.description">
+            {{options.description}}
+        </p>
     </div>
 </template>
 
 <script>
-export default {
-  name: 'Slider',
+    export default {
+        name: 'Slider',
 
-  props: {
-    title: String,
-    value: Number,
-    description: String,
+        props: {
+            value: {
+                type: Number,
+            },
 
-    min: {
-      type: Number,
-      default: 1,
-    },
+            options: {
+                type: Object,
+            },
+        },
 
-    max: {
-      type: Number,
-      default: 10,
-    },
-
-    step: {
-      type: Number,
-      default: 1,
-    },
-
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  data() {
-    return {
-      val: this.value,
+        methods: {
+            emitValueChange(value) {
+                this.$emit('input', value);
+            }
+        },
     };
-  },
-
-  watch: {
-    // Fix: When current value is changing, because "max" value has become lesser,
-    // slider does not trigger "change" event
-    val(newValue) {
-      // Fix: When click on slider and "max" value is 0, newValue === NaN
-      const value = Number.isNaN(newValue) ? 0 : newValue;
-      this.$emit('input', value);
-    },
-  },
-};
 </script>
 
 <style>
@@ -76,5 +53,13 @@ export default {
 
     .el-slider__runway {
         margin: 9px 0;
+    }
+
+    .el-slider__bar {
+        background-color: #263238;
+    }
+
+    .el-slider__button {
+        border-color: #263238;
     }
 </style>

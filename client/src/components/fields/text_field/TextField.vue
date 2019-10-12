@@ -9,7 +9,7 @@
         <input type="text"
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
-            :style="field.style"
+            :style="styles"
             :id="field.id"
             class="text-input"
         >
@@ -41,6 +41,15 @@
 
         extends: FieldBase,
 
+        computed: {
+            styles() {
+                return {
+                    ...this.field.style,
+                    ...{ borderRadius: `${this.field.style.borderRadius}px` }
+                };
+            }
+        },
+
         data() {
             return {
                 defaultOptions: {
@@ -51,6 +60,7 @@
 
                 defaultStyle: {
                     labelColor: '#2c2e32',
+                    borderRadius: 0,
                 },
             };
         },
