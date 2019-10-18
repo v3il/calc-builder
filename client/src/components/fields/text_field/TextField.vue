@@ -60,7 +60,7 @@
 
                 defaultStyle: {
                     labelColor: '#2c2e32',
-                    borderRadius: 0,
+                    borderRadius: 6,
                 },
             };
         },
@@ -68,5 +68,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../../common-styles/input/text-input';
+    @import '../../../common-styles/text-input';
 </style>

@@ -53,7 +53,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../common-styles/button/button.scss';
+    @import '../../common-styles/button';
 
     .buttons-group {
         &__title {

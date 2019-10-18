@@ -46,7 +46,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../common-styles/input/text-input';
+    @import '../../common-styles/text-input';
 
     .text-field {
         &__input {

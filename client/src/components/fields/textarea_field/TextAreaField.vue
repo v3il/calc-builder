@@ -61,7 +61,7 @@
 
                 defaultStyle: {
                     labelColor: '#2c2e32',
-                    borderRadius: 0,
+                    borderRadius: 6,
                     resizable: false,
                 },
             };
@@ -70,5 +70,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../../common-styles/textarea/textarea';
+    @import '../../../common-styles/textarea';
 </style>

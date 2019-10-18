@@ -67,11 +67,19 @@
         <Slider
             v-model="fieldData.style.borderRadius"
             :options="{
-            title: 'Закруглённость углов',
-            min: 0,
-            max: 20,
-            valueTransformer: (value) => `${value}px`,
-        }"></Slider>
+                title: 'Закруглённость углов',
+                min: 0,
+                max: 20,
+                valueTransformer: (value) => `${value}px`,
+            }"
+        ></Slider>
+
+        <CheckBoxSelector
+            v-model="fieldData.style.resizable"
+            :options="{
+                title: 'Размер поля можно изменять',
+            }"
+        ></CheckBoxSelector>
     </div>
 </template>
 
