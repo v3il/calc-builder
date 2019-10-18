@@ -3,52 +3,84 @@
         <h3>{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldOptions.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldOptions.params.width = $event"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
-
-        <CheckBoxSelector
-            v-model="fieldOptions.params.float"
-            title="Обтекаемый элемент"
-        ></CheckBoxSelector>
-
-        <Slider
-            title="Сдвиг элемента"
-            description="Применимо только к необтекаемым элементам"
-            :min="0"
-            :max="100 - fieldOptions.params.width"
-            :disabled="fieldOptions.params.float"
-            v-model="fieldOptions.params.marginLeft"
-        ></Slider>
 
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 
-        <TextField
-            v-model="fieldOptions.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
-        ></TextField>
+        <text-field-component
+            v-model="fieldData.params.label"
+            :options="{
+                title: 'Заголовок поля',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+            }"
+            class="field-settings__property-component"
+        ></text-field-component>
 
-        <SelectOptionsManager
-            :selectOptions="fieldOptions.params.options"
-            title="Пункты"
-            :fieldId="fieldOptions.id"
-        ></SelectOptionsManager>
+        <div class="field-settings__property-component options-manager">
+            <h4 class="options-manager__title">Пункты</h4>
+
+            <div v-for="option in fieldData.params.options" class="options-manager__option-item">
+                <text-field-component v-model="option.label" class="options-manager__label-input" />
+                <text-field-component v-model="option.value" :options="{ type: 'number' }" class="options-manager__value-input" />
+                <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>
+            </div>
+
+            <button @click="addOption" class="options-manager__add-option button">Добавить</button>
+        </div>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+    import BaseFieldSettings from '../BaseFieldSettings';
 
-export default {
-  name: 'SelectSettings',
+    export default {
+        name: 'SelectSettings',
 
-  extends: BaseFieldSettings,
-};
+        extends: BaseFieldSettings,
+
+        methods: {
+            addOption() {
+                this.fieldData.params.options.push({
+                    value: 1,
+                    label: 'Значение',
+                });
+            },
+
+            removeOption(option) {
+                this.fieldData.params.options = this.fieldData.params.options.filter(item => item !== option);
+            }
+        }
+    };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    @import '../../../common-styles/button';
 
+    .options-manager {
+        &__option-item {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+        }
+
+        &__label-input {
+            flex: 1;
+        }
+
+        &__value-input {
+            flex: 80px 0;
+            margin: 0 12px;
+        }
+
+        &__remove-option {
+            color: darkred;
+            cursor: pointer;
+        }
+    }
 </style>

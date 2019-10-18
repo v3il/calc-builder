@@ -11,10 +11,10 @@ const availableFields = [
     type: 'SliderField',
     text: 'Ползунок',
   },
-  // {
-  //   type: 'SelectField',
-  //   text: 'Выпадающий список',
-  // },
+  {
+    type: 'SelectField',
+    text: 'Выпадающий список',
+  },
   // {
   //   type: 'RadioButtonField',
   //   text: 'Радиокнопка',

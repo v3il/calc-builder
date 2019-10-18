@@ -94,16 +94,5 @@
 </script>
 
 <style scoped lang="scss">
-    .field-settings {
-        margin: 12px 0;
 
-        &__title {
-            margin-top: 24px;
-            margin-bottom: 6px;
-        }
-
-        &__property-component {
-            margin: 9px 0;
-        }
-    }
 </style>

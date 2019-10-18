@@ -1,80 +1,76 @@
+<template>
+    <field-base :field="field">
+        <transition name="fade">
+            <label v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+                {{field.params.label}}
+            </label>
+        </transition>
+
+        <select type="text"
+           v-model="field.params.value"
+           :style="styles"
+           :id="field.id"
+           class="select"
+        >
+            <option v-for="option in field.params.options" :value="option.value">{{option.label}}</option>
+        </select>
+
+        <template slot="toolbar">
+            <toolbar-drag-button/>
+            <toolbar-edit-button @click="$emit('edit-field')"/>
+            <toolbar-remove-button @click="$emit('remove-field')"/>
+        </template>
+    </field-base>
+</template>
+
 <script>
-import EventBus from '../../../EventBus';
+    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
+    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
+    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
 
-import FieldBase from '../BaseField.vue';
+    import FieldBase from '../BaseField.vue';
 
-import getTemplateForComponent from '../getTemplateForComponent';
+    export default {
+        name: 'SelectField',
 
-export default {
-  name: 'SelectField',
-
-  extends: FieldBase,
-
-  template: getTemplateForComponent({
-    default: `
-                <label v-if="this.fieldObject.params.label">
-                    {{fieldObject.params.label}}
-                </label>
-
-                <ui-select
-                    :options="fieldObject.params.options"
-                    v-model="fieldObject.params.value"
-                ></ui-select>
-            `,
-  }),
-
-  data() {
-    return {
-      defaultOptions: {
-        value: {
-          value: 1,
-          label: 'Option 1',
+        components: {
+            FieldBase,
+            ToolbarDragButton,
+            ToolbarEditButton,
+            ToolbarRemoveButton,
         },
-        label: 'Заголовок поля',
-        options: [
-          {
-            value: 1,
-            label: 'Option 1',
-          },
-          {
-            value: 2,
-            label: 'Option 2',
-          },
-        ],
-      },
+
+        extends: FieldBase,
+
+        computed: {
+            styles() {
+                return {
+                    ...this.field.style,
+                    ...{ borderRadius: `${this.field.style.borderRadius}px` },
+                };
+            }
+        },
+
+        data() {
+            return {
+                defaultOptions: {
+                    value: 1,
+                    label: 'Заголовок поля',
+                    options: [
+                        { label: 'Значение 1', value: 1 },
+                        { label: 'Значение 2', value: 2 },
+                    ]
+                },
+
+                defaultStyle: {
+                    labelColor: '#2c2e32',
+                    borderRadius: 6,
+                },
+            };
+        },
     };
-  },
-
-  methods: {},
-
-  created() {
-    EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
-      this.fieldObject.params.options = this.fieldObject.params
-        .options.filter(opt => opt !== option);
-    });
-
-    EventBus.$on(`addOption${this.fieldObject.id}`, () => {
-      this.fieldObject.params.options.push({
-        value: 1,
-        label: 'Option',
-      });
-    });
-  },
-
-  destroyed() {
-    EventBus.$off(`addOption${this.fieldObject.id}`);
-    EventBus.$off(`removeOption${this.fieldObject.id}`);
-  },
-};
 </script>
 
 <style scoped lang="scss">
-    .field-wrapper {
-        padding-top: 6px;
-        padding-bottom: 6px;
-    }
-
-    .el-select {
-        width: 100%;
-    }
+    @import '../../../common-styles/select';
 </style>
