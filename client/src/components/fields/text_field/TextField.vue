@@ -45,7 +45,7 @@
             styles() {
                 return {
                     ...this.field.style,
-                    ...{ borderRadius: `${this.field.style.borderRadius}px` }
+                    ...{ borderRadius: `${this.field.style.borderRadius}px` },
                 };
             }
         },
@@ -53,7 +53,7 @@
         data() {
             return {
                 defaultOptions: {
-                    value: 'Какое-то значение',
+                    value: '',
                     label: 'Заголовок поля',
                     placeholder: 'Подсказка поля',
                 },

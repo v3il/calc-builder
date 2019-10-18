@@ -1,54 +1,101 @@
 <template>
-    <div>
-        <h3>{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
+    <div class="field-settings">
+        <h3 class="field-settings__title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldOptions.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldOptions.params.width = $event"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
 
-        <CheckBoxSelector
-            v-model="fieldOptions.params.float"
-            title="Обтекаемый элемент"
-        ></CheckBoxSelector>
+        <h3 class="field-settings__title">{{propsCategoriesNames.MODEL}}</h3>
+
+        <TextFieldComponent
+            v-model="fieldData.params.label"
+            :options="{
+                title: 'Заголовок поля',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+            }"
+            class="field-settings__property-component"
+        ></TextFieldComponent>
+
+        <TextFieldComponent
+            v-model="fieldData.params.placeholder"
+            :options="{
+                title: 'Подсказка поля',
+            }"
+            class="field-settings__property-component"
+        ></TextFieldComponent>
+
+        <h3 class="field-settings__title">{{propsCategoriesNames.STYLE}}</h3>
+
+        <ColorSelector
+            v-model="fieldData.style.labelColor"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Цвет надписи поля',
+            }"
+        ></ColorSelector>
+
+        <ColorSelector
+            v-model="fieldData.style.color"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Цвет текста',
+            }"
+        ></ColorSelector>
+
+        <ColorSelector
+            v-model="fieldData.style.borderColor"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Цвет границы поля',
+            }"
+        ></ColorSelector>
+
+        <ColorSelector
+            v-model="fieldData.style.backgroundColor"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Цвет фона поля',
+            }"
+        ></ColorSelector>
 
         <Slider
-            title="Сдвиг элемента"
-            description="Применимо только к необтекаемым элементам"
-            :min="0"
-            :max="100 - fieldOptions.params.width"
-            :disabled="fieldOptions.params.float"
-            v-model="fieldOptions.params.marginLeft"
-        ></Slider>
-
-
-        <h3>{{propsCategoriesNames.MODEL}}</h3>
-
-        <TextField
-            v-model="fieldOptions.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
-        ></TextField>
-
-        <TextField
-            v-model="fieldOptions.params.placeholder"
-            title="Подсказка поля"
-        ></TextField>
+            v-model="fieldData.style.borderRadius"
+            :options="{
+            title: 'Закруглённость углов',
+            min: 0,
+            max: 20,
+            valueTransformer: (value) => `${value}px`,
+        }"></Slider>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+    import BaseFieldSettings from '../BaseFieldSettings';
 
-export default {
-  name: 'TextFieldSettings',
+    export default {
+        name: 'TextFieldSettings',
 
-  extends: BaseFieldSettings,
-};
+        extends: BaseFieldSettings,
+    };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .field-settings {
+        margin: 12px 0;
 
+        &__title {
+            margin-top: 24px;
+            margin-bottom: 6px;
+        }
+
+        &__property-component {
+            margin: 9px 0;
+        }
+    }
 </style>

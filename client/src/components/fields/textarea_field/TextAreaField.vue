@@ -1,55 +1,74 @@
+<template>
+    <field-base :field="field">
+        <transition name="fade">
+            <label v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+                {{field.params.label}}
+            </label>
+        </transition>
+
+        <textarea type="text"
+            v-model="field.params.value"
+            :placeholder="field.params.placeholder"
+            :style="styles"
+            :id="field.id"
+            class="textarea"
+        ></textarea>
+
+        <template slot="toolbar">
+            <toolbar-drag-button/>
+            <toolbar-edit-button @click="$emit('edit-field')"/>
+            <toolbar-remove-button @click="$emit('remove-field')"/>
+        </template>
+    </field-base>
+</template>
+
 <script>
-import FieldBase from '../BaseField.vue';
+    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
+    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
+    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
 
-import getTemplateForComponent from '../getTemplateForComponent';
+    import FieldBase from '../BaseField.vue';
 
-export default {
-  name: 'TextAreaField',
+    export default {
+        name: 'TextField',
 
-  extends: FieldBase,
+        components: {
+            FieldBase,
+            ToolbarDragButton,
+            ToolbarEditButton,
+            ToolbarRemoveButton,
+        },
 
-  template: getTemplateForComponent({
-    default: `
-                <transition name="fade">
-                    <label v-if="this.fieldObject.params.label" :for="generateFieldId()">
-                        {{fieldObject.params.label}}
-                    </label>
-                </transition>
+        extends: FieldBase,
 
-                <ui-textbox
-                    type="text"
-                    v-model="fieldObject.params.value"
-                    :placeholder="fieldObject.params.placeholder"
-                    :id="generateFieldId()"
-                    :style="styleObject"
-                    :multiLine="true"
-                ></ui-textbox>
-            `,
-  }),
+        computed: {
+            styles() {
+                return {
+                    ...this.field.style,
+                    ...{ borderRadius: `${this.field.style.borderRadius}px` },
+                    ...{ resize: this.field.style.resizable ? 'vertical' : 'none' },
+                };
+            }
+        },
 
-  data() {
-    return {
-      defaultOptions: {
-        value: '',
-        label: 'Заголовок поля',
-        placeholder: 'Подсказка поля',
-        resizable: true,
-      },
+        data() {
+            return {
+                defaultOptions: {
+                    value: '',
+                    label: 'Заголовок поля',
+                    placeholder: 'Подсказка поля',
+                },
+
+                defaultStyle: {
+                    labelColor: '#2c2e32',
+                    borderRadius: 0,
+                    resizable: false,
+                },
+            };
+        },
     };
-  },
-
-  computed: {
-    styleObject() {
-      return {
-        resize: this.fieldObject.params.resizable ? 'vertical' : 'none',
-      };
-    },
-  },
-};
 </script>
 
-<style scoped  lang="scss">
-    textarea {
-        width: 100%;
-    }
+<style scoped lang="scss">
+    @import '../../../common-styles/textarea/textarea';
 </style>

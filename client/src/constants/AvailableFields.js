@@ -3,10 +3,10 @@ const availableFields = [
     type: 'TextField',
     text: 'Текстовое поле',
   },
-  // {
-  //   type: 'TextAreaField',
-  //   text: 'Многострочное поле',
-  // },
+  {
+    type: 'TextAreaField',
+    text: 'Многострочное поле',
+  },
   // {
   //   type: 'SliderField',
   //   text: 'Ползунок',

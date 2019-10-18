@@ -1,9 +1,9 @@
 <template>
     <div class="property-editor-field">
         <h4 class="property-editor-field_field-title" v-if="options.title">
-            {{options.title}}
+            {{ options.title }}
 
-            <p>[{{options.min}} - {{options.max}}]</p>
+            <p>{{ currentValue }}</p>
         </h4>
 
         <el-slider
@@ -34,6 +34,14 @@
             options: {
                 type: Object,
             },
+        },
+
+        computed: {
+            currentValue() {
+                return this.options.valueTransformer
+                    ? this.options.valueTransformer(this.value)
+                    : this.value;
+            }
         },
 
         methods: {

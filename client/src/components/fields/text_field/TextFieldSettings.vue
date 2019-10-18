@@ -70,6 +70,7 @@
                 title: 'Закруглённость углов',
                 min: 0,
                 max: 20,
+                valueTransformer: (value) => `${value}px`,
             }"
         ></Slider>
     </div>
