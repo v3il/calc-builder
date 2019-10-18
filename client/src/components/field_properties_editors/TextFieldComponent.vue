@@ -5,7 +5,7 @@
         </h4>
 
         <input
-            type="text"
+            :type="options.type || 'text'"
             class="text-field__input text-input"
             @input="emitUpdate"
             :value="value"
@@ -27,7 +27,7 @@
 
         props: {
             value: {
-                type: String,
+                type: [String, Number],
                 required: true,
             },
 

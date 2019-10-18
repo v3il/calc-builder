@@ -1,56 +1,53 @@
 <template>
-    <div class="field-settings-component">
-        <h3 class="category-title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
+    <div class="field-settings">
+        <h3 class="field-settings__title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldOptions.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldOptions.params.width = $event"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
 
-        <CheckBoxSelector
-            v-model="fieldOptions.params.float"
-            title="Обтекаемый элемент"
-        ></CheckBoxSelector>
+        <h3 class="field-settings__title">{{propsCategoriesNames.MODEL}}</h3>
 
-        <Slider
-            title="Сдвиг элемента"
-            description="Применимо только к необтекаемым элементам"
-            :min="0"
-            :max="100 - fieldOptions.params.width"
-            :disabled="fieldOptions.params.float"
-            v-model="fieldOptions.params.marginLeft"
-        ></Slider>
+        <TextFieldComponent
+            v-model="fieldData.params.label"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Заголовок поля',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+            }"
+        ></TextFieldComponent>
 
-        <h3 class="category-title">{{propsCategoriesNames.MODEL}}</h3>
+        <TextFieldComponent
+            v-model.number="fieldData.params.min"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Минимальное значение',
+                type: 'number',
+            }"
+        ></TextFieldComponent>
 
-        <TextField
-            v-model="fieldOptions.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
-        ></TextField>
+        <TextFieldComponent
+            v-model.number="fieldData.params.max"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Максимальное значение',
+                type: 'number',
+            }"
+        ></TextFieldComponent>
 
-        <TextFieldNumber
-            title="Минимальное значение"
-            v-model="fieldOptions.params.min"
-            :min="0"
-            :max="fieldOptions.params.max"
-        ></TextFieldNumber>
-
-        <TextFieldNumber
-            title="Максимальное значение"
-            v-model="fieldOptions.params.max"
-            :min="fieldOptions.params.min"
-            :max="1000"
-        ></TextFieldNumber>
-
-        <!--<TextFieldNumber-->
-            <!--title="Значение шага"-->
-            <!--v-model="fieldOptions.params.step"-->
-            <!--:min="0.5"-->
-            <!--:max="1000"-->
-        <!--&gt;</TextFieldNumber>-->
+        <TextFieldComponent
+            v-model.number="fieldData.params.step"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Значение шага',
+                type: 'number',
+            }"
+        ></TextFieldComponent>
     </div>
 </template>
 

@@ -58,6 +58,7 @@
         position: relative;
         display: inline-block;
         vertical-align: top;
+        /*min-height: 85px;*/
 
         &:hover {
             .field-wrapper-toolbar {

@@ -66,6 +66,7 @@
 
         <Slider
             v-model="fieldData.style.borderRadius"
+            class="field-settings__property-component"
             :options="{
                 title: 'Закруглённость углов',
                 min: 0,

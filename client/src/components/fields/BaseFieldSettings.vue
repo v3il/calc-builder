@@ -50,11 +50,16 @@
 </script>
 
 <style lang="scss">
-    .field-settings-component {
-        margin-top: 18px;
-    }
+    .field-settings {
+        margin: 12px 0;
 
-    .category-title {
-        margin-top: 30px;
+        &__title {
+            margin-top: 24px;
+            margin-bottom: 6px;
+        }
+
+        &__property-component {
+            margin: 9px 0;
+        }
     }
 </style>

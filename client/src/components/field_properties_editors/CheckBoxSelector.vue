@@ -4,8 +4,8 @@
             <input
                 type="checkbox"
                 class="checkbox-field__input checkbox"
-                @input="emitUpdate"
-                :value="value"
+                @change="emitUpdate"
+                :checked="value"
             ></input>
 
             <span class="checkbox-field__text checkbox">{{options.title}}</span>
@@ -43,7 +43,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../common-styles/text-input';
+    @import '../../common-styles/checkbox';
 
     .checkbox-field {
         &__input {
@@ -57,11 +57,12 @@
         }
 
         &__input {
-            width: 20px;
-            height: 20px;
             margin-right: 12px;
             flex-shrink: 0;
-            cursor: pointer;
+        }
+
+        &__text {
+            flex: 1;
         }
 
         &__description {

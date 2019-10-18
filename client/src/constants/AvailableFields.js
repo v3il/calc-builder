@@ -7,10 +7,10 @@ const availableFields = [
     type: 'TextAreaField',
     text: 'Многострочное поле',
   },
-  // {
-  //   type: 'SliderField',
-  //   text: 'Ползунок',
-  // },
+  {
+    type: 'SliderField',
+    text: 'Ползунок',
+  },
   // {
   //   type: 'SelectField',
   //   text: 'Выпадающий список',
