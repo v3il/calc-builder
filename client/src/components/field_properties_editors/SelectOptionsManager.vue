@@ -1,58 +1,77 @@
 <template>
-    <div class="property-editor-field">
-        <h4 class="property-editor-field_field-title">{{title}}</h4>
+    <div class="field-settings__property-component options-manager">
+        <h4 class="options-manager__title">{{options.title}}</h4>
 
-        <div class="options-list">
-            <div class="option-item" v-for="(option,index) in selectOptions" :key="'option' + index">
-                <el-input type="text" v-model="option.label"></el-input>
-                <i @click="removeOption(option)" class="material-icons">delete</i>
-            </div>
+        <div v-for="option in value" class="options-manager__option-item">
+            <text-field-component v-model="option.label" class="options-manager__label-input" />
+            <text-field-component v-model="option.value" :options="{ type: 'number' }" class="options-manager__value-input" />
+            <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>
         </div>
 
-        <el-button @click="addOption" type="primary" size="mini">Добавить поле</el-button>
+        <button @click="addOption" class="options-manager__add-option button">Добавить</button>
     </div>
 </template>
 
 <script>
-import EventBus from '../../EventBus';
+    import TextFieldComponent from "./TextFieldComponent";
 
-export default {
-  name: 'SelectOptionsManager',
+    export default {
+        name: 'SelectOptionsManager',
 
-  props: {
-    selectOptions: Array,
-    title: String,
-    fieldId: Number,
-  },
+        components: {
+            TextFieldComponent,
+        },
 
-  methods: {
-    removeOption(option) {
-      EventBus.$emit(`removeOption${this.fieldId}`, option);
-    },
+        props: {
+            value: {
+                type: Array,
+            },
 
-    addOption() {
-      EventBus.$emit(`addOption${this.fieldId}`);
-    },
-  },
-};
+            options: {
+                type: Object,
+            },
+        },
+
+        methods: {
+            removeOption(option) {
+                const optionsListCopy = [...this.value].filter(item => item !== option);
+                this.$emit('input', optionsListCopy);
+            },
+
+            addOption() {
+                const optionsListCopy = [...this.value];
+
+                optionsListCopy.push({
+                    value: 1,
+                    label: 'Значение',
+                });
+
+                this.$emit('input', optionsListCopy);
+            },
+        },
+    };
 </script>
 
 <style scoped lang="scss">
-    @import "settings-component-base.scss";
+    .options-manager {
+        &__option-item {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+        }
 
-    .options-list {
-        margin-top: 12px;
-    }
+        &__label-input {
+            flex: 1;
+        }
 
-    .option-item {
-        display: flex;
-        align-items: center;
-        margin: 6px 0;
+        &__value-input {
+            flex: 80px 0;
+            margin: 0 12px;
+        }
 
-        i {
-            margin-left: 6px;
+        &__remove-option {
+            color: darkred;
             cursor: pointer;
-            color: #253237;
         }
     }
 </style>

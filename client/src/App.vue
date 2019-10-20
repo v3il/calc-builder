@@ -5,6 +5,12 @@
 </template>
 
 <style lang="scss">
+    @import "common-styles/button";
+    @import "common-styles/select";
+    @import "common-styles/checkbox";
+    @import "common-styles/textarea";
+    @import "common-styles/text-input";
+
     html {
         font-size: 15px;
         font-family: 'Roboto', sans-serif;
