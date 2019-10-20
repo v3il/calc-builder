@@ -1,73 +1,71 @@
+<template>
+    <field-base :field="field">
+        <transition name="fade">
+            <label v-if="field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+                {{field.params.label}}
+            </label>
+        </transition>
+
+        <div>
+            <label v-for="option in field.params.options">
+                <input class="radio" type="radio" :name="field.id" :value="option.value" v-model="field.params.value">
+                {{option.label}}
+            </label>
+        </div>
+
+        <template slot="toolbar">
+            <toolbar-drag-button/>
+            <toolbar-edit-button @click="$emit('edit-field')"/>
+            <toolbar-remove-button @click="$emit('remove-field')"/>
+        </template>
+    </field-base>
+</template>
+
 <script>
-import FieldBase from '../BaseField.vue';
+    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
+    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
+    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
 
-import EventBus from '../../../EventBus';
+    import FieldBase from '../BaseField.vue';
 
-import getTemplateForComponent from '../getTemplateForComponent';
+    export default {
+        name: 'RadioButtonField',
 
-export default {
-  name: 'RadioButtonField',
+        components: {
+            FieldBase,
+            ToolbarDragButton,
+            ToolbarEditButton,
+            ToolbarRemoveButton,
+        },
 
-  extends: FieldBase,
+        extends: FieldBase,
 
-  template: getTemplateForComponent({
-    default: `
-                <label>{{fieldObject.params.label}}</label>
+        computed: {
+            styles() {
+                return {
+                    ...this.field.style,
+                };
+            }
+        },
 
-                <ui-radio-group
-                    :name="generateFieldId()"
-                    vertical
-                    :options="fieldObject.params.options"
-                    v-model="fieldObject.params.value"
-                ></ui-radio-group>
-            `,
-  }),
+        data() {
+            return {
+                defaultOptions: {
+                    value: 1,
+                    label: 'Заголовок поля',
+                    options: [
+                        { label: 'Значение 1', value: 1 },
+                        { label: 'Значение 2', value: 2 },
+                    ]
+                },
 
-  data() {
-    return {
-      defaultOptions: {
-        value: 1,
-        label: 'Заголовок поля',
-        options: [
-          {
-            value: 1,
-            label: 'Option 1',
-          },
-          {
-            value: 2,
-            label: 'Option 2',
-          },
-        ],
-      },
+                defaultStyle: {
+                    labelColor: '#2c2e32',
+                },
+            };
+        },
     };
-  },
-
-  methods: {},
-
-  created() {
-    EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
-      this.fieldObject.params.options = this.fieldObject.params
-        .options.filter(opt => opt !== option);
-    });
-
-    EventBus.$on(`addOption${this.fieldObject.id}`, () => {
-      this.fieldObject.params.options.push({
-        value: 1,
-        label: 'Option',
-      });
-    });
-  },
-
-  destroyed() {
-    EventBus.$off(`addOption${this.fieldObject.id}`);
-    EventBus.$off(`removeOption${this.fieldObject.id}`);
-  },
-};
 </script>
 
 <style scoped lang="scss">
-    .field-wrapper {
-        padding-top: 6px;
-        padding-bottom: 6px;
-    }
 </style>

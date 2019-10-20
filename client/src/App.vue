@@ -10,6 +10,7 @@
     @import "common-styles/checkbox";
     @import "common-styles/textarea";
     @import "common-styles/text-input";
+    @import "common-styles/radio";
 
     html {
         font-size: 15px;

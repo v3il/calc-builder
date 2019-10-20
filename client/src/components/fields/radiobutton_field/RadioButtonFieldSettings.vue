@@ -3,51 +3,40 @@
         <h3>{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldOptions.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldOptions.params.width = $event"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
-
-        <CheckBoxSelector
-            v-model="fieldOptions.params.float"
-            title="Обтекаемый элемент"
-        ></CheckBoxSelector>
-
-        <Slider
-            title="Сдвиг элемента"
-            description="Применимо только к необтекаемым элементам"
-            :min="0"
-            :max="100 - fieldOptions.params.width"
-            :disabled="fieldOptions.params.float"
-            v-model="fieldOptions.params.marginLeft"
-        ></Slider>
 
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 
-        <TextField
-            v-model="fieldOptions.params.label"
-            title="Заголовок поля"
-            description="Оставьте пустым, чтобы скрыть элемент надписи"
-        ></TextField>
+        <text-field-component
+            v-model="fieldData.params.label"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Заголовок поля',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+            }"
+        ></text-field-component>
 
-        <SelectOptionsManager
-            :selectOptions="fieldOptions.params.options"
-            title="Пункты"
-            :fieldId="fieldOptions.id"
-        ></SelectOptionsManager>
+        <select-options-manager v-model="fieldData.params.options" :options="{
+            title: 'Пункты',
+        }"></select-options-manager>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+    import BaseFieldSettings from '../BaseFieldSettings';
 
-export default {
-  name: 'RadioButtonSettings',
-  extends: BaseFieldSettings,
-};
+    export default {
+        name: 'RadioButtonFieldSettings',
+        extends: BaseFieldSettings,
+    };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

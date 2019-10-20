@@ -68,5 +68,4 @@
 </script>
 
 <style scoped lang="scss">
-    @import '../../../common-styles/text-input';
 </style>

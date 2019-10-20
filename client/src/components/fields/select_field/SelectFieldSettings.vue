@@ -25,18 +25,6 @@
         <select-options-manager v-model="fieldData.params.options" :options="{
             title: 'Пункты',
         }"></select-options-manager>
-
-<!--        <div class="field-settings__property-component options-manager">-->
-<!--            <h4 class="options-manager__title">Пункты</h4>-->
-
-<!--            <div v-for="option in fieldData.params.options" class="options-manager__option-item">-->
-<!--                <text-field-component v-model="option.label" class="options-manager__label-input" />-->
-<!--                <text-field-component v-model="option.value" :options="{ type: 'number' }" class="options-manager__value-input" />-->
-<!--                <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>-->
-<!--            </div>-->
-
-<!--            <button @click="addOption" class="options-manager__add-option button">Добавить</button>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -45,26 +33,10 @@
 
     export default {
         name: 'SelectSettings',
-
         extends: BaseFieldSettings,
-
-        methods: {
-            addOption() {
-                this.fieldData.params.options.push({
-                    value: 1,
-                    label: 'Значение',
-                });
-            },
-
-            removeOption(option) {
-                this.fieldData.params.options = this.fieldData.params.options.filter(item => item !== option);
-            }
-        }
     };
 </script>
 
 <style scoped lang="scss">
-    /*@import '../../../common-styles/button';*/
-
 
 </style>

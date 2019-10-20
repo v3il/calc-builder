@@ -15,10 +15,10 @@ const availableFields = [
     type: 'SelectField',
     text: 'Выпадающий список',
   },
-  // {
-  //   type: 'RadioButtonField',
-  //   text: 'Радиокнопка',
-  // },
+  {
+    type: 'RadioButtonField',
+    text: 'Радиокнопка',
+  },
   // {
   //   type: 'CheckBoxField',
   //   text: 'Галочка',
