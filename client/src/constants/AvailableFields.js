@@ -19,10 +19,10 @@ const availableFields = [
     type: 'RadioButtonField',
     text: 'Радиокнопка',
   },
-  // {
-  //   type: 'CheckBoxField',
-  //   text: 'Галочка',
-  // },
+  {
+    type: 'CheckBoxField',
+    text: 'Галочка',
+  },
   // {
   //   type: 'ImageField',
   //   text: 'Изображение',

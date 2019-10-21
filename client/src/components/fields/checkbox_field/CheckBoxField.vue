@@ -1,85 +1,61 @@
+<template>
+    <field-base :field="field">
+        <div>
+            <label>
+                <input class="checkbox" type="checkbox" :name="field.id" v-model="field.params.value">
+                {{field.params.label}}
+            </label>
+        </div>
+
+        <template slot="toolbar">
+            <toolbar-drag-button/>
+            <toolbar-edit-button @click="$emit('edit-field')"/>
+            <toolbar-remove-button @click="$emit('remove-field')"/>
+        </template>
+    </field-base>
+</template>
+
 <script>
-import FieldBase from '../BaseField.vue';
+    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
+    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
+    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
 
-import getTemplateForComponent from '../getTemplateForComponent';
+    import FieldBase from '../BaseField.vue';
 
-import EventBus from '@/EventBus';
+    export default {
+        name: 'RadioButtonField',
 
-export default {
-  name: 'CheckBoxField',
+        components: {
+            FieldBase,
+            ToolbarDragButton,
+            ToolbarEditButton,
+            ToolbarRemoveButton,
+        },
 
-  extends: FieldBase,
+        extends: FieldBase,
 
-  template: getTemplateForComponent({
-    default: `
-                <label>
-                    {{fieldObject.params.label}}
-                </label>
+        computed: {
+            styles() {
+                return {
+                    ...this.field.style,
+                };
+            }
+        },
 
-                <ui-checkbox-group
-                    vertical
-                    :options="fieldObject.params.options"
-                    v-model="fieldObject.params.value"
-                ></ui-checkbox-group>
-            `,
-  }),
+        data() {
+            return {
+                defaultOptions: {
+                    value: true,
+                    label: 'Заголовок поля',
+                },
 
-  data() {
-    return {
-      defaultOptions: {
-        value: [1],
-        label: 'Заголовок поля',
-        options: [
-          {
-            value: 1,
-            label: 'Значение 1',
-          },
-          {
-            value: 2,
-            label: 'Значение 2',
-          },
-        ],
-      },
+                defaultStyle: {
+                    labelColor: '#2c2e32',
+                },
+            };
+        },
     };
-  },
-
-  methods: {},
-
-  created() {
-    EventBus.$on(`removeOption${this.fieldObject.id}`, (option) => {
-      this.fieldObject.params.options = this.fieldObject.params
-        .options.filter(opt => opt !== option);
-    });
-
-    EventBus.$on(`addOption${this.fieldObject.id}`, () => {
-      this.fieldObject.params.options.push({
-        value: 1,
-        label: 'Option',
-      });
-    });
-  },
-
-  destroyed() {
-    EventBus.$off(`addOption${this.fieldObject.id}`);
-    EventBus.$off(`removeOption${this.fieldObject.id}`);
-  },
-};
 </script>
 
-<style lang="scss">
-    .field-wrapper {
-        padding-top: 6px;
-        padding-bottom: 6px;
-    }
-
-    .field-wrapper .el-checkbox__inner {
-        width: 20px;
-        height: 20px;
-
-        &:after {
-            top: 2px;
-            height: 10px;
-            left: 7px;
-        }
-    }
+<style scoped lang="scss">
 </style>

@@ -3,51 +3,35 @@
         <h3>{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
 
         <ButtonsGroup
-            :value="fieldOptions.params.width"
+            v-model="fieldData.params.width"
             :variants="sizeVariants"
-            title="Ширина элемента"
-            @valueChanged="fieldOptions.params.width = $event"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Ширина элемента'
+            }"
         ></ButtonsGroup>
-
-        <CheckBoxSelector
-            v-model="fieldOptions.params.float"
-            title="Обтекаемый элемент"
-        ></CheckBoxSelector>
-
-        <Slider
-            title="Сдвиг элемента"
-            description="Применимо только к необтекаемым элементам"
-            :min="0"
-            :max="100 - fieldOptions.params.width"
-            :disabled="fieldOptions.params.float"
-            v-model="fieldOptions.params.marginLeft"
-        ></Slider>
 
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 
-        <TextField
-            v-model="fieldOptions.params.label"
-            title="Название поля"
-        ></TextField>
-
-        <SelectOptionsManager
-            :selectOptions="fieldOptions.params.options"
-            title="Пункты"
-            :fieldId="fieldOptions.id"
-        ></SelectOptionsManager>
+        <text-field-component
+            v-model="fieldData.params.label"
+            class="field-settings__property-component"
+            :options="{
+                title: 'Заголовок поля',
+            }"
+        ></text-field-component>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+    import BaseFieldSettings from '../BaseFieldSettings';
 
-export default {
-  name: 'SelectSettings',
-
-  extends: BaseFieldSettings,
-};
+    export default {
+        name: 'CheckBoxFieldSettings',
+        extends: BaseFieldSettings,
+    };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
