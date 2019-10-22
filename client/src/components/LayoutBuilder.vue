@@ -50,23 +50,23 @@
         </div>
 
         <div class="layout-builder-wrapper">
-            <el-form @submit.native.prevent>
-                <Draggable v-model="fields" class="drag" @add="onAdd" @update="updateLayout" :options="{
-                    group: 'items',
-                    handle: '.js-drag-field',
-                }">
-                    <template v-for="field in fields">
-                        <component
-                                @remove-field="removeField(field)"
-                                @edit-field="triggerFieldEdit(field)"
-                                :key="field.id"
-                                :is="field.type"
-                                :field="field"
-                        ></component>
-                    </template>
-                </Draggable>
-            </el-form>
-
+            <Draggable
+                v-model="row.fields"
+                v-for="row in rows"
+                class="row"
+                @add="(event) => onAdd(row, event)"
+                @update="updateLayout"
+                v-bind="sortableOptions"
+            >
+                <component
+                    v-for="field in row.fields"
+                    @remove-field="removeField(row, field)"
+                    @edit-field="triggerFieldEdit(field)"
+                    :key="field.id"
+                    :is="field.type"
+                    :field="field"
+                ></component>
+            </Draggable>
         </div>
     </div>
 </template>
@@ -131,18 +131,27 @@
                 selectedField: null,
 
                 items: availableFields,
+
+                rows: this.calculator.layout || [
+                    { fields: [] },
+                    { fields: [] },
+                    { fields: [] },
+                ],
+
+                sortableOptions: {
+                    group: 'items',
+                    handle: '.js-drag-field',
+                }
             };
         },
 
         methods: {
-            removeField(removedField) {
-                this.fields = this.fields.filter(field => field !== removedField);
+            removeField(row, removedField) {
+                row.fields = row.fields.filter(field => field !== removedField);
 
                 if (removedField === this.selectedField) {
                     this.selectedField = null;
                 }
-
-                console.log(this.calculator.layout.length, this.fields.length);
 
                 this.updateLayout();
             },
@@ -152,30 +161,32 @@
                 this.selectedField = field;
             },
 
-            onAdd(event) {
-                const itemElement = event.item;
-                const fieldIndex = event.newIndex;
-
-                this.fields.splice(fieldIndex, 0, {
-                    id: getNextId(this.fields),
-                    type: itemElement.dataset.item,
-                    // params: {},
-                    // style: {},
+            onAdd(row, { item, newIndex }) {
+                row.fields.splice(newIndex, 0, {
+                    id: Math.random(),
+                    type: item.dataset.item,
                 });
 
-                itemElement.remove();
+                item.remove();
 
                 this.updateLayout();
             },
 
             updateLayout() {
-                this.$emit('layoutUpdate', this.fields);
+                this.$emit('layoutUpdate', this.rows);
             },
         },
     };
 </script>
 
 <style scoped lang="scss">
+
+    .row {
+        min-height: 50px;
+        border: 1px solid blue;
+        display: flex;
+    }
+
     .drag {
         width: 100%;
         padding: 12px;
@@ -193,6 +204,8 @@
 
     .sortable-ghost {
         background: #eee;
+        width: 50%;
+        display: inline-block;
     }
 
     .layout-builder {

@@ -34,68 +34,68 @@
 </template>
 
 <script>
-import Draggable from 'vuedraggable';
+    import Draggable from 'vuedraggable';
 
-import { mapGetters, mapActions } from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
-export default {
-  name: 'MainPage',
+    export default {
+        name: 'MainPage',
 
-  computed: {
-    ...mapGetters([
-      'allCalculators',
-      'selectedCalculator',
-    ]),
-  },
-
-  data() {
-    return {
-      items: [
-        {
-          id: 0,
-          type: 'ButtonField',
-          text: 'Кнопка',
+        computed: {
+            ...mapGetters([
+                'allCalculators',
+                'selectedCalculator',
+            ]),
         },
-        {
-          id: 1,
-          type: 'TextField',
-          text: 'Текстовое поле',
-        },
-      ],
 
-      drawer: true,
+        data() {
+            return {
+                items: [
+                    {
+                        id: 0,
+                        type: 'ButtonField',
+                        text: 'Кнопка',
+                    },
+                    {
+                        id: 1,
+                        type: 'TextField',
+                        text: 'Текстовое поле',
+                    },
+                ],
+
+                drawer: true,
+            };
+        },
+
+        components: {
+            Draggable,
+        },
+
+        props: {
+            source: String,
+        },
+
+        methods: {
+            edit(calc) {
+                // this.$store.dispatch('selectCalc', calc);
+                this.$router.push({
+                    name: 'constructor',
+                    params: {
+                        id: calc.id,
+                    },
+                });
+            },
+
+            add() {
+                this.$store.dispatch('addCalculator');
+                // this.$router.push('/constructor');
+            },
+
+            remove(calc) {
+                this.$store.dispatch('removeCalculator', calc);
+            },
+        },
     };
-  },
-
-  components: {
-    Draggable,
-  },
-
-  props: {
-    source: String,
-  },
-
-  methods: {
-    edit(calc) {
-      // this.$store.dispatch('selectCalc', calc);
-      this.$router.push({
-        name: 'constructor',
-        params: {
-          id: calc.id,
-        },
-      });
-    },
-
-    add() {
-      this.$store.dispatch('addCalculator');
-      // this.$router.push('/constructor');
-    },
-
-    remove(calc) {
-      this.$store.dispatch('removeCalculator', calc);
-    },
-  },
-};
 </script>
 
 <style lang="scss">
@@ -119,7 +119,7 @@ export default {
         align-items: center;
         display: flex;
         padding: 0 24px;
-        box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
         z-index: 3;
     }
 

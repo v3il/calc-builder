@@ -1,6 +1,6 @@
 <template>
     <div :style="{
-        width: `${field.params.width}%`,
+        flexBasis: `${field.params.width}%`,
     }" class="field-wrapper">
         <fields-params-toolbar>
             <slot name="toolbar"></slot>
