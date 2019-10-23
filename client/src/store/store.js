@@ -39,7 +39,7 @@ export default new Vuex.Store({
       state.calculators.push({
         id,
         name: `Calc${id}`,
-        layout: [],
+        layout: null,
       });
 
       localStorage.setItem('Calcs', JSON.stringify(state.calculators));

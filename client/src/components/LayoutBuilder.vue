@@ -21,7 +21,7 @@
 
                 <el-row class="tac">
                     <el-col :span="24">
-                        <Draggable element="el-menu" class="el-menu-vertical-demo menu" :options="{
+                        <Draggable element="el-menu" class="el-menu-vertical-demo menu" :move="onMove" :options="{
                             group: {name: 'items', pull: 'clone', put: false,},
                             sort: false,
                         }">
@@ -50,14 +50,19 @@
         </div>
 
         <div class="layout-builder-wrapper">
+            {{fieldList}}
+
             <Draggable
                 v-model="row.fields"
-                v-for="row in rows"
+                v-for="(row, rowIndex) in rows"
                 class="row"
                 @add="(event) => onAdd(row, event)"
                 @update="updateLayout"
                 v-bind="sortableOptions"
+                :move="onMove"
+                :data-rowindex="rowIndex"
             >
+                {{row.fields.length}}
                 <component
                     v-for="field in row.fields"
                     @remove-field="removeField(row, field)"
@@ -65,8 +70,12 @@
                     :key="field.id"
                     :is="field.type"
                     :field="field"
+                    class="js-item"
+                    :data-id="field.id"
                 ></component>
             </Draggable>
+
+            {{calculator}}
         </div>
     </div>
 </template>
@@ -122,6 +131,16 @@
             ...mapGetters([
                 'selectedCalculator',
             ]),
+
+            fieldList() {
+                const r = [];
+
+                this.rows.forEach(row => {
+                    r.push(...row.fields);
+                });
+
+                return r;
+            }
         },
 
         data() {
@@ -161,13 +180,29 @@
                 this.selectedField = field;
             },
 
-            onAdd(row, { item, newIndex }) {
-                row.fields.splice(newIndex, 0, {
-                    id: Math.random(),
-                    type: item.dataset.item,
-                });
+            onAdd(row, { item, newIndex, from }) {
+                console.error('ADDDDDD', from);
 
-                item.remove();
+                const fieldId = item.dataset.id;
+
+                const field = this.getById(parseFloat(fieldId))
+
+                console.warn(fieldId, field)
+
+                if (from.classList.contains('row')) {
+                    const rowIndex = +from.dataset.rowindex;
+
+                    this.rows[rowIndex].fields = this.rows[rowIndex].fields.filter(field => field.id !== +fieldId)
+
+                    row.fields.splice(newIndex, 0, field);
+                } else {
+                    row.fields.splice(newIndex, 0, {
+                        id: Math.random(),
+                        type: item.dataset.item,
+                    });
+
+                    item.remove();
+                }
 
                 this.updateLayout();
             },
@@ -175,7 +210,52 @@
             updateLayout() {
                 this.$emit('layoutUpdate', this.rows);
             },
+
+            onMove(evt, originalEvent) {
+                console.log(evt, originalEvent)
+            },
+
+            getById(id) {
+                return this.fieldList.find(i => i.id === id);
+            }
         },
+
+        created() {
+            document.addEventListener('drag', ({ target }) => {
+                const parentRow = target.closest('.row');
+
+                if (!parentRow) {
+                    console.log('No row');
+                    return;
+                }
+
+                const rowIndex = parentRow.dataset.rowindex;
+
+                const rowData = this.rows[rowIndex];
+
+                // rowData.fields.forEach(item => {
+                //     console.log(item)
+                //
+                //     // this.$set(item.params, 'width', )
+                //
+                //     item.params.width = 100 / (rowData.fields.length);
+                // });
+
+                // if (rowData.fields.length === 0) {
+                //     target.style.flexBasis = '100%';
+                // }
+                //
+                // if (rowData.fields.length === 1) {
+                //     target.style.flexBasis = '50%';
+                // }
+                //
+                // if (rowData.fields.length === 2) {
+                //     target.style.flexBasis = '25%';
+                // }
+
+                console.log(rowData.fields.length, parentRow.querySelectorAll('.js-item').length)
+            })
+        }
     };
 </script>
 

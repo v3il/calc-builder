@@ -1,10 +1,10 @@
 <template>
-    <div :style="{
-        flexBasis: `${field.params.width}%`,
-    }" class="field-wrapper">
+    <div :style="{ flexBasis: `${field.params.width}%` }" class="field-wrapper">
         <fields-params-toolbar>
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
+
+        {{field.id}}
 
         <div>
             <slot></slot>
