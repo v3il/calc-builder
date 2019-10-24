@@ -56,11 +56,11 @@
                 v-model="row.fields"
                 v-for="(row, rowIndex) in rows"
                 class="row"
-                @add="(event) => onAdd(row, event)"
+                @add="(event) => onAdd(row, rowIndex, event)"
                 @update="updateLayout"
                 v-bind="sortableOptions"
-                :move="onMove"
                 :data-rowindex="rowIndex"
+                :key="rowIndex"
             >
                 {{row.fields.length}}
                 <component
@@ -158,8 +158,9 @@
                 ],
 
                 sortableOptions: {
-                    group: 'items',
+                    group: { name: 'items', pull: true, put: false },
                     handle: '.js-drag-field',
+                    sort: true,
                 }
             };
         },
@@ -180,35 +181,84 @@
                 this.selectedField = field;
             },
 
-            onAdd(row, { item, newIndex, from }) {
-                console.error('ADDDDDD', from);
+            onAdd(row, rowIndex, event) {
+                console.log('Add')
 
-                const fieldId = item.dataset.id;
+                const itemElement = event.item;
+                const destinationElement = event.to;
 
-                const field = this.getById(parseFloat(fieldId))
-
-                console.warn(fieldId, field)
-
-                if (from.classList.contains('row')) {
-                    const rowIndex = +from.dataset.rowindex;
-
-                    this.rows[rowIndex].fields = this.rows[rowIndex].fields.filter(field => field.id !== +fieldId)
-
-                    row.fields.splice(newIndex, 0, field);
-                } else {
-                    row.fields.splice(newIndex, 0, {
-                        id: Math.random(),
-                        type: item.dataset.item,
-                    });
-
-                    item.remove();
+                if (event.from.classList.contains('row')) {
+                    itemElement.remove();
+                    return;
                 }
 
+                const fieldIndex = event.newIndex;
+
+                // const activatedWidgetId = itemElement.dataset.widgetid;
+                // const activatedWidget = this.allWidgets.find(widget => widget.id === activatedWidgetId);
+
+                const destinationColumnId = destinationElement.dataset.column;
+
+                row.fields.splice(fieldIndex, 0, {
+                    id: Math.random(),
+                    type: itemElement.dataset.item,
+                });
+
+                // this.layout[`col${destinationColumnId}`]
+                //     .splice(fieldIndex, 0, {
+                //         id: Math.random(),
+                //         type: item.dataset.item,
+                //     });
+
+                itemElement.remove();
+
                 this.updateLayout();
+
+
+                // const { item, newIndex, from, to } = event;
+                //
+                // console.log(event)
+                //
+                // console.error('ADDDDDD', from, row);
+                //
+                // const fieldId = item.dataset.id;
+                //
+                // const newRowIndex = +to.dataset.rowindex;
+                //
+                //
+                //
+                // const field = this.getById(parseFloat(fieldId))
+                //
+                // console.warn(fieldId, field)
+                //
+                // if (from.classList.contains('row')) {
+                //     // const newRowIndex = +row.dataset.rowindex;
+                //     const rowIndex = +from.dataset.rowindex;
+                //
+                //     console.log('Add from other row', rowIndex, newRowIndex);
+                //
+                //     row.fields.splice(newIndex, 0, {...field});
+                //
+                //     // this.rows[rowIndex].fields = this.rows[rowIndex].fields.filter(field => field.id !== +fieldId)
+                // } else {
+                //     // const newRowIndex = +row.dataset.rowindex;
+                //     console.log('Add from sidebar to', newRowIndex);
+                //
+                //     row.fields.splice(newIndex, 0, {
+                //         id: Math.random(),
+                //         type: item.dataset.item,
+                //     });
+                //
+                //     item.remove();
+                // }
+                //
+                // this.updateLayout();
             },
 
             updateLayout() {
-                this.$emit('layoutUpdate', this.rows);
+                console.log('Update')
+
+                // this.$emit('layoutUpdate', this.rows);
             },
 
             onMove(evt, originalEvent) {
@@ -220,42 +270,44 @@
             }
         },
 
-        created() {
-            document.addEventListener('drag', ({ target }) => {
-                const parentRow = target.closest('.row');
-
-                if (!parentRow) {
-                    console.log('No row');
-                    return;
-                }
-
-                const rowIndex = parentRow.dataset.rowindex;
-
-                const rowData = this.rows[rowIndex];
-
-                // rowData.fields.forEach(item => {
-                //     console.log(item)
-                //
-                //     // this.$set(item.params, 'width', )
-                //
-                //     item.params.width = 100 / (rowData.fields.length);
-                // });
-
-                // if (rowData.fields.length === 0) {
-                //     target.style.flexBasis = '100%';
-                // }
-                //
-                // if (rowData.fields.length === 1) {
-                //     target.style.flexBasis = '50%';
-                // }
-                //
-                // if (rowData.fields.length === 2) {
-                //     target.style.flexBasis = '25%';
-                // }
-
-                console.log(rowData.fields.length, parentRow.querySelectorAll('.js-item').length)
-            })
-        }
+        // created() {
+        //     document.addEventListener('drag', ({ target }) => {
+        //         return;
+        //
+        //         const parentRow = target.closest('.row');
+        //
+        //         if (!parentRow) {
+        //             console.log('No row');
+        //             return;
+        //         }
+        //
+        //         const rowIndex = parentRow.dataset.rowindex;
+        //
+        //         const rowData = this.rows[rowIndex];
+        //
+        //         // rowData.fields.forEach(item => {
+        //         //     console.log(item)
+        //         //
+        //         //     // this.$set(item.params, 'width', )
+        //         //
+        //         //     item.params.width = 100 / (rowData.fields.length);
+        //         // });
+        //
+        //         // if (rowData.fields.length === 0) {
+        //         //     target.style.flexBasis = '100%';
+        //         // }
+        //         //
+        //         // if (rowData.fields.length === 1) {
+        //         //     target.style.flexBasis = '50%';
+        //         // }
+        //         //
+        //         // if (rowData.fields.length === 2) {
+        //         //     target.style.flexBasis = '25%';
+        //         // }
+        //
+        //         // console.log(rowData.fields.length, parentRow.querySelectorAll('.js-item').length)
+        //     })
+        // }
     };
 </script>
 
