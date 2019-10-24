@@ -21,7 +21,10 @@
 
                 <el-row class="tac">
                     <el-col :span="24">
-                        <Draggable element="el-menu" class="el-menu-vertical-demo menu" :move="onMove" :options="{
+                        <Draggable element="el-menu" class="el-menu-vertical-demo menu"
+                                   @start="handleDragStart"
+                                   @end="handleDragEnd"
+                                   :options="{
                             group: {name: 'items', pull: 'clone', put: false,},
                             sort: false,
                         }">
@@ -54,11 +57,15 @@
                 v-model="row.fields"
                 v-for="(row, rowIndex) in rows"
                 class="row"
-                @add="(event) => onAdd(row, rowIndex, event)"
+                :class="{'row--disabled': row.disabled}"
+                @add="onAdd(row, $event)"
                 @update="updateLayout"
+                @start="handleDragStart(row)"
+                @end="handleDragEnd"
                 v-bind="sortableOptions"
                 :data-rowindex="rowIndex"
                 :key="rowIndex"
+                :disabled="row.disabled"
             >
                 <component
                     v-for="field in row.fields"
@@ -149,9 +156,9 @@
                 items: availableFields,
 
                 rows: this.calculator.layout || [
-                    { fields: [] },
-                    { fields: [] },
-                    { fields: [] },
+                    { fields: [], disabled: false },
+                    { fields: [], disabled: false },
+                    { fields: [], disabled: false },
                 ],
 
                 sortableOptions: {
@@ -178,92 +185,44 @@
                 this.selectedField = field;
             },
 
-            onAdd(row, rowIndex, event) {
-                console.log('Add')
+            onAdd(row, event) {
+                const { item, from, newIndex } = event;
 
-                const itemElement = event.item;
-                const destinationElement = event.to;
+                console.log('Add');
 
-                if (event.from.classList.contains('row')) {
-                    itemElement.remove();
+                if (from.classList.contains('row')) {
+                    item.remove();
                     return;
                 }
 
-                const fieldIndex = event.newIndex;
-
-                // const activatedWidgetId = itemElement.dataset.widgetid;
-                // const activatedWidget = this.allWidgets.find(widget => widget.id === activatedWidgetId);
-
-                const destinationColumnId = destinationElement.dataset.column;
-
-                row.fields.splice(fieldIndex, 0, {
+                row.fields.splice(newIndex, 0, {
                     id: Math.random(),
-                    type: itemElement.dataset.item,
+                    type: item.dataset.item,
                 });
 
-                // this.layout[`col${destinationColumnId}`]
-                //     .splice(fieldIndex, 0, {
-                //         id: Math.random(),
-                //         type: item.dataset.item,
-                //     });
-
-                itemElement.remove();
-
+                item.remove();
                 this.updateLayout();
-
-
-                // const { item, newIndex, from, to } = event;
-                //
-                // console.log(event)
-                //
-                // console.error('ADDDDDD', from, row);
-                //
-                // const fieldId = item.dataset.id;
-                //
-                // const newRowIndex = +to.dataset.rowindex;
-                //
-                //
-                //
-                // const field = this.getById(parseFloat(fieldId))
-                //
-                // console.warn(fieldId, field)
-                //
-                // if (from.classList.contains('row')) {
-                //     // const newRowIndex = +row.dataset.rowindex;
-                //     const rowIndex = +from.dataset.rowindex;
-                //
-                //     console.log('Add from other row', rowIndex, newRowIndex);
-                //
-                //     row.fields.splice(newIndex, 0, {...field});
-                //
-                //     // this.rows[rowIndex].fields = this.rows[rowIndex].fields.filter(field => field.id !== +fieldId)
-                // } else {
-                //     // const newRowIndex = +row.dataset.rowindex;
-                //     console.log('Add from sidebar to', newRowIndex);
-                //
-                //     row.fields.splice(newIndex, 0, {
-                //         id: Math.random(),
-                //         type: item.dataset.item,
-                //     });
-                //
-                //     item.remove();
-                // }
-                //
-                // this.updateLayout();
             },
 
             updateLayout() {
                 console.log('Update')
-
-                // this.$emit('layoutUpdate', this.rows);
-            },
-
-            onMove(evt, originalEvent) {
-                console.log(evt, originalEvent)
+                this.$emit('layoutUpdate', this.rows);
             },
 
             getById(id) {
                 return this.fieldList.find(i => i.id === id);
+            },
+
+            handleDragStart(row) {
+                console.log('Start');
+
+                this.rows
+                    .filter(item => item !== row)
+                    .forEach(item => item.disabled = item.fields.length === 4);
+            },
+
+            handleDragEnd() {
+                this.rows.forEach(item => item.disabled = false);
             }
         },
 
@@ -314,6 +273,11 @@
         min-height: 50px;
         border: 1px solid blue;
         display: flex;
+
+        &--disabled {
+            background-color: #ccc;
+            opacity: 0.5;
+        }
     }
 
     .drag {
@@ -335,6 +299,7 @@
         background: #eee;
         width: 50%;
         display: inline-block;
+        flex: 1;
     }
 
     .layout-builder {

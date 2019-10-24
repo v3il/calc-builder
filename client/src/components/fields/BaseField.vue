@@ -1,10 +1,8 @@
 <template>
-    <div :style="{ flexBasis: `${field.params.width}%` }" class="field-wrapper">
+    <div class="field-wrapper">
         <fields-params-toolbar>
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
-
-        {{field.id}}
 
         <div>
             <slot></slot>
@@ -31,9 +29,7 @@
 
         data() {
             return {
-                commonDefaultOptions: {
-                    width: ContainerSizes.default,
-                },
+                commonDefaultOptions: {},
 
                 commonDefaultStyle: {
                     color: '#2c2e32',
@@ -58,7 +54,7 @@
         position: relative;
         display: inline-block;
         vertical-align: top;
-        /*min-height: 85px;*/
+        flex: 1;
 
         &:hover {
             .field-wrapper-toolbar {
