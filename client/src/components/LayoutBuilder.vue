@@ -50,8 +50,6 @@
         </div>
 
         <div class="layout-builder-wrapper">
-            {{fieldList}}
-
             <Draggable
                 v-model="row.fields"
                 v-for="(row, rowIndex) in rows"
@@ -62,7 +60,6 @@
                 :data-rowindex="rowIndex"
                 :key="rowIndex"
             >
-                {{row.fields.length}}
                 <component
                     v-for="field in row.fields"
                     @remove-field="removeField(row, field)"
@@ -158,7 +155,7 @@
                 ],
 
                 sortableOptions: {
-                    group: { name: 'items', pull: true, put: false },
+                    group: { name: 'items' },
                     handle: '.js-drag-field',
                     sort: true,
                 }
