@@ -217,20 +217,33 @@
             },
 
             updateLayout() {
-                console.log('Update');
-                this.$emit('layoutUpdate', this.layoutRows);
+                this.$emit('layout-update', this.layoutRows);
             },
 
             handleDragStart(row) {
-                console.log('Start');
-
                 this.layoutRows
                     .filter(item => item !== row)
-                    .forEach(item => item.disabled = item.fields.length >= this.MAX_ITEMS_PER_ROW);
+                    .filter(({ fields }) => fields.length >= this.MAX_ITEMS_PER_ROW)
+                    .forEach((item) => {
+                        item.disabled = true;
+
+                        item.fields.forEach((item) => {
+                            item.internal.disabled = true;
+                        });
+                    });
             },
 
             handleDragEnd() {
-                this.layoutRows.forEach(item => item.disabled = false);
+                this.layoutRows.forEach((item) => {
+                    item.disabled = false;
+
+                    item.fields.forEach((item) => {
+                        // Excluding just added widget if any exists
+                        if (item.internal) {
+                            item.internal.disabled = false;
+                        }
+                    });
+                });
             }
         },
     };
@@ -277,8 +290,9 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            padding: 12px 0 12px 12px;
+            padding: 12px 12px 12px 12px;
             border-left: 3px solid transparent;
+            flex: 1;
             margin: 6px;
             transition: background-color 0.3s;
         }
@@ -353,11 +367,6 @@
             min-height: 100px;
             border: 1px solid $gray;
             display: flex;
-
-            &--disabled {
-                background-color: #ccc;
-                opacity: 0.5;
-            }
         }
     }
 </style>

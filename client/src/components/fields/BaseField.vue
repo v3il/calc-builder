@@ -1,6 +1,6 @@
 <template>
     <div class="field-wrapper" :class="{ 'field-wrapper--disabled': field.internal.disabled }">
-        <fields-params-toolbar>
+        <fields-params-toolbar v-if="!field.internal.disabled">
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
 
@@ -53,7 +53,7 @@
 
 <style lang="scss">
     .field-wrapper {
-        border: 1px solid #eee;
+        /*border: 1px solid #eee;*/
         padding: 12px 18px;
         position: relative;
         display: inline-block;
