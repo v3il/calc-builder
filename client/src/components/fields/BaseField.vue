@@ -1,5 +1,5 @@
 <template>
-    <div class="field-wrapper">
+    <div class="field-wrapper" :class="{ 'field-wrapper--disabled': field.internal.disabled }">
         <fields-params-toolbar>
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
@@ -29,6 +29,10 @@
 
         data() {
             return {
+                internalOptions: {
+                    disabled: false,
+                },
+
                 commonDefaultOptions: {},
 
                 commonDefaultStyle: {
@@ -40,6 +44,7 @@
         },
 
         created() {
+            this.$set(this.field, 'internal', { ...this.internalOptions });
             this.$set(this.field, 'params', { ...this.commonDefaultOptions, ...this.defaultOptions, ...this.field.params });
             this.$set(this.field, 'style', { ...this.commonDefaultStyle, ...this.defaultStyle, ...this.field.style });
         },
@@ -49,19 +54,21 @@
 <style lang="scss">
     .field-wrapper {
         border: 1px solid #eee;
-        /*margin: 1px 0;*/
         padding: 12px 18px;
         position: relative;
         display: inline-block;
         vertical-align: top;
         flex: 1;
+        transition: opacity 0.3s;
+
+        &--disabled {
+            opacity: 0.2;
+        }
 
         &:hover {
             .field-wrapper-toolbar {
                 opacity: 1;
             }
-
-            border: 1px solid #ccc;
         }
     }
 

@@ -1,15 +1,14 @@
 .textarea {
-  padding: 6px 18px;
-  font-size: 14px;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.93rem;
   outline: none;
-  color: #2c2e32;
-  border: 2px solid #e0e2e6;
-  background: white;
-  border-radius: 10px;
-  margin: 0;
+  color: $color_primary;
+  border: 2px solid $gray;
+  background: $white;
+  border-radius: 0.6rem;
   box-sizing: border-box;
   min-height: 5rem;
-  transition: border 0.3s linear;
+  transition: border 0.3s;
   width: 100%;
   max-width: 100%;
 }

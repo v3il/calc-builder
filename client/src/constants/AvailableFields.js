@@ -1,40 +1,34 @@
 const availableFields = [
-  {
-    type: 'TextField',
-    text: 'Текстовое поле',
-  },
-  {
-    type: 'TextAreaField',
-    text: 'Многострочное поле',
-  },
-  {
-    type: 'SliderField',
-    text: 'Ползунок',
-  },
-  {
-    type: 'SelectField',
-    text: 'Выпадающий список',
-  },
-  {
-    type: 'RadioButtonField',
-    text: 'Радиокнопка',
-  },
-  {
-    type: 'CheckBoxField',
-    text: 'Галочка',
-  },
-  // {
-  //   type: 'ImageField',
-  //   text: 'Изображение',
-  // },
-  // {
-  //   type: 'ButtonField',
-  //   text: 'Кнопка',
-  // },
+    {
+        id: 'input',
+        type: 'TextField',
+        text: 'Текстовое поле',
+    },
+    {
+        id: 'textarea',
+        type: 'TextAreaField',
+        text: 'Многострочное поле',
+    },
+    {
+        id: 'slider',
+        type: 'SliderField',
+        text: 'Ползунок',
+    },
+    {
+        id: 'select',
+        type: 'SelectField',
+        text: 'Выпадающий список',
+    },
+    {
+        id: 'radio',
+        type: 'RadioButtonField',
+        text: 'Радиокнопка',
+    },
+    {
+        id: 'checkbox',
+        type: 'CheckBoxField',
+        text: 'Галочка',
+    },
 ];
-
-availableFields.forEach((field, index) => {
-  field.id = index;
-});
 
 export default availableFields;

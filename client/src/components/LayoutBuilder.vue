@@ -4,7 +4,7 @@
             <div class="layout-builder__settings-editor" v-if="selectedField">
                 <h3 class="layout-builder__section-title">Редактирование элемента</h3>
 
-                <button class="layout-builder__settings-editor-save button button--primary" @click="selectedField = null">
+                <button class="layout-builder__settings-editor-save button button--primary" @click="saveEditedField">
                     Сохранить
                 </button>
 
@@ -16,48 +16,36 @@
                 ></component>
             </div>
 
-            <div v-else>
-                <h3>Доступные элементы</h3>
+            <div class="layout-builder__available-widgets" v-else>
+                <h3 class="layout-builder__section-title">Доступные элементы</h3>
 
-                <el-row class="tac">
-                    <el-col :span="24">
-                        <Draggable element="el-menu" class="el-menu-vertical-demo menu"
-                                   @start="handleDragStart"
-                                   @end="handleDragEnd"
-                                   :options="{
-                            group: {name: 'items', pull: 'clone', put: false,},
-                            sort: false,
-                        }">
-                            <el-menu-item
-                                    v-for="item in items"
-                                    :key="item.id"
-                                    index="`${item.id}`"
-                                    :data-item="item.type"
-                                    class="menu-item js-item"
-                            >
-                                <i class="material-icons menu-item-icon">extension</i>
-                                <span>{{item.text}}</span>
-                            </el-menu-item>
-                        </Draggable>
-                    </el-col>
-                </el-row>
+                <Draggable
+                    tag="ul"
+                    class="layout-builder__widgets-list"
+                    @start="handleDragStart"
+                    @end="handleDragEnd"
+                    v-bind="sidebarDraggableOptions"
+                >
+                    <li
+                        v-for="item in items"
+                        :key="item.id"
+                        :data-item="item.type"
+                        class="layout-builder__widget-item"
+                        :class="`layout-builder__widget-item--${item.id}`"
+                    >
+                        <i class="material-icons layout-builder__widget-icon">extension</i>
+                        <span class="layout-builder__widget-name">{{item.text}}</span>
+                    </li>
+                </Draggable>
             </div>
-
-
-            <br>
-            <br>
-
-            <pre>
-                {{JSON.stringify(this.fields, null, 2)}}
-            </pre>
         </aside>
 
-        <main class="layout-builder__content">
+        <main class="layout-builder__rows-wrapper">
             <Draggable
                 v-model="row.fields"
-                v-for="(row, rowIndex) in rows"
-                class="row"
-                :class="{'row--disabled': row.disabled}"
+                v-for="(row, rowIndex) in layoutRows"
+                class="layout-builder__layout-row"
+                :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
                 @add="onAdd(row, $event)"
                 @update="updateLayout"
                 @start="handleDragStart(row)"
@@ -74,8 +62,8 @@
                     :key="field.id"
                     :is="field.type"
                     :field="field"
-                    class="js-item"
                     :data-id="field.id"
+                    class="layout-builder__row-item"
                 ></component>
             </Draggable>
         </main>
@@ -134,14 +122,10 @@
                 'selectedCalculator',
             ]),
 
-            fieldList() {
-                const r = [];
-
-                this.rows.forEach(row => {
-                    r.push(...row.fields);
-                });
-
-                return r;
+            fieldsList() {
+                return this.layoutRows.reduce((result, current) => {
+                    return result.concat(current.fields);
+                }, []);
             }
         },
 
@@ -155,9 +139,7 @@
 
                 items: availableFields,
 
-                rows: this.calculator.layout || [
-                    { fields: [], disabled: false },
-                    { fields: [], disabled: false },
+                layoutRows: this.calculator.layout || [
                     { fields: [], disabled: false },
                 ],
 
@@ -165,6 +147,11 @@
                     group: { name: 'items' },
                     handle: '.js-drag-field',
                     sort: true,
+                },
+
+                sidebarDraggableOptions: {
+                    group: { name: 'items', pull: 'clone', put: true },
+                    sort: false,
                 }
             };
         },
@@ -174,7 +161,7 @@
                 row.fields = row.fields.filter(field => field !== removedField);
 
                 if (removedField === this.selectedField) {
-                    this.selectedField = null;
+                    this.saveEditedField();
                 }
 
                 this.ensureEmptyRow();
@@ -182,8 +169,21 @@
             },
 
             triggerFieldEdit(field) {
-                console.log(field);
                 this.selectedField = field;
+
+                this.fieldsList
+                    .filter(item => item !== field)
+                    .forEach((item) => {
+                        item.internal.disabled = true;
+                    });
+            },
+
+            saveEditedField() {
+                this.selectedField = null;
+
+                this.fieldsList.forEach((item) => {
+                    item.internal.disabled = false;
+                });
             },
 
             onAdd(row, event) {
@@ -209,65 +209,43 @@
             },
 
             appendEmptyRow() {
-                this.rows.push({ fields: [], disabled: false });
+                this.layoutRows.push({ fields: [], disabled: false });
             },
 
             removeEmptyRows() {
-                this.rows = this.rows.filter(item => item.fields.length > 0);
+                this.layoutRows = this.layoutRows.filter(item => item.fields.length > 0);
             },
 
             updateLayout() {
                 console.log('Update');
-                this.$emit('layoutUpdate', this.rows);
+                this.$emit('layoutUpdate', this.layoutRows);
             },
 
             handleDragStart(row) {
                 console.log('Start');
 
-                this.rows
+                this.layoutRows
                     .filter(item => item !== row)
                     .forEach(item => item.disabled = item.fields.length >= this.MAX_ITEMS_PER_ROW);
             },
 
             handleDragEnd() {
-                this.rows.forEach(item => item.disabled = false);
+                this.layoutRows.forEach(item => item.disabled = false);
             }
         },
     };
 </script>
 
 <style scoped lang="scss">
-
-    .row {
-        min-height: 50px;
-        border: 1px solid lightblue;
-        display: flex;
-
-        &--disabled {
-            background-color: #ccc;
-            opacity: 0.5;
-        }
-    }
-
-    .drag {
-        width: 100%;
-        padding: 12px;
-        border: 1px dashed royalblue;
-        border-radius: 4px;
-        min-height: calc(100vh - 112px);
-        margin: 0 auto;
-    }
-
     .sortable-ghost {
-        background: #eee;
-        width: 50%;
-        display: inline-block;
+        background: $gray;
         flex: 1;
     }
 
     .layout-builder {
         height: 100%;
 
+        // Sidebar
         &__sidebar {
             width: 450px;
             padding: 12px 24px;
@@ -280,51 +258,106 @@
             overflow-x: hidden;
         }
 
-        &__content {
+        &__rows-wrapper {
             padding: 24px;
             overflow-y: auto;
             margin-left: 450px;
-            background: #fafafa;
-        }
-
-        &__settings-editor {
-
         }
 
         &__settings-editor-save {
             margin: 12px 0;
         }
-    }
 
-    .layout-builder-wrapper {
+        &__widgets-list {
+            margin-top: 12px;
+        }
 
-    }
+        &__widget-item {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 0 12px 12px;
+            border-left: 3px solid transparent;
+            margin: 6px;
+            transition: background-color 0.3s;
+        }
 
-    .layout-builder-menu {
+        &__widget-icon {
+            margin-right: 12px;
+        }
 
-    }
+        $input_color: #f26c63;
+        $textarea_color: #3498db;
+        $slider_color: #9d81d3;
+        $select_color: #00b478;
+        $radio_color: #f03871;
+        $checkbox_color: #16a085;
 
-    li {
-        align-items: center;
-        color: inherit;
-        display: flex;
-        font-size: 16px;
-        font-weight: 400;
-        height: 48px;
-        margin: 0;
-        padding: 0 16px;
-        position: relative;
-        text-decoration: none;
-        cursor: pointer;
-    }
+        &__widget-item--input &__widget-icon { color: $input_color }
+        &__widget-item--input {
+            border-left-color: $input_color;
 
-    .menu {
-        margin-top: 12px;
-        border-right: none;
-    }
+            &:hover {
+                background-color: lighten($input_color, 30%)
+            }
+        }
 
-    .menu-item-icon {
-        color: #909399 !important;
-        margin-right: 12px;
+        &__widget-item--textarea &__widget-icon { color: $textarea_color }
+        &__widget-item--textarea {
+            border-left-color: $textarea_color;
+
+            &:hover {
+                background-color: lighten($textarea_color, 40%)
+            }
+        }
+
+        &__widget-item--slider &__widget-icon { color: $slider_color }
+        &__widget-item--slider {
+            border-left-color: $slider_color;
+
+            &:hover {
+                background-color: lighten($slider_color, 30%)
+            }
+        }
+
+        &__widget-item--select &__widget-icon { color: $select_color }
+        &__widget-item--select {
+            border-left-color: $select_color;
+
+            &:hover {
+                background-color: lighten($select_color, 60%)
+            }
+        }
+
+        &__widget-item--radio &__widget-icon { color: $radio_color }
+        &__widget-item--radio {
+            border-left-color: $radio_color;
+
+            &:hover {
+                background-color: lighten($radio_color, 40%)
+            }
+        }
+
+        &__widget-item--checkbox &__widget-icon { color: $checkbox_color }
+        &__widget-item--checkbox {
+            border-left-color: $checkbox_color;
+
+            &:hover {
+                background-color: lighten($checkbox_color, 60%)
+            }
+        }
+
+        // Builder
+        &__layout-row {
+            min-height: 100px;
+            border: 1px solid $gray;
+            display: flex;
+
+            &--disabled {
+                background-color: #ccc;
+                opacity: 0.5;
+            }
+        }
     }
 </style>
