@@ -1,3 +1,11 @@
 module.exports = {
-  runtimeCompiler: true,
+    runtimeCompiler: true,
+
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `@import "@/common-styles/colors.scss";`
+            }
+        }
+    }
 };

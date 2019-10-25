@@ -1,19 +1,19 @@
 <template>
+    <section class="layout-builder">
+        <aside class="layout-builder__sidebar">
+            <div class="layout-builder__settings-editor" v-if="selectedField">
+                <h3 class="layout-builder__section-title">Редактирование элемента</h3>
 
-    <div class="layout-builder">
-        <div class="layout-builder-menu">
-
-            <div v-if="selectedField">
-                <h3>Редактирование элемента</h3>
-
-                <el-button @click="selectedField = null" size="mini" type="primary">Сохранить</el-button>
+                <button class="layout-builder__settings-editor-save button button--primary" @click="selectedField = null">
+                    Сохранить
+                </button>
 
                 <component
-                        :fieldData="selectedField"
-                        :is="selectedField.type + 'Settings'"
-                        :key="`settings-component-${selectedField.id}`"
+                    :is="`${selectedField.type}Settings`"
+                    :fieldData="selectedField"
+                    :key="`settings-component-${selectedField.id}`"
+                    class="layout-builder__property-editor"
                 ></component>
-
             </div>
 
             <div v-else>
@@ -50,9 +50,9 @@
             <pre>
                 {{JSON.stringify(this.fields, null, 2)}}
             </pre>
-        </div>
+        </aside>
 
-        <div class="layout-builder-wrapper">
+        <main class="layout-builder__content">
             <Draggable
                 v-model="row.fields"
                 v-for="(row, rowIndex) in rows"
@@ -78,10 +78,8 @@
                     :data-id="field.id"
                 ></component>
             </Draggable>
-
-            {{calculator}}
-        </div>
-    </div>
+        </main>
+    </section>
 </template>
 
 <script>
@@ -149,6 +147,8 @@
 
         data() {
             return {
+                MAX_ITEMS_PER_ROW: 4,
+
                 fields: this.calculator.layout,
 
                 selectedField: null,
@@ -177,6 +177,7 @@
                     this.selectedField = null;
                 }
 
+                this.ensureEmptyRow();
                 this.updateLayout();
             },
 
@@ -190,27 +191,34 @@
 
                 console.log('Add');
 
-                if (from.classList.contains('row')) {
-                    item.remove();
-                    return;
+                if (!from.classList.contains('row')) {
+                    row.fields.splice(newIndex, 0, {
+                        id: Math.random(),
+                        type: item.dataset.item,
+                    });
                 }
 
-                row.fields.splice(newIndex, 0, {
-                    id: Math.random(),
-                    type: item.dataset.item,
-                });
-
+                this.ensureEmptyRow();
                 item.remove();
                 this.updateLayout();
             },
 
-            updateLayout() {
-                console.log('Update')
-                this.$emit('layoutUpdate', this.rows);
+            ensureEmptyRow() {
+                this.removeEmptyRows();
+                this.appendEmptyRow();
             },
 
-            getById(id) {
-                return this.fieldList.find(i => i.id === id);
+            appendEmptyRow() {
+                this.rows.push({ fields: [], disabled: false });
+            },
+
+            removeEmptyRows() {
+                this.rows = this.rows.filter(item => item.fields.length > 0);
+            },
+
+            updateLayout() {
+                console.log('Update');
+                this.$emit('layoutUpdate', this.rows);
             },
 
             handleDragStart(row) {
@@ -218,52 +226,13 @@
 
                 this.rows
                     .filter(item => item !== row)
-                    .forEach(item => item.disabled = item.fields.length === 4);
+                    .forEach(item => item.disabled = item.fields.length >= this.MAX_ITEMS_PER_ROW);
             },
 
             handleDragEnd() {
                 this.rows.forEach(item => item.disabled = false);
             }
         },
-
-        // created() {
-        //     document.addEventListener('drag', ({ target }) => {
-        //         return;
-        //
-        //         const parentRow = target.closest('.row');
-        //
-        //         if (!parentRow) {
-        //             console.log('No row');
-        //             return;
-        //         }
-        //
-        //         const rowIndex = parentRow.dataset.rowindex;
-        //
-        //         const rowData = this.rows[rowIndex];
-        //
-        //         // rowData.fields.forEach(item => {
-        //         //     console.log(item)
-        //         //
-        //         //     // this.$set(item.params, 'width', )
-        //         //
-        //         //     item.params.width = 100 / (rowData.fields.length);
-        //         // });
-        //
-        //         // if (rowData.fields.length === 0) {
-        //         //     target.style.flexBasis = '100%';
-        //         // }
-        //         //
-        //         // if (rowData.fields.length === 1) {
-        //         //     target.style.flexBasis = '50%';
-        //         // }
-        //         //
-        //         // if (rowData.fields.length === 2) {
-        //         //     target.style.flexBasis = '25%';
-        //         // }
-        //
-        //         // console.log(rowData.fields.length, parentRow.querySelectorAll('.js-item').length)
-        //     })
-        // }
     };
 </script>
 
@@ -271,7 +240,7 @@
 
     .row {
         min-height: 50px;
-        border: 1px solid blue;
+        border: 1px solid lightblue;
         display: flex;
 
         &--disabled {
@@ -287,12 +256,6 @@
         border-radius: 4px;
         min-height: calc(100vh - 112px);
         margin: 0 auto;
-        /*max-width: 1000px;*/
-
-        /*display: grid;*/
-        /*grid-template-columns: repeat(4, 1fr);*/
-        /*grid-gap: 12px;*/
-        /*grid-auto-rows: 100px;*/
     }
 
     .sortable-ghost {
@@ -304,25 +267,41 @@
 
     .layout-builder {
         height: 100%;
+
+        &__sidebar {
+            width: 450px;
+            padding: 12px 24px;
+            position: fixed;
+            top: 64px;
+            bottom: 0;
+            background-color: #fff;
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            z-index: 2;
+            overflow-x: hidden;
+        }
+
+        &__content {
+            padding: 24px;
+            overflow-y: auto;
+            margin-left: 450px;
+            background: #fafafa;
+        }
+
+        &__settings-editor {
+
+        }
+
+        &__settings-editor-save {
+            margin: 12px 0;
+        }
     }
 
     .layout-builder-wrapper {
-        padding: 24px;
-        overflow-y: auto;
-        margin-left: 450px;
-        background: #fafafa;
+
     }
 
     .layout-builder-menu {
-        width: 450px;
-        padding: 12px 24px;
-        position: fixed;
-        top: 64px;
-        bottom: 0;
-        background-color: #fff;
-        border-right: 1px solid rgba(0, 0, 0, 0.12);
-        z-index: 2;
-        overflow-x: hidden;
+
     }
 
     li {

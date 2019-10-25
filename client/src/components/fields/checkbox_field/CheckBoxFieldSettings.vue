@@ -1,16 +1,5 @@
 <template>
     <div>
-        <h3>{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
-
-        <ButtonsGroup
-            v-model="fieldData.params.width"
-            :variants="sizeVariants"
-            class="field-settings__property-component"
-            :options="{
-                title: 'Ширина элемента'
-            }"
-        ></ButtonsGroup>
-
         <h3>{{propsCategoriesNames.MODEL}}</h3>
 
         <text-field-component
