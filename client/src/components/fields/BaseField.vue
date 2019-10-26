@@ -54,7 +54,7 @@
 <style lang="scss">
     .field-wrapper {
         /*border: 1px solid #eee;*/
-        padding: 12px 18px;
+        padding: 6px 12px;
         position: relative;
         display: inline-block;
         vertical-align: top;

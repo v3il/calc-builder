@@ -402,6 +402,7 @@
             border: 1px solid $gray;
             display: flex;
             flex-wrap: wrap;
+            padding: 6px;
 
             &:empty {
                 min-height: 100px;
@@ -418,7 +419,8 @@
         }
 
         &__row-item {
-            flex-basis: 300px;
+            flex-basis: 25%;
+            min-width: 200px;
         }
     }
 </style>
