@@ -2,6 +2,10 @@
     <div class="form-editor">
         <div class="form-editor__header">
             <div class="form-editor__header-title">
+                <router-link class="form-editor__move-back" :to="{ name: 'home' }">
+                    <i class="material-icons form-editor__move-back-icon">arrow_back</i>
+                </router-link>
+
                 Редактирование формы "{{this.selectedCalculator.name}}"
             </div>
 
@@ -132,6 +136,24 @@
         &__header-nav-link {
             color: $white;
             text-decoration: none;
+        }
+
+        &__move-back {
+            height: 100%;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-right: 18px;
+            transition: opacity 0.3s;
+
+            &:hover {
+                opacity: 0.5;
+            }
+        }
+
+        &__move-back-icon {
+            vertical-align: middle;
+            margin-top: -2px;
         }
 
         &__content {

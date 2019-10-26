@@ -353,7 +353,7 @@
             border-left-color: $bright_color1;
 
             &:hover {
-                background-color: lighten($bright_color1, 30%)
+                background: linear-gradient(to right, lighten($bright_color1, 30%), $white);
             }
         }
 
@@ -362,7 +362,7 @@
             border-left-color: $bright_color2;
 
             &:hover {
-                background-color: lighten($bright_color2, 40%)
+                background: linear-gradient(to right, lighten($bright_color2, 40%), $white);
             }
         }
 
@@ -371,7 +371,7 @@
             border-left-color: $bright_color3;
 
             &:hover {
-                background-color: lighten($bright_color3, 30%)
+                background: linear-gradient(to right, lighten($bright_color3, 30%), $white);
             }
         }
 
@@ -380,7 +380,7 @@
             border-left-color: $bright_color4;
 
             &:hover {
-                background-color: lighten($bright_color4, 60%)
+                background: linear-gradient(to right, lighten($bright_color4, 60%), $white);
             }
         }
 
@@ -389,7 +389,7 @@
             border-left-color: $bright_color5;
 
             &:hover {
-                background-color: lighten($bright_color5, 40%)
+                background: linear-gradient(to right, lighten($bright_color5, 40%), $white);
             }
         }
 
@@ -398,7 +398,7 @@
             border-left-color: $bright_color6;
 
             &:hover {
-                background-color: lighten($bright_color6, 60%)
+                background: linear-gradient(to right, lighten($bright_color6, 60%), $white);
             }
         }
 

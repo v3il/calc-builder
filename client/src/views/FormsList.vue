@@ -12,7 +12,7 @@
 
                     <div class="calculators__actions">
                         <ui-button color="primary" @click="edit(calc)">
-                            Редактировать1
+                            Редактировать
                         </ui-button>
 
                         <ui-button color="red" @click="remove(calc)">
@@ -79,7 +79,7 @@
             edit(calc) {
                 // this.$store.dispatch('selectCalc', calc);
                 this.$router.push({
-                    name: 'formCommonSettings',
+                    name: 'formLayout',
                     params: {
                         id: calc.id,
                     },

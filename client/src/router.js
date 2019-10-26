@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import MainPage from './views/MainPage';
+import FormsList from './views/FormsList';
+import FormEditor from './views/FormEditor';
 
 import CommonSettings from './components/CommonSettings.vue';
 import LayoutBuilder from './components/LayoutBuilder.vue';
@@ -16,28 +17,18 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: MainPage,
+            component: FormsList,
         },
         {
             path: '/constructor/:id',
-            name: 'constructor',
-            component: () => import('./views/CalcConstructor.vue'),
+            component: FormEditor,
             children: [
                 { path: 'common', name: 'formCommonSettings', component: CommonSettings },
                 { path: 'layout', name: 'formLayout', component: LayoutBuilder },
                 { path: 'results', name: 'formResults', component: ResultsBuilder },
+                { path: '', redirect: { name: 'formCommonSettings' } },
             ]
 
-        },
-        {
-            path: '/formula',
-            name: 'formula',
-            component: () => import('./views/FormulaConstructor.vue'),
-        },
-        {
-            path: '/relations',
-            name: 'relations',
-            component: () => import('./views/FieldsRelationShips.vue'),
         },
     ],
 });
