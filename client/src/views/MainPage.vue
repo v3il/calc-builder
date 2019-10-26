@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div class="header">
-            <div class="header_title">Список калькуляторов</div>
+            <div class="header_title">Список созданных форм</div>
         </div>
 
         <div class="content">
@@ -12,7 +12,7 @@
 
                     <div class="calculators__actions">
                         <ui-button color="primary" @click="edit(calc)">
-                            Редактировать
+                            Редактировать1
                         </ui-button>
 
                         <ui-button color="red" @click="remove(calc)">
@@ -79,7 +79,7 @@
             edit(calc) {
                 // this.$store.dispatch('selectCalc', calc);
                 this.$router.push({
-                    name: 'constructor',
+                    name: 'formCommonSettings',
                     params: {
                         id: calc.id,
                     },

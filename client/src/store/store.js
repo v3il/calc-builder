@@ -6,66 +6,66 @@ import getNextId from '@/utils/getNextId';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // strict: true,
+    // strict: true,
 
-  state: {
-    calculators: JSON.parse(localStorage.getItem('Calcs')) || [],
-    selectedCalculator: null,
-  },
-
-  getters: {
-    allCalculators(state) {
-      return state.calculators;
+    state: {
+        calculators: JSON.parse(localStorage.getItem('Calcs')) || [],
+        selectedCalculator: null,
     },
 
-    selectedCalculator(state) {
-      return state.selectedCalculator;
-    },
-  },
+    getters: {
+        allCalculators(state) {
+            return state.calculators;
+        },
 
-  mutations: {
-    selectCalc(state, calc) {
-      state.selectedCalculator = calc;
-    },
-
-    updateData(state) {
-      console.log(state.calculators);
-      localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        selectedCalculator(state) {
+            return state.selectedCalculator;
+        },
     },
 
-    addCalculator(state) {
-      const id = getNextId(state.calculators);
+    mutations: {
+        selectCalc(state, calc) {
+            state.selectedCalculator = calc;
+        },
 
-      state.calculators.push({
-        id,
-        name: `Calc${id}`,
-        layout: null,
-      });
+        updateData(state) {
+            console.log(state.calculators);
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
 
-      localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        addCalculator(state) {
+            const id = getNextId(state.calculators);
+
+            state.calculators.push({
+                id,
+                name: `Calc${id}`,
+                layout: null,
+            });
+
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
+
+        removeCalculator(state, calc) {
+            state.calculators = state.calculators.filter(item => item !== calc);
+            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+        },
     },
 
-    removeCalculator(state, calc) {
-      state.calculators = state.calculators.filter(item => item !== calc);
-      localStorage.setItem('Calcs', JSON.stringify(state.calculators));
-    },
-  },
+    actions: {
+        selectCalc(context, payload) {
+            context.commit('selectCalc', payload);
+        },
 
-  actions: {
-    selectCalc(context, payload) {
-      context.commit('selectCalc', payload);
-    },
+        updateData(context) {
+            context.commit('updateData');
+        },
 
-    updateData(context) {
-      context.commit('updateData');
-    },
+        addCalculator(context) {
+            context.commit('addCalculator');
+        },
 
-    addCalculator(context) {
-      context.commit('addCalculator');
+        removeCalculator(context, payload) {
+            context.commit('removeCalculator', payload);
+        },
     },
-
-    removeCalculator(context, payload) {
-      context.commit('removeCalculator', payload);
-    },
-  },
 });

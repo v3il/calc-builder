@@ -1,15 +1,25 @@
 <template>
-    <div class="page">
-        <div class="header">
-            <div class="header_title">Редактирование калькулятора</div>
+    <div class="form-editor">
+        <div class="form-editor__header">
+            <div class="form-editor__header-title">
+                Редактирование формы "{{this.selectedCalculator.name}}"
+            </div>
 
-            <ui-button class="save-calc-btn" color="primary" @click="saveCalcData()">
-                Сохранить
-            </ui-button>
+            <ul class="form-editor__header-nav">
+                <li
+                    v-for="navItem in navItems"
+                    class="form-editor__header-nav-item"
+                    :class="{ 'form-editor__header-nav-item--active': $route.name === navItem.routeName }"
+                >
+                    <router-link class="form-editor__header-nav-link" :to="{ name: navItem.routeName }">
+                        {{ navItem.label }}
+                    </router-link>
+                </li>
+            </ul>
         </div>
 
-        <div class="content">
-            <LayoutBuilder @layoutUpdate="updateLayout" :calculator="selectedCalculator"></LayoutBuilder>
+        <div class="form-editor__content">
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -35,30 +45,98 @@
         methods: {
             saveCalcData() {
                 this.$store.dispatch('updateData');
-                this.$router.back();
+                this.$router.push({ name: 'home' });
             },
 
             updateLayout(layout) {
                 this.selectedCalculator.layout = layout;
                 this.$store.dispatch('updateData');
             },
+
+            navItemIsActive(routeName) {
+                return this.$route.name === routeName;
+            }
         },
 
         data() {
             return {
                 selectedCalculator: null,
+
+                navItems: [
+                    { routeName: 'formCommonSettings', label: 'Общие настройки' },
+                    { routeName: 'formLayout', label: 'Разметка формы' },
+                    { routeName: 'formResults', label: 'Результаты' },
+                ]
             };
         },
 
         created() {
             this.selectedCalculator = this.allCalculators
                 .find(calc => calc.id === +this.$route.params.id);
+
+            this.$store.dispatch('selectCalc', this.selectedCalculator);
         },
     };
 </script>
 
 <style scoped lang="scss">
-    .save-calc-btn {
-        margin-left: auto;
+    .form-editor {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+
+        &__header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background-color: #263238;
+            border-color: #263238;
+            color: #fff;
+            align-items: center;
+            display: flex;
+            padding: 0 24px;
+            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+            z-index: 3;
+        }
+
+        &__header-title {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: .02em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &__header-nav {
+            list-style: none;
+            margin-left: auto;
+            display: flex;
+            height: 100%;
+        }
+
+        &__header-nav-item {
+            margin: 0 12px;
+            display: flex;
+            align-items: center;
+            border-bottom: 4px solid transparent;
+            transition: border-bottom-color 0.3s;
+        }
+
+        &__header-nav-item--active, &__header-nav-item:hover {
+            border-bottom-color: $bright_color1;
+        }
+
+        &__header-nav-link {
+            color: $white;
+            text-decoration: none;
+        }
+
+        &__content {
+            margin-top: 64px;
+            height: calc(100vh - 64px);
+        }
     }
 </style>

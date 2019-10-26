@@ -24,6 +24,7 @@
                     class="layout-builder__widgets-list"
                     @start="handleDragStart"
                     @end="handleDragEnd"
+                    @add="ensureEmptyRow"
                     v-bind="sidebarDraggableOptions"
                 >
                     <li
@@ -38,18 +39,27 @@
                     </li>
                 </Draggable>
             </div>
+
+            <Draggable
+                v-bind="garbageDraggableOptions"
+                class="layout-builder__garbage-draggable"
+                v-show="garbageDraggableVisible"
+                @add="ensureEmptyRow"
+            >
+<!--                <i class="material-icons layout-builder__garbage-icon">delete</i>-->
+            </Draggable>
         </aside>
 
         <main class="layout-builder__rows-wrapper">
             <Draggable
                 v-model="row.fields"
                 v-for="(row, rowIndex) in layoutRows"
-                class="layout-builder__layout-row"
+                class="layout-builder__layout-row js-layout-row"
                 :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
                 @add="onAdd(row, $event)"
                 @update="updateLayout"
-                @start="handleDragStart(row)"
-                @end="handleDragEnd"
+                @start="handleRowItemDragStart(row)"
+                @end="handleRowItemDragEnd"
                 v-bind="sortableOptions"
                 :data-rowindex="rowIndex"
                 :key="rowIndex"
@@ -113,10 +123,6 @@
             ImageField,
         },
 
-        props: {
-            calculator: Object,
-        },
-
         computed: {
             ...mapGetters([
                 'selectedCalculator',
@@ -133,15 +139,11 @@
             return {
                 MAX_ITEMS_PER_ROW: 4,
 
-                fields: this.calculator.layout,
-
                 selectedField: null,
 
                 items: availableFields,
 
-                layoutRows: this.calculator.layout || [
-                    { fields: [], disabled: false },
-                ],
+                layoutRows: [],
 
                 sortableOptions: {
                     group: { name: 'items' },
@@ -150,14 +152,23 @@
                 },
 
                 sidebarDraggableOptions: {
+                    group: { name: 'items', pull: 'clone', put: false },
+                    sort: false,
+                },
+
+                garbageDraggableOptions: {
                     group: { name: 'items', pull: 'clone', put: true },
                     sort: false,
-                }
+                },
+
+                garbageDraggableVisible: false,
             };
         },
 
         methods: {
             removeField(row, removedField) {
+                console.log('Remove');
+
                 row.fields = row.fields.filter(field => field !== removedField);
 
                 if (removedField === this.selectedField) {
@@ -191,7 +202,7 @@
 
                 console.log('Add');
 
-                if (!from.classList.contains('row')) {
+                if (!from.classList.contains('js-layout-row')) {
                     row.fields.splice(newIndex, 0, {
                         id: Math.random(),
                         type: item.dataset.item,
@@ -217,7 +228,9 @@
             },
 
             updateLayout() {
-                this.$emit('layout-update', this.layoutRows);
+                console.log('Update');
+                this.selectedCalculator.layout = this.layoutRows;
+                this.$store.dispatch('updateData');
             },
 
             handleDragStart(row) {
@@ -244,8 +257,24 @@
                         }
                     });
                 });
-            }
+            },
+
+            handleRowItemDragStart(row) {
+                // this.garbageDraggableVisible = true;
+                this.handleDragStart(row);
+            },
+
+            handleRowItemDragEnd() {
+                // this.garbageDraggableVisible = false;
+                this.handleDragEnd();
+            },
         },
+
+        created() {
+            this.layoutRows = this.selectedCalculator.layout || [
+                { fields: [], disabled: false },
+            ];
+        }
     };
 </script>
 
@@ -269,6 +298,24 @@
             border-right: 1px solid rgba(0, 0, 0, 0.12);
             z-index: 2;
             overflow-x: hidden;
+        }
+
+        &__garbage-draggable {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: $bg_primary_light;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__garbage-icon {
+            font-size: 30px;
+            color: $color_primary;
         }
 
         &__rows-wrapper {
@@ -301,64 +348,57 @@
             margin-right: 12px;
         }
 
-        $input_color: #f26c63;
-        $textarea_color: #3498db;
-        $slider_color: #9d81d3;
-        $select_color: #00b478;
-        $radio_color: #f03871;
-        $checkbox_color: #16a085;
-
-        &__widget-item--input &__widget-icon { color: $input_color }
+        &__widget-item--input &__widget-icon { color: $bright_color1 }
         &__widget-item--input {
-            border-left-color: $input_color;
+            border-left-color: $bright_color1;
 
             &:hover {
-                background-color: lighten($input_color, 30%)
+                background-color: lighten($bright_color1, 30%)
             }
         }
 
-        &__widget-item--textarea &__widget-icon { color: $textarea_color }
+        &__widget-item--textarea &__widget-icon { color: $bright_color2 }
         &__widget-item--textarea {
-            border-left-color: $textarea_color;
+            border-left-color: $bright_color2;
 
             &:hover {
-                background-color: lighten($textarea_color, 40%)
+                background-color: lighten($bright_color2, 40%)
             }
         }
 
-        &__widget-item--slider &__widget-icon { color: $slider_color }
+        &__widget-item--slider &__widget-icon { color: $bright_color3 }
         &__widget-item--slider {
-            border-left-color: $slider_color;
+            border-left-color: $bright_color3;
 
             &:hover {
-                background-color: lighten($slider_color, 30%)
+                background-color: lighten($bright_color3, 30%)
             }
         }
 
-        &__widget-item--select &__widget-icon { color: $select_color }
+        &__widget-item--select &__widget-icon { color: $bright_color4 }
         &__widget-item--select {
-            border-left-color: $select_color;
+            border-left-color: $bright_color4;
 
             &:hover {
-                background-color: lighten($select_color, 60%)
+                background-color: lighten($bright_color4, 60%)
             }
         }
 
-        &__widget-item--radio &__widget-icon { color: $radio_color }
+        &__widget-item--radio &__widget-icon { color: $bright_color5 }
         &__widget-item--radio {
-            border-left-color: $radio_color;
+            border-left-color: $bright_color5;
 
             &:hover {
-                background-color: lighten($radio_color, 40%)
+                background-color: lighten($bright_color5, 40%)
             }
         }
 
-        &__widget-item--checkbox &__widget-icon { color: $checkbox_color }
+        &__widget-item--checkbox &__widget-icon { color: $bright_color6 }
         &__widget-item--checkbox {
-            border-left-color: $checkbox_color;
+            border-left-color: $bright_color6;
 
             &:hover {
-                background-color: lighten($checkbox_color, 60%)
+                background-color: lighten($bright_color6, 60%)
             }
         }
 
