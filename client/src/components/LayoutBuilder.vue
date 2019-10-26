@@ -107,20 +107,13 @@
         components: {
             Draggable,
 
-            ButtonField,
-            ButtonFieldSettings,
-            TextField,
-            TextFieldSettings,
-            TextAreaField,
-            TextAreaFieldSettings,
-            SelectField,
-            SelectFieldSettings,
-            SliderField,
-            SliderFieldSettings,
-            CheckBoxField,
-            CheckBoxFieldSettings,
-            RadioButtonField,
-            RadioButtonFieldSettings,
+            ButtonField, ButtonFieldSettings,
+            TextField, TextFieldSettings,
+            TextAreaField, TextAreaFieldSettings,
+            SelectField, SelectFieldSettings,
+            SliderField, SliderFieldSettings,
+            CheckBoxField, CheckBoxFieldSettings,
+            RadioButtonField, RadioButtonFieldSettings,
 
             ImageField,
         },
@@ -151,6 +144,7 @@
                     group: { name: 'items' },
                     handle: '.js-drag-field',
                     sort: true,
+                    ghostClass: 'layout-builder__sortable-ghost'
                 },
 
                 sidebarDraggableOptions: {
@@ -281,11 +275,6 @@
 </script>
 
 <style scoped lang="scss">
-    .sortable-ghost {
-        background: $gray;
-        flex: 1;
-    }
-
     .layout-builder {
         height: 100%;
 
@@ -343,11 +332,11 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            padding: 12px 12px 12px 12px;
             border-left: 3px solid transparent;
             flex: 1;
-            margin: 6px;
             transition: background-color 0.3s;
+            padding: 12px;
+            margin: 6px 0;
         }
 
         &__widget-icon {
@@ -412,10 +401,24 @@
         &__layout-row {
             border: 1px solid $gray;
             display: flex;
+            flex-wrap: wrap;
 
             &:empty {
                 min-height: 100px;
             }
+        }
+
+        &__layout-row &__widget-item {
+            margin: 6px;
+        }
+
+        &__sortable-ghost {
+            background: $gray;
+            flex: 1;
+        }
+
+        &__row-item {
+            flex-basis: 300px;
         }
     }
 </style>
