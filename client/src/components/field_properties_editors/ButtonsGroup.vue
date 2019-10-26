@@ -10,22 +10,10 @@
                 @click="$emit('input', valueObject.value)"
                 class="button buttons-group__button"
                 :class="{
-                    'button--active': valueObject.value === value
+                    'button buttons-group__button--active': valueObject.value === value
                 }"
             >{{ valueObject.label }}</button>
         </div>
-
-
-<!--        <el-button-group class="property-editor-field_field-element">-->
-<!--            <el-button-->
-<!--                size="small"-->
-<!--                v-for="valueObject in variants"-->
-<!--                :type="value === valueObject.value ? 'primary' : 'info'"-->
-<!--                @click="onValueChanged(valueObject.value)"-->
-<!--            >-->
-<!--                {{valueObject.label}}-->
-<!--            </el-button>-->
-<!--        </el-button-group>-->
     </div>
 </template>
 
@@ -74,6 +62,12 @@
 
             &:not(:last-child) {
                 border-right: 0;
+            }
+
+            &--active {
+                background: $bg_primary_dark;
+                color: $white;
+                border-color: $bg_primary_dark;
             }
         }
     }

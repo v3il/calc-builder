@@ -7,7 +7,10 @@
         <div class="content">
             <div class="calculators">
                 <div class="calculators__item" v-for="calc in allCalculators">
-                    <div class="calculators__preview"></div>
+                    <div class="calculators__preview" :style="{
+                        backgroundImage: `url(${calc.backgroundImageSrc})`,
+                    }"></div>
+
                     <div class="calculators__name">{{calc.name || ' '}}</div>
 
                     <div class="calculators__actions">
@@ -79,7 +82,7 @@
             edit(calc) {
                 // this.$store.dispatch('selectCalc', calc);
                 this.$router.push({
-                    name: 'formLayout',
+                    name: 'formCommonSettings',
                     params: {
                         id: calc.id,
                     },

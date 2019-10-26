@@ -51,31 +51,33 @@
         </aside>
 
         <main class="layout-builder__rows-wrapper">
-            <Draggable
-                v-model="row.fields"
-                v-for="(row, rowIndex) in layoutRows"
-                class="layout-builder__layout-row js-layout-row"
-                :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
-                @add="onAdd(row, $event)"
-                @update="updateLayout"
-                @start="handleRowItemDragStart(row)"
-                @end="handleRowItemDragEnd"
-                v-bind="sortableOptions"
-                :data-rowindex="rowIndex"
-                :key="rowIndex"
-                :disabled="row.disabled"
-            >
-                <component
-                    v-for="field in row.fields"
-                    @remove-field="removeField(row, field)"
-                    @edit-field="triggerFieldEdit(field)"
-                    :key="field.id"
-                    :is="field.type"
-                    :field="field"
-                    :data-id="field.id"
-                    class="layout-builder__row-item"
-                ></component>
-            </Draggable>
+            <div class="layout-builder__form-content" :style="{ maxWidth: `${selectedCalculator.contentMaxWidth}px` }">
+                <Draggable
+                    v-model="row.fields"
+                    v-for="(row, rowIndex) in layoutRows"
+                    class="layout-builder__layout-row js-layout-row"
+                    :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
+                    @add="onAdd(row, $event)"
+                    @update="updateLayout"
+                    @start="handleRowItemDragStart(row)"
+                    @end="handleRowItemDragEnd"
+                    v-bind="sortableOptions"
+                    :data-rowindex="rowIndex"
+                    :key="rowIndex"
+                    :disabled="row.disabled"
+                >
+                    <component
+                        v-for="field in row.fields"
+                        @remove-field="removeField(row, field)"
+                        @edit-field="triggerFieldEdit(field)"
+                        :key="field.id"
+                        :is="field.type"
+                        :field="field"
+                        :data-id="field.id"
+                        class="layout-builder__row-item"
+                    ></component>
+                </Draggable>
+            </div>
         </main>
     </section>
 </template>
@@ -324,6 +326,10 @@
             margin-left: 450px;
         }
 
+        &__form-content {
+            margin: 0 auto;
+        }
+
         &__settings-editor-save {
             margin: 12px 0;
         }
@@ -404,9 +410,12 @@
 
         // Builder
         &__layout-row {
-            min-height: 100px;
             border: 1px solid $gray;
             display: flex;
+
+            &:empty {
+                min-height: 100px;
+            }
         }
     }
 </style>
