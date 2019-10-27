@@ -20,6 +20,10 @@
                     </router-link>
                 </li>
             </ul>
+
+            <button class="button form-editor__submit-btn" @click="saveCalcData">
+                Сохранить
+            </button>
         </div>
 
         <div class="form-editor__content">
@@ -49,17 +53,13 @@
         methods: {
             saveCalcData() {
                 this.$store.dispatch('updateData');
-                this.$router.push({ name: 'home' });
+                // this.$router.push({ name: 'home' });
             },
 
             updateLayout(layout) {
                 this.selectedCalculator.layout = layout;
                 this.$store.dispatch('updateData');
             },
-
-            navItemIsActive(routeName) {
-                return this.$route.name === routeName;
-            }
         },
 
         data() {
@@ -67,7 +67,7 @@
                 selectedCalculator: null,
 
                 navItems: [
-                    { routeName: 'formCommonSettings', label: 'Общие настройки' },
+                    // { routeName: 'formCommonSettings', label: 'Общие настройки' },
                     { routeName: 'formLayout', label: 'Разметка формы' },
                     { routeName: 'formResults', label: 'Результаты' },
                 ]
@@ -101,7 +101,7 @@
             align-items: center;
             display: flex;
             padding: 0 24px;
-            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
             z-index: 3;
         }
 
@@ -116,7 +116,7 @@
 
         &__header-nav {
             list-style: none;
-            margin-left: auto;
+            margin: 0 auto;
             display: flex;
             height: 100%;
         }
@@ -160,5 +160,9 @@
             margin-top: 64px;
             height: calc(100vh - 64px);
         }
+
+        /*&__submit-btn {*/
+        /*    margin-left: 50px;*/
+        /*}*/
     }
 </style>

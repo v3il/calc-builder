@@ -82,7 +82,7 @@
             edit(calc) {
                 // this.$store.dispatch('selectCalc', calc);
                 this.$router.push({
-                    name: 'formCommonSettings',
+                    name: 'formLayout',
                     params: {
                         id: calc.id,
                     },

@@ -1,5 +1,8 @@
 <template>
-    <div class="field-wrapper" :class="{ 'field-wrapper--disabled': field.internal.disabled }">
+    <div class="field-wrapper" :class="{
+        'field-wrapper--disabled': field.internal.disabled,
+        'field-wrapper--selected': field.internal.selected,
+    }">
         <fields-params-toolbar v-if="!field.internal.disabled">
             <slot name="toolbar"></slot>
         </fields-params-toolbar>
@@ -31,6 +34,7 @@
             return {
                 internalOptions: {
                     disabled: false,
+                    selected: false,
                 },
 
                 commonDefaultOptions: {},
@@ -63,6 +67,10 @@
 
         &--disabled {
             opacity: 0.2;
+        }
+
+        &--selected {
+            background-color: lighten($bright_color6, 55%);
         }
 
         &:hover {

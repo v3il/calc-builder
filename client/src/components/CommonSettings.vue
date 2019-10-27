@@ -69,6 +69,7 @@
     .common-settings {
         max-width: 850px;
         margin: 50px auto;
+        padding: 0 24px;
 
         &__property-item {
             margin: 18px 0;

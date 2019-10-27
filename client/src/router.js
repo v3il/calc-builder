@@ -23,7 +23,7 @@ export default new Router({
             path: '/constructor/:id',
             component: FormEditor,
             children: [
-                { path: 'common', name: 'formCommonSettings', component: CommonSettings },
+                // { path: 'common', name: 'formCommonSettings', component: CommonSettings },
                 { path: 'layout', name: 'formLayout', component: LayoutBuilder },
                 { path: 'results', name: 'formResults', component: ResultsBuilder },
                 { path: '', redirect: { name: 'formCommonSettings' } },

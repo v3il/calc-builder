@@ -51,7 +51,7 @@
         </aside>
 
         <main class="layout-builder__rows-wrapper">
-            <div class="layout-builder__form-content" :style="{ maxWidth: `${selectedCalculator.contentMaxWidth}px` }">
+            <div class="layout-builder__form-content" :style="{ maxWidth: '100%' || `${selectedCalculator.contentMaxWidth}px` }">
                 <Draggable
                     v-model="row.fields"
                     v-for="(row, rowIndex) in layoutRows"
@@ -165,11 +165,11 @@
             removeField(row, removedField) {
                 console.log('Remove');
 
-                row.fields = row.fields.filter(field => field !== removedField);
-
                 if (removedField === this.selectedField) {
                     this.saveEditedField();
                 }
+
+                row.fields = row.fields.filter(field => field !== removedField);
 
                 this.ensureEmptyRow();
                 this.updateLayout();
@@ -177,6 +177,8 @@
 
             triggerFieldEdit(field) {
                 this.selectedField = field;
+
+                field.internal.selected = true;
 
                 this.fieldsList
                     .filter(item => item !== field)
@@ -186,6 +188,8 @@
             },
 
             saveEditedField() {
+                this.selectedField.internal.selected = false;
+
                 this.selectedField = null;
 
                 this.fieldsList.forEach((item) => {
@@ -276,18 +280,15 @@
 
 <style scoped lang="scss">
     .layout-builder {
+        display: flex;
         height: 100%;
 
         // Sidebar
         &__sidebar {
             width: 450px;
             padding: 12px 24px;
-            position: fixed;
-            top: 64px;
-            bottom: 0;
             background-color: #fff;
             border-right: 1px solid rgba(0, 0, 0, 0.12);
-            z-index: 2;
             overflow-x: hidden;
         }
 
@@ -312,7 +313,7 @@
         &__rows-wrapper {
             padding: 24px;
             overflow-y: auto;
-            margin-left: 450px;
+            flex: 1;
         }
 
         &__form-content {
