@@ -7,9 +7,10 @@
         </transition>
 
         <div>
-            <label v-for="option in field.params.options">
-                <input class="radio" type="radio" :name="field.id" :value="option.value" v-model="field.params.value">
-                {{option.label}}
+            <label v-for="option in field.params.options" class="radio">
+                <input class="radio__input" type="radio" :name="field.id" :value="option.value" v-model="field.params.value">
+                <span class="radio__check"></span>
+                <span class="radio__label">{{option.label}}</span>
             </label>
         </div>
 

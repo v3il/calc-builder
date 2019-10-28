@@ -122,7 +122,7 @@
         }
 
         &__header-nav-item {
-            margin: 0 12px;
+            margin: 0 24px;
             display: flex;
             align-items: center;
             border-bottom: 4px solid transparent;
