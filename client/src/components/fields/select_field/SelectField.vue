@@ -1,7 +1,7 @@
 <template>
     <field-base :field="field">
         <transition name="fade">
-            <label v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+            <label class="label" v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
                 {{field.params.label}}
             </label>
         </transition>

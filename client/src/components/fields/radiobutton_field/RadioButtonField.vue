@@ -1,7 +1,7 @@
 <template>
     <field-base :field="field">
         <transition name="fade">
-            <label v-if="field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+            <label class="label" v-if="field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
                 {{field.params.label}}
             </label>
         </transition>
@@ -69,4 +69,7 @@
 </script>
 
 <style scoped lang="scss">
+    .radio {
+        margin-bottom: 12px;
+    }
 </style>

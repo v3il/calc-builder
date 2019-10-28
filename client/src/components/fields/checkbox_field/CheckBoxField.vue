@@ -1,9 +1,10 @@
 <template>
     <field-base :field="field">
         <div>
-            <label>
-                <input class="checkbox" type="checkbox" :name="field.id" v-model="field.params.value">
-                {{field.params.label}}
+            <label class="checkbox">
+                <input class="checkbox__input" type="checkbox" :name="field.id" v-model="field.params.value">
+                <span class="checkbox__check"></span>
+                <span class="checkbox__label">{{field.params.label}}</span>
             </label>
         </div>
 

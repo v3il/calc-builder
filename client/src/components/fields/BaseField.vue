@@ -80,11 +80,6 @@
         }
     }
 
-    .el-form-item {
-        padding: 9px 0;
-        margin-bottom: 0;
-    }
-
     .fade-enter-active, .fade-leave-active {
         transition: opacity .3s;
     }

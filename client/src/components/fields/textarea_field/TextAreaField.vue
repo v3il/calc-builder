@@ -1,7 +1,12 @@
 <template>
-    <field-base :field="field">
+    <field-base :field="field" class="textarea-component">
         <transition name="fade">
-            <label v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
+            <label
+                class="textarea-component__label label"
+                v-if="this.field.params.label"
+                :for="field.id"
+                :style="{ color: field.style.labelColor }"
+            >
                 {{field.params.label}}
             </label>
         </transition>
@@ -11,7 +16,7 @@
             :placeholder="field.params.placeholder"
             :style="styles"
             :id="field.id"
-            class="textarea"
+            class="textarea textarea-component__textarea"
         ></textarea>
 
         <template slot="toolbar">
@@ -70,4 +75,10 @@
 </script>
 
 <style scoped lang="scss">
+    .textarea-component {
+        &__label {
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+    }
 </style>
