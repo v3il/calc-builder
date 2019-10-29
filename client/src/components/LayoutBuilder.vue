@@ -325,7 +325,7 @@
         }
 
         &__widgets-list {
-            margin-top: 12px;
+            margin-top: 18px;
         }
 
         &__widget-item {
@@ -337,7 +337,7 @@
             flex: 1;
             transition: background-color 0.3s;
             padding: 12px;
-            margin: 6px 0;
+            margin: 12px 0;
         }
 
         &__widget-icon {
@@ -405,6 +405,8 @@
             flex-wrap: wrap;
             padding: 6px;
 
+            margin: 12px 0;
+
             &:empty {
                 min-height: 100px;
             }
@@ -420,7 +422,6 @@
         }
 
         &__row-item {
-            flex-basis: 25%;
             min-width: 200px;
         }
     }
