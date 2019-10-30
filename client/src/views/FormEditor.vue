@@ -6,7 +6,7 @@
                     <i class="material-icons form-editor__move-back-icon">arrow_back</i>
                 </router-link>
 
-                Редактирование формы "{{this.selectedCalculator.name}}"
+                Редактирование формы "{{this.currentForm.name}}"
             </div>
 
             <ul class="form-editor__header-nav">
@@ -27,7 +27,10 @@
         </div>
 
         <div class="form-editor__content">
-            <router-view></router-view>
+            <component
+                :is="currentComponent"
+                :form="currentForm"
+            ></component>
         </div>
     </div>
 </template>
@@ -36,6 +39,7 @@
     import {mapGetters} from 'vuex';
 
     import LayoutBuilder from '../components/LayoutBuilder';
+    import ResultsBuilder from '../components/ResultsBuilder';
 
     export default {
         name: 'CalcConstructor',
@@ -44,10 +48,20 @@
             ...mapGetters([
                 'allCalculators',
             ]),
+
+            currentComponent() {
+                switch (this.$route.name) {
+                    case 'formResults': return 'results-builder';
+                    case 'formLayout':
+                    default:
+                        return 'layout-builder';
+                }
+            }
         },
 
         components: {
             LayoutBuilder,
+            ResultsBuilder,
         },
 
         methods: {
@@ -57,14 +71,14 @@
             },
 
             updateLayout(layout) {
-                this.selectedCalculator.layout = layout;
+                this.currentForm.layout = layout;
                 this.$store.dispatch('updateData');
             },
         },
 
         data() {
             return {
-                selectedCalculator: null,
+                currentForm: null,
 
                 navItems: [
                     // { routeName: 'formCommonSettings', label: 'Общие настройки' },
@@ -75,10 +89,10 @@
         },
 
         created() {
-            this.selectedCalculator = this.allCalculators
+            this.currentForm = this.allCalculators
                 .find(calc => calc.id === +this.$route.params.id);
 
-            this.$store.dispatch('selectCalc', this.selectedCalculator);
+            // this.$store.dispatch('selectCalc', this.currentForm);
         },
     };
 </script>

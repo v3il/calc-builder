@@ -39,19 +39,10 @@
                     </li>
                 </Draggable>
             </div>
-
-            <Draggable
-                v-bind="garbageDraggableOptions"
-                class="layout-builder__garbage-draggable"
-                v-show="garbageDraggableVisible"
-                @add="ensureEmptyRow"
-            >
-<!--                <i class="material-icons layout-builder__garbage-icon">delete</i>-->
-            </Draggable>
         </aside>
 
         <main class="layout-builder__rows-wrapper">
-            <div class="layout-builder__form-content" :style="{ maxWidth: '100%' || `${selectedCalculator.contentMaxWidth}px` }">
+            <div class="layout-builder__form-content">
                 <Draggable
                     v-model="row.fields"
                     v-for="(row, rowIndex) in layoutRows"
@@ -118,11 +109,14 @@
             ImageField,
         },
 
-        computed: {
-            ...mapGetters([
-                'selectedCalculator',
-            ]),
+        props: {
+            form: {
+                type: Object,
+                required: true,
+            }
+        },
 
+        computed: {
             fieldsList() {
                 return this.layoutRows.reduce((result, current) => {
                     return result.concat(current.fields);
@@ -229,7 +223,7 @@
 
             updateLayout() {
                 console.log('Update');
-                this.selectedCalculator.layout = this.layoutRows;
+                this.form.layout = this.layoutRows;
                 this.$store.dispatch('updateData');
             },
 
@@ -271,7 +265,7 @@
         },
 
         created() {
-            this.layoutRows = this.selectedCalculator.layout || [
+            this.layoutRows = this.form.layout || [
                 { fields: [], disabled: false },
             ];
         }
