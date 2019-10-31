@@ -8,7 +8,7 @@
 
         <div>
             <label v-for="option in field.params.options" class="radio">
-                <input class="radio__input" type="radio" :name="field.id" :value="option.value" v-model="field.params.value">
+                <input class="radio__input" type="radio" :name="field.id" :value="option" v-model="field.params.value" disabled>
                 <span class="radio__check"></span>
                 <span class="radio__label">{{option.label}}</span>
             </label>
@@ -50,14 +50,28 @@
         },
 
         data() {
+            const defaultOptions = [
+                {
+                    activatedValue: 100,
+                    deactivatedValue: 0,
+                    isDefault: true,
+                    isSelected: true,
+                    label: 'Значение 1',
+                },
+                {
+                    activatedValue: 200,
+                    deactivatedValue: 0,
+                    isDefault: false,
+                    isSelected: false,
+                    label: 'Значение 2',
+                },
+            ];
+
             return {
                 defaultOptions: {
-                    value: 1,
+                    value: defaultOptions[0],
                     label: 'Заголовок поля',
-                    options: [
-                        { label: 'Значение 1', value: 1 },
-                        { label: 'Значение 2', value: 2 },
-                    ]
+                    options: defaultOptions,
                 },
 
                 defaultStyle: {

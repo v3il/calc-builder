@@ -11,9 +11,15 @@
             }"
         ></text-field-component>
 
-        <select-options-manager v-model="fieldData.params.options" :options="{
-            title: 'Пункты',
-        }"></select-options-manager>
+        <select-options-manager
+            v-model="fieldData.params.options"
+            @default-option-change="fieldData.params.value = $event"
+            :options="{ title: 'Пункты' }"
+        ></select-options-manager>
+
+        <pre>
+            {{JSON.stringify(fieldData, null, 2)}}
+        </pre>
     </div>
 </template>
 

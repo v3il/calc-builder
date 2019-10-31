@@ -2,10 +2,20 @@
     <div class="field-settings__property-component options-manager">
         <h4 class="options-manager__title">{{options.title}}</h4>
 
-        <div v-for="option in value" class="options-manager__option-item">
-            <text-field-component v-model="option.label" class="options-manager__label-input" />
-            <text-field-component v-model="option.value" :options="{ type: 'number' }" class="options-manager__value-input" />
-            <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>
+        <div
+            v-for="option in value"
+            class="options-manager__option-item"
+            :class="{ 'options-manager__option-item--default': option.isDefault }"
+        >
+            <div class="options-manager__option-data">
+                <text-field-component v-model="option.label" class="options-manager__label-input" />
+                <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>
+            </div>
+
+            <div class="options-manager__option-actions">
+                <span v-if="option.isDefault">Значение по умолчанию</span>
+                <a href="javascript://" @click="makeDefault(option)" v-else>Сделать значением по умолчанию</a>
+            </div>
         </div>
 
         <button @click="addOption" class="options-manager__add-option button">Добавить</button>
@@ -42,12 +52,27 @@
                 const optionsListCopy = [...this.value];
 
                 optionsListCopy.push({
-                    value: 1,
+                    activatedValue: /*(this.value.length + 1) * */100,
+                    deactivatedValue: 0,
+                    isDefault: false,
+                    isSelected: false,
                     label: 'Значение',
                 });
 
                 this.$emit('input', optionsListCopy);
             },
+
+            makeDefault(option) {
+                this.value.forEach((item) => {
+                    item.isDefault = false;
+                    item.isSelected = false;
+                });
+
+                option.isDefault = true;
+                option.isSelected = true;
+
+                this.$emit('default-option-change', option);
+            }
         },
     };
 </script>
@@ -55,21 +80,28 @@
 <style scoped lang="scss">
     .options-manager {
         &__option-item {
+            margin: 6px 0;
+        }
+
+        &__option-data {
             display: flex;
             align-items: center;
-            margin: 6px 0;
+        }
+
+        &__option-actions {
+            font-size: 0.9rem;
         }
 
         &__label-input {
             flex: 1;
         }
 
-        &__value-input {
-            flex: 80px 0;
-            margin: 0 12px;
+        &--default &__label-input {
+            border-color: $bright_color1;
         }
 
         &__remove-option {
+            margin-left: 12px;
             color: darkred;
             cursor: pointer;
         }

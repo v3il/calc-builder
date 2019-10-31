@@ -12,7 +12,7 @@
            :id="field.id"
            class="select"
         >
-            <option v-for="option in field.params.options" :value="option.value">{{option.label}}</option>
+            <option v-for="option in field.params.options" :value="option">{{option.label}}</option>
         </select>
 
         <template slot="toolbar">
@@ -52,14 +52,28 @@
         },
 
         data() {
+            const defaultOptions = [
+                {
+                    activatedValue: 100,
+                    deactivatedValue: 0,
+                    isDefault: true,
+                    isSelected: true,
+                    label: 'Значение 1',
+                },
+                {
+                    activatedValue: 200,
+                    deactivatedValue: 0,
+                    isDefault: false,
+                    isSelected: false,
+                    label: 'Значение 2',
+                },
+            ];
+
             return {
                 defaultOptions: {
-                    value: 1,
+                    value: defaultOptions[0],
                     label: 'Заголовок поля',
-                    options: [
-                        { label: 'Значение 1', value: 1 },
-                        { label: 'Значение 2', value: 2 },
-                    ]
+                    options: defaultOptions,
                 },
 
                 defaultStyle: {

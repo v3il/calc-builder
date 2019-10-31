@@ -11,9 +11,11 @@
             class="field-settings__property-component"
         ></text-field-component>
 
-        <select-options-manager v-model="fieldData.params.options" :options="{
-            title: 'Пункты',
-        }"></select-options-manager>
+        <select-options-manager
+            v-model="fieldData.params.options"
+            @default-option-change="fieldData.params.value = $event"
+            :options="{ title: 'Пункты' }"
+        ></select-options-manager>
     </div>
 </template>
 
