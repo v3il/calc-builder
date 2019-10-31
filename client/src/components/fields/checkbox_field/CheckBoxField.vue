@@ -2,7 +2,7 @@
     <field-base :field="field">
         <div>
             <label class="checkbox">
-                <input class="checkbox__input" type="checkbox" :name="field.id" v-model="field.params.value">
+                <input class="checkbox__input" type="checkbox" :name="field.id" v-model="field.params.defaultValue">
                 <span class="checkbox__check"></span>
                 <span class="checkbox__label">{{field.params.label}}</span>
             </label>
@@ -48,6 +48,9 @@
                 defaultOptions: {
                     value: true,
                     label: 'Заголовок поля',
+                    activatedValue: 100,
+                    deactivatedValue: 0,
+                    defaultValue: false,
                 },
 
                 defaultStyle: {

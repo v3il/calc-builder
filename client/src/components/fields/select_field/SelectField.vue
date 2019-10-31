@@ -7,10 +7,10 @@
         </transition>
 
         <select type="text"
-           v-model="field.params.value"
-           :style="styles"
-           :id="field.id"
-           class="select"
+            v-model="field.params.value"
+            :style="styles"
+            :id="field.id"
+            class="select"
         >
             <option v-for="option in field.params.options" :value="option">{{option.label}}</option>
         </select>
