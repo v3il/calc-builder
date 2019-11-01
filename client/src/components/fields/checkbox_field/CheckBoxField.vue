@@ -7,7 +7,7 @@
                     class="checkbox__input"
                     type="checkbox"
                     :name="field.id"
-                    :checked="field.params.value"
+                    :checked="field.params.isSelected"
                     disabled
                     readonly
                 >
@@ -17,7 +17,7 @@
                     class="checkbox__input"
                     type="checkbox"
                     :name="field.id"
-                    v-model="field.params.value"
+                    v-model="field.params.isSelected"
                 >
 
                 <span class="checkbox__check"></span>
@@ -50,10 +50,11 @@
         data() {
             return {
                 defaultOptions: {
-                    value: true,
+                    value: 100,
                     label: 'Заголовок поля',
                     activatedValue: 100,
                     deactivatedValue: 0,
+                    isSelected: false,
                 },
 
                 defaultStyle: {
@@ -61,6 +62,35 @@
                 },
             };
         },
+
+        mounted() {
+            this.refreshValue();
+        },
+
+        methods: {
+            refreshValue() {
+                this.field.params.value = this.field.params.isSelected
+                    ? this.field.params.activatedValue
+                    : this.field.params.deactivatedValue;
+            }
+        },
+
+        watch: {
+            'field.params.isSelected'(v) {
+                console.log('i', v)
+                this.refreshValue();
+            },
+
+            'field.params.activatedValue'(v) {
+                console.log('a', v)
+                this.refreshValue();
+            },
+
+            'field.params.deactivatedValue'(v) {
+                console.log('d', v)
+                this.refreshValue();
+            },
+        }
     };
 </script>
 

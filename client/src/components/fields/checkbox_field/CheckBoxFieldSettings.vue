@@ -11,7 +11,7 @@
         ></text-field-component>
 
         <buttons-group
-            v-model="fieldData.params.value"
+            v-model="fieldData.params.isSelected"
             :variants="[
                 { value: true, label: 'Отмечен' },
                 { value: false, label: 'Снят' },

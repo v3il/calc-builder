@@ -302,7 +302,7 @@
         // Sidebar
         &__sidebar {
             width: 450px;
-            padding: 12px 24px;
+            padding: 24px;
             background-color: #fff;
             border-right: 1px solid rgba(0, 0, 0, 0.12);
             overflow-x: hidden;
@@ -420,8 +420,15 @@
             display: flex;
             flex-wrap: wrap;
             padding: 6px;
-
             margin: 12px 0;
+
+            &:first-child {
+                margin-top: 6px;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
 
             &:empty {
                 min-height: 100px;
