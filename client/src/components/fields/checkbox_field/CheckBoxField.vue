@@ -1,5 +1,5 @@
 <template>
-    <field-base :field="field">
+    <field-base :field="field" @edit-field="$emit('edit-field')" @remove-field="$emit('remove-field')">
         <div>
             <label class="checkbox">
                 <input
@@ -24,20 +24,10 @@
                 <span class="checkbox__label">{{field.params.label}}</span>
             </label>
         </div>
-
-        <template slot="toolbar">
-            <toolbar-drag-button/>
-            <toolbar-edit-button @click="$emit('edit-field')"/>
-            <toolbar-remove-button @click="$emit('remove-field')"/>
-        </template>
     </field-base>
 </template>
 
 <script>
-    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
-    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
-    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
-
     import FieldBase from '../BaseField.vue';
 
     export default {
@@ -45,9 +35,6 @@
 
         components: {
             FieldBase,
-            ToolbarDragButton,
-            ToolbarEditButton,
-            ToolbarRemoveButton,
         },
 
         extends: FieldBase,

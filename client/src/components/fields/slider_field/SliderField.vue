@@ -1,5 +1,5 @@
 <template>
-    <field-base :field="field">
+    <field-base :field="field" @edit-field="$emit('edit-field')" @remove-field="$emit('remove-field')">
         <transition name="fade">
             <label class="label" v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
                 {{field.params.label}}
@@ -13,20 +13,10 @@
             :max="field.params.max"
             :id="field.id"
         ></el-slider>
-
-        <template slot="toolbar">
-            <toolbar-drag-button/>
-            <toolbar-edit-button @click="$emit('edit-field')"/>
-            <toolbar-remove-button @click="$emit('remove-field')"/>
-        </template>
     </field-base>
 </template>
 
 <script>
-    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
-    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
-    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
-
     import FieldBase from '../BaseField.vue';
 
     export default {
@@ -34,9 +24,6 @@
 
         components: {
             FieldBase,
-            ToolbarDragButton,
-            ToolbarEditButton,
-            ToolbarRemoveButton,
         },
 
         extends: FieldBase,

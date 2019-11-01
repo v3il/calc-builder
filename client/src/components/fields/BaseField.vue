@@ -4,7 +4,11 @@
         'field-wrapper--selected': field.internal.selected,
     }">
         <fields-params-toolbar v-if="!field.internal.disabled">
-            <slot name="toolbar"></slot>
+            <slot name="toolbar">
+                <toolbar-drag-button/>
+                <toolbar-edit-button @click="$emit('edit-field')"/>
+                <toolbar-remove-button @click="$emit('remove-field')"/>
+            </slot>
         </fields-params-toolbar>
 
         <div>
@@ -16,11 +20,16 @@
 <script>
     import FieldsParamsToolbar from '../fields_toolbar/FieldsParamsToolbar';
 
-    import ContainerSizes from '../../constants/ContainerSizes';
+    import ToolbarDragButton from '../fields_toolbar/ToolbarDragButton';
+    import ToolbarEditButton from '../fields_toolbar/ToolbarEditButton';
+    import ToolbarRemoveButton from '../fields_toolbar/ToolbarRemoveButton';
 
     export default {
         components: {
             FieldsParamsToolbar,
+            ToolbarDragButton,
+            ToolbarEditButton,
+            ToolbarRemoveButton,
         },
 
         props: {

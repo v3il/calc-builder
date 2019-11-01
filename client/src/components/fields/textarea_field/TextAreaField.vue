@@ -1,5 +1,5 @@
 <template>
-    <field-base :field="field" class="textarea-component">
+    <field-base :field="field" class="textarea-component" @edit-field="$emit('edit-field')" @remove-field="$emit('remove-field')">
         <transition name="fade">
             <label
                 class="textarea-component__label label"
@@ -30,20 +30,10 @@
             :id="field.id"
             class="textarea textarea-component__textarea"
         ></textarea>
-
-        <template slot="toolbar">
-            <toolbar-drag-button/>
-            <toolbar-edit-button @click="$emit('edit-field')"/>
-            <toolbar-remove-button @click="$emit('remove-field')"/>
-        </template>
     </field-base>
 </template>
 
 <script>
-    import ToolbarDragButton from '../../fields_toolbar/ToolbarDragButton';
-    import ToolbarEditButton from '../../fields_toolbar/ToolbarEditButton';
-    import ToolbarRemoveButton from '../../fields_toolbar/ToolbarRemoveButton';
-
     import FieldBase from '../BaseField.vue';
 
     export default {
@@ -51,9 +41,6 @@
 
         components: {
             FieldBase,
-            ToolbarDragButton,
-            ToolbarEditButton,
-            ToolbarRemoveButton,
         },
 
         extends: FieldBase,
