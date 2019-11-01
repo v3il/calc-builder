@@ -92,7 +92,7 @@
             'field.params.selectedOption'(value) {
                 this.field.params.value = value.activatedValue;
             }
-        }
+        },
     };
 </script>
 

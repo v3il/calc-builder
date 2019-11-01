@@ -7,12 +7,13 @@
         </transition>
 
         <select type="text"
-            v-model="field.params.value"
             :style="styles"
             :id="field.id"
             class="select"
         >
-            <option v-for="option in field.params.options" :value="option">{{option.label}}</option>
+            <option v-for="option in field.params.options" :value="option" :selected="option.id === field.params.selectedOption.id">
+                {{option.label}}
+            </option>
         </select>
     </field-base>
 </template>
@@ -46,6 +47,7 @@
                     isDefault: true,
                     isSelected: true,
                     label: 'Значение 1',
+                    id: Math.random(),
                 },
                 {
                     activatedValue: 200,
@@ -53,14 +55,16 @@
                     isDefault: false,
                     isSelected: false,
                     label: 'Значение 2',
+                    id: Math.random(),
                 },
             ];
 
             return {
                 defaultOptions: {
-                    value: defaultOptions[0],
+                    value: 100,
                     label: 'Заголовок поля',
                     options: defaultOptions,
+                    selectedOption: defaultOptions[0],
                 },
 
                 defaultStyle: {
@@ -68,6 +72,12 @@
                     borderRadius: 6,
                 },
             };
+        },
+
+        watch: {
+            'field.params.selectedOption'(value) {
+                this.field.params.value = value.activatedValue;
+            }
         },
     };
 </script>
