@@ -58,12 +58,15 @@
                     isDefault: false,
                     isSelected: false,
                     label: 'Значение',
+                    id: Math.random(),
                 });
 
                 this.$emit('input', optionsListCopy);
             },
 
             makeDefault(option) {
+                const optionIndex = this.value.findIndex(item => item === option);
+
                 this.value.forEach((item) => {
                     item.isDefault = false;
                     item.isSelected = false;
@@ -72,7 +75,7 @@
                 option.isDefault = true;
                 option.isSelected = true;
 
-                this.$emit('default-option-change', option);
+                this.$emit('default-option-change', { option, optionIndex });
             }
         },
     };

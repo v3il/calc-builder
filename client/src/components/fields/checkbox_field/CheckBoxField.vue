@@ -7,7 +7,7 @@
                     class="checkbox__input"
                     type="checkbox"
                     :name="field.id"
-                    :checked="field.params.defaultValue"
+                    :checked="field.params.value"
                     disabled
                     readonly
                 >
@@ -54,7 +54,6 @@
                     label: 'Заголовок поля',
                     activatedValue: 100,
                     deactivatedValue: 0,
-                    defaultValue: false,
                 },
 
                 defaultStyle: {

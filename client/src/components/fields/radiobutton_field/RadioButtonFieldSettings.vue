@@ -13,7 +13,7 @@
 
         <select-options-manager
             v-model="fieldData.params.options"
-            @default-option-change="fieldData.params.value = $event"
+            @default-option-change="({ option }) => fieldData.params.selectedOption = option"
             :options="{ title: 'Пункты' }"
         ></select-options-manager>
 

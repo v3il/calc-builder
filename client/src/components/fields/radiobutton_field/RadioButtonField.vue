@@ -13,7 +13,7 @@
                     class="radio__input"
                     type="radio"
                     :name="field.id"
-                    :checked="option.isDefault"
+                    :checked="option.id === field.params.selectedOption.id"
                     readonly
                     disabled
                 >
@@ -62,6 +62,7 @@
                     isDefault: true,
                     isSelected: true,
                     label: 'Значение 1',
+                    id: Math.random(),
                 },
                 {
                     activatedValue: 200,
@@ -69,14 +70,16 @@
                     isDefault: false,
                     isSelected: false,
                     label: 'Значение 2',
+                    id: Math.random(),
                 },
             ];
 
             return {
                 defaultOptions: {
-                    value: defaultOptions[0],
+                    value: 100,
                     label: 'Заголовок поля',
                     options: defaultOptions,
+                    selectedOption: defaultOptions[0],
                 },
 
                 defaultStyle: {
@@ -84,6 +87,12 @@
                 },
             };
         },
+
+        watch: {
+            'field.params.selectedOption'(value) {
+                this.field.params.value = value.activatedValue;
+            }
+        }
     };
 </script>
 
