@@ -51,6 +51,7 @@
             addOption() {
                 const optionsListCopy = [...this.value];
 
+                // todo: add id
                 optionsListCopy.push({
                     activatedValue: /*(this.value.length + 1) * */100,
                     deactivatedValue: 0,

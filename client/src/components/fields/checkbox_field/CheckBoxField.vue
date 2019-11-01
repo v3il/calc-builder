@@ -2,7 +2,24 @@
     <field-base :field="field">
         <div>
             <label class="checkbox">
-                <input class="checkbox__input" type="checkbox" :name="field.id" v-model="field.params.defaultValue">
+                <input
+                    v-if="field.internal.readonly"
+                    class="checkbox__input"
+                    type="checkbox"
+                    :name="field.id"
+                    :checked="field.params.defaultValue"
+                    disabled
+                    readonly
+                >
+
+                <input
+                    v-else
+                    class="checkbox__input"
+                    type="checkbox"
+                    :name="field.id"
+                    v-model="field.params.value"
+                >
+
                 <span class="checkbox__check"></span>
                 <span class="checkbox__label">{{field.params.label}}</span>
             </label>

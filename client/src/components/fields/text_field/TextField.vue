@@ -3,7 +3,7 @@
         <transition name="fade">
             <label
                 class="text-component__label label"
-                v-if="this.field.params.label"
+                v-if="field.params.label"
                 :for="field.id"
                 :style="{ color: field.style.labelColor }"
             >
@@ -12,6 +12,18 @@
         </transition>
 
         <input type="text"
+           v-if="field.internal.readonly"
+           :value="field.params.value"
+           :placeholder="field.params.placeholder"
+           :style="styles"
+           :id="field.id"
+           class="text-input text-component__input"
+           readonly
+           disabled
+        >
+
+        <input type="text"
+            v-else
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
             :style="styles"

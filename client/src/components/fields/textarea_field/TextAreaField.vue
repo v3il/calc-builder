@@ -12,6 +12,18 @@
         </transition>
 
         <textarea type="text"
+              v-if="field.internal.readonly"
+              :value="field.params.value"
+              :placeholder="field.params.placeholder"
+              :style="styles"
+              :id="field.id"
+              class="textarea textarea-component__textarea"
+              disabled
+              readonly
+        ></textarea>
+
+        <textarea type="text"
+            v-else
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
             :style="styles"

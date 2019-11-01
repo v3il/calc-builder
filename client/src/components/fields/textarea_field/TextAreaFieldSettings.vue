@@ -19,6 +19,14 @@
             class="field-settings__property-component"
         ></TextFieldComponent>
 
+        <TextFieldComponent
+            v-model="fieldData.params.value"
+            :options="{
+                title: 'Значение поля по умолчанию',
+            }"
+            class="field-settings__property-component"
+        ></TextFieldComponent>
+
         <h3 class="field-settings__title">{{propsCategoriesNames.STYLE}}</h3>
 
         <ColorSelector
