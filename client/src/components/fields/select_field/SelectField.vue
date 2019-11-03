@@ -10,7 +10,6 @@
             :style="styles"
             :id="field.id"
             class="select"
-            :disabled="field.internal.readonly"
         >
             <option v-for="option in field.params.options" :value="option" :selected="option.id === field.params.selectedOption.id">
                 {{option.label}}

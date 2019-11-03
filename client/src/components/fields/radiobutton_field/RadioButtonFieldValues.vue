@@ -2,26 +2,30 @@
     <div class="checkbox-values">
         <h3 class="checkbox-values__field-title">{{ field.params.label }}</h3>
 
-        <div class="checkbox-values__values-editor" v-for="option in field.params.options">
-            <label class="checkbox-values__value-block">
-                <span class="checkbox-values__value-label">Значение включённого состояния</span>
+        <div class="checkbox-values__option" v-for="option in field.params.options">
+            <h4>{{option.label}}</h4>
 
-                <input
+            <div class="checkbox-values__values-editor">
+                <label class="checkbox-values__value-block">
+                    <span class="checkbox-values__value-label">Значение включённого состояния</span>
+
+                    <input
                         type="text"
                         class="checkbox-values__value-input text-input"
                         v-model.number="option.activatedValue"
-                >
-            </label>
+                    >
+                </label>
 
-            <label class="checkbox-values__value-block">
-                <span class="checkbox-values__value-label">Значение выключенного состояния</span>
+                <label class="checkbox-values__value-block">
+                    <span class="checkbox-values__value-label">Значение выключенного состояния</span>
 
-                <input
+                    <input
                         type="text"
                         class="checkbox-values__value-input text-input"
                         v-model.number="option.deactivatedValue"
-                >
-            </label>
+                    >
+                </label>
+            </div>
         </div>
     </div>
 </template>
@@ -48,6 +52,7 @@
                 deep: true,
 
                 handler() {
+                    console.log('Ref')
                     this.refreshValue();
                 }
             },
@@ -66,6 +71,10 @@
             flex-wrap: wrap;
             justify-content: space-between;
             margin: 0 -12px;
+        }
+
+        &__option {
+            margin: 6px 0;
         }
 
         &__value-block {
