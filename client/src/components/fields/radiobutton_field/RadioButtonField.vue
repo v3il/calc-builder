@@ -7,24 +7,14 @@
         </transition>
 
         <div>
-            <label v-for="option in field.params.options" class="radio">
+            <label v-for="(option, index) in field.params.options" class="radio">
                 <input
-                    v-if="field.internal.readonly"
                     class="radio__input"
                     type="radio"
                     :name="field.id"
-                    :checked="option.id === field.params.selectedOption.id"
-                    readonly
-                    disabled
-                >
-
-                <input
-                    v-else
-                    class="radio__input"
-                    type="radio"
-                    :name="field.id"
-                    :value="option"
-                    v-model="field.params.value"
+                    :checked="option.isSelected"
+                    @change="triggerChange(option)"
+                    :key="index"
                 >
 
                 <span class="radio__check"></span>
@@ -51,6 +41,10 @@
                 return {
                     ...this.field.style,
                 };
+            },
+
+            value() {
+                return this.field.params.options.find(item => item.isSelected).activatedValue;
             }
         },
 
@@ -59,7 +53,6 @@
                 {
                     activatedValue: 100,
                     deactivatedValue: 0,
-                    isDefault: true,
                     isSelected: true,
                     label: 'Значение 1',
                     id: Math.random(),
@@ -67,7 +60,6 @@
                 {
                     activatedValue: 200,
                     deactivatedValue: 0,
-                    isDefault: false,
                     isSelected: false,
                     label: 'Значение 2',
                     id: Math.random(),
@@ -79,7 +71,6 @@
                     value: 100,
                     label: 'Заголовок поля',
                     options: defaultOptions,
-                    selectedOption: defaultOptions[0],
                 },
 
                 defaultStyle: {
@@ -88,9 +79,11 @@
             };
         },
 
-        watch: {
-            'field.params.selectedOption'(value) {
-                this.field.params.value = value.activatedValue;
+        methods: {
+            triggerChange(option) {
+                this.field.params.options.forEach((item) => {
+                    item.isSelected = item === option;
+                });
             }
         },
     };

@@ -11,11 +11,6 @@
                 <text-field-component v-model="option.label" class="options-manager__label-input" />
                 <i class="material-icons options-manager__remove-option" @click="removeOption(option)">remove_circle</i>
             </div>
-
-            <div class="options-manager__option-actions">
-                <span v-if="option.isDefault">Значение по умолчанию</span>
-                <a href="javascript://" @click="makeDefault(option)" v-else>Сделать значением по умолчанию</a>
-            </div>
         </div>
 
         <button @click="addOption" class="options-manager__add-option button">Добавить</button>
@@ -53,9 +48,8 @@
 
                 // todo: add id
                 optionsListCopy.push({
-                    activatedValue: /*(this.value.length + 1) * */100,
+                    activatedValue: 100,
                     deactivatedValue: 0,
-                    isDefault: false,
                     isSelected: false,
                     label: 'Значение',
                     id: Math.random(),
@@ -63,20 +57,6 @@
 
                 this.$emit('input', optionsListCopy);
             },
-
-            makeDefault(option) {
-                const optionIndex = this.value.findIndex(item => item === option);
-
-                this.value.forEach((item) => {
-                    item.isDefault = false;
-                    item.isSelected = false;
-                });
-
-                option.isDefault = true;
-                option.isSelected = true;
-
-                this.$emit('default-option-change', { option, optionIndex });
-            }
         },
     };
 </script>
@@ -100,13 +80,9 @@
             flex: 1;
         }
 
-        &--default &__label-input {
-            border-color: $bright_color1;
-        }
-
         &__remove-option {
             margin-left: 12px;
-            color: darkred;
+            color: $bright_color1;
             cursor: pointer;
         }
     }
