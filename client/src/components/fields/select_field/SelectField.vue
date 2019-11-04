@@ -6,14 +6,11 @@
             </label>
         </transition>
 
-        <select type="text"
-            :style="styles"
-            :id="field.id"
-            class="select"
-        >
-            <option v-for="option in field.params.options" :value="option" :selected="option.id === field.params.selectedOption.id">
-                {{option.label}}
-            </option>
+        <select type="text" :style="styles" :id="field.id" class="select" @change="triggerChange">
+            <option
+                v-for="option in field.params.options"
+                :selected="option.isSelected"
+            >{{option.label}}</option>
         </select>
     </field-base>
 </template>
@@ -36,6 +33,10 @@
                     ...this.field.style,
                     ...{ borderRadius: `${this.field.style.borderRadius}px` },
                 };
+            },
+
+            value() {
+
             }
         },
 
@@ -44,7 +45,6 @@
                 {
                     activatedValue: 100,
                     deactivatedValue: 0,
-                    isDefault: true,
                     isSelected: true,
                     label: 'Значение 1',
                     id: Math.random(),
@@ -52,7 +52,6 @@
                 {
                     activatedValue: 200,
                     deactivatedValue: 0,
-                    isDefault: false,
                     isSelected: false,
                     label: 'Значение 2',
                     id: Math.random(),
@@ -64,7 +63,6 @@
                     value: 100,
                     label: 'Заголовок поля',
                     options: defaultOptions,
-                    selectedOption: defaultOptions[0],
                 },
 
                 defaultStyle: {
@@ -74,9 +72,13 @@
             };
         },
 
-        watch: {
-            'field.params.selectedOption'(value) {
-                this.field.params.value = value.activatedValue;
+        methods: {
+            triggerChange({ target }) {
+                const { selectedIndex } = target;
+
+                this.field.params.options.forEach((item, index) => {
+                    item.isSelected = index === selectedIndex;
+                });
             }
         },
     };
