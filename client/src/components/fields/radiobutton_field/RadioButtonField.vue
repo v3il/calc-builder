@@ -68,7 +68,6 @@
 
             return {
                 defaultOptions: {
-                    value: 100,
                     label: 'Заголовок поля',
                     options: defaultOptions,
                 },

@@ -3,17 +3,6 @@
         <div>
             <label class="checkbox">
                 <input
-                    v-if="field.internal.readonly"
-                    class="checkbox__input"
-                    type="checkbox"
-                    :name="field.id"
-                    :checked="field.params.isSelected"
-                    disabled
-                    readonly
-                >
-
-                <input
-                    v-else
                     class="checkbox__input"
                     type="checkbox"
                     :name="field.id"
@@ -44,13 +33,17 @@
                 return {
                     ...this.field.style,
                 };
+            },
+
+            value() {
+                const { isSelected, activatedValue, deactivatedValue } = this.field.params;
+                return isSelected ? activatedValue : deactivatedValue;
             }
         },
 
         data() {
             return {
                 defaultOptions: {
-                    value: 100,
                     label: 'Заголовок поля',
                     activatedValue: 100,
                     deactivatedValue: 0,
@@ -62,35 +55,6 @@
                 },
             };
         },
-
-        mounted() {
-            this.refreshValue();
-        },
-
-        methods: {
-            refreshValue() {
-                this.field.params.value = this.field.params.isSelected
-                    ? this.field.params.activatedValue
-                    : this.field.params.deactivatedValue;
-            }
-        },
-
-        watch: {
-            'field.params.isSelected'(v) {
-                console.log('i', v)
-                this.refreshValue();
-            },
-
-            'field.params.activatedValue'(v) {
-                console.log('a', v)
-                this.refreshValue();
-            },
-
-            'field.params.deactivatedValue'(v) {
-                console.log('d', v)
-                this.refreshValue();
-            },
-        }
     };
 </script>
 
