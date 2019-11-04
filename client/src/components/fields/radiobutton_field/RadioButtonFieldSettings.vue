@@ -15,10 +15,6 @@
             v-model="fieldData.params.options"
             :options="{ title: 'Пункты' }"
         ></select-options-manager>
-
-        <pre>
-            {{JSON.stringify(fieldData, null, 2)}}
-        </pre>
     </div>
 </template>
 

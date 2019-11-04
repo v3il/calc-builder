@@ -12,18 +12,6 @@
         </transition>
 
         <textarea type="text"
-              v-if="field.internal.readonly"
-              :value="field.params.value"
-              :placeholder="field.params.placeholder"
-              :style="styles"
-              :id="field.id"
-              class="textarea textarea-component__textarea"
-              disabled
-              readonly
-        ></textarea>
-
-        <textarea type="text"
-            v-else
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
             :style="styles"
@@ -52,6 +40,10 @@
                     ...{ borderRadius: `${this.field.style.borderRadius}px` },
                     ...{ resize: this.field.style.resizable ? 'vertical' : 'none' },
                 };
+            },
+
+            value() {
+                return this.field.params.value;
             }
         },
 

@@ -12,18 +12,6 @@
         </transition>
 
         <input type="text"
-           v-if="field.internal.readonly"
-           :value="field.params.value"
-           :placeholder="field.params.placeholder"
-           :style="styles"
-           :id="field.id"
-           class="text-input text-component__input"
-           readonly
-           disabled
-        >
-
-        <input type="text"
-            v-else
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
             :style="styles"
@@ -51,6 +39,10 @@
                     ...this.field.style,
                     ...{ borderRadius: `${this.field.style.borderRadius}px` },
                 };
+            },
+
+            value() {
+                return this.field.params.value;
             }
         },
 

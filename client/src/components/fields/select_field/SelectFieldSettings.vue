@@ -16,10 +16,6 @@
             @default-option-change="({ option }) => fieldData.params.selectedOption = option"
             :options="{ title: 'Пункты' }"
         ></select-options-manager>
-
-        <pre>
-            {{JSON.stringify(fieldData, null, 2)}}
-        </pre>
     </div>
 </template>
 
