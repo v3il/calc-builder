@@ -21,6 +21,12 @@
                 </li>
             </ul>
 
+            {{hasChanges}}
+
+            <button class="button form-editor__discard-btn" @click="discardChanges">
+                Сбросить изменения
+            </button>
+
             <button class="button form-editor__submit-btn" @click="saveCalcData">
                 Сохранить
             </button>
@@ -32,6 +38,17 @@
                 :form="currentForm"
             ></component>
         </div>
+
+        <v-dialog ref="confirmNav">
+            <template v-slot>
+                У данной формы есть несохраненные данные. Сохранить?
+            </template>
+
+            <template v-slot:footer>
+                <button class="button button--primary">Сохранить</button>
+                <button class="button">Сбросить</button>
+            </template>
+        </v-dialog>
     </div>
 </template>
 
@@ -40,6 +57,11 @@
 
     import LayoutBuilder from '../components/LayoutBuilder';
     import ResultsBuilder from '../components/ResultsBuilder';
+
+    import VDialog from '@/components/Dialog';
+
+    const cloneDeep = require('lodash/cloneDeep');
+    const isEqual = require('lodash/isEqual');
 
     export default {
         name: 'CalcConstructor',
@@ -56,12 +78,17 @@
                     default:
                         return 'layout-builder';
                 }
+            },
+
+            hasChanges() {
+                return !isEqual(this.currentForm, this.currentFormOriginal);
             }
         },
 
         components: {
             LayoutBuilder,
             ResultsBuilder,
+            VDialog,
         },
 
         methods: {
@@ -70,15 +97,21 @@
                 // this.$router.push({ name: 'home' });
             },
 
-            updateLayout(layout) {
-                this.currentForm.layout = layout;
-                this.$store.dispatch('updateData');
+            // updateLayout(layout) {
+            //     this.currentForm.layout = layout;
+            //     // this.$store.dispatch('updateData');
+            // },
+
+            discardChanges() {
+                this.currentForm = null;
+                this.$router.replace({ name: 'home' });
             },
         },
 
         data() {
             return {
                 currentForm: null,
+                currentFormOriginal: null,
 
                 navItems: [
                     // { routeName: 'formCommonSettings', label: 'Общие настройки' },
@@ -89,11 +122,20 @@
         },
 
         created() {
-            this.currentForm = this.allCalculators
-                .find(calc => calc.id === +this.$route.params.id);
+            const formId = +this.$route.params.id;
+            const selectedForm = this.allCalculators.find(({ id }) => id === formId);
 
-            // this.$store.dispatch('selectCalc', this.currentForm);
+            this.currentFormOriginal = selectedForm;
+            this.currentForm = cloneDeep(selectedForm);
         },
+
+        beforeRouteLeave() {
+            if (this.hasChanges) {
+                this.$refs.confirmNav.open();
+            } else {
+
+            }
+        }
     };
 </script>
 

@@ -44,7 +44,6 @@
                 internalOptions: {
                     disabled: false,
                     selected: false,
-                    readonly: false,
                 },
 
                 commonDefaultOptions: {},

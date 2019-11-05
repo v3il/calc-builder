@@ -40,23 +40,6 @@
                 required: true,
             }
         },
-
-        methods: {
-            refreshValue() {
-                this.field.params.value = this.field.params.selectedOption.activatedValue;
-            }
-        },
-
-        watch: {
-            'field.params.options': {
-                deep: true,
-
-                handler() {
-                    console.log('Ref')
-                    this.refreshValue();
-                }
-            },
-        }
     };
 </script>
 

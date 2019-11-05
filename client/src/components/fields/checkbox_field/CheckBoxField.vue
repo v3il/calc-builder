@@ -10,7 +10,7 @@
                 >
 
                 <span class="checkbox__check"></span>
-                <span class="checkbox__label">{{field.params.label}}</span>
+                <span class="checkbox__label">{{field.params.label}} | {{value}}</span>
             </label>
         </div>
     </field-base>

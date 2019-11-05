@@ -206,12 +206,6 @@
                 this.ensureEmptyRow();
                 item.remove();
                 this.updateLayout();
-
-                this.$nextTick(() => {
-                    this.fieldsList.forEach((item) => {
-                        item.internal.readonly = true;
-                    });
-                });
             },
 
             ensureEmptyRow() {
@@ -270,27 +264,11 @@
             },
         },
 
-        created() {
+        mounted() {
             this.layoutRows = this.form.layout || [
                 { fields: [], disabled: false },
             ];
         },
-
-        mounted() {
-            console.log('Set readonly: true');
-
-            this.fieldsList.forEach((item) => {
-                item.internal.readonly = true;
-            });
-        },
-
-        beforeDestroy() {
-            console.log('Set readonly: false');
-
-            this.fieldsList.forEach((item) => {
-                item.internal.readonly = false;
-            });
-        }
     };
 </script>
 

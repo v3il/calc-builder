@@ -36,24 +36,6 @@
                 required: true,
             }
         },
-
-        methods: {
-            refreshValue() {
-                this.field.params.value = this.field.params.isSelected
-                    ? this.field.params.activatedValue
-                    : this.field.params.deactivatedValue;
-            }
-        },
-
-        watch: {
-            'field.params.activatedValue'() {
-                this.refreshValue();
-            },
-
-            'field.params.deactivatedValue'() {
-                this.refreshValue();
-            },
-        }
     };
 </script>
 
