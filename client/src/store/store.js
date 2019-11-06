@@ -51,11 +51,23 @@ export default new Vuex.Store({
             state.calculators = state.calculators.filter(item => item !== calc);
             localStorage.setItem('Calcs', JSON.stringify(state.calculators));
         },
+
+        updateForm(state, formClone) {
+            const cloneId = formClone.id;
+            const oldFormIndex = state.calculators.findIndex(({ id }) => id === cloneId);
+
+            state.calculators.splice(oldFormIndex, 1, formClone);
+        }
     },
 
     actions: {
         selectCalc(context, payload) {
             context.commit('selectCalc', payload);
+        },
+
+        updateForm(context, payload) {
+            context.commit('updateForm', payload);
+            context.commit('updateData');
         },
 
         updateData(context) {

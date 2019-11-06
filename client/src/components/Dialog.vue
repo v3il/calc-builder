@@ -125,6 +125,9 @@
         &__title {
             max-width: calc(100% - 24px);
             width: 100%;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         &__header {
@@ -134,21 +137,6 @@
             padding: 0 !important;
             position: relative;
             line-height: 24px;
-        }
-
-        &__loader-wrap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.6);
-            z-index: 2;
-            border-radius: inherit;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         &__close-btn {
@@ -162,12 +150,12 @@
             }
         }
 
-        &__footer {
-            margin-top: 6px;
+        &__content {
+            margin: 12px 0;
         }
 
-        &__confirm-dialog-content {
-            margin: 12px 0;
+        &__footer {
+            margin-top: 6px;
         }
     }
 </style>

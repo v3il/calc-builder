@@ -21,13 +21,11 @@
                 </li>
             </ul>
 
-            {{hasChanges}}
-
-            <button class="button form-editor__discard-btn" @click="discardChanges">
+            <button class="button form-editor__discard-btn" @click="discardFormData" v-if="hasChanges">
                 Сбросить изменения
             </button>
 
-            <button class="button form-editor__submit-btn" @click="saveCalcData">
+            <button class="button form-editor__submit-btn" @click="saveFormData">
                 Сохранить
             </button>
         </div>
@@ -39,14 +37,18 @@
             ></component>
         </div>
 
-        <v-dialog ref="confirmNav">
+        <v-dialog ref="confirmNav" :max-width="600">
             <template v-slot>
                 У данной формы есть несохраненные данные. Сохранить?
             </template>
 
-            <template v-slot:footer>
-                <button class="button button--primary">Сохранить</button>
-                <button class="button">Сбросить</button>
+            <template v-slot:footer="{ closePopup }">
+                <button class="button button--primary" @click="saveChanges">
+                    Сохранить и перейти
+                </button>
+
+                <button class="button" @click="discardChanges">Сбросить и перейти</button>
+                <button class="button" @click="cancelNavigation">Отменить переход</button>
             </template>
         </v-dialog>
     </div>
@@ -92,19 +94,29 @@
         },
 
         methods: {
-            saveCalcData() {
-                this.$store.dispatch('updateData');
-                // this.$router.push({ name: 'home' });
+            saveFormData() {
+                this.$store.dispatch('updateForm', this.currentForm);
+                this.currentFormOriginal = cloneDeep(this.currentForm);
             },
 
-            // updateLayout(layout) {
-            //     this.currentForm.layout = layout;
-            //     // this.$store.dispatch('updateData');
-            // },
+            discardFormData() {
+                this.currentForm = cloneDeep(this.currentFormOriginal);
+            },
+
+            saveChanges() {
+                this.$refs.confirmNav.triggerClose();
+                this.saveFormData();
+                this.resolveNavigation();
+            },
 
             discardChanges() {
-                this.currentForm = null;
-                this.$router.replace({ name: 'home' });
+                this.$refs.confirmNav.triggerClose();
+                this.resolveNavigation();
+            },
+
+            cancelNavigation() {
+                this.$refs.confirmNav.triggerClose();
+                this.resolveNavigation(false);
             },
         },
 
@@ -117,7 +129,9 @@
                     // { routeName: 'formCommonSettings', label: 'Общие настройки' },
                     { routeName: 'formLayout', label: 'Разметка формы' },
                     { routeName: 'formResults', label: 'Результаты' },
-                ]
+                ],
+
+                resolveNavigation: null,
             };
         },
 
@@ -129,11 +143,12 @@
             this.currentForm = cloneDeep(selectedForm);
         },
 
-        beforeRouteLeave() {
+        beforeRouteLeave(to, from, next) {
             if (this.hasChanges) {
+                this.resolveNavigation = next;
                 this.$refs.confirmNav.open();
             } else {
-
+                next();
             }
         }
     };

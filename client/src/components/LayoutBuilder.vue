@@ -45,7 +45,7 @@
             <div class="layout-builder__form-content">
                 <Draggable
                     v-model="row.fields"
-                    v-for="(row, rowIndex) in layoutRows"
+                    v-for="(row, rowIndex) in form.layout"
                     class="layout-builder__layout-row js-layout-row"
                     :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
                     @add="onAdd(row, $event)"
@@ -118,7 +118,7 @@
 
         computed: {
             fieldsList() {
-                return this.layoutRows.reduce((result, current) => {
+                return this.form.layout.reduce((result, current) => {
                     return result.concat(current.fields);
                 }, []);
             }
@@ -132,7 +132,7 @@
 
                 items: availableFields,
 
-                layoutRows: [],
+                // layoutRows: [],
 
                 sortableOptions: {
                     group: { name: 'items' },
@@ -151,7 +151,7 @@
                     sort: false,
                 },
 
-                garbageDraggableVisible: false,
+                garbageDraggableVisible: false
             };
         },
 
@@ -214,21 +214,21 @@
             },
 
             appendEmptyRow() {
-                this.layoutRows.push({ fields: [], disabled: false });
+                this.form.layout.push({ fields: [], disabled: false });
             },
 
             removeEmptyRows() {
-                this.layoutRows = this.layoutRows.filter(item => item.fields.length > 0);
+                this.form.layout = this.form.layout.filter(item => item.fields.length > 0);
             },
 
             updateLayout() {
                 console.log('Update');
-                this.form.layout = this.layoutRows;
+                // this.form.layout = this.layoutRows;
                 this.$store.dispatch('updateData');
             },
 
             handleDragStart(row) {
-                this.layoutRows
+                this.form.layout
                     .filter(item => item !== row)
                     .filter(({ fields }) => fields.length >= this.MAX_ITEMS_PER_ROW)
                     .forEach((item) => {
@@ -241,7 +241,7 @@
             },
 
             handleDragEnd() {
-                this.layoutRows.forEach((item) => {
+                this.form.layout.forEach((item) => {
                     item.disabled = false;
 
                     item.fields.forEach((item) => {
@@ -265,9 +265,9 @@
         },
 
         mounted() {
-            this.layoutRows = this.form.layout || [
-                { fields: [], disabled: false },
-            ];
+            // this.layoutRows = this.form.layout || [
+            //     { fields: [], disabled: false },
+            // ];
         },
     };
 </script>
