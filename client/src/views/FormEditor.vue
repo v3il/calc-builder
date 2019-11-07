@@ -21,11 +21,11 @@
                 </li>
             </ul>
 
-            <button class="button form-editor__discard-btn" @click="discardFormData" v-if="hasChanges">
+            <button class="button button--danger form-editor__discard-btn" @click="discardFormData" v-if="hasChanges">
                 Сбросить изменения
             </button>
 
-            <button class="button form-editor__submit-btn" @click="saveFormData">
+            <button class="button button--success form-editor__submit-btn" @click="saveFormData">
                 Сохранить
             </button>
         </div>
@@ -38,16 +38,14 @@
         </div>
 
         <v-dialog ref="confirmNav" :max-width="600">
-            <template v-slot>
-                У данной формы есть несохраненные данные. Сохранить?
-            </template>
+            У данной формы есть несохраненные данные. Сохранить?
 
             <template v-slot:footer="{ closePopup }">
-                <button class="button button--primary" @click="saveChanges">
+                <button class="button button--success" @click="saveChanges">
                     Сохранить и перейти
                 </button>
 
-                <button class="button" @click="discardChanges">Сбросить и перейти</button>
+                <button class="button button--danger" @click="discardChanges">Сбросить и перейти</button>
                 <button class="button" @click="cancelNavigation">Отменить переход</button>
             </template>
         </v-dialog>

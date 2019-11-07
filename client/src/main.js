@@ -14,8 +14,22 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
+Vue.mixin({
+    methods: {
+        sign(signId, defaultValue, replacements = []) {
+            let sign = defaultValue;
+
+            replacements.forEach(replacement => {
+                sign = sign.replace('%s', replacement);
+            });
+
+            return sign;
+        }
+    }
+});
+
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app');
