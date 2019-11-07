@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import Vue from "vue";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 
-import App from './App.vue';
-import router from './router';
-import store from './store/store';
+import KeenUI from "keen-ui";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store/store";
 
-import KeenUI from 'keen-ui';
-import 'keen-ui/dist/keen-ui.css';
+import "keen-ui/dist/keen-ui.css";
 
 Vue.use(KeenUI);
 Vue.use(ElementUI);
@@ -16,11 +16,11 @@ Vue.config.productionTip = false;
 
 Vue.mixin({
     methods: {
-        sign(signId, defaultValue, replacements = []) {
+        uSign(signId, defaultValue, replacements = []) {
             let sign = defaultValue;
 
             replacements.forEach(replacement => {
-                sign = sign.replace('%s', replacement);
+                sign = sign.replace("%s", replacement);
             });
 
             return sign;
@@ -31,5 +31,5 @@ Vue.mixin({
 new Vue({
     router,
     store,
-    render: h => h(App),
-}).$mount('#app');
+    render: h => h(App)
+}).$mount("#app");

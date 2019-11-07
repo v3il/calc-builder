@@ -6,68 +6,63 @@
                 class="checkbox-field__input checkbox"
                 @change="emitUpdate"
                 :checked="value"
-            ></input>
+            />
 
-            <span class="checkbox-field__text checkbox">{{options.title}}</span>
+            <span class="checkbox-field__text checkbox">{{ options.title }}</span>
         </label>
 
-        <p
-            class="checkbox-field__description"
-            v-if="options.description"
-        >{{options.description}}</p>
+        <p class="checkbox-field__description" v-if="options.description">
+            {{ options.description }}
+        </p>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'TextFieldComponent',
+export default {
+    name: "TextFieldComponent",
 
-        props: {
-            value: {
-                type: Boolean,
-                required: true,
-            },
-
-            options: {
-                type: Object,
-                default: () => ({}),
-            }
+    props: {
+        value: {
+            type: Boolean,
+            required: true
         },
 
-        methods: {
-            emitUpdate(event) {
-                this.$emit('input', event.target.checked);
-            }
+        options: {
+            type: Object,
+            default: () => ({})
         }
-    };
+    },
+
+    methods: {
+        emitUpdate(event) {
+            this.$emit("input", event.target.checked);
+        }
+    }
+};
 </script>
 
 <style scoped lang="scss">
-    @import '../../common-styles/checkbox';
+@import "../../common-styles/checkbox";
 
-    .checkbox-field {
-        &__input {
-            margin: 6px 0;
-        }
-
-        &__label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        &__input {
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-
-        &__text {
-            flex: 1;
-        }
-
-        &__description {
-            color: #777;
-            font-size: 0.8rem;
-        }
+.checkbox-field {
+    &__label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
     }
+
+    &__input {
+        margin: 6px 12px 6px 0;
+        flex-shrink: 0;
+    }
+
+    &__text {
+        flex: 1;
+    }
+
+    &__description {
+        color: #777;
+        font-size: 0.8rem;
+    }
+}
 </style>

@@ -1,13 +1,13 @@
 <template>
     <div class="field-settings">
-        <h3 class="field-settings__title">{{propsCategoriesNames.MODEL}}</h3>
+        <h3 class="field-settings__title">{{ propsCategoriesNames.MODEL }}</h3>
 
         <TextFieldComponent
             v-model="fieldData.params.label"
             class="field-settings__property-component"
             :options="{
                 title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи'
             }"
         ></TextFieldComponent>
 
@@ -16,7 +16,7 @@
             class="field-settings__property-component"
             :options="{
                 title: 'Минимальное значение',
-                type: 'number',
+                type: 'number'
             }"
         ></TextFieldComponent>
 
@@ -25,7 +25,7 @@
             class="field-settings__property-component"
             :options="{
                 title: 'Максимальное значение',
-                type: 'number',
+                type: 'number'
             }"
         ></TextFieldComponent>
 
@@ -34,22 +34,18 @@
             class="field-settings__property-component"
             :options="{
                 title: 'Значение шага',
-                type: 'number',
+                type: 'number'
             }"
         ></TextFieldComponent>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from "../BaseFieldSettings";
 
 export default {
-  name: 'SliderFieldSettings',
+    name: "SliderFieldSettings",
 
-  extends: BaseFieldSettings,
+    extends: BaseFieldSettings
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -5,11 +5,7 @@
 </template>
 
 <script>
-    export default {
-        name: "SelectFieldValues"
-    }
+export default {
+    name: "SelectFieldValues"
+};
 </script>
-
-<style scoped>
-
-</style>

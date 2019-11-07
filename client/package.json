@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --fix && vue-cli-service lint:style --fix",
+    "dev": "vue-cli-service serve --open",
+    "lint:style": "vue-cli-service lint:style",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -21,15 +22,23 @@
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.2",
     "@vue/cli-plugin-babel": "^3.12.0",
-    "@vue/cli-plugin-eslint": "^3.12.0",
+    "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-plugin-unit-mocha": "^3.12.0",
     "@vue/cli-service": "^3.12.0",
-    "@vue/eslint-config-airbnb": "^3.0.5",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
+    "prettier": "^1.18.2",
     "sass-loader": "^7.3.1",
+    "stylelint-config-standard": "^18.2.0",
     "vue-template-compiler": "^2.6.10"
   }
 }

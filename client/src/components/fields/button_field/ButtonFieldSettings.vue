@@ -1,6 +1,6 @@
 <template>
     <div class="field-settings-component">
-        <h3 class="category-title">{{propsCategoriesNames.SIZE_AND_POSITION}}</h3>
+        <h3 class="category-title">{{ propsCategoriesNames.SIZE_AND_POSITION }}</h3>
 
         <ButtonsGroup
             :value="fieldOptions.params.width"
@@ -23,32 +23,25 @@
             v-model="fieldOptions.params.marginLeft"
         ></Slider>
 
-        <h3 class="category-title">{{propsCategoriesNames.MODEL}}</h3>
+        <h3 class="category-title">{{ propsCategoriesNames.MODEL }}</h3>
 
-        <TextField
-            v-model="fieldOptions.params.text"
-            title="Текст кнопки"
-        ></TextField>
+        <TextField v-model="fieldOptions.params.text" title="Текст кнопки"></TextField>
 
         <!--<Slider-->
-            <!--title="Окружность углов"-->
-            <!--:min="1"-->
-            <!--:max="10"-->
-            <!--v-model="fieldOptions.params.borderRadius"-->
+        <!--title="Окружность углов"-->
+        <!--:min="1"-->
+        <!--:max="10"-->
+        <!--v-model="fieldOptions.params.borderRadius"-->
         <!--&gt;</Slider>-->
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from '../BaseFieldSettings';
+import BaseFieldSettings from "../BaseFieldSettings";
 
 export default {
-  name: 'ButtonFieldSettings',
+    name: "ButtonFieldSettings",
 
-  extends: BaseFieldSettings,
+    extends: BaseFieldSettings
 };
 </script>
-
-<style scoped>
-
-</style>

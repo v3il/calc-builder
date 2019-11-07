@@ -1,49 +1,49 @@
 .button {
-  padding: 0 0.6rem;
-  font-size: 0.9rem;
-  height: 2rem;
-  line-height: 1.77rem;
-  outline: none;
-  color: $color_primary;
-  border: 2px solid $gray;
-  background-color: $bg_primary_light;
-  border-radius: 0.2rem;
-  transition: border 0.2s, background-color 0.2s, color 0.2s;
-  cursor: pointer;
-  display: inline-block;
-  box-sizing: border-box;
+    padding: 0 0.6rem;
+    font-size: 0.9rem;
+    height: 2rem;
+    line-height: 1.77rem;
+    outline: none;
+    color: $color_primary;
+    border: 2px solid $gray;
+    background-color: $bg_primary_light;
+    border-radius: 0.2rem;
+    transition: border 0.2s, background-color 0.2s, color 0.2s;
+    cursor: pointer;
+    display: inline-block;
+    box-sizing: border-box;
 
-  &:hover {
-    background-color: lighten($bg_primary_dark, 10%);
-    border-color: lighten($bg_primary_dark, 10%);
-    color: #fff;
-  }
+    &:hover {
+        background-color: lighten($bg_primary_dark, 10%);
+        border-color: lighten($bg_primary_dark, 10%);
+        color: #fff;
+    }
 }
 
 .button--primary {
-  background-color: $bg_primary_dark;
-  border-color: $bg_primary_dark;
-  color: #fff;
+    background-color: $bg_primary_dark;
+    border-color: $bg_primary_dark;
+    color: #fff;
 }
 
 .button--success {
-  background-color: $success;
-  border-color: $success;
-  color: #fff;
+    background-color: $success;
+    border-color: $success;
+    color: #fff;
 
-  &:hover {
-    background-color: lighten($success, 10%);
-    border-color: lighten($success, 10%);
-  }
+    &:hover {
+        background-color: lighten($success, 10%);
+        border-color: lighten($success, 10%);
+    }
 }
 
 .button--danger {
-  background-color: $error;
-  border-color: $error;
-  color: #fff;
+    background-color: $error;
+    border-color: $error;
+    color: #fff;
 
-  &:hover {
-    background-color: lighten($error, 10%);
-    border-color: lighten($error, 10%);
-  }
+    &:hover {
+        background-color: lighten($error, 10%);
+        border-color: lighten($error, 10%);
+    }
 }

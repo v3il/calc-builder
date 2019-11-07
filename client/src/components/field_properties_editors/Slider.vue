@@ -17,57 +17,57 @@
         ></el-slider>
 
         <p class="property-editor-field_field-description" v-if="options.description">
-            {{options.description}}
+            {{ options.description }}
         </p>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'Slider',
+export default {
+    name: "Slider",
 
-        props: {
-            value: {
-                type: Number,
-            },
-
-            options: {
-                type: Object,
-            },
+    props: {
+        value: {
+            type: Number
         },
 
-        computed: {
-            currentValue() {
-                return this.options.valueTransformer
-                    ? this.options.valueTransformer(this.value)
-                    : this.value;
-            }
-        },
+        options: {
+            type: Object
+        }
+    },
 
-        methods: {
-            emitValueChange(value) {
-                this.$emit('input', value);
-            }
-        },
-    };
+    computed: {
+        currentValue() {
+            return this.options.valueTransformer
+                ? this.options.valueTransformer(this.value)
+                : this.value;
+        }
+    },
+
+    methods: {
+        emitValueChange(value) {
+            this.$emit("input", value);
+        }
+    }
+};
 </script>
 
 <style>
-    @import "settings-component-base.scss";
+@import "settings-component-base.scss";
 
-    .property-editor-field_field-element {
-        margin: 0;
-    }
+.property-editor-field_field-element {
+    margin: 0;
+}
 
-    .el-slider__runway {
-        margin: 9px 0;
-    }
+.el-slider__runway {
+    margin: 9px 0;
+}
 
-    .el-slider__bar {
-        background-color: #263238;
-    }
+.el-slider__bar {
+    background-color: #263238;
+}
 
-    .el-slider__button {
-        border-color: #263238;
-    }
+.el-slider__button {
+    border-color: #263238;
+}
 </style>

@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import getNextId from '@/utils/getNextId';
+import getNextId from "@/utils/getNextId";
 
 Vue.use(Vuex);
 
@@ -9,8 +9,8 @@ export default new Vuex.Store({
     // strict: true,
 
     state: {
-        calculators: JSON.parse(localStorage.getItem('Calcs')) || [],
-        selectedCalculator: null,
+        calculators: JSON.parse(localStorage.getItem("Calcs")) || [],
+        selectedCalculator: null
     },
 
     getters: {
@@ -20,7 +20,7 @@ export default new Vuex.Store({
 
         selectedCalculator(state) {
             return state.selectedCalculator;
-        },
+        }
     },
 
     mutations: {
@@ -29,8 +29,8 @@ export default new Vuex.Store({
         },
 
         updateData(state) {
-            console.log('updateData', state.calculators);
-            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+            console.log("updateData", state.calculators);
+            localStorage.setItem("Calcs", JSON.stringify(state.calculators));
         },
 
         addCalculator(state) {
@@ -41,15 +41,15 @@ export default new Vuex.Store({
                 name: `Форма ${id}`,
                 layout: null,
                 contentMaxWidth: 750,
-                backgroundImageSrc: 'http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg',
+                backgroundImageSrc: "http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg"
             });
 
-            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+            localStorage.setItem("Calcs", JSON.stringify(state.calculators));
         },
 
         removeCalculator(state, calc) {
             state.calculators = state.calculators.filter(item => item !== calc);
-            localStorage.setItem('Calcs', JSON.stringify(state.calculators));
+            localStorage.setItem("Calcs", JSON.stringify(state.calculators));
         },
 
         updateForm(state, formClone) {
@@ -62,24 +62,24 @@ export default new Vuex.Store({
 
     actions: {
         selectCalc(context, payload) {
-            context.commit('selectCalc', payload);
+            context.commit("selectCalc", payload);
         },
 
         updateForm(context, payload) {
-            context.commit('updateForm', payload);
-            context.commit('updateData');
+            context.commit("updateForm", payload);
+            context.commit("updateData");
         },
 
         updateData(context) {
-            context.commit('updateData');
+            context.commit("updateData");
         },
 
         addCalculator(context) {
-            context.commit('addCalculator');
+            context.commit("addCalculator");
         },
 
         removeCalculator(context, payload) {
-            context.commit('removeCalculator', payload);
-        },
-    },
+            context.commit("removeCalculator", payload);
+        }
+    }
 });

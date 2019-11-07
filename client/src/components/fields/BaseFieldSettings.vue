@@ -1,65 +1,63 @@
-<template>
-
-</template>
-
 <script>
-    import ButtonsGroup from '../field_properties_editors/ButtonsGroup';
-    import CheckBoxSelector from '../field_properties_editors/CheckBoxSelector';
-    import ColorSelector from '../field_properties_editors/ColorSelector';
-    import SelectOptionsManager from '../field_properties_editors/SelectOptionsManager';
-    import Slider from '../field_properties_editors/Slider';
-    import TextFieldComponent from '../field_properties_editors/TextFieldComponent';
-    import TextFieldNumber from '../field_properties_editors/TextFieldNumber';
+/* eslint vue/no-unused-components: 0 */
 
-    import ContainerSizes from '../../constants/ContainerSizes';
+import ButtonsGroup from "../field_properties_editors/ButtonsGroup";
+import CheckBoxSelector from "../field_properties_editors/CheckBoxSelector";
+import ColorSelector from "../field_properties_editors/ColorSelector";
+import SelectOptionsManager from "../field_properties_editors/SelectOptionsManager";
+import Slider from "../field_properties_editors/Slider";
+import TextFieldComponent from "../field_properties_editors/TextFieldComponent";
+import TextFieldNumber from "../field_properties_editors/TextFieldNumber";
 
-    export default {
-        name: 'BaseFieldSettings',
+import ContainerSizes from "../../constants/ContainerSizes";
 
-        components: {
-            ButtonsGroup,
-            CheckBoxSelector,
-            ColorSelector,
-            SelectOptionsManager,
-            Slider,
-            TextFieldComponent,
-            TextFieldNumber,
-        },
+export default {
+    name: "BaseFieldSettings",
 
-        props: {
-            fieldData: Object,
-        },
+    components: {
+        ButtonsGroup,
+        CheckBoxSelector,
+        ColorSelector,
+        SelectOptionsManager,
+        Slider,
+        TextFieldComponent,
+        TextFieldNumber
+    },
 
-        data() {
-            return {
-                // fieldOptions: this.fieldData,
+    props: {
+        fieldData: Object
+    },
 
-                propsCategoriesNames: {
-                    SIZE_AND_POSITION: 'Размеры и положение',
-                    MODEL: 'Атрибуты поля',
-                    STYLE: 'Внешний вид',
-                },
+    data() {
+        return {
+            // fieldOptions: this.fieldData,
 
-                sizeVariants: ContainerSizes.sizes.map(size => ({
-                    label: `${size}%`,
-                    value: size,
-                })),
-            };
-        },
-    };
+            propsCategoriesNames: {
+                SIZE_AND_POSITION: "Размеры и положение",
+                MODEL: "Атрибуты поля",
+                STYLE: "Внешний вид"
+            },
+
+            sizeVariants: ContainerSizes.sizes.map(size => ({
+                label: `${size}%`,
+                value: size
+            }))
+        };
+    }
+};
 </script>
 
 <style lang="scss">
-    .field-settings {
-        margin: 12px 0;
+.field-settings {
+    margin: 12px 0;
 
-        &__title {
-            margin-top: 24px;
-            margin-bottom: 6px;
-        }
-
-        &__property-component {
-            margin: 9px 0;
-        }
+    &__title {
+        margin-top: 24px;
+        margin-bottom: 6px;
     }
+
+    &__property-component {
+        margin: 9px 0;
+    }
+}
 </style>

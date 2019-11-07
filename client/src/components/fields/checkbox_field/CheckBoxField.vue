@@ -1,5 +1,9 @@
 <template>
-    <field-base :field="field" @edit-field="$emit('edit-field')" @remove-field="$emit('remove-field')">
+    <field-base
+        :field="field"
+        @edit-field="$emit('edit-field')"
+        @remove-field="$emit('remove-field')"
+    >
         <div>
             <label class="checkbox">
                 <input
@@ -7,56 +11,53 @@
                     type="checkbox"
                     :name="field.id"
                     v-model="field.params.isSelected"
-                >
+                />
 
                 <span class="checkbox__check"></span>
-                <span class="checkbox__label">{{field.params.label}} | {{value}}</span>
+                <span class="checkbox__label">{{ field.params.label }} | {{ value }}</span>
             </label>
         </div>
     </field-base>
 </template>
 
 <script>
-    import FieldBase from '../BaseField.vue';
+import FieldBase from "../BaseField.vue";
 
-    export default {
-        name: 'RadioButtonField',
+export default {
+    name: "RadioButtonField",
 
-        components: {
-            FieldBase,
-        },
+    components: {
+        FieldBase
+    },
 
-        extends: FieldBase,
+    extends: FieldBase,
 
-        computed: {
-            styles() {
-                return {
-                    ...this.field.style,
-                };
-            },
-
-            value() {
-                const { isSelected, activatedValue, deactivatedValue } = this.field.params;
-                return isSelected ? activatedValue : deactivatedValue;
-            }
-        },
-
-        data() {
+    computed: {
+        styles() {
             return {
-                defaultOptions: {
-                    label: 'Заголовок поля',
-                    activatedValue: 100,
-                    deactivatedValue: 0,
-                    isSelected: false,
-                },
-
-                defaultStyle: {
-                    labelColor: '#2c2e32',
-                },
+                ...this.field.style
             };
         },
-    };
-</script>
 
-<style scoped lang="scss">
-</style>
+        value() {
+            const { isSelected, activatedValue, deactivatedValue } = this.field.params;
+            return isSelected ? activatedValue : deactivatedValue;
+        }
+    },
+
+    data() {
+        return {
+            defaultOptions: {
+                label: "Заголовок поля",
+                activatedValue: 100,
+                deactivatedValue: 0,
+                isSelected: false
+            },
+
+            defaultStyle: {
+                labelColor: "#2c2e32"
+            }
+        };
+    }
+};
+</script>

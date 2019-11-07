@@ -1,8 +1,17 @@
 <template>
-    <field-base :field="field" @edit-field="$emit('edit-field')" @remove-field="$emit('remove-field')">
+    <field-base
+        :field="field"
+        @edit-field="$emit('edit-field')"
+        @remove-field="$emit('remove-field')"
+    >
         <transition name="fade">
-            <label class="label" v-if="this.field.params.label" :for="field.id" :style="{ color: field.style.labelColor }">
-                {{field.params.label}}
+            <label
+                class="label"
+                v-if="this.field.params.label"
+                :for="field.id"
+                :style="{ color: field.style.labelColor }"
+            >
+                {{ field.params.label }}
             </label>
         </transition>
 
@@ -17,42 +26,39 @@
 </template>
 
 <script>
-    import FieldBase from '../BaseField.vue';
+import FieldBase from "../BaseField.vue";
 
-    export default {
-        name: 'SliderField',
+export default {
+    name: "SliderField",
 
-        components: {
-            FieldBase,
-        },
+    components: {
+        FieldBase
+    },
 
-        extends: FieldBase,
+    extends: FieldBase,
 
-        computed: {
-            styles() {
-                return {
-                    ...this.field.style,
-                };
-            }
-        },
-
-        data() {
+    computed: {
+        styles() {
             return {
-                defaultOptions: {
-                    value: 0,
-                    label: 'Заголовок поля',
-                    min: 0,
-                    max: 10,
-                    step: 1,
-                },
-
-                defaultStyle: {
-                    labelColor: '#2c2e32',
-                },
+                ...this.field.style
             };
-        },
-    };
-</script>
+        }
+    },
 
-<style scoped lang="scss">
-</style>
+    data() {
+        return {
+            defaultOptions: {
+                value: 0,
+                label: "Заголовок поля",
+                min: 0,
+                max: 10,
+                step: 1
+            },
+
+            defaultStyle: {
+                labelColor: "#2c2e32"
+            }
+        };
+    }
+};
+</script>

@@ -24,7 +24,7 @@
                 { label: 750, value: 750 },
                 { label: 900, value: 900 },
                 { label: 1050, value: 1050 },
-                { label: 1200, value: 1200 },
+                { label: 1200, value: 1200 }
             ]"
             :options="{
                 title: 'Максимальная ширина формы'
@@ -38,41 +38,39 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-    import TextFieldComponent from '@/components/field_properties_editors/TextFieldComponent';
-    import ButtonsGroup from '@/components/field_properties_editors/ButtonsGroup';
+import TextFieldComponent from "@/components/field_properties_editors/TextFieldComponent";
+import ButtonsGroup from "@/components/field_properties_editors/ButtonsGroup";
 
-    export default {
-        name: "CommonSettings",
+export default {
+    name: "CommonSettings",
 
-        components: {
-            ButtonsGroup,
-            TextFieldComponent,
-        },
+    components: {
+        ButtonsGroup,
+        TextFieldComponent
+    },
 
-        computed: {
-            ...mapGetters([
-                'selectedCalculator',
-            ]),
-        },
+    computed: {
+        ...mapGetters(["selectedCalculator"])
+    },
 
-        methods: {
-            saveData() {
-                this.$store.dispatch('updateData');
-            }
+    methods: {
+        saveData() {
+            this.$store.dispatch("updateData");
         }
     }
+};
 </script>
 
 <style scoped lang="scss">
-    .common-settings {
-        max-width: 850px;
-        margin: 50px auto;
-        padding: 0 24px;
+.common-settings {
+    max-width: 850px;
+    margin: 50px auto;
+    padding: 0 24px;
 
-        &__property-item {
-            margin: 18px 0;
-        }
+    &__property-item {
+        margin: 18px 0;
     }
+}
 </style>
