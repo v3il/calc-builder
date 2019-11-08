@@ -44,19 +44,19 @@
             <component :is="currentComponent" :form="currentForm"></component>
         </div>
 
-        <v-dialog ref="confirmNav" :max-width="600">
+        <v-dialog ref="confirmNav" :max-width="600" class="form-editor__confirm-dialog">
             {{ uSign("translate", "У данной формы есть несохраненные данные. Сохранить?") }}
 
             <template v-slot:footer="{ closePopup }">
-                <button class="button button--success" @click="saveChanges">
+                <button class="button button--success form-editor__save-and-nav" @click="saveChanges">
                     {{ uSign("translate", "Сохранить и перейти") }}
                 </button>
 
-                <button class="button button--danger" @click="discardChanges">
+                <button class="button button--danger form-editor__discard-and-nav" @click="discardChanges">
                     {{ uSign("translate", "Сбросить и перейти") }}
                 </button>
 
-                <button class="button" @click="cancelNavigation">
+                <button class="button form-editor__cancel-nav" @click="cancelNavigation">
                     {{ uSign("translate", "Отменить переход") }}
                 </button>
             </template>
@@ -244,10 +244,8 @@ export default {
         height: calc(100vh - 64px);
     }
 
-    /* &__submit-btn { */
-
-    /*    margin-left: 50px; */
-
-    /* } */
+    &__discard-btn, &__save-and-nav, &__discard-and-nav {
+        margin-right: 12px;
+    }
 }
 </style>
