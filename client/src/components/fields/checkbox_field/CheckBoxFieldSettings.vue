@@ -6,7 +6,8 @@
             v-model="fieldData.params.label"
             class="field-settings__property-component"
             :options="{
-                title: 'Заголовок поля'
+                title: 'Заголовок поля',
+                isValid: (value, prevValue) => value || prevValue,
             }"
         ></text-field-component>
     </div>

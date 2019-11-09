@@ -2,7 +2,7 @@
     padding: 0 0.6rem;
     font-size: 0.9rem;
     height: 2rem;
-    line-height: 1.77rem;
+    line-height: 1.7rem;
     outline: none;
     color: $color_primary;
     border: 2px solid $gray;
@@ -32,8 +32,8 @@
     color: #fff;
 
     &:hover {
-        background-color: lighten($success, 10%);
-        border-color: lighten($success, 10%);
+        background-color: darken($success, 10%);
+        border-color: darken($success, 10%);
     }
 }
 

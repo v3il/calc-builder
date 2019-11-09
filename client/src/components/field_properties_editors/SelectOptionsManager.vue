@@ -9,10 +9,18 @@
             :class="{ 'options-manager__option-item--default': option.isDefault }"
         >
             <div class="options-manager__option-data">
-                <text-field-component v-model="option.label" class="options-manager__label-input" />
+                <text-field-component
+                    v-model="option.label"
+                    class="options-manager__label-input"
+                    :options="{
+                        isValid: (value, prevValue) => value || prevValue,
+                    }"
+                />
+
                 <i
                     class="material-icons options-manager__remove-option"
                     @click="removeOption(option)"
+                    v-if="index > 1"
                     >remove_circle</i
                 >
             </div>

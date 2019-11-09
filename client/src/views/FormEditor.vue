@@ -6,7 +6,7 @@
                     <i class="material-icons form-editor__move-back-icon">arrow_back</i>
                 </router-link>
 
-                {{ uSign("translate", 'Редактирование формы "%s"', [currentForm.name]) }}
+                {{ currentForm.name }}
             </div>
 
             <ul class="form-editor__header-nav">
@@ -44,15 +44,26 @@
             <component :is="currentComponent" :form="currentForm"></component>
         </div>
 
-        <v-dialog ref="confirmNav" :max-width="600" class="form-editor__confirm-dialog">
+        <v-dialog
+            ref="confirmNav"
+            :max-width="600"
+            class="form-editor__confirm-dialog"
+            @close="cancelNavigation"
+        >
             {{ uSign("translate", "У данной формы есть несохраненные данные. Сохранить?") }}
 
             <template v-slot:footer="{ closePopup }">
-                <button class="button button--success form-editor__save-and-nav" @click="saveChanges">
+                <button
+                    class="button button--success form-editor__save-and-nav"
+                    @click="saveChanges"
+                >
                     {{ uSign("translate", "Сохранить и перейти") }}
                 </button>
 
-                <button class="button button--danger form-editor__discard-and-nav" @click="discardChanges">
+                <button
+                    class="button button--danger form-editor__discard-and-nav"
+                    @click="discardChanges"
+                >
                     {{ uSign("translate", "Сбросить и перейти") }}
                 </button>
 
@@ -198,7 +209,7 @@ export default {
 
     &__header-nav {
         list-style: none;
-        margin: 0 auto;
+        margin: 0 auto 0 550px;
         display: flex;
         height: 100%;
     }
@@ -244,7 +255,9 @@ export default {
         height: calc(100vh - 64px);
     }
 
-    &__discard-btn, &__save-and-nav, &__discard-and-nav {
+    &__discard-btn,
+    &__save-and-nav,
+    &__discard-and-nav {
         margin-right: 12px;
     }
 }

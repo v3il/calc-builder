@@ -34,11 +34,35 @@ export default {
         }
     },
 
-    methods: {
-        emitUpdate(event) {
-            this.$emit("input", event.target.value);
+    data() {
+        return {
+            prevValue: this.value,
         }
-    }
+    },
+
+    methods: {
+        emitUpdate({ target }) {
+            let value = target.value;
+            const { isValid } = this.options;
+
+            if (isValid) {
+                const validationResult = isValid(value, this.prevValue);
+
+                if (validationResult === false) {
+                    value = this.prevValue;
+                }
+
+                if (typeof validationResult === 'string') {
+                    value = validationResult;
+                }
+            }
+
+            this.$emit("input", value);
+
+            this.prevValue = value;
+            target.value = value;
+        }
+    },
 };
 </script>
 
