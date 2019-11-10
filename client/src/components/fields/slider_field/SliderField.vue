@@ -11,7 +11,8 @@
                 :for="field.id"
                 :style="{ color: field.style.labelColor }"
             >
-                {{ field.params.label }}
+                {{ field.params.label }} | {{ field.params.min }} | {{ field.params.max }} |
+                {{ field.params.step }}
             </label>
         </transition>
 

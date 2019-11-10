@@ -66,13 +66,13 @@ export default {
                 }
             }
 
-            this.$emit('changed', value);
-
-            // this.$emit('input', value);
+            this.$emit('input', value);
 
             this.prevValue = value;
             this.currentValue = value;
             input.value = value;
+
+            this.$emit('value-changed', value);
         },
 
         updateCurrentValue() {

@@ -19,7 +19,7 @@
                 type: 'number',
                 validator: validateMinValue,
             }"
-            @changed="() => { validateStep(`${fieldData.params.step}`) }"
+            @value-changed="updateStep"
         ></text-field-component>
 
         <text-field-component
@@ -30,7 +30,7 @@
                 type: 'number',
                 validator: validateMaxValue,
             }"
-            @changed="() => { validateStep(`${fieldData.params.step}`) }"
+            @value-changed="updateStep"
         ></text-field-component>
 
         <text-field-component
@@ -92,22 +92,16 @@ export default {
         },
 
         validateStep(value) {
-            // value = value || this.fieldData.params.step;
-
-            console.log(value);
-
-            // return parseInt(value);
-
-            const { min, max } = this.fieldData.params;
-            const numericValue = value.length ? parseInt(value) : 1;
+            const numericValue = typeof value === 'string' ? parseInt(value) : value;
 
             if (numericValue < 1) {
                 return 1;
             }
 
+            const { min, max } = this.fieldData.params;
             const valuesDiff = Math.abs(max - min);
 
-            if (numericValue > valuesDiff) {
+            if (numericValue >= valuesDiff) {
                 return valuesDiff;
             }
 
@@ -121,9 +115,11 @@ export default {
             };
         },
 
-        test() {
-            console.log(123);
-        }
+        updateStep() {
+            this.$nextTick(() => {
+                this.fieldData.params.step = this.validateStep(this.fieldData.params.step);
+            });
+        },
     },
 };
 </script>
