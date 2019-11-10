@@ -92,7 +92,7 @@ export default {
         },
 
         validateStep(value) {
-            const numericValue = typeof value === 'string' ? parseInt(value) : value;
+            const numericValue = typeof value === 'number' ? value : parseInt(value) || 1;
 
             if (numericValue < 1) {
                 return 1;
