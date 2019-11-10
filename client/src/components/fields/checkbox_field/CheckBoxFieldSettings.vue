@@ -7,7 +7,7 @@
             class="field-settings__property-component"
             :options="{
                 title: 'Заголовок поля',
-                isValid: (value, prevValue) => value || prevValue,
+                minLength: 1,
             }"
         ></text-field-component>
     </div>

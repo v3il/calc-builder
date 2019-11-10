@@ -13,7 +13,7 @@
                     v-model="option.label"
                     class="options-manager__label-input"
                     :options="{
-                        isValid: (value, prevValue) => value || prevValue,
+                        minLength: 1,
                     }"
                 />
 

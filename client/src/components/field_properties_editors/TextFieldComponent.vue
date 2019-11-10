@@ -8,10 +8,12 @@
             :type="options.type || 'text'"
             class="text-field__input text-input"
             @input="emitUpdate"
+            @blur="updateCurrentValue"
             :value="value"
             :placeholder="options.placeholder"
             :id="options.id"
             :style="options.style"
+            ref="input"
         />
 
         <p class="text-field__description" v-if="options.description">{{ options.description }}</p>
@@ -37,13 +39,20 @@ export default {
     data() {
         return {
             prevValue: this.value,
+            currentValue: this.value,
         }
     },
 
     methods: {
-        emitUpdate({ target }) {
-            let value = target.value;
-            const { isValid } = this.options;
+        emitUpdate() {
+            const input = this.$refs.input;
+
+            let value = input.value;
+            const { isValid, minLength, maxLength } = this.options;
+
+            if (minLength && value.length < minLength) {
+                value = this.prevValue;
+            }
 
             if (isValid) {
                 const validationResult = isValid(value, this.prevValue);
@@ -52,7 +61,7 @@ export default {
                     value = this.prevValue;
                 }
 
-                if (typeof validationResult === 'string') {
+                if (typeof validationResult !== 'boolean') {
                     value = validationResult;
                 }
             }
@@ -60,7 +69,12 @@ export default {
             this.$emit("input", value);
 
             this.prevValue = value;
-            target.value = value;
+            this.currentValue = value;
+            input.value = value;
+        },
+
+        updateCurrentValue() {
+            this.$refs.input.value = this.currentValue;
         }
     },
 };
