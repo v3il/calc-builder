@@ -7,7 +7,7 @@
             class="field-settings__property-component"
             :options="{
                 title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи'
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
             }"
         ></text-field-component>
 
@@ -17,8 +17,9 @@
             :options="{
                 title: 'Минимальное значение',
                 type: 'number',
-                isValid: validateMinValue,
+                validator: validateMinValue,
             }"
+            @changed="() => { validateStep(`${fieldData.params.step}`) }"
         ></text-field-component>
 
         <text-field-component
@@ -27,8 +28,9 @@
             :options="{
                 title: 'Максимальное значение',
                 type: 'number',
-                isValid: validateMaxValue,
+                validator: validateMaxValue,
             }"
+            @changed="() => { validateStep(`${fieldData.params.step}`) }"
         ></text-field-component>
 
         <text-field-component
@@ -37,17 +39,17 @@
             :options="{
                 title: 'Значение шага',
                 type: 'number',
-                minLength: 1,
+                validator: validateStep,
             }"
         ></text-field-component>
     </div>
 </template>
 
 <script>
-import BaseFieldSettings from "../BaseFieldSettings";
+import BaseFieldSettings from '../BaseFieldSettings';
 
 export default {
-    name: "SliderFieldSettings",
+    name: 'SliderFieldSettings',
     extends: BaseFieldSettings,
 
     methods: {
@@ -63,7 +65,7 @@ export default {
                 return upperBound - 1;
             }
 
-            if (numericValue > this.fieldData.params.max) {
+            if (numericValue >= this.fieldData.params.max) {
                 this.fieldData.params.max = numericValue + 1;
             }
 
@@ -82,7 +84,7 @@ export default {
                 return upperBound;
             }
 
-            if (numericValue < this.fieldData.params.min) {
+            if (numericValue <= this.fieldData.params.min) {
                 this.fieldData.params.min = numericValue - 1;
             }
 
@@ -90,15 +92,38 @@ export default {
         },
 
         validateStep(value) {
+            // value = value || this.fieldData.params.step;
+
+            console.log(value);
+
+            // return parseInt(value);
+
+            const { min, max } = this.fieldData.params;
             const numericValue = value.length ? parseInt(value) : 1;
+
+            if (numericValue < 1) {
+                return 1;
+            }
+
+            const valuesDiff = Math.abs(max - min);
+
+            if (numericValue > valuesDiff) {
+                return valuesDiff;
+            }
+
+            return numericValue;
         },
 
         getValuesBounds() {
             return {
                 lowerBound: -100000,
                 upperBound: 100000,
-            }
+            };
+        },
+
+        test() {
+            console.log(123);
         }
-    }
+    },
 };
 </script>

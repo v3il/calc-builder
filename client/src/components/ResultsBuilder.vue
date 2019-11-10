@@ -19,24 +19,24 @@
 </template>
 
 <script>
-import { SelectFieldValues } from "./fields/select_field";
-import { RadioButtonFieldValues } from "./fields/radiobutton_field";
-import { CheckBoxFieldValues } from "./fields/checkbox_field";
+import { SelectFieldValues } from './fields/select_field';
+import { RadioButtonFieldValues } from './fields/radiobutton_field';
+import { CheckBoxFieldValues } from './fields/checkbox_field';
 
 export default {
-    name: "ResultsBuilder",
+    name: 'ResultsBuilder',
 
     components: {
         SelectFieldValues,
         RadioButtonFieldValues,
-        CheckBoxFieldValues
+        CheckBoxFieldValues,
     },
 
     props: {
         form: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
 
     computed: {
@@ -46,9 +46,9 @@ export default {
 
         statefulFields() {
             return this.fieldsList.filter(({ type }) =>
-                ["RadioButtonField", "CheckBoxField", "SelectField"].includes(type)
+                ['RadioButtonField', 'CheckBoxField', 'SelectField'].includes(type),
             );
-        }
+        },
     },
 
     methods: {
@@ -58,8 +58,8 @@ export default {
             this.$set(field.params, fieldName, fieldValue);
 
             // field.params[fieldName] = fieldValue;
-        }
-    }
+        },
+    },
 };
 </script>
 

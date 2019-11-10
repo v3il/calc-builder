@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import FieldBase from "../BaseField.vue";
+import FieldBase from '../BaseField.vue';
 
 export default {
-    name: "RadioButtonField",
+    name: 'RadioButtonField',
 
     components: {
-        FieldBase
+        FieldBase,
     },
 
     extends: FieldBase,
@@ -48,13 +48,13 @@ export default {
     computed: {
         styles() {
             return {
-                ...this.field.style
+                ...this.field.style,
             };
         },
 
         value() {
             return this.field.params.options.find(item => item.isSelected).activatedValue;
-        }
+        },
     },
 
     data() {
@@ -63,27 +63,27 @@ export default {
                 activatedValue: 100,
                 deactivatedValue: 0,
                 isSelected: true,
-                label: "Значение 1",
-                id: Math.random()
+                label: 'Значение 1',
+                id: Math.random(),
             },
             {
                 activatedValue: 200,
                 deactivatedValue: 0,
                 isSelected: false,
-                label: "Значение 2",
-                id: Math.random()
-            }
+                label: 'Значение 2',
+                id: Math.random(),
+            },
         ];
 
         return {
             defaultOptions: {
-                label: "Заголовок поля",
-                options: defaultOptions
+                label: 'Заголовок поля',
+                options: defaultOptions,
             },
 
             defaultStyle: {
-                labelColor: "#2c2e32"
-            }
+                labelColor: '#2c2e32',
+            },
         };
     },
 
@@ -92,8 +92,8 @@ export default {
             this.field.params.options.forEach(item => {
                 item.isSelected = item === option;
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

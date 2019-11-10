@@ -1,7 +1,7 @@
 module.exports = {
     pluginOptions: {
         lintStyleOnBuild: false,
-        stylelint: {}
+        stylelint: {},
     },
 
     runtimeCompiler: true,
@@ -9,8 +9,8 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                data: `@import "@/common-styles/colors.scss";`
-            }
-        }
-    }
+                data: '@import "@/common-styles/colors.scss";',
+            },
+        },
+    },
 };

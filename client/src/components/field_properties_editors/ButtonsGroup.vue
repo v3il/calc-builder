@@ -11,7 +11,7 @@
                 @click="$emit('input', valueObject.value)"
                 class="button buttons-group__button"
                 :class="{
-                    'button buttons-group__button--active': valueObject.value === value
+                    'button buttons-group__button--active': valueObject.value === value,
                 }"
             >
                 {{ valueObject.label }}
@@ -22,29 +22,29 @@
 
 <script>
 export default {
-    name: "ButtonsGroup",
+    name: 'ButtonsGroup',
 
     props: {
         value: {
             type: [String, Number, Boolean],
-            required: true
+            required: true,
         },
 
         variants: {
             type: Array,
-            required: true
+            required: true,
         },
 
         options: {
             type: Object,
-            default: () => ({})
-        }
-    }
+            default: () => ({}),
+        },
+    },
 };
 </script>
 
 <style scoped lang="scss">
-@import "../../common-styles/button";
+@import '../../common-styles/button';
 
 .buttons-group {
     &__title {

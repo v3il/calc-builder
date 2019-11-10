@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import FieldBase from "../BaseField.vue";
+import FieldBase from '../BaseField.vue';
 
 export default {
-    name: "RadioButtonField",
+    name: 'RadioButtonField',
 
     components: {
-        FieldBase
+        FieldBase,
     },
 
     extends: FieldBase,
@@ -35,29 +35,29 @@ export default {
     computed: {
         styles() {
             return {
-                ...this.field.style
+                ...this.field.style,
             };
         },
 
         value() {
             const { isSelected, activatedValue, deactivatedValue } = this.field.params;
             return isSelected ? activatedValue : deactivatedValue;
-        }
+        },
     },
 
     data() {
         return {
             defaultOptions: {
-                label: "Заголовок поля",
+                label: 'Заголовок поля',
                 activatedValue: 100,
                 deactivatedValue: 0,
-                isSelected: false
+                isSelected: false,
             },
 
             defaultStyle: {
-                labelColor: "#2c2e32"
-            }
+                labelColor: '#2c2e32',
+            },
         };
-    }
+    },
 };
 </script>

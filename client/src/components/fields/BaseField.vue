@@ -3,7 +3,7 @@
         class="field-wrapper"
         :class="{
             'field-wrapper--disabled': field.internal.disabled,
-            'field-wrapper--selected': field.internal.selected
+            'field-wrapper--selected': field.internal.selected,
         }"
     >
         <fields-params-toolbar v-if="!field.internal.disabled">
@@ -21,57 +21,57 @@
 </template>
 
 <script>
-import FieldsParamsToolbar from "../fields_toolbar/FieldsParamsToolbar";
+import FieldsParamsToolbar from '../fields_toolbar/FieldsParamsToolbar';
 
-import ToolbarDragButton from "../fields_toolbar/ToolbarDragButton";
-import ToolbarEditButton from "../fields_toolbar/ToolbarEditButton";
-import ToolbarRemoveButton from "../fields_toolbar/ToolbarRemoveButton";
+import ToolbarDragButton from '../fields_toolbar/ToolbarDragButton';
+import ToolbarEditButton from '../fields_toolbar/ToolbarEditButton';
+import ToolbarRemoveButton from '../fields_toolbar/ToolbarRemoveButton';
 
 export default {
     components: {
         FieldsParamsToolbar,
         ToolbarDragButton,
         ToolbarEditButton,
-        ToolbarRemoveButton
+        ToolbarRemoveButton,
     },
 
     props: {
         field: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
 
     data() {
         return {
             internalOptions: {
                 disabled: false,
-                selected: false
+                selected: false,
             },
 
             commonDefaultOptions: {},
 
             commonDefaultStyle: {
-                color: "#2c2e32",
-                backgroundColor: "#ffffff",
-                borderColor: "#e0e2e6"
-            }
+                color: '#2c2e32',
+                backgroundColor: '#ffffff',
+                borderColor: '#e0e2e6',
+            },
         };
     },
 
     created() {
-        this.$set(this.field, "internal", { ...this.internalOptions });
-        this.$set(this.field, "params", {
+        this.$set(this.field, 'internal', { ...this.internalOptions });
+        this.$set(this.field, 'params', {
             ...this.commonDefaultOptions,
             ...this.defaultOptions,
-            ...this.field.params
+            ...this.field.params,
         });
-        this.$set(this.field, "style", {
+        this.$set(this.field, 'style', {
             ...this.commonDefaultStyle,
             ...this.defaultStyle,
-            ...this.field.style
+            ...this.field.style,
         });
-    }
+    },
 };
 </script>
 

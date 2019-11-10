@@ -31,29 +31,29 @@
 </template>
 
 <script>
-import TextFieldComponent from "./TextFieldComponent";
+import TextFieldComponent from './TextFieldComponent';
 
 export default {
-    name: "SelectOptionsManager",
+    name: 'SelectOptionsManager',
 
     components: {
-        TextFieldComponent
+        TextFieldComponent,
     },
 
     props: {
         value: {
-            type: Array
+            type: Array,
         },
 
         options: {
-            type: Object
-        }
+            type: Object,
+        },
     },
 
     methods: {
         removeOption(option) {
             const optionsListCopy = [...this.value].filter(item => item !== option);
-            this.$emit("input", optionsListCopy);
+            this.$emit('input', optionsListCopy);
         },
 
         addOption() {
@@ -64,13 +64,13 @@ export default {
                 activatedValue: 100,
                 deactivatedValue: 0,
                 isSelected: false,
-                label: "Значение",
-                id: Math.random()
+                label: 'Значение',
+                id: Math.random(),
             });
 
-            this.$emit("input", optionsListCopy);
-        }
-    }
+            this.$emit('input', optionsListCopy);
+        },
+    },
 };
 </script>
 

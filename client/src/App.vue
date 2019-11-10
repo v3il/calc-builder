@@ -5,11 +5,11 @@
 </template>
 
 <style lang="scss">
-@import "common-styles/common-styles";
+@import 'common-styles/common-styles';
 
 html {
     font-size: 15px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 * {

@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import BaseFieldSettings from "../BaseFieldSettings";
+import BaseFieldSettings from '../BaseFieldSettings';
 
 export default {
-    name: "CheckBoxFieldSettings",
-    extends: BaseFieldSettings
+    name: 'CheckBoxFieldSettings',
+    extends: BaseFieldSettings,
 };
 </script>

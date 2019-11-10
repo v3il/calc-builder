@@ -10,11 +10,11 @@
                     <div
                         class="calculators__preview"
                         :style="{
-                            backgroundImage: `url(${calc.backgroundImageSrc})`
+                            backgroundImage: `url(${calc.backgroundImageSrc})`,
                         }"
                     ></div>
 
-                    <div class="calculators__name">{{ calc.name || " " }}</div>
+                    <div class="calculators__name">{{ calc.name || ' ' }}</div>
 
                     <div class="calculators__actions">
                         <ui-button color="primary" @click="edit(calc)">
@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-    name: "MainPage",
+    name: 'MainPage',
 
     computed: {
-        ...mapGetters(["allCalculators", "selectedCalculator"])
+        ...mapGetters(['allCalculators', 'selectedCalculator']),
     },
 
     data() {
@@ -54,44 +54,44 @@ export default {
             items: [
                 {
                     id: 0,
-                    type: "ButtonField",
-                    text: "Кнопка"
+                    type: 'ButtonField',
+                    text: 'Кнопка',
                 },
                 {
                     id: 1,
-                    type: "TextField",
-                    text: "Текстовое поле"
-                }
+                    type: 'TextField',
+                    text: 'Текстовое поле',
+                },
             ],
 
-            drawer: true
+            drawer: true,
         };
     },
 
     props: {
-        source: String
+        source: String,
     },
 
     methods: {
         edit(calc) {
             // this.$store.dispatch('selectCalc', calc);
             this.$router.push({
-                name: "formLayout",
+                name: 'formLayout',
                 params: {
-                    id: calc.id
-                }
+                    id: calc.id,
+                },
             });
         },
 
         add() {
-            this.$store.dispatch("addCalculator");
+            this.$store.dispatch('addCalculator');
             // this.$router.push('/constructor');
         },
 
         remove(calc) {
-            this.$store.dispatch("removeCalculator", calc);
-        }
-    }
+            this.$store.dispatch('removeCalculator', calc);
+        },
+    },
 };
 </script>
 
@@ -159,7 +159,7 @@ export default {
         .calculators__preview {
             width: 100%;
             height: 150px;
-            background: url("http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg") no-repeat
+            background: url('http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg') no-repeat
                 top;
             background-size: cover;
         }

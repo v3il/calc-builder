@@ -4,7 +4,7 @@
             class="common-settings__property-item"
             v-model="selectedCalculator.name"
             :options="{
-                title: 'Название формы'
+                title: 'Название формы',
             }"
         ></text-field-component>
 
@@ -12,7 +12,7 @@
             class="common-settings__property-item"
             v-model="selectedCalculator.backgroundImageSrc"
             :options="{
-                title: 'Ссылка на обложку формы'
+                title: 'Ссылка на обложку формы',
             }"
         ></text-field-component>
 
@@ -24,10 +24,10 @@
                 { label: 750, value: 750 },
                 { label: 900, value: 900 },
                 { label: 1050, value: 1050 },
-                { label: 1200, value: 1200 }
+                { label: 1200, value: 1200 },
             ]"
             :options="{
-                title: 'Максимальная ширина формы'
+                title: 'Максимальная ширина формы',
             }"
         ></buttons-group>
 
@@ -38,28 +38,28 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import TextFieldComponent from "@/components/field_properties_editors/TextFieldComponent";
-import ButtonsGroup from "@/components/field_properties_editors/ButtonsGroup";
+import TextFieldComponent from '@/components/field_properties_editors/TextFieldComponent';
+import ButtonsGroup from '@/components/field_properties_editors/ButtonsGroup';
 
 export default {
-    name: "CommonSettings",
+    name: 'CommonSettings',
 
     components: {
         ButtonsGroup,
-        TextFieldComponent
+        TextFieldComponent,
     },
 
     computed: {
-        ...mapGetters(["selectedCalculator"])
+        ...mapGetters(['selectedCalculator']),
     },
 
     methods: {
         saveData() {
-            this.$store.dispatch("updateData");
-        }
-    }
+            this.$store.dispatch('updateData');
+        },
+    },
 };
 </script>
 

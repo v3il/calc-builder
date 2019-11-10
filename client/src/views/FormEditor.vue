@@ -15,7 +15,7 @@
                     :key="index"
                     class="form-editor__header-nav-item"
                     :class="{
-                        'form-editor__header-nav-item--active': $route.name === navItem.routeName
+                        'form-editor__header-nav-item--active': $route.name === navItem.routeName,
                     }"
                 >
                     <router-link
@@ -32,11 +32,11 @@
                 @click="discardFormData"
                 v-if="hasChanges"
             >
-                {{ uSign("translate", "Сбросить изменения") }}
+                {{ uSign('translate', 'Сбросить изменения') }}
             </button>
 
             <button class="button button--success form-editor__submit-btn" @click="saveFormData">
-                {{ uSign("translate", "Сохранить") }}
+                {{ uSign('translate', 'Сохранить') }}
             </button>
         </div>
 
@@ -50,25 +50,25 @@
             class="form-editor__confirm-dialog"
             @close="cancelNavigation"
         >
-            {{ uSign("translate", "У данной формы есть несохраненные данные. Сохранить?") }}
+            {{ uSign('translate', 'У данной формы есть несохраненные данные. Сохранить?') }}
 
             <template v-slot:footer="{ closePopup }">
                 <button
                     class="button button--success form-editor__save-and-nav"
                     @click="saveChanges"
                 >
-                    {{ uSign("translate", "Сохранить и перейти") }}
+                    {{ uSign('translate', 'Сохранить и перейти') }}
                 </button>
 
                 <button
                     class="button button--danger form-editor__discard-and-nav"
                     @click="discardChanges"
                 >
-                    {{ uSign("translate", "Сбросить и перейти") }}
+                    {{ uSign('translate', 'Сбросить и перейти') }}
                 </button>
 
                 <button class="button form-editor__cancel-nav" @click="cancelNavigation">
-                    {{ uSign("translate", "Отменить переход") }}
+                    {{ uSign('translate', 'Отменить переход') }}
                 </button>
             </template>
         </v-dialog>
@@ -76,46 +76,46 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import LayoutBuilder from "../components/LayoutBuilder";
-import ResultsBuilder from "../components/ResultsBuilder";
+import LayoutBuilder from '../components/LayoutBuilder';
+import ResultsBuilder from '../components/ResultsBuilder';
 
-import VDialog from "@/components/Dialog";
+import VDialog from '@/components/Dialog';
 
-const cloneDeep = require("lodash/cloneDeep");
-const isEqual = require("lodash/isEqual");
+const cloneDeep = require('lodash/cloneDeep');
+const isEqual = require('lodash/isEqual');
 
 export default {
-    name: "CalcConstructor",
+    name: 'CalcConstructor',
 
     computed: {
-        ...mapGetters(["allCalculators"]),
+        ...mapGetters(['allCalculators']),
 
         currentComponent() {
             switch (this.$route.name) {
-                case "formResults":
-                    return "results-builder";
-                case "formLayout":
+                case 'formResults':
+                    return 'results-builder';
+                case 'formLayout':
                 default:
-                    return "layout-builder";
+                    return 'layout-builder';
             }
         },
 
         hasChanges() {
             return !isEqual(this.currentForm, this.currentFormOriginal);
-        }
+        },
     },
 
     components: {
         LayoutBuilder,
         ResultsBuilder,
-        VDialog
+        VDialog,
     },
 
     methods: {
         saveFormData() {
-            this.$store.dispatch("updateForm", this.currentForm);
+            this.$store.dispatch('updateForm', this.currentForm);
             this.currentFormOriginal = cloneDeep(this.currentForm);
         },
 
@@ -137,7 +137,7 @@ export default {
         cancelNavigation() {
             this.$refs.confirmNav.triggerClose();
             this.resolveNavigation(false);
-        }
+        },
     },
 
     data() {
@@ -146,11 +146,11 @@ export default {
             currentFormOriginal: null,
 
             navItems: [
-                { routeName: "formLayout", label: this.uSign("translate", "Разметка формы") },
-                { routeName: "formResults", label: this.uSign("translate", "Результаты") }
+                { routeName: 'formLayout', label: this.uSign('translate', 'Разметка формы') },
+                { routeName: 'formResults', label: this.uSign('translate', 'Результаты') },
             ],
 
-            resolveNavigation: null
+            resolveNavigation: null,
         };
     },
 
@@ -169,7 +169,7 @@ export default {
         } else {
             next();
         }
-    }
+    },
 };
 </script>
 
@@ -191,9 +191,7 @@ export default {
         align-items: center;
         display: flex;
         padding: 0 24px;
-        box-shadow:
- 0 2px 4px -1px rgba(0, 0, 0, 0.2),
- 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
             0 1px 10px 0 rgba(0, 0, 0, 0.12);
         z-index: 3;
     }

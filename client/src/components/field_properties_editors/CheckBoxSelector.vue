@@ -19,30 +19,30 @@
 
 <script>
 export default {
-    name: "TextFieldComponent",
+    name: 'TextFieldComponent',
 
     props: {
         value: {
             type: Boolean,
-            required: true
+            required: true,
         },
 
         options: {
             type: Object,
-            default: () => ({})
-        }
+            default: () => ({}),
+        },
     },
 
     methods: {
         emitUpdate(event) {
-            this.$emit("input", event.target.checked);
-        }
-    }
+            this.$emit('input', event.target.checked);
+        },
+    },
 };
 </script>
 
 <style scoped lang="scss">
-@import "../../common-styles/checkbox";
+@import '../../common-styles/checkbox';
 
 .checkbox-field {
     &__label {

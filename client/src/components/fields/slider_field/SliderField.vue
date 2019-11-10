@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import FieldBase from "../BaseField.vue";
+import FieldBase from '../BaseField.vue';
 
 export default {
-    name: "SliderField",
+    name: 'SliderField',
 
     components: {
-        FieldBase
+        FieldBase,
     },
 
     extends: FieldBase,
@@ -40,25 +40,25 @@ export default {
     computed: {
         styles() {
             return {
-                ...this.field.style
+                ...this.field.style,
             };
-        }
+        },
     },
 
     data() {
         return {
             defaultOptions: {
                 value: 0,
-                label: "Заголовок поля",
+                label: 'Заголовок поля',
                 min: 0,
                 max: 10,
-                step: 1
+                step: 1,
             },
 
             defaultStyle: {
-                labelColor: "#2c2e32"
-            }
+                labelColor: '#2c2e32',
+            },
         };
-    }
+    },
 };
 </script>

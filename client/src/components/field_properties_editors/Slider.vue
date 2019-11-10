@@ -24,16 +24,16 @@
 
 <script>
 export default {
-    name: "Slider",
+    name: 'Slider',
 
     props: {
         value: {
-            type: Number
+            type: Number,
         },
 
         options: {
-            type: Object
-        }
+            type: Object,
+        },
     },
 
     computed: {
@@ -41,19 +41,19 @@ export default {
             return this.options.valueTransformer
                 ? this.options.valueTransformer(this.value)
                 : this.value;
-        }
+        },
     },
 
     methods: {
         emitValueChange(value) {
-            this.$emit("input", value);
-        }
-    }
+            this.$emit('input', value);
+        },
+    },
 };
 </script>
 
 <style>
-@import "settings-component-base.scss";
+@import 'settings-component-base.scss';
 
 .property-editor-field_field-element {
     margin: 0;

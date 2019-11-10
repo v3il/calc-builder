@@ -1,4 +1,4 @@
-import TextField from "./TextField";
-import TextFieldSettings from "./TextFieldSettings";
+import TextField from './TextField';
+import TextFieldSettings from './TextFieldSettings';
 
 export { TextField, TextFieldSettings };

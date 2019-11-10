@@ -77,22 +77,22 @@
 </template>
 
 <script>
-import Draggable from "vuedraggable";
+import Draggable from 'vuedraggable';
 
-import { TextField, TextFieldSettings } from "./fields/text_field";
-import { TextAreaField, TextAreaFieldSettings } from "./fields/textarea_field";
-import { SelectField, SelectFieldSettings } from "./fields/select_field";
-import { ButtonField, ButtonFieldSettings } from "./fields/button_field";
-import { SliderField, SliderFieldSettings } from "./fields/slider_field";
-import { CheckBoxField, CheckBoxFieldSettings } from "./fields/checkbox_field";
-import { RadioButtonField, RadioButtonFieldSettings } from "./fields/radiobutton_field";
+import { TextField, TextFieldSettings } from './fields/text_field';
+import { TextAreaField, TextAreaFieldSettings } from './fields/textarea_field';
+import { SelectField, SelectFieldSettings } from './fields/select_field';
+import { ButtonField, ButtonFieldSettings } from './fields/button_field';
+import { SliderField, SliderFieldSettings } from './fields/slider_field';
+import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
+import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
 
-import ImageField from "./fields/image_field/ImageField.vue";
+import ImageField from './fields/image_field/ImageField.vue';
 
-import availableFields from "../constants/AvailableFields";
+import availableFields from '../constants/AvailableFields';
 
 export default {
-    name: "LayoutBuilder",
+    name: 'LayoutBuilder',
 
     components: {
         Draggable,
@@ -112,20 +112,20 @@ export default {
         RadioButtonField,
         RadioButtonFieldSettings,
 
-        ImageField
+        ImageField,
     },
 
     props: {
         form: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
 
     computed: {
         fieldsList() {
             return this.form.layout.reduce((result, current) => result.concat(current.fields), []);
-        }
+        },
     },
 
     data() {
@@ -139,29 +139,29 @@ export default {
             // layoutRows: [],
 
             sortableOptions: {
-                group: { name: "items" },
-                handle: ".js-drag-field",
+                group: { name: 'items' },
+                handle: '.js-drag-field',
                 sort: true,
-                ghostClass: "layout-builder__sortable-ghost"
+                ghostClass: 'layout-builder__sortable-ghost',
             },
 
             sidebarDraggableOptions: {
-                group: { name: "items", pull: "clone", put: false },
-                sort: false
+                group: { name: 'items', pull: 'clone', put: false },
+                sort: false,
             },
 
             garbageDraggableOptions: {
-                group: { name: "items", pull: "clone", put: true },
-                sort: false
+                group: { name: 'items', pull: 'clone', put: true },
+                sort: false,
             },
 
-            garbageDraggableVisible: false
+            garbageDraggableVisible: false,
         };
     },
 
     methods: {
         removeField(row, removedField) {
-            console.log("Remove");
+            console.log('Remove');
 
             if (removedField === this.selectedField) {
                 this.saveEditedField();
@@ -198,12 +198,12 @@ export default {
         onAdd(row, event) {
             const { item, from, newIndex } = event;
 
-            console.log("Add");
+            console.log('Add');
 
-            if (!from.classList.contains("js-layout-row")) {
+            if (!from.classList.contains('js-layout-row')) {
                 row.fields.splice(newIndex, 0, {
                     id: Math.random(),
-                    type: item.dataset.item
+                    type: item.dataset.item,
                 });
             }
 
@@ -226,9 +226,9 @@ export default {
         },
 
         updateLayout() {
-            console.log("Update");
+            console.log('Update');
             // this.form.layout = this.layoutRows;
-            this.$store.dispatch("updateData");
+            this.$store.dispatch('updateData');
         },
 
         handleDragStart(row) {
@@ -265,14 +265,14 @@ export default {
         handleRowItemDragEnd() {
             // this.garbageDraggableVisible = false;
             this.handleDragEnd();
-        }
+        },
     },
 
     mounted() {
         // this.layoutRows = this.form.layout || [
         //     { fields: [], disabled: false },
         // ];
-    }
+    },
 };
 </script>
 

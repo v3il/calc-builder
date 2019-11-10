@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import FieldBase from "../BaseField.vue";
+import FieldBase from '../BaseField.vue';
 
 export default {
-    name: "TextField",
+    name: 'TextField',
 
     components: {
-        FieldBase
+        FieldBase,
     },
 
     extends: FieldBase,
@@ -44,30 +44,30 @@ export default {
             return {
                 ...this.field.style,
                 ...{ borderRadius: `${this.field.style.borderRadius}px` },
-                ...{ resize: this.field.style.resizable ? "vertical" : "none" }
+                ...{ resize: this.field.style.resizable ? 'vertical' : 'none' },
             };
         },
 
         value() {
             return this.field.params.value;
-        }
+        },
     },
 
     data() {
         return {
             defaultOptions: {
-                value: "",
-                label: "Заголовок поля",
-                placeholder: "Подсказка поля"
+                value: '',
+                label: 'Заголовок поля',
+                placeholder: 'Подсказка поля',
             },
 
             defaultStyle: {
-                labelColor: "#2c2e32",
+                labelColor: '#2c2e32',
                 borderRadius: 6,
-                resizable: false
-            }
+                resizable: false,
+            },
         };
-    }
+    },
 };
 </script>
 

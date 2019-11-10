@@ -19,7 +19,7 @@
 // import PropertyValueChangerBase from './PropertyValueChangerBase';
 
 export default {
-    name: "TextFieldNumber",
+    name: 'TextFieldNumber',
 
     props: {
         value: Number,
@@ -29,30 +29,30 @@ export default {
 
         min: {
             type: Number,
-            default: 1
+            default: 1,
         },
 
         max: {
             type: Number,
-            default: 10
+            default: 10,
         },
 
         step: {
             type: Number,
-            default: 1
-        }
+            default: 1,
+        },
     },
 
     data() {
         return {
-            val: this.value
+            val: this.value,
         };
-    }
+    },
 };
 </script>
 
 <style>
-@import "settings-component-base.scss";
+@import 'settings-component-base.scss';
 
 .el-input-number__decrease,
 .el-input-number__increase {

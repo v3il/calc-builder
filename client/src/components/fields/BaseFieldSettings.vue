@@ -1,18 +1,18 @@
 <script>
 /* eslint vue/no-unused-components: 0 */
 
-import ButtonsGroup from "../field_properties_editors/ButtonsGroup";
-import CheckBoxSelector from "../field_properties_editors/CheckBoxSelector";
-import ColorSelector from "../field_properties_editors/ColorSelector";
-import SelectOptionsManager from "../field_properties_editors/SelectOptionsManager";
-import Slider from "../field_properties_editors/Slider";
-import TextFieldComponent from "../field_properties_editors/TextFieldComponent";
-import TextFieldNumber from "../field_properties_editors/TextFieldNumber";
+import ButtonsGroup from '../field_properties_editors/ButtonsGroup';
+import CheckBoxSelector from '../field_properties_editors/CheckBoxSelector';
+import ColorSelector from '../field_properties_editors/ColorSelector';
+import SelectOptionsManager from '../field_properties_editors/SelectOptionsManager';
+import Slider from '../field_properties_editors/Slider';
+import TextFieldComponent from '../field_properties_editors/TextFieldComponent';
+import TextFieldNumber from '../field_properties_editors/TextFieldNumber';
 
-import ContainerSizes from "../../constants/ContainerSizes";
+import ContainerSizes from '../../constants/ContainerSizes';
 
 export default {
-    name: "BaseFieldSettings",
+    name: 'BaseFieldSettings',
 
     components: {
         ButtonsGroup,
@@ -21,11 +21,11 @@ export default {
         SelectOptionsManager,
         Slider,
         TextFieldComponent,
-        TextFieldNumber
+        TextFieldNumber,
     },
 
     props: {
-        fieldData: Object
+        fieldData: Object,
     },
 
     data() {
@@ -33,17 +33,17 @@ export default {
             // fieldOptions: this.fieldData,
 
             propsCategoriesNames: {
-                SIZE_AND_POSITION: "Размеры и положение",
-                MODEL: "Атрибуты поля",
-                STYLE: "Внешний вид"
+                SIZE_AND_POSITION: 'Размеры и положение',
+                MODEL: 'Атрибуты поля',
+                STYLE: 'Внешний вид',
             },
 
             sizeVariants: ContainerSizes.sizes.map(size => ({
                 label: `${size}%`,
-                value: size
-            }))
+                value: size,
+            })),
         };
-    }
+    },
 };
 </script>
 

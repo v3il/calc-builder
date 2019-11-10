@@ -37,24 +37,24 @@
 
 <script>
 export default {
-    name: "VDialog",
+    name: 'VDialog',
 
     data() {
         return {
-            visible: false
+            visible: false,
         };
     },
 
     props: {
         maxWidth: { type: Number, default: 1000 },
         zIndex: { type: Number, default: 9999 },
-        isPinned: { type: Boolean, default: false }
+        isPinned: { type: Boolean, default: false },
     },
 
     methods: {
         open() {
             this.visible = true;
-            document.addEventListener("keyup", this.keyUpHandler);
+            document.addEventListener('keyup', this.keyUpHandler);
         },
 
         keyUpHandler(event) {
@@ -64,13 +64,13 @@ export default {
         },
 
         close() {
-            this.$emit("close");
-            document.removeEventListener("keyup", this.keyUpHandler);
+            this.$emit('close');
+            document.removeEventListener('keyup', this.keyUpHandler);
         },
 
         triggerClose() {
             this.visible = false;
-        }
+        },
     },
 
     mounted() {
@@ -79,8 +79,8 @@ export default {
 
     beforeDestroy() {
         this.$el.remove();
-        document.removeEventListener("keyup", this.keyUpHandler);
-    }
+        document.removeEventListener('keyup', this.keyUpHandler);
+    },
 };
 </script>
 

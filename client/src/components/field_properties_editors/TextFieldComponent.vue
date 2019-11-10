@@ -22,25 +22,25 @@
 
 <script>
 export default {
-    name: "TextFieldComponent",
+    name: 'TextFieldComponent',
 
     props: {
         value: {
             type: [String, Number],
-            required: true
+            required: true,
         },
 
         options: {
             type: Object,
-            default: () => ({})
-        }
+            default: () => ({}),
+        },
     },
 
     data() {
         return {
             prevValue: this.value,
             currentValue: this.value,
-        }
+        };
     },
 
     methods: {
@@ -48,14 +48,14 @@ export default {
             const input = this.$refs.input;
 
             let value = input.value;
-            const { isValid, minLength, maxLength } = this.options;
+            const { validator, minLength } = this.options;
 
             if (minLength && value.length < minLength) {
                 value = this.prevValue;
             }
 
-            if (isValid) {
-                const validationResult = isValid(value, this.prevValue);
+            if (validator) {
+                const validationResult = validator(value, this.prevValue);
 
                 if (validationResult === false) {
                     value = this.prevValue;
@@ -66,7 +66,9 @@ export default {
                 }
             }
 
-            this.$emit("input", value);
+            this.$emit('changed', value);
+
+            // this.$emit('input', value);
 
             this.prevValue = value;
             this.currentValue = value;
@@ -75,13 +77,13 @@ export default {
 
         updateCurrentValue() {
             this.$refs.input.value = this.currentValue;
-        }
+        },
     },
 };
 </script>
 
 <style scoped lang="scss">
-@import "../../common-styles/text-input";
+@import '../../common-styles/text-input';
 
 .text-field {
     &__input {

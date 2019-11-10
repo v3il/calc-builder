@@ -38,14 +38,14 @@
 
 <script>
 export default {
-    name: "RadioFieldValues",
+    name: 'RadioFieldValues',
 
     props: {
         field: {
             type: Object,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 };
 </script>
 

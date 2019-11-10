@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import BaseFieldSettings from "../BaseFieldSettings";
+import BaseFieldSettings from '../BaseFieldSettings';
 
 export default {
-    name: "ButtonFieldSettings",
+    name: 'ButtonFieldSettings',
 
-    extends: BaseFieldSettings
+    extends: BaseFieldSettings,
 };
 </script>

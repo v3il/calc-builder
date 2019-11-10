@@ -7,25 +7,25 @@
 
 <script>
 export default {
-    name: "ColorSelector",
+    name: 'ColorSelector',
 
     props: {
         value: {
             type: String,
-            required: true
+            required: true,
         },
 
         options: {
             type: Object,
-            default: () => ({})
-        }
+            default: () => ({}),
+        },
     },
 
     methods: {
         emitUpdate(event) {
-            this.$emit("input", event.target.value);
-        }
-    }
+            this.$emit('input', event.target.value);
+        },
+    },
 };
 </script>
 

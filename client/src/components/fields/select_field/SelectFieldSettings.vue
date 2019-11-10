@@ -6,7 +6,7 @@
             v-model="fieldData.params.label"
             :options="{
                 title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи'
+                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
             }"
             class="field-settings__property-component"
         ></text-field-component>
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import BaseFieldSettings from "../BaseFieldSettings";
+import BaseFieldSettings from '../BaseFieldSettings';
 
 export default {
-    name: "SelectSettings",
-    extends: BaseFieldSettings
+    name: 'SelectSettings',
+    extends: BaseFieldSettings,
 };
 </script>

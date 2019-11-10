@@ -6,6 +6,6 @@
 
 <script>
 export default {
-    name: "SelectFieldValues"
+    name: 'SelectFieldValues',
 };
 </script>

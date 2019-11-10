@@ -16,9 +16,9 @@ export default slots => {
 
     Object.keys(slots).map(slotName => {
         const regexPattern =
-            slotName === "default" ? "<slot[sS]*>" : `<slot(.+name="(${slotName})")?[sS]*>`;
+            slotName === 'default' ? '<slot[sS]*>' : `<slot(.+name="(${slotName})")?[sS]*>`;
 
-        const regex = new RegExp(regexPattern, "ig");
+        const regex = new RegExp(regexPattern, 'ig');
 
         const results = [];
         let result;
@@ -32,9 +32,9 @@ export default slots => {
         }
 
         results.map(result => {
-            if (slotName === "default" || (result[2] !== null && result[2] === slotName)) {
+            if (slotName === 'default' || (result[2] !== null && result[2] === slotName)) {
                 const start = result.index + result[0].length;
-                const end = result.input.indexOf("</slot>", start);
+                const end = result.input.indexOf('</slot>', start);
 
                 if (end === -1) {
                     return;

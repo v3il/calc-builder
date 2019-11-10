@@ -1,10 +1,10 @@
 <script>
-import FieldBase from "../BaseField.vue";
+import FieldBase from '../BaseField.vue';
 
-import getTemplateForComponent from "../getTemplateForComponent";
+import getTemplateForComponent from '../getTemplateForComponent';
 
 export default {
-    name: "ButtonField",
+    name: 'ButtonField',
 
     extends: FieldBase,
 
@@ -13,31 +13,31 @@ export default {
                 <ui-button @click="action" color="primary" :style="styleObject">
                     {{fieldObject.params.text}}
                 </ui-button>
-            `
+            `,
     }),
 
     computed: {
         styleObject() {
             return {
-                "border-radius": `${this.fieldObject.params.borderRadius}px`
+                'border-radius': `${this.fieldObject.params.borderRadius}px`,
             };
-        }
+        },
     },
 
     data() {
         return {
             defaultOptions: {
-                text: "Заголовок поля",
-                borderRadius: 1
-            }
+                text: 'Заголовок поля',
+                borderRadius: 1,
+            },
         };
     },
 
     methods: {
         action() {
             console.log(123, this.params, this.options);
-        }
-    }
+        },
+    },
 };
 </script>
 

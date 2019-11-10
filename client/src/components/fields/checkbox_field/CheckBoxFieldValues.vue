@@ -28,14 +28,14 @@
 
 <script>
 export default {
-    name: "CheckBoxFieldValues",
+    name: 'CheckBoxFieldValues',
 
     props: {
         field: {
             type: Object,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 };
 </script>
 
