@@ -47,7 +47,14 @@ export default {
         },
 
         value() {
-            return this.field.params.options.find(item => item.isSelected).activatedValue;
+            let selectedOption = this.field.params.options.find(item => item.isSelected);
+
+            if (!selectedOption) {
+                selectedOption = this.field.params.options[0];
+                selectedOption.isSelected = true;
+            }
+
+            return selectedOption.activatedValue;
         },
     },
 

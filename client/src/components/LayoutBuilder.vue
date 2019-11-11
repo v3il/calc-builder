@@ -2,13 +2,15 @@
     <section class="layout-builder">
         <aside class="layout-builder__sidebar">
             <div class="layout-builder__settings-editor" v-if="selectedField">
-                <h3 class="layout-builder__section-title">Редактирование элемента</h3>
+                <h3 class="layout-builder__section-title">
+                    {{ uSign('translate', 'Редактирование элемента') }}
+                </h3>
 
                 <button
                     class="layout-builder__settings-editor-save button button--primary"
                     @click="saveEditedField"
                 >
-                    Сохранить
+                    {{ uSign('translate', 'Закрыть') }}
                 </button>
 
                 <component
@@ -20,7 +22,9 @@
             </div>
 
             <div class="layout-builder__available-widgets" v-else>
-                <h3 class="layout-builder__section-title">Доступные элементы</h3>
+                <h3 class="layout-builder__section-title">
+                    {{ uSign('translate', 'Доступные элементы') }}
+                </h3>
 
                 <Draggable
                     tag="ul"
@@ -136,8 +140,6 @@ export default {
 
             items: availableFields,
 
-            // layoutRows: [],
-
             sortableOptions: {
                 group: { name: 'items' },
                 handle: '.js-drag-field',
@@ -175,7 +177,6 @@ export default {
 
         triggerFieldEdit(field) {
             this.selectedField = field;
-
             field.internal.selected = true;
 
             this.fieldsList
@@ -186,9 +187,10 @@ export default {
         },
 
         saveEditedField() {
-            this.selectedField.internal.selected = false;
-
-            this.selectedField = null;
+            if (this.selectedField) {
+                this.selectedField.internal.selected = false;
+                this.selectedField = null;
+            }
 
             this.fieldsList.forEach(item => {
                 item.internal.disabled = false;
@@ -227,7 +229,6 @@ export default {
 
         updateLayout() {
             console.log('Update');
-            // this.form.layout = this.layoutRows;
             this.$store.dispatch('updateData');
         },
 
@@ -266,12 +267,6 @@ export default {
             // this.garbageDraggableVisible = false;
             this.handleDragEnd();
         },
-    },
-
-    mounted() {
-        // this.layoutRows = this.form.layout || [
-        //     { fields: [], disabled: false },
-        // ];
     },
 };
 </script>

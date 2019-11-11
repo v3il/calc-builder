@@ -5,16 +5,15 @@
         <text-field-component
             v-model="fieldData.params.label"
             :options="{
-                title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+                title: uSign('translate', 'Заголовок поля'),
+                description: uSign('translate', 'Оставьте пустым, чтобы скрыть элемент надписи'),
             }"
             class="field-settings__property-component"
         ></text-field-component>
 
         <select-options-manager
             v-model="fieldData.params.options"
-            @default-option-change="({ option }) => (fieldData.params.selectedOption = option)"
-            :options="{ title: 'Пункты' }"
+            :options="{ title: uSign('translate', 'Пункты') }"
         ></select-options-manager>
     </div>
 </template>

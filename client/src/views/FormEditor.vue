@@ -41,7 +41,11 @@
         </div>
 
         <div class="form-editor__content">
-            <component :is="currentComponent" :form="currentForm"></component>
+            <component
+                ref="optionsComponent"
+                :is="currentComponent"
+                :form="currentForm"
+            ></component>
         </div>
 
         <v-dialog
@@ -86,6 +90,9 @@ import VDialog from '@/components/Dialog';
 const cloneDeep = require('lodash/cloneDeep');
 const isEqual = require('lodash/isEqual');
 
+const layoutBuilderComponentId = 'layout-builder';
+const resultsBuilderComponentId = 'results-builder';
+
 export default {
     name: 'CalcConstructor',
 
@@ -95,10 +102,10 @@ export default {
         currentComponent() {
             switch (this.$route.name) {
                 case 'formResults':
-                    return 'results-builder';
+                    return resultsBuilderComponentId;
                 case 'formLayout':
                 default:
-                    return 'layout-builder';
+                    return layoutBuilderComponentId;
             }
         },
 
@@ -115,11 +122,19 @@ export default {
 
     methods: {
         saveFormData() {
+            if (this.currentComponent === layoutBuilderComponentId) {
+                this.$refs.optionsComponent.saveEditedField();
+            }
+
             this.$store.dispatch('updateForm', this.currentForm);
             this.currentFormOriginal = cloneDeep(this.currentForm);
         },
 
         discardFormData() {
+            if (this.currentComponent === layoutBuilderComponentId) {
+                this.$refs.optionsComponent.saveEditedField();
+            }
+
             this.currentForm = cloneDeep(this.currentFormOriginal);
         },
 
@@ -191,7 +206,9 @@ export default {
         align-items: center;
         display: flex;
         padding: 0 24px;
-        box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+        box-shadow:
+ 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+ 0 4px 5px 0 rgba(0, 0, 0, 0.14),
             0 1px 10px 0 rgba(0, 0, 0, 0.12);
         z-index: 3;
     }
