@@ -54,7 +54,7 @@
                     v-model="row.fields"
                     v-for="(row, rowIndex) in form.layout"
                     class="layout-builder__layout-row js-layout-row"
-                    :class="{ 'layout-builder__layout-row--disabled': row.disabled }"
+                    :class="{ 'layout-builder__layout-row--disabled': disabledRows.includes(row) }"
                     @add="onAdd(row, $event)"
                     @update="updateLayout"
                     @start="handleRowItemDragStart(row)"
@@ -62,7 +62,7 @@
                     v-bind="sortableOptions"
                     :data-rowindex="rowIndex"
                     :key="rowIndex"
-                    :disabled="row.disabled"
+                    :disabled="disabledRows.includes(row)"
                 >
                     <component
                         v-for="field in row.fields"
@@ -72,8 +72,10 @@
                         :is="field.type"
                         :field="field"
                         :data-id="field.id"
-                        :disabled="(selectedField && field.id !== selectedField.id) || row.disabled"
-                        :selected="selectedField && field.id === selectedField.id"
+                        :disabled="
+                            (selectedField && field !== selectedField) || disabledRows.includes(row)
+                        "
+                        :selected="selectedField && field === selectedField"
                         class="layout-builder__row-item"
                     ></component>
                 </draggable>
@@ -142,6 +144,8 @@ export default {
 
             items: availableFields,
 
+            disabledRows: [],
+
             sortableOptions: {
                 group: { name: 'items' },
                 handle: '.js-drag-field',
@@ -179,27 +183,10 @@ export default {
 
         triggerFieldEdit(field) {
             this.selectedField = field;
-
-            console.log('Select', field);
-
-            // field.internal.selected = true;
-
-            // this.fieldsList
-            //     .filter(item => item !== field)
-            //     .forEach(item => {
-            //         item.internal.disabled = true;
-            //     });
         },
 
         saveEditedField() {
-            // if (this.selectedField) {
-            // this.selectedField.internal.selected = false;
             this.selectedField = null;
-            // }
-
-            // this.fieldsList.forEach(item => {
-            //     item.internal.disabled = false;
-            // });
         },
 
         onAdd(row, event) {
@@ -225,11 +212,11 @@ export default {
         },
 
         appendEmptyRow() {
-            this.form.layout.push({ fields: [], disabled: false });
+            this.form.layout.push({ fields: [] });
         },
 
         removeEmptyRows() {
-            this.form.layout = this.form.layout.filter(item => item.fields.length > 0);
+            this.form.layout = this.form.layout.filter(({ fields }) => fields.length > 0);
         },
 
         updateLayout() {
@@ -238,29 +225,13 @@ export default {
         },
 
         handleDragStart(row) {
-            this.form.layout
+            this.disabledRows = this.form.layout
                 .filter(item => item !== row)
-                .filter(({ fields }) => fields.length >= this.MAX_ITEMS_PER_ROW)
-                .forEach(item => {
-                    item.disabled = true;
-
-                    // item.fields.forEach(item => {
-                    //     item.internal.disabled = true;
-                    // });
-                });
+                .filter(({ fields }) => fields.length >= this.MAX_ITEMS_PER_ROW);
         },
 
         handleDragEnd() {
-            this.form.layout.forEach(item => {
-                item.disabled = false;
-
-                // item.fields.forEach(item => {
-                //     // Excluding just added widget if any exists
-                //     if (item.internal) {
-                //         item.internal.disabled = false;
-                //     }
-                // });
-            });
+            this.disabledRows = [];
         },
 
         handleRowItemDragStart(row) {

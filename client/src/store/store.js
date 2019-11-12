@@ -39,7 +39,7 @@ export default new Vuex.Store({
             state.calculators.push({
                 id,
                 name: `Форма ${id}`,
-                layout: [{ fields: [], disabled: false }],
+                layout: [{ fields: [] }],
                 contentMaxWidth: 750,
                 backgroundImageSrc: 'http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg',
             });

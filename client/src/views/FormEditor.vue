@@ -27,17 +27,22 @@
                 </li>
             </ul>
 
-            <button
-                class="button button--danger form-editor__discard-btn"
-                @click="discardFormData"
-                v-if="hasChanges"
-            >
-                {{ uSign('translate', 'Сбросить изменения') }}
-            </button>
+            <div class="form-editor__actions">
+                <button
+                    class="button button--danger form-editor__discard-btn"
+                    @click="discardFormData"
+                    :disabled="!hasChanges"
+                >
+                    {{ uSign('translate', 'Сбросить изменения') }}
+                </button>
 
-            <button class="button button--success form-editor__submit-btn" @click="saveFormData">
-                {{ uSign('translate', 'Сохранить') }}
-            </button>
+                <button
+                    class="button button--success form-editor__submit-btn"
+                    @click="saveFormData"
+                >
+                    {{ uSign('translate', 'Сохранить') }}
+                </button>
+            </div>
         </div>
 
         <div class="form-editor__content">
@@ -110,25 +115,6 @@ export default {
         },
 
         hasChanges() {
-            // const currentLayoutClone = cloneDeep(this.currentForm);
-            // const originalLayoutClone = cloneDeep(this.currentFormOriginal);
-            //
-            // currentLayoutClone.layout.forEach((row, index) => {
-            //     console.log(row);
-            //     row.fields.forEach(field => {
-            //         delete field.internal;
-            //     });
-            // });
-            //
-            // originalLayoutClone.layout.forEach((row, index) => {
-            //     console.log(row);
-            //     row.fields.forEach(field => {
-            //         delete field.internal;
-            //     });
-            // });
-
-            // console.log(currentLayout)
-
             return !isEqual(this.currentForm, this.currentFormOriginal);
         },
     },
@@ -224,6 +210,7 @@ export default {
         color: #fff;
         align-items: center;
         display: flex;
+        justify-content: space-between;
         padding: 0 24px;
         box-shadow:
  0 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -243,7 +230,6 @@ export default {
 
     &__header-nav {
         list-style: none;
-        margin: 0 auto 0 550px;
         display: flex;
         height: 100%;
     }
