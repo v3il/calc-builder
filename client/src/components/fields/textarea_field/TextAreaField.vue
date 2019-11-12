@@ -1,6 +1,8 @@
 <template>
     <field-base
         :field="field"
+        :disabled="disabled"
+        :selected="selected"
         class="textarea-component"
         @edit-field="$emit('edit-field')"
         @remove-field="$emit('remove-field')"

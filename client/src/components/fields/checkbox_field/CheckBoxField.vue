@@ -1,6 +1,8 @@
 <template>
     <field-base
         :field="field"
+        :disabled="disabled"
+        :selected="selected"
         @edit-field="$emit('edit-field')"
         @remove-field="$emit('remove-field')"
     >
@@ -14,7 +16,7 @@
                 />
 
                 <span class="checkbox__check"></span>
-                <span class="checkbox__label">{{ field.params.label }} | {{ value }}</span>
+                <span class="checkbox__label">{{ field.params.label }}</span>
             </label>
         </div>
     </field-base>

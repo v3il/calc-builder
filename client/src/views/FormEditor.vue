@@ -110,6 +110,25 @@ export default {
         },
 
         hasChanges() {
+            // const currentLayoutClone = cloneDeep(this.currentForm);
+            // const originalLayoutClone = cloneDeep(this.currentFormOriginal);
+            //
+            // currentLayoutClone.layout.forEach((row, index) => {
+            //     console.log(row);
+            //     row.fields.forEach(field => {
+            //         delete field.internal;
+            //     });
+            // });
+            //
+            // originalLayoutClone.layout.forEach((row, index) => {
+            //     console.log(row);
+            //     row.fields.forEach(field => {
+            //         delete field.internal;
+            //     });
+            // });
+
+            // console.log(currentLayout)
+
             return !isEqual(this.currentForm, this.currentFormOriginal);
         },
     },

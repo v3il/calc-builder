@@ -72,6 +72,8 @@
                         :is="field.type"
                         :field="field"
                         :data-id="field.id"
+                        :disabled="(selectedField && field.id !== selectedField.id) || row.disabled"
+                        :selected="selectedField && field.id === selectedField.id"
                         class="layout-builder__row-item"
                     ></component>
                 </draggable>
@@ -177,24 +179,27 @@ export default {
 
         triggerFieldEdit(field) {
             this.selectedField = field;
-            field.internal.selected = true;
 
-            this.fieldsList
-                .filter(item => item !== field)
-                .forEach(item => {
-                    item.internal.disabled = true;
-                });
+            console.log('Select', field);
+
+            // field.internal.selected = true;
+
+            // this.fieldsList
+            //     .filter(item => item !== field)
+            //     .forEach(item => {
+            //         item.internal.disabled = true;
+            //     });
         },
 
         saveEditedField() {
-            if (this.selectedField) {
-                this.selectedField.internal.selected = false;
-                this.selectedField = null;
-            }
+            // if (this.selectedField) {
+            // this.selectedField.internal.selected = false;
+            this.selectedField = null;
+            // }
 
-            this.fieldsList.forEach(item => {
-                item.internal.disabled = false;
-            });
+            // this.fieldsList.forEach(item => {
+            //     item.internal.disabled = false;
+            // });
         },
 
         onAdd(row, event) {
@@ -239,9 +244,9 @@ export default {
                 .forEach(item => {
                     item.disabled = true;
 
-                    item.fields.forEach(item => {
-                        item.internal.disabled = true;
-                    });
+                    // item.fields.forEach(item => {
+                    //     item.internal.disabled = true;
+                    // });
                 });
         },
 
@@ -249,12 +254,12 @@ export default {
             this.form.layout.forEach(item => {
                 item.disabled = false;
 
-                item.fields.forEach(item => {
-                    // Excluding just added widget if any exists
-                    if (item.internal) {
-                        item.internal.disabled = false;
-                    }
-                });
+                // item.fields.forEach(item => {
+                //     // Excluding just added widget if any exists
+                //     if (item.internal) {
+                //         item.internal.disabled = false;
+                //     }
+                // });
             });
         },
 

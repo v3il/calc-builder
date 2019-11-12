@@ -2,11 +2,11 @@
     <div
         class="field-wrapper"
         :class="{
-            'field-wrapper--disabled': field.internal.disabled,
-            'field-wrapper--selected': field.internal.selected,
+            'field-wrapper--disabled': disabled,
+            'field-wrapper--selected': selected,
         }"
     >
-        <fields-params-toolbar v-if="!field.internal.disabled">
+        <fields-params-toolbar v-if="!disabled">
             <slot name="toolbar">
                 <toolbar-drag-button />
                 <toolbar-edit-button @click="$emit('edit-field')" />
@@ -40,15 +40,20 @@ export default {
             type: Object,
             required: true,
         },
+
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+
+        selected: {
+            type: Boolean,
+            default: false,
+        },
     },
 
     data() {
         return {
-            internalOptions: {
-                disabled: false,
-                selected: false,
-            },
-
             commonDefaultOptions: {},
 
             commonDefaultStyle: {
@@ -60,12 +65,12 @@ export default {
     },
 
     created() {
-        this.$set(this.field, 'internal', { ...this.internalOptions });
         this.$set(this.field, 'params', {
             ...this.commonDefaultOptions,
             ...this.defaultOptions,
             ...this.field.params,
         });
+
         this.$set(this.field, 'style', {
             ...this.commonDefaultStyle,
             ...this.defaultStyle,

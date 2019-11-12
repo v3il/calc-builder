@@ -1,6 +1,8 @@
 <template>
     <field-base
         :field="field"
+        :disabled="disabled"
+        :selected="selected"
         @edit-field="$emit('edit-field')"
         @remove-field="$emit('remove-field')"
     >
@@ -11,8 +13,7 @@
                 :for="field.id"
                 :style="{ color: field.style.labelColor }"
             >
-                {{ field.params.label }} | {{ field.params.min }} | {{ field.params.max }} |
-                {{ field.params.step }}
+                {{ field.params.label }}
             </label>
         </transition>
 
