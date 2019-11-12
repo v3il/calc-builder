@@ -17,17 +17,18 @@
             </label>
         </transition>
 
-        <el-slider
+        <vue-slider
             v-model="field.params.value"
-            :step="field.params.step"
+            :id="field.id"
+            :interval="field.params.step"
             :min="field.params.min"
             :max="field.params.max"
-            :id="field.id"
-        ></el-slider>
+        ></vue-slider>
     </field-base>
 </template>
 
 <script>
+import VueSlider from 'vue-slider-component';
 import FieldBase from '../BaseField.vue';
 
 export default {
@@ -35,6 +36,7 @@ export default {
 
     components: {
         FieldBase,
+        VueSlider,
     },
 
     extends: FieldBase,

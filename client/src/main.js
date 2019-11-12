@@ -9,6 +9,8 @@ import store from './store/store';
 
 import 'keen-ui/dist/keen-ui.css';
 
+import 'vue-slider-component/theme/default.css';
+
 Vue.use(KeenUI);
 Vue.use(ElementUI);
 

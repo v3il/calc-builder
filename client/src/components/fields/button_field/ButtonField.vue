@@ -10,9 +10,9 @@ export default {
 
     template: getTemplateForComponent({
         default: `
-                <ui-button @click="action" color="primary" :style="styleObject">
+                <button @click="action" color="primary" :style="styleObject">
                     {{fieldObject.params.text}}
-                </ui-button>
+                </button>
             `,
     }),
 

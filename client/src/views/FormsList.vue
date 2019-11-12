@@ -17,21 +17,21 @@
                     <div class="calculators__name">{{ calc.name || ' ' }}</div>
 
                     <div class="calculators__actions">
-                        <ui-button color="primary" @click="edit(calc)">
+                        <button class="button button--success" @click="edit(calc)">
                             Редактировать
-                        </ui-button>
+                        </button>
 
-                        <ui-button color="red" @click="remove(calc)">
+                        <button class="button button--danger" @click="remove(calc)">
                             Удалить
-                        </ui-button>
+                        </button>
                     </div>
                 </div>
 
                 <div class="calculators__item calculators__item--prompt">
                     <div class="calculators__actions">
-                        <ui-button color="primary" @click="add()">
+                        <button class="button button--primary" @click="add">
                             Создать
-                        </ui-button>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -51,19 +51,6 @@ export default {
 
     data() {
         return {
-            items: [
-                {
-                    id: 0,
-                    type: 'ButtonField',
-                    text: 'Кнопка',
-                },
-                {
-                    id: 1,
-                    type: 'TextField',
-                    text: 'Текстовое поле',
-                },
-            ],
-
             drawer: true,
         };
     },

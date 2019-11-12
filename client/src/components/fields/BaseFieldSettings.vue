@@ -7,9 +7,6 @@ import ColorSelector from '../field_properties_editors/ColorSelector';
 import SelectOptionsManager from '../field_properties_editors/SelectOptionsManager';
 import Slider from '../field_properties_editors/Slider';
 import TextFieldComponent from '../field_properties_editors/TextFieldComponent';
-import TextFieldNumber from '../field_properties_editors/TextFieldNumber';
-
-import ContainerSizes from '../../constants/ContainerSizes';
 
 export default {
     name: 'BaseFieldSettings',
@@ -21,7 +18,6 @@ export default {
         SelectOptionsManager,
         Slider,
         TextFieldComponent,
-        TextFieldNumber,
     },
 
     props: {
@@ -30,18 +26,11 @@ export default {
 
     data() {
         return {
-            // fieldOptions: this.fieldData,
-
             propsCategoriesNames: {
                 SIZE_AND_POSITION: 'Размеры и положение',
                 MODEL: 'Атрибуты поля',
                 STYLE: 'Внешний вид',
             },
-
-            sizeVariants: ContainerSizes.sizes.map(size => ({
-                label: `${size}%`,
-                value: size,
-            })),
         };
     },
 };

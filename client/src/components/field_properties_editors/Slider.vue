@@ -6,15 +6,14 @@
             <p>{{ currentValue }}</p>
         </h4>
 
-        <el-slider
+        <vue-slider
+            :value="value"
+            @change="emitValueChange"
+            :interval="options.step || 1"
             :min="options.min || 0"
             :max="options.max || 100"
-            :step="options.step || 1"
-            :disabled="options.disabled"
-            :value="value"
-            @input="emitValueChange"
             class="property-editor-field_field-element"
-        ></el-slider>
+        ></vue-slider>
 
         <p class="property-editor-field_field-description" v-if="options.description">
             {{ options.description }}
@@ -23,8 +22,13 @@
 </template>
 
 <script>
+import VueSlider from 'vue-slider-component';
 export default {
     name: 'Slider',
+
+    components: {
+        VueSlider,
+    },
 
     props: {
         value: {
