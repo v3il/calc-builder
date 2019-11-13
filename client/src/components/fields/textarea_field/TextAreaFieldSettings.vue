@@ -15,14 +15,7 @@
             v-model="fieldData.params.placeholder"
             :options="{
                 title: 'Подсказка поля',
-            }"
-            class="field-settings__property-component"
-        ></TextFieldComponent>
-
-        <TextFieldComponent
-            v-model="fieldData.params.value"
-            :options="{
-                title: 'Значение поля по умолчанию',
+                description: uSign('translate', 'Будет отображаться при пустом поле'),
             }"
             class="field-settings__property-component"
         ></TextFieldComponent>

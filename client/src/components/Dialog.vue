@@ -1,38 +1,38 @@
 <template>
-    <!--    <transition name="fade3" @after-leave="close">-->
-    <div
-        class="vdialog js-vdialog-overlay"
-        :class="{ 'vdialog--pinned': isPinned }"
-        :style="{ zIndex }"
-        v-show="visible"
-    >
-        <div class="vdialog__inner-wrap" @click.self="triggerClose">
-            <div class="vdialog__inner" :style="{ maxWidth: `${maxWidth}px` }">
-                <div class="u-content_h3 vdialog__header">
-                    <div class="vdialog__title">
-                        <slot name="header">
-                            Подтвердите действие
-                        </slot>
+    <transition name="fade3" @after-leave="close">
+        <div
+            class="vdialog js-vdialog-overlay"
+            :class="{ 'vdialog--pinned': isPinned }"
+            :style="{ zIndex }"
+            v-show="visible"
+        >
+            <div class="vdialog__inner-wrap" @click.self="triggerClose">
+                <div class="vdialog__inner" :style="{ maxWidth: `${maxWidth}px` }">
+                    <div class="u-content_h3 vdialog__header">
+                        <div class="vdialog__title">
+                            <slot name="header">
+                                Подтвердите действие
+                            </slot>
+                        </div>
+
+                        <i class="material-icons vdialog__close-btn" @click="triggerClose">clear</i>
                     </div>
 
-                    <i class="material-icons vdialog__close-btn" @click="triggerClose">clear</i>
-                </div>
+                    <div class="vdialog__tabs">
+                        <slot name="tabs"></slot>
+                    </div>
 
-                <div class="vdialog__tabs">
-                    <slot name="tabs"></slot>
-                </div>
+                    <div class="vdialog__content">
+                        <slot></slot>
+                    </div>
 
-                <div class="vdialog__content">
-                    <slot></slot>
-                </div>
-
-                <div class="vdialog__footer">
-                    <slot name="footer" :closePopup="triggerClose"></slot>
+                    <div class="vdialog__footer">
+                        <slot name="footer" :closePopup="triggerClose"></slot>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--    </transition>-->
+    </transition>
 </template>
 
 <script>
