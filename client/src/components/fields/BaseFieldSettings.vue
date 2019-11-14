@@ -27,9 +27,9 @@ export default {
     data() {
         return {
             propsCategoriesNames: {
-                SIZE_AND_POSITION: 'Размеры и положение',
-                MODEL: 'Атрибуты поля',
-                STYLE: 'Внешний вид',
+                SIZE_AND_POSITION: uSign('translate', 'Размеры и положение'),
+                MODEL: uSign('translate', 'Атрибуты поля'),
+                STYLE: uSign('translate', 'Внешний вид'),
             },
         };
     },

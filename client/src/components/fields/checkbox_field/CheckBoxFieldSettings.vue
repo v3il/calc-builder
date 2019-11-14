@@ -6,7 +6,7 @@
             v-model="fieldData.params.label"
             class="field-settings__property-component"
             :options="{
-                title: 'Заголовок поля',
+                title: uSign('translate', 'Заголовок поля'),
                 minLength: 1,
             }"
         ></text-field-component>

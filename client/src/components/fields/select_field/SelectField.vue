@@ -17,7 +17,7 @@
             </label>
         </transition>
 
-        <select type="text" :style="styles" :id="field.id" class="select" @change="triggerChange">
+        <select :style="styles" :id="field.id" class="select" @change="triggerChange">
             <option
                 v-for="(option, index) in field.params.options"
                 :key="index"

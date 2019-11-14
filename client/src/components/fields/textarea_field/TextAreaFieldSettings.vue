@@ -5,8 +5,8 @@
         <TextFieldComponent
             v-model="fieldData.params.label"
             :options="{
-                title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+                title: uSign('translate', 'Заголовок поля'),
+                description: uSign('translate', 'Оставьте пустым, чтобы скрыть элемент надписи'),
             }"
             class="field-settings__property-component"
         ></TextFieldComponent>
@@ -14,7 +14,7 @@
         <TextFieldComponent
             v-model="fieldData.params.placeholder"
             :options="{
-                title: 'Подсказка поля',
+                title: uSign('translate', 'Подсказка поля'),
                 description: uSign('translate', 'Будет отображаться при пустом поле'),
             }"
             class="field-settings__property-component"
@@ -26,7 +26,7 @@
             v-model="fieldData.style.labelColor"
             class="field-settings__property-component"
             :options="{
-                title: 'Цвет надписи поля',
+                title: uSign('translate', 'Цвет надписи поля'),
             }"
         ></ColorSelector>
 
@@ -34,7 +34,7 @@
             v-model="fieldData.style.color"
             class="field-settings__property-component"
             :options="{
-                title: 'Цвет текста',
+                title: uSign('translate', 'Цвет текста'),
             }"
         ></ColorSelector>
 
@@ -42,7 +42,7 @@
             v-model="fieldData.style.borderColor"
             class="field-settings__property-component"
             :options="{
-                title: 'Цвет границы поля',
+                title: uSign('translate', 'Цвет границы поля'),
             }"
         ></ColorSelector>
 
@@ -50,14 +50,14 @@
             v-model="fieldData.style.backgroundColor"
             class="field-settings__property-component"
             :options="{
-                title: 'Цвет фона поля',
+                title: uSign('translate', 'Цвет фона поля'),
             }"
         ></ColorSelector>
 
         <Slider
             v-model="fieldData.style.borderRadius"
             :options="{
-                title: 'Закруглённость углов',
+                title: uSign('translate', 'Закруглённость углов'),
                 min: 0,
                 max: 20,
                 valueTransformer: value => `${value}px`,
@@ -67,7 +67,7 @@
         <CheckBoxSelector
             v-model="fieldData.style.resizable"
             :options="{
-                title: 'Размер поля можно изменять',
+                title: uSign('translate', 'Размер поля можно изменять'),
             }"
         ></CheckBoxSelector>
     </div>

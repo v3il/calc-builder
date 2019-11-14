@@ -6,14 +6,14 @@
             v-model="fieldData.params.label"
             class="field-settings__property-component"
             :options="{
-                title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+                title: uSign('translate', 'Заголовок поля'),
+                description: uSign('translate', 'Оставьте пустым, чтобы скрыть элемент надписи'),
             }"
         ></text-field-component>
 
         <select-options-manager
             v-model="fieldData.params.options"
-            :options="{ title: 'Пункты' }"
+            :options="{ title: uSign('translate', 'Пункты') }"
         ></select-options-manager>
     </div>
 </template>

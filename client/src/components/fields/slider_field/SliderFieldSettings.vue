@@ -6,8 +6,8 @@
             v-model="fieldData.params.label"
             class="field-settings__property-component"
             :options="{
-                title: 'Заголовок поля',
-                description: 'Оставьте пустым, чтобы скрыть элемент надписи',
+                title: uSign('translate', 'Заголовок поля'),
+                description: uSign('translate', 'Оставьте пустым, чтобы скрыть элемент надписи'),
             }"
         ></text-field-component>
 
@@ -15,7 +15,7 @@
             v-model.number="fieldData.params.min"
             class="field-settings__property-component"
             :options="{
-                title: 'Минимальное значение',
+                title: uSign('translate', 'Минимальное значение'),
                 type: 'number',
                 validator: validateMinValue,
             }"
@@ -26,7 +26,7 @@
             v-model.number="fieldData.params.max"
             class="field-settings__property-component"
             :options="{
-                title: 'Максимальное значение',
+                title: uSign('translate', 'Максимальное значение'),
                 type: 'number',
                 validator: validateMaxValue,
             }"
@@ -37,7 +37,7 @@
             v-model.number="fieldData.params.step"
             class="field-settings__property-component"
             :options="{
-                title: 'Значение шага',
+                title: uSign('translate', 'Значение шага'),
                 type: 'number',
                 validator: validateStep,
             }"

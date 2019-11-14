@@ -19,7 +19,6 @@
         </transition>
 
         <textarea
-            type="text"
             v-model="field.params.value"
             :placeholder="field.params.placeholder"
             :style="styles"

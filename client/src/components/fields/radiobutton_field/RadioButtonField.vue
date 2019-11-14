@@ -79,7 +79,7 @@ export default {
 
         return {
             defaultOptions: {
-                label: 'Заголовок поля',
+                label: this.uSign('translate', 'Заголовок поля'),
                 options: defaultOptions,
             },
 

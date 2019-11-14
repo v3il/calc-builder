@@ -11,7 +11,9 @@
 
             <div class="checkbox-values__values-editor">
                 <label class="checkbox-values__value-block">
-                    <span class="checkbox-values__value-label">Значение включённого состояния</span>
+                    <span class="checkbox-values__value-label">
+                        {{uSign('translate', 'Значение включённого состояния')}}
+                    </span>
 
                     <input
                         type="text"
@@ -22,7 +24,7 @@
 
                 <label class="checkbox-values__value-block">
                     <span class="checkbox-values__value-label"
-                        >Значение выключенного состояния</span
+                        >{{ uSign('translate', 'Значение выключенного состояния') }}</span
                     >
 
                     <input
