@@ -1,17 +1,17 @@
 <template>
     <transition name="fade3" @after-leave="close">
         <div
-            class="vdialog js-vdialog-overlay"
+            class="vdialog"
             :class="{ 'vdialog--pinned': isPinned }"
             :style="{ zIndex }"
             v-show="visible"
         >
             <div class="vdialog__inner-wrap" @click.self="triggerClose">
                 <div class="vdialog__inner" :style="{ maxWidth: `${maxWidth}px` }">
-                    <div class="u-content_h3 vdialog__header">
+                    <div class="vdialog__header">
                         <div class="vdialog__title">
                             <slot name="header">
-                                Подтвердите действие
+                                {{ uSign('translate', 'Подтвердите действие') }}
                             </slot>
                         </div>
 
