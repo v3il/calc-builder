@@ -2,10 +2,6 @@
     <div class="form-editor">
         <div class="form-editor__header">
             <div class="form-editor__header-title">
-                <router-link class="form-editor__move-back" :to="{ name: 'home' }">
-                    <i class="material-icons form-editor__move-back-icon">arrow_back</i>
-                </router-link>
-
                 {{ currentForm.name }}
             </div>
 
@@ -41,6 +37,13 @@
                     @click="saveFormData"
                 >
                     {{ uSign('translate', 'Сохранить') }}
+                </button>
+
+                <button
+                    class="button form-editor__move-back-btn"
+                    @click="$router.push({ name: 'home' })"
+                >
+                    {{ uSign('translate', 'Назад') }}
                 </button>
             </div>
         </div>
@@ -252,30 +255,13 @@ export default {
         text-decoration: none;
     }
 
-    &__move-back {
-        height: 100%;
-        display: inline-block;
-        color: white;
-        text-decoration: none;
-        margin-right: 18px;
-        transition: opacity 0.3s;
-
-        &:hover {
-            opacity: 0.5;
-        }
-    }
-
-    &__move-back-icon {
-        vertical-align: middle;
-        margin-top: -2px;
-    }
-
     &__content {
         margin-top: 64px;
         height: calc(100vh - 64px);
     }
 
     &__discard-btn,
+    &__submit-btn,
     &__save-and-nav,
     &__discard-and-nav {
         margin-right: 12px;

@@ -75,6 +75,7 @@ export default {
         background-color: #fff;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
         overflow-x: hidden;
+        flex-shrink: 0;
     }
 
     // Content

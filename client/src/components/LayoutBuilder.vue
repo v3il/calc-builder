@@ -407,7 +407,7 @@ export default {
     }
 
     &__layout-row &__widget-item {
-        margin: 6px;
+        margin: 6px 0;
     }
 
     &__sortable-ghost {
