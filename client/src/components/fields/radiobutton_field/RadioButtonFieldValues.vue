@@ -1,6 +1,6 @@
 <template>
     <div class="checkbox-values">
-        <h3 class="checkbox-values__field-title">{{ field.params.label }}</h3>
+        <h3 class="checkbox-values__field-title">{{ field.params.label }} (Radio)</h3>
 
         <div
             class="checkbox-values__option"
