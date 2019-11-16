@@ -7,13 +7,15 @@
         </aside>
 
         <main class="results-builder__content">
-            <component
-                v-for="field in statefulFields"
-                :is="`${field.type}Values`"
-                class="results-builder__item"
-                :field="field"
-                :key="field.id"
-            ></component>
+            <div class="results-builder__components-wrapper">
+                <component
+                    v-for="field in statefulFields"
+                    :is="`${field.type}Values`"
+                    class="results-builder__item"
+                    :field="field"
+                    :key="field.id"
+                ></component>
+            </div>
         </main>
     </div>
 </template>
@@ -82,6 +84,11 @@ export default {
     &__content {
         width: 100%;
         padding: 24px;
+    }
+
+    &__components-wrapper {
+        max-width: 1600px;
+        margin: 0 auto;
     }
 }
 </style>

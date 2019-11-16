@@ -45,8 +45,8 @@ export default {
 
 <style scoped lang="scss">
 .checkbox-values {
-    max-width: 1600px;
-    margin: 0 auto;
+    background-color: lighten($bright_color6, 60%);
+    padding: 12px 24px;
 
     &__values-editor {
         display: flex;

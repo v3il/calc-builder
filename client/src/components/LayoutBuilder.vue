@@ -338,26 +338,26 @@ export default {
     }
 
     &__widget-item--slider &__widget-icon {
-        color: $bright_color3;
-    }
-
-    &__widget-item--slider {
-        border-left-color: $bright_color3;
-
-        &:hover {
-            background: linear-gradient(to right, lighten($bright_color3, 30%), $white);
-        }
-    }
-
-    &__widget-item--select &__widget-icon {
         color: $bright_color4;
     }
 
-    &__widget-item--select {
+    &__widget-item--slider {
         border-left-color: $bright_color4;
 
         &:hover {
             background: linear-gradient(to right, lighten($bright_color4, 60%), $white);
+        }
+    }
+
+    &__widget-item--select &__widget-icon {
+        color: $bright_color3;
+    }
+
+    &__widget-item--select {
+        border-left-color: $bright_color3;
+
+        &:hover {
+            background: linear-gradient(to right, lighten($bright_color3, 30%), $white);
         }
     }
 

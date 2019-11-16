@@ -39,44 +39,44 @@
 </template>
 
 <script>
-    export default {
-        name: 'SelectFieldValues',
+export default {
+    name: 'SelectFieldValues',
 
-        props: {
-            field: {
-                type: Object,
-                required: true,
-            },
+    props: {
+        field: {
+            type: Object,
+            required: true,
         },
-    };
+    },
+};
 </script>
 
 <style scoped lang="scss">
-    .select-values {
-        max-width: 1600px;
-        margin: 0 auto;
+.select-values {
+    padding: 12px 24px;
+    background-color: lighten($bright_color3, 30%);
 
-        &__values-editor {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 0 -12px;
-        }
-
-        &__option {
-            margin: 6px 0;
-        }
-
-        &__value-block {
-            min-width: 300px;
-            margin: 6px 12px;
-            flex: 1;
-        }
-
-        &__value-label {
-            display: block;
-            margin-bottom: 6px;
-        }
+    &__values-editor {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0 -12px;
     }
+
+    &__option {
+        margin: 6px 0;
+    }
+
+    &__value-block {
+        min-width: 300px;
+        margin: 6px 12px;
+        flex: 1;
+    }
+
+    &__value-label {
+        display: block;
+        margin-bottom: 6px;
+    }
+}
 </style>
