@@ -18,25 +18,28 @@
             </label>
         </transition>
 
-        <input
-            type="text"
+        <input-element
             v-model="field.params.value"
-            :placeholder="field.params.placeholder"
-            :style="styles"
-            :id="field.id"
-            class="text-input text-component__input"
+            :options="{
+                style: styles,
+                id: field.id,
+                placeholder: field.params.placeholder,
+            }"
+            class="text-component__input"
         />
     </field-base>
 </template>
 
 <script>
 import FieldBase from '../BaseField.vue';
+import InputElement from '@/components/ui_elements/InputElement';
 
 export default {
     name: 'TextField',
 
     components: {
         FieldBase,
+        InputElement,
     },
 
     extends: FieldBase,
