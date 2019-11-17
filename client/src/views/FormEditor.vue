@@ -247,7 +247,7 @@ export default {
 
     &__header-nav-item--active,
     &__header-nav-item:hover {
-        border-bottom-color: $bright_color1;
+        border-bottom-color: $success;
     }
 
     &__header-nav-link {

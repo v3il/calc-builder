@@ -95,7 +95,7 @@ export default {
     }
 
     &--selected {
-        background-color: lighten($bright_color6, 55%);
+        background-color: lightcyan;
     }
 
     &:hover {

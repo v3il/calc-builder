@@ -54,7 +54,7 @@ export default {
 <style scoped lang="scss">
 .checkbox-values {
     padding: 12px 24px;
-    background-color: lighten($bright_color5, 40%);
+    background-color: $radio_widget_light;
 
     &__values-editor {
         display: flex;

@@ -90,5 +90,9 @@ export default {
         max-width: 1600px;
         margin: 0 auto;
     }
+
+    &__item {
+        margin: 12px 0;
+    }
 }
 </style>

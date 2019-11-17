@@ -45,7 +45,7 @@ export default {
 
 <style scoped lang="scss">
 .checkbox-values {
-    background-color: lighten($bright_color6, 60%);
+    background-color: $checkbox_widget_light;
     padding: 12px 24px;
 
     &__values-editor {

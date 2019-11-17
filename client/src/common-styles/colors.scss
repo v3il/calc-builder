@@ -9,9 +9,16 @@ $color_primary: #2c2e32;
 $gray: #e0e2e6;
 $white: #fff;
 
-$bright_color1: #f26c63;
-$bright_color2: #3498db;
-$bright_color3: #9d81d3;
-$bright_color4: #00b478;
-$bright_color5: #f03871;
-$bright_color6: #16a085;
+$input_widget: #f26c63;
+$textarea_widget: #3498db;
+$select_widget: #9d81d3;
+$slider_widget: #00b478;
+$radio_widget: #f03871;
+$checkbox_widget: #16a085;
+
+$input_widget_light: lighten($input_widget, 30%);
+$textarea_widget_light: lighten($textarea_widget, 40%);
+$slider_widget_light: lighten($slider_widget, 60%);
+$checkbox_widget_light: lighten($checkbox_widget, 60%);
+$radio_widget_light: lighten($radio_widget, 40%);
+$select_widget_light: lighten($select_widget, 30%);

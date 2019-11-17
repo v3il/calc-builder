@@ -95,7 +95,7 @@ export default {
 
     &__remove-option {
         margin-left: 12px;
-        color: $bright_color1;
+        color: $error;
         cursor: pointer;
     }
 }

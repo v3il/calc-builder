@@ -314,74 +314,74 @@ export default {
     }
 
     &__widget-item--input &__widget-icon {
-        color: $bright_color1;
+        color: $input_widget;
     }
 
     &__widget-item--input {
-        border-left-color: $bright_color1;
+        border-left-color: $input_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color1, 30%), $white);
+            background: linear-gradient(to right, $input_widget_light, $white);
         }
     }
 
     &__widget-item--textarea &__widget-icon {
-        color: $bright_color2;
+        color: $textarea_widget;
     }
 
     &__widget-item--textarea {
-        border-left-color: $bright_color2;
+        border-left-color: $textarea_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color2, 40%), $white);
+            background: linear-gradient(to right, $textarea_widget_light, $white);
         }
     }
 
     &__widget-item--slider &__widget-icon {
-        color: $bright_color4;
+        color: $slider_widget;
     }
 
     &__widget-item--slider {
-        border-left-color: $bright_color4;
+        border-left-color: $slider_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color4, 60%), $white);
+            background: linear-gradient(to right, $slider_widget_light, $white);
         }
     }
 
     &__widget-item--select &__widget-icon {
-        color: $bright_color3;
+        color: $select_widget;
     }
 
     &__widget-item--select {
-        border-left-color: $bright_color3;
+        border-left-color: $select_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color3, 30%), $white);
+            background: linear-gradient(to right, $select_widget_light, $white);
         }
     }
 
     &__widget-item--radio &__widget-icon {
-        color: $bright_color5;
+        color: $radio_widget;
     }
 
     &__widget-item--radio {
-        border-left-color: $bright_color5;
+        border-left-color: $radio_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color5, 40%), $white);
+            background: linear-gradient(to right, $radio_widget_light, $white);
         }
     }
 
     &__widget-item--checkbox &__widget-icon {
-        color: $bright_color6;
+        color: $checkbox_widget;
     }
 
     &__widget-item--checkbox {
-        border-left-color: $bright_color6;
+        border-left-color: $checkbox_widget;
 
         &:hover {
-            background: linear-gradient(to right, lighten($bright_color6, 60%), $white);
+            background: linear-gradient(to right, $checkbox_widget_light, $white);
         }
     }
 

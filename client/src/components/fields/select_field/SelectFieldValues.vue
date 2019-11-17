@@ -54,7 +54,7 @@ export default {
 <style scoped lang="scss">
 .select-values {
     padding: 12px 24px;
-    background-color: lighten($bright_color3, 30%);
+    background-color: $select_widget_light;
 
     &__values-editor {
         display: flex;
