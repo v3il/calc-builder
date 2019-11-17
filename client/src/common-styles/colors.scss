@@ -10,15 +10,19 @@ $gray: #e0e2e6;
 $white: #fff;
 
 $input_widget: #f26c63;
-$textarea_widget: #3498db;
-$select_widget: #9d81d3;
-$slider_widget: #00b478;
-$radio_widget: #f03871;
-$checkbox_widget: #16a085;
-
 $input_widget_light: lighten($input_widget, 30%);
+
+$textarea_widget: #3498db;
 $textarea_widget_light: lighten($textarea_widget, 40%);
+
+$slider_widget: #00b478;
 $slider_widget_light: lighten($slider_widget, 60%);
-$checkbox_widget_light: lighten($checkbox_widget, 60%);
-$radio_widget_light: lighten($radio_widget, 40%);
+
+$select_widget: #9d81d3;
 $select_widget_light: lighten($select_widget, 30%);
+
+$radio_widget: #f03871;
+$radio_widget_light: lighten($radio_widget, 40%);
+
+$checkbox_widget: #16a085;
+$checkbox_widget_light: lighten($checkbox_widget, 60%);
