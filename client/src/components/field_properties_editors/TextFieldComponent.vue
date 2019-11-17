@@ -4,7 +4,12 @@
             {{ options.title }}
         </h4>
 
-        <input-element :value="value" @input="$emit('input', $event)" :options="options" class="text-field__input" />
+        <input-element
+            :value="value"
+            @input="$emit('input', $event)"
+            :options="options"
+            class="text-field__input"
+        />
 
         <p class="text-field__description" v-if="options.description">{{ options.description }}</p>
     </div>
