@@ -26,7 +26,9 @@
             </div>
         </div>
 
-        <button @click="addOption" class="options-manager__add-option button">Добавить</button>
+        <button @click="addOption" class="options-manager__add-option button">
+            {{ uSign('translate', 'Добавить') }}
+        </button>
     </div>
 </template>
 

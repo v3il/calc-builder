@@ -18,24 +18,28 @@
             </label>
         </transition>
 
-        <textarea
+        <textarea-element
             v-model="field.params.value"
-            :placeholder="field.params.placeholder"
-            :style="styles"
-            :id="field.id"
-            class="textarea textarea-component__textarea"
-        ></textarea>
+            :options="{
+                style: styles,
+                id: field.id,
+                placeholder: field.params.placeholder,
+            }"
+            class="text-component__textarea"
+        />
     </field-base>
 </template>
 
 <script>
 import FieldBase from '../BaseField.vue';
+import TextareaElement from '@/components/ui_elements/TextareaElement';
 
 export default {
     name: 'TextField',
 
     components: {
         FieldBase,
+        TextareaElement,
     },
 
     extends: FieldBase,
@@ -58,8 +62,8 @@ export default {
         return {
             defaultOptions: {
                 value: '',
-                label: 'Заголовок поля',
-                placeholder: 'Подсказка поля',
+                label: this.uSign('translate', 'Заголовок поля'),
+                placeholder: this.uSign('translate', 'Подсказка поля'),
             },
 
             defaultStyle: {

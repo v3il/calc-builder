@@ -1,7 +1,7 @@
 <template>
     <input
         :type="options.type || 'text'"
-        class="text-input"
+        class="input-element"
         :value="value"
         :placeholder="options.placeholder || ''"
         :id="options.id"
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text-input {
+.input-element {
     padding: 0 1.2rem;
     font-size: 0.93rem;
     outline: none;

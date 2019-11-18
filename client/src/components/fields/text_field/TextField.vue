@@ -61,8 +61,8 @@ export default {
         return {
             defaultOptions: {
                 value: '',
-                label: 'Заголовок поля',
-                placeholder: 'Подсказка поля',
+                label: this.uSign('translate', 'Заголовок поля'),
+                placeholder: this.uSign('translate', 'Подсказка поля'),
             },
 
             defaultStyle: {
