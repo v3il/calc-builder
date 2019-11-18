@@ -31,7 +31,7 @@
 
 <script>
 import FieldBase from '../BaseField.vue';
-import SliderElement from "@/components/ui_elements/SliderElement";
+import SliderElement from '@/components/ui_elements/SliderElement';
 
 export default {
     name: 'SliderField',
