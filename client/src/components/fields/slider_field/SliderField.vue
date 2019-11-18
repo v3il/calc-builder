@@ -17,26 +17,28 @@
             </label>
         </transition>
 
-        <vue-slider
+        <slider-element
             v-model="field.params.value"
-            :id="field.id"
-            :interval="field.params.step"
-            :min="field.params.min"
-            :max="field.params.max"
-        ></vue-slider>
+            :options="{
+                id: field.id,
+                step: field.params.step,
+                min: field.params.min,
+                max: field.params.max,
+            }"
+        />
     </field-base>
 </template>
 
 <script>
-import VueSlider from 'vue-slider-component';
 import FieldBase from '../BaseField.vue';
+import SliderElement from "@/components/ui_elements/SliderElement";
 
 export default {
     name: 'SliderField',
 
     components: {
         FieldBase,
-        VueSlider,
+        SliderElement,
     },
 
     extends: FieldBase,

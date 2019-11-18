@@ -38,7 +38,7 @@ export default {
     outline: none;
     color: $color_primary;
     border: 2px solid $gray;
-    border-radius: 0.6rem;
+    border-radius: 0.3rem;
     transition: border 0.3s;
     background-color: $white;
     cursor: pointer;
