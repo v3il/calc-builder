@@ -17,32 +17,30 @@
             </label>
         </transition>
 
-        <div>
-            <label v-for="(option, index) in field.params.options" class="radio" :key="index">
-                <input
-                    class="radio__input"
-                    type="radio"
-                    :name="field.id"
-                    :checked="option.isSelected"
-                    @change="triggerChange(option)"
-                    :key="index"
-                />
-
-                <span class="radio__check"></span>
-                <span class="radio__label">{{ option.label }}</span>
-            </label>
-        </div>
+        <radiobutton-element
+            v-for="(option, index) in field.params.options"
+            :key="index"
+            :value="option.isSelected"
+            @input="triggerChange(option)"
+            :options="{
+                name: field.id,
+                label: option.label
+            }"
+            class="radiobutton-element"
+        />
     </field-base>
 </template>
 
 <script>
 import FieldBase from '../BaseField.vue';
+import RadiobuttonElement from "@/components/ui_elements/RadiobuttonElement";
 
 export default {
     name: 'RadioButtonField',
 
     components: {
         FieldBase,
+        RadiobuttonElement,
     },
 
     extends: FieldBase,
@@ -100,7 +98,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.radio {
+.radiobutton-element {
     margin-bottom: 12px;
 }
 </style>

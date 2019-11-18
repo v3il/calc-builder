@@ -6,30 +6,26 @@
         @edit-field="$emit('edit-field')"
         @remove-field="$emit('remove-field')"
     >
-        <div>
-            <label class="checkbox">
-                <input
-                    class="checkbox__input"
-                    type="checkbox"
-                    :name="field.id"
-                    v-model="field.params.isSelected"
-                />
-
-                <span class="checkbox__check"></span>
-                <span class="checkbox__label">{{ field.params.label }}</span>
-            </label>
-        </div>
+        <checkbox-element
+            v-model="field.params.isSelected"
+            :options="{
+                id: field.id,
+                label: field.params.label,
+            }"
+        />
     </field-base>
 </template>
 
 <script>
 import FieldBase from '../BaseField.vue';
+import CheckboxElement from "@/components/ui_elements/CheckboxElement";
 
 export default {
     name: 'RadioButtonField',
 
     components: {
         FieldBase,
+        CheckboxElement,
     },
 
     extends: FieldBase,
@@ -50,7 +46,7 @@ export default {
     data() {
         return {
             defaultOptions: {
-                label: 'Заголовок поля',
+                label: this.uSign('translate', 'Заголовок поля'),
                 activatedValue: 100,
                 deactivatedValue: 0,
                 isSelected: false,

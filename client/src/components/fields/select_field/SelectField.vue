@@ -17,25 +17,27 @@
             </label>
         </transition>
 
-        <select :style="styles" :id="field.id" class="select" @change="triggerChange">
-            <option
-                v-for="(option, index) in field.params.options"
-                :key="index"
-                :selected="option.isSelected"
-                >{{ option.label }}</option
-            >
-        </select>
+        <select-element
+            @change="triggerChange"
+            :options="{
+                id: field.id,
+                options: field.params.options,
+                style: styles,
+            }"
+        />
     </field-base>
 </template>
 
 <script>
 import FieldBase from '../BaseField.vue';
+import SelectElement from "@/components/ui_elements/SelectElement";
 
 export default {
     name: 'SelectField',
 
     components: {
         FieldBase,
+        SelectElement,
     },
 
     extends: FieldBase,
@@ -44,7 +46,6 @@ export default {
         styles() {
             return {
                 ...this.field.style,
-                ...{ borderRadius: `${this.field.style.borderRadius}px` },
             };
         },
 
@@ -66,27 +67,26 @@ export default {
                 activatedValue: 100,
                 deactivatedValue: 0,
                 isSelected: true,
-                label: 'Значение 1',
+                label: this.uSign('translate', 'Значение 1'),
                 id: Math.random(),
             },
             {
                 activatedValue: 200,
                 deactivatedValue: 0,
                 isSelected: false,
-                label: 'Значение 2',
+                label: this.uSign('translate', 'Значение 2'),
                 id: Math.random(),
             },
         ];
 
         return {
             defaultOptions: {
-                label: 'Заголовок поля',
+                label: this.uSign('translate', 'Заголовок поля'),
                 options: defaultOptions,
             },
 
             defaultStyle: {
                 labelColor: '#2c2e32',
-                borderRadius: 6,
             },
         };
     },
