@@ -30,7 +30,7 @@
 
 <script>
 import FieldBase from '../BaseField.vue';
-import SelectElement from "@/components/ui_elements/SelectElement";
+import SelectElement from '@/components/ui_elements/SelectElement';
 
 export default {
     name: 'SelectField',
@@ -38,6 +38,11 @@ export default {
     components: {
         FieldBase,
         SelectElement,
+    },
+
+    model: {
+        prop: 'value',
+        event: 'change',
     },
 
     extends: FieldBase,

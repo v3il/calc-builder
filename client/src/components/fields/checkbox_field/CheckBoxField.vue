@@ -18,7 +18,7 @@
 
 <script>
 import FieldBase from '../BaseField.vue';
-import CheckboxElement from "@/components/ui_elements/CheckboxElement";
+import CheckboxElement from '@/components/ui_elements/CheckboxElement';
 
 export default {
     name: 'RadioButtonField',

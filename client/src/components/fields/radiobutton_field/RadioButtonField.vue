@@ -21,10 +21,10 @@
             v-for="(option, index) in field.params.options"
             :key="index"
             :value="option.isSelected"
-            @input="triggerChange(option)"
+            @change="triggerChange(option)"
             :options="{
                 name: field.id,
-                label: option.label
+                label: option.label,
             }"
             class="radiobutton-element"
         />
@@ -33,7 +33,7 @@
 
 <script>
 import FieldBase from '../BaseField.vue';
-import RadiobuttonElement from "@/components/ui_elements/RadiobuttonElement";
+import RadiobuttonElement from '@/components/ui_elements/RadiobuttonElement';
 
 export default {
     name: 'RadioButtonField',
