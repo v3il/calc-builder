@@ -1,7 +1,5 @@
 <template>
-    <div class="checkbox-values">
-        <h3 class="checkbox-values__field-title">{{ field.params.label }} (Radio)</h3>
-
+    <base-field-values :field="field" field-class="radio">
         <div
             class="checkbox-values__option"
             v-for="(option, index) in field.params.options"
@@ -12,11 +10,10 @@
             <div class="checkbox-values__values-editor">
                 <label class="checkbox-values__value-block">
                     <span class="checkbox-values__value-label">
-                        {{ uSign('translate', 'Значение включённого состояния') }}
+                        {{ uSign('translate', 'Вкл.') }}
                     </span>
 
-                    <input
-                        type="text"
+                    <input-element
                         class="checkbox-values__value-input text-input"
                         v-model.number="option.activatedValue"
                     />
@@ -24,23 +21,30 @@
 
                 <label class="checkbox-values__value-block">
                     <span class="checkbox-values__value-label">{{
-                        uSign('translate', 'Значение выключенного состояния')
+                        uSign('translate', 'Выкл.')
                     }}</span>
 
-                    <input
-                        type="text"
+                    <input-element
                         class="checkbox-values__value-input text-input"
                         v-model.number="option.deactivatedValue"
                     />
                 </label>
             </div>
         </div>
-    </div>
+    </base-field-values>
 </template>
 
 <script>
+import InputElement from '@/components/ui_elements/InputElement';
+import BaseFieldValues from '../BaseFieldValues';
+
 export default {
     name: 'RadioFieldValues',
+
+    components: {
+        InputElement,
+        BaseFieldValues,
+    },
 
     props: {
         field: {
@@ -72,11 +76,15 @@ export default {
         min-width: 300px;
         margin: 6px 12px;
         flex: 1;
+        display: flex;
+        align-items: center;
     }
 
     &__value-label {
         display: block;
         margin-bottom: 6px;
+        flex: 0 auto;
+        margin-right: 12px;
     }
 }
 </style>

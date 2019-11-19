@@ -1,10 +1,6 @@
 <template>
     <div class="results-builder">
-        <aside class="results-builder__sidebar">
-            <pre>
-                {{ JSON.stringify(statefulFields, null, 2) }}
-            </pre>
-        </aside>
+        <aside class="results-builder__sidebar"></aside>
 
         <main class="results-builder__content">
             <div class="results-builder__components-wrapper">
@@ -69,6 +65,7 @@ export default {
 .results-builder {
     display: flex;
     height: 100%;
+    overflow-y: hidden;
 
     // Sidebar
     &__sidebar {
@@ -84,6 +81,7 @@ export default {
     &__content {
         width: 100%;
         padding: 24px;
+        overflow-y: auto;
     }
 
     &__components-wrapper {
