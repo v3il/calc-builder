@@ -1,11 +1,10 @@
-const lettersMapping = {
-    TextField: 'A',
-    TextAreaField: 'B',
-    SliderField: 'C',
-    SelectField: 'D',
-    RadioButtonField: 'E',
-    CheckBoxField: 'F',
-};
+import availableFields from '../constants/AvailableFields';
+
+const lettersMapping = {};
+
+availableFields.forEach(({ type }, index) => {
+    lettersMapping[type] = String.fromCharCode('A'.charCodeAt(0) + index);
+});
 
 export default (existingFields, newFieldType) => {
     const fieldLetter = lettersMapping[newFieldType] || lettersMapping.input;
@@ -18,20 +17,17 @@ export default (existingFields, newFieldType) => {
 
     if (existingLettersIndices.length) {
         const currentMaxIndex = Math.max.apply(Math, existingLettersIndices);
-        let freeIndexBetweenExisting = -1;
+        let firstFreeIndexBetweenExisting = -1;
 
         for (let i = 1; i <= currentMaxIndex; i++) {
             if (!existingLettersIndices.includes(i)) {
-                freeIndexBetweenExisting = i;
+                firstFreeIndexBetweenExisting = i;
                 break;
             }
         }
 
-        if (freeIndexBetweenExisting > 0) {
-            newIndex = freeIndexBetweenExisting;
-        } else {
-            newIndex = currentMaxIndex + 1;
-        }
+        newIndex =
+            firstFreeIndexBetweenExisting > 0 ? firstFreeIndexBetweenExisting : currentMaxIndex + 1;
     } else {
         newIndex = 1;
     }
