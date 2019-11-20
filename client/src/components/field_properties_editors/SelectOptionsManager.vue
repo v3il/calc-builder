@@ -14,6 +14,7 @@
                     class="options-manager__label-input"
                     :options="{
                         minLength: 1,
+                        lazy: true,
                     }"
                 />
 

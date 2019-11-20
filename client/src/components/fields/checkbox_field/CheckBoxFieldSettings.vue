@@ -8,6 +8,7 @@
             :options="{
                 title: uSign('translate', 'Заголовок поля'),
                 minLength: 1,
+                lazy: true,
             }"
         ></text-field-component>
     </div>

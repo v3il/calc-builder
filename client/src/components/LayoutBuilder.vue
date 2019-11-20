@@ -99,6 +99,8 @@ import ImageField from './fields/image_field/ImageField.vue';
 
 import availableFields from '../constants/AvailableFields';
 
+import generateLetterForField from '../utils/generateLetterForField';
+
 export default {
     name: 'LayoutBuilder',
 
@@ -195,10 +197,15 @@ export default {
             console.log('Add');
 
             if (!from.classList.contains('js-layout-row')) {
-                row.fields.splice(newIndex, 0, {
+                const newFieldType = item.dataset.item;
+
+                const newFieldProto = {
                     id: Math.random(),
-                    type: item.dataset.item,
-                });
+                    type: newFieldType,
+                    letter: generateLetterForField(this.fieldsList, newFieldType),
+                };
+
+                row.fields.splice(newIndex, 0, newFieldProto);
             }
 
             this.ensureEmptyRow();

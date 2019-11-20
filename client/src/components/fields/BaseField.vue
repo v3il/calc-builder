@@ -15,6 +15,7 @@
         </fields-params-toolbar>
 
         <div>
+            {{ field.letter }}
             <slot></slot>
         </div>
     </div>
@@ -54,7 +55,9 @@ export default {
 
     data() {
         return {
-            commonDefaultOptions: {},
+            commonDefaultOptions: {
+                letter: '',
+            },
 
             commonDefaultStyle: {
                 color: '#2c2e32',

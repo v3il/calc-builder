@@ -8,8 +8,8 @@
         :style="options.style || {}"
         v-on="{
             ...$listeners,
-            input: emitUpdate,
-            blur: updateCurrentValue,
+            input: onInput,
+            blur: onBlur,
         }"
     />
 </template>
@@ -38,6 +38,16 @@ export default {
     },
 
     methods: {
+        onInput() {
+            if (!this.options.lazy) {
+                this.emitUpdate();
+            }
+        },
+
+        onBlur() {
+            this.emitUpdate();
+        },
+
         emitUpdate() {
             const input = this.$el;
 
@@ -49,15 +59,7 @@ export default {
             }
 
             if (validator) {
-                const validationResult = validator(value, this.prevValue);
-
-                if (validationResult === false) {
-                    value = this.prevValue;
-                }
-
-                if (typeof validationResult !== 'boolean') {
-                    value = validationResult;
-                }
+                value = validator(value, this.prevValue);
             }
 
             this.prevValue = value;
@@ -65,10 +67,6 @@ export default {
             input.value = value;
 
             this.$emit('input', value);
-        },
-
-        updateCurrentValue() {
-            this.$el.value = this.currentValue;
         },
     },
 };

@@ -66,6 +66,7 @@ export default {
             }
 
             if (numericValue >= this.fieldData.params.max) {
+                this.fieldData.params.value = numericValue;
                 this.fieldData.params.max = numericValue + 1;
             }
 
@@ -85,12 +86,14 @@ export default {
             }
 
             if (numericValue <= this.fieldData.params.min) {
+                this.fieldData.params.value = numericValue;
                 this.fieldData.params.min = numericValue - 1;
             }
 
             return numericValue;
         },
 
+        // todo: step should be divided by (max - min)
         validateStep(value) {
             const numericValue = typeof value === 'number' ? value : parseInt(value) || 1;
 
