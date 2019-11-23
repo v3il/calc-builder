@@ -1,24 +1,28 @@
 <template>
     <base-field-values :field="field" field-class="checkbox">
-        <div class="checkbox-values__values-editor">
-            <label class="checkbox-values__value-block">
-                <span class="checkbox-values__value-label">
+        <div class="field-values__values-editor">
+            <div class="field-values__label-input-wrapper">
+                <input-element v-model="field.params.label" class="field-values__label-input" />
+            </div>
+
+            <label class="field-values__value-block">
+                <span class="field-values__value-label">
                     {{ uSign('translate', 'Вкл.') }}
                 </span>
 
                 <input-element
-                    class="checkbox-values__value-input"
+                    class="field-values__value-input"
                     v-model.number="field.params.activatedValue"
                 />
             </label>
 
-            <label class="checkbox-values__value-block">
-                <span class="checkbox-values__value-label">
+            <label class="field-values__value-block">
+                <span class="field-values__value-label">
                     {{ uSign('translate', 'Выкл.') }}
                 </span>
 
                 <input-element
-                    class="checkbox-values__value-input text-input"
+                    class="field-values__value-input text-input"
                     v-model.number="field.params.deactivatedValue"
                 />
             </label>
@@ -49,30 +53,50 @@ export default {
 
 <style scoped lang="scss">
 .checkbox-values {
-    background-color: $checkbox_widget_light;
-    padding: 12px 24px;
+    //background-color: $checkbox_widget_light;
 
-    &__values-editor {
+    /* padding: 12px 24px; */
+
+    /* &__values-editor {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin: 0 -12px;
+    }
+
+    &__option {
+        margin: 12px 0;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__label-input-wrapper {
+        flex: 1;
+        position: relative;
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -45px;
+            width: 45px;
+            height: 1px;
+            background-color: $checkbox_widget;
+        }
     }
 
     &__value-block {
-        min-width: 300px;
-        margin: 6px 12px;
-        flex: 1;
         display: flex;
         align-items: center;
+        flex-basis: 200px;
     }
 
     &__value-label {
         display: block;
-        margin-bottom: 6px;
         flex: 0 auto;
-        margin-right: 12px;
-    }
+        margin: 0 12px;
+    } */
 }
 </style>

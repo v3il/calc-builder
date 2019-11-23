@@ -1,31 +1,33 @@
 <template>
     <base-field-values :field="field" field-class="radio">
+        <div class="field-values__label-input-wrapper">
+            <input-element v-model="field.params.label" class="field-values__label-input" />
+        </div>
+
         <div
-            class="checkbox-values__option"
+            class="field-values__option"
             v-for="(option, index) in field.params.options"
             :key="index"
         >
-            <h4>{{ option.label }}</h4>
+            <div class="field-values__values-editor">
+                <input-element v-model="option.label" class="field-values__option-label-input" />
 
-            <div class="checkbox-values__values-editor">
-                <label class="checkbox-values__value-block">
-                    <span class="checkbox-values__value-label">
+                <label class="field-values__value-block">
+                    <span class="field-values__value-label">
                         {{ uSign('translate', 'Вкл.') }}
                     </span>
 
                     <input-element
-                        class="checkbox-values__value-input text-input"
+                        class="field-values__value-input"
                         v-model.number="option.activatedValue"
                     />
                 </label>
 
-                <label class="checkbox-values__value-block">
-                    <span class="checkbox-values__value-label">{{
-                        uSign('translate', 'Выкл.')
-                    }}</span>
+                <label class="field-values__value-block">
+                    <span class="field-values__value-label">{{ uSign('translate', 'Выкл.') }}</span>
 
                     <input-element
-                        class="checkbox-values__value-input text-input"
+                        class="field-values__value-input"
                         v-model.number="option.deactivatedValue"
                     />
                 </label>
@@ -56,8 +58,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.checkbox-values {
-    padding: 12px 24px;
+.radiobutton-values {
+    /* padding: 12px 24px;
     background-color: $radio_widget_light;
 
     &__values-editor {
@@ -65,26 +67,56 @@ export default {
         align-items: center;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin: 0 -12px;
     }
 
     &__option {
-        margin: 6px 0;
+        margin: 12px 0;
+        position: relative;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -45px;
+            width: 45px;
+            height: 1px;
+            background-color: $radio_widget;
+        }
+    }
+
+    &__option-label-input {
+        flex: 1;
+    }
+
+    &__label-input-wrapper {
+        width: 100%;
+        position: relative;
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -45px;
+            width: 45px;
+            height: 1px;
+            background-color: $radio_widget;
+        }
     }
 
     &__value-block {
-        min-width: 300px;
-        margin: 6px 12px;
-        flex: 1;
         display: flex;
         align-items: center;
+        flex-basis: 200px;
     }
 
     &__value-label {
         display: block;
-        margin-bottom: 6px;
         flex: 0 auto;
-        margin-right: 12px;
-    }
+        margin: 0 12px;
+    } */
 }
 </style>

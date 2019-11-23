@@ -15,7 +15,6 @@
         </fields-params-toolbar>
 
         <div>
-            {{ field.letter }}
             <slot></slot>
         </div>
     </div>

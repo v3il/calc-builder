@@ -1,31 +1,33 @@
 <template>
     <base-field-values :field="field" field-class="select">
+        <div class="field-values__label-input-wrapper">
+            <input-element v-model="field.params.label" class="field-values__label-input" />
+        </div>
+
         <div
-            class="select-values__option"
+            class="field-values__option"
             v-for="(option, index) in field.params.options"
             :key="index"
         >
-            <h4>{{ option.label }}</h4>
+            <div class="field-values__values-editor">
+                <input-element v-model="option.label" class="field-values__option-label-input" />
 
-            <div class="select-values__values-editor">
-                <label class="select-values__value-block">
-                    <span class="select-values__value-label">
+                <label class="field-values__value-block">
+                    <span class="field-values__value-label">
                         {{ uSign('translate', 'Вкл.') }}
                     </span>
 
                     <input-element
-                        class="select-values__value-input text-input"
+                        class="field-values__value-input"
                         v-model.number="option.activatedValue"
                     />
                 </label>
 
-                <label class="select-values__value-block">
-                    <span class="select-values__value-label">{{
-                        uSign('translate', 'Выкл.')
-                    }}</span>
+                <label class="field-values__value-block">
+                    <span class="field-values__value-label">{{ uSign('translate', 'Выкл.') }}</span>
 
                     <input-element
-                        class="select-values__value-input text-input"
+                        class="field-values__value-input"
                         v-model.number="option.deactivatedValue"
                     />
                 </label>
@@ -57,7 +59,7 @@ export default {
 
 <style scoped lang="scss">
 .select-values {
-    &__values-editor {
+    /* &__values-editor {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
@@ -82,6 +84,6 @@ export default {
         margin-bottom: 6px;
         flex: 0 auto;
         margin-right: 12px;
-    }
+    } */
 }
 </style>
