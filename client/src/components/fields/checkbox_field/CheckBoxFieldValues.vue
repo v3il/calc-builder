@@ -26,6 +26,10 @@
                     v-model.number="field.params.deactivatedValue"
                 />
             </label>
+
+            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"
+                >clear</i
+            >
         </div>
     </base-field-values>
 </template>
@@ -60,8 +64,14 @@ export default {
     &--checkbox &__field-letter,
     &--checkbox &__field-letter::after,
     &--checkbox &__label-input-wrapper::before,
-    &--checkbox &__option::before {
+    &--checkbox &__option::before,
+    &--checkbox &__remove-field {
         background-color: $checkbox_widget;
+    }
+
+    &--checkbox &__remove-field {
+        top: 19px;
+        right: -9px;
     }
 }
 </style>

@@ -28,6 +28,7 @@ export default {
     padding: 12px 24px;
     border-radius: 6px;
     display: flex;
+    position: relative;
 
     $graph_line_top: 18px;
     $graph_line_left: -44px;
@@ -63,6 +64,33 @@ export default {
         }
     }
 
+    &__remove-field.material-icons,
+    &__remove-option.material-icons {
+        font-size: 14px;
+        font-weight: bold;
+        width: 22px;
+        height: 22px;
+        text-align: center;
+        line-height: 22px;
+        color: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 8px;
+        right: -33px;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        opacity: 0;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &:hover &__remove-field.material-icons,
+    &:hover &__remove-option.material-icons {
+        opacity: 1;
+    }
+
     &__values-editor {
         display: flex;
         align-items: center;
@@ -88,8 +116,15 @@ export default {
         }
     }
 
+    /* &__option:hover &__remove-option { */
+
+    /*    opacity: 1; */
+
+    /* } */
+
     &__option-label-input {
         flex: 1;
+        position: relative;
     }
 
     &__label-input-wrapper {
@@ -105,6 +140,12 @@ export default {
             height: $graph_line_thickness;
         }
     }
+
+    /* &__label-input-wrapper:hover &__remove-field { */
+
+    /*    opacity: 1; */
+
+    /* } */
 
     &__value-block {
         display: flex;

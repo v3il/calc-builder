@@ -4,13 +4,19 @@
 
         <main class="results-builder__content">
             <div class="results-builder__components-wrapper">
-                <component
-                    v-for="field in fieldsList"
-                    :is="`${field.type}Values`"
-                    class="results-builder__item"
-                    :field="field"
-                    :key="field.id"
-                ></component>
+                <template v-for="(row, index) in form.layout">
+                    <div class="results-builder__row" v-if="row.fields.length" :key="index">
+                        <component
+                            v-for="field in row.fields"
+                            :is="`${field.type}Values`"
+                            class="results-builder__item"
+                            :field="field"
+                            :key="field.id"
+                            @remove-field="removeField(field)"
+                            @remove-option="removeOption(field, $event)"
+                        ></component>
+                    </div>
+                </template>
             </div>
         </main>
     </div>
@@ -48,6 +54,26 @@ export default {
             return this.form.layout.reduce((result, current) => result.concat(current.fields), []);
         },
     },
+
+    methods: {
+        removeField(removedField) {
+            console.log('Remove');
+
+            const row = this.form.layout.find(row => row.fields.includes(removedField));
+            row.fields = row.fields.filter(field => field !== removedField);
+            this.updateLayout();
+        },
+
+        updateLayout() {
+            console.log('Update');
+            this.$store.dispatch('updateData');
+        },
+
+        removeOption(field, optionToRemove) {
+            field.params.options = field.params.options.filter(option => option !== optionToRemove);
+            this.updateLayout();
+        },
+    },
 };
 </script>
 
@@ -79,8 +105,15 @@ export default {
         margin: 0 auto;
     }
 
-    &__item {
+    &__row {
+        border: 1px #ccc dashed;
+        padding: 6px 12px;
         margin: 12px 0;
+        border-radius: 6px;
+    }
+
+    &__item {
+        margin: 6px 0;
     }
 }
 </style>

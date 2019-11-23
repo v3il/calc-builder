@@ -2,6 +2,9 @@
     <base-field-values :field="field" class="field-values--textarea">
         <div class="field-values__label-input-wrapper">
             <textarea-element v-model="field.params.label" class="field-values__label-input" />
+            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"
+                >clear</i
+            >
         </div>
     </base-field-values>
 </template>
@@ -40,7 +43,8 @@ export default {
     &--textarea &__field-letter,
     &--textarea &__field-letter::after,
     &--textarea &__label-input-wrapper::before,
-    &--textarea &__option::before {
+    &--textarea &__option::before,
+    &--textarea &__remove-field {
         background-color: $textarea_widget;
     }
 }

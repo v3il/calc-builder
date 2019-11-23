@@ -2,6 +2,9 @@
     <base-field-values :field="field" class="field-values--radio">
         <div class="field-values__label-input-wrapper">
             <input-element v-model="field.params.label" class="field-values__label-input" />
+            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"
+                >clear</i
+            >
         </div>
 
         <div
@@ -32,6 +35,13 @@
                     />
                 </label>
             </div>
+
+            <i
+                v-if="index > 1"
+                class="material-icons field-values__remove-option"
+                @click="$emit('remove-option', option)"
+                >clear</i
+            >
         </div>
     </base-field-values>
 </template>
@@ -66,7 +76,9 @@ export default {
     &--radio &__field-letter,
     &--radio &__field-letter::after,
     &--radio &__label-input-wrapper::before,
-    &--radio &__option::before {
+    &--radio &__option::before,
+    &--radio &__remove-field,
+    &--radio &__remove-option {
         background-color: $radio_widget;
     }
 }

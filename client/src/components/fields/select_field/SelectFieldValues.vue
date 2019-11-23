@@ -2,6 +2,9 @@
     <base-field-values :field="field" class="field-values--select">
         <div class="field-values__label-input-wrapper">
             <input-element v-model="field.params.label" class="field-values__label-input" />
+            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"
+                >clear</i
+            >
         </div>
 
         <div
@@ -32,6 +35,13 @@
                     />
                 </label>
             </div>
+
+            <i
+                v-if="index > 1"
+                @click="$emit('remove-option', option)"
+                class="material-icons field-values__remove-option"
+                >clear</i
+            >
         </div>
     </base-field-values>
 </template>
@@ -66,7 +76,9 @@ export default {
     &--select &__field-letter,
     &--select &__field-letter::after,
     &--select &__label-input-wrapper::before,
-    &--select &__option::before {
+    &--select &__option::before,
+    &--select &__remove-field,
+    &--select &__remove-option {
         background-color: $select_widget;
     }
 }
