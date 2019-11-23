@@ -1,5 +1,5 @@
 <template>
-    <base-field-values :field="field" field-class="radio">
+    <base-field-values :field="field" class="field-values--radio">
         <div class="field-values__label-input-wrapper">
             <input-element v-model="field.params.label" class="field-values__label-input" />
         </div>
@@ -57,66 +57,17 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.radiobutton-values {
-    /* padding: 12px 24px;
-    background-color: $radio_widget_light;
-
-    &__values-editor {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-between;
+<style lang="scss">
+.field-values {
+    &--radio {
+        background-color: $radio_widget_light;
     }
 
-    &__option {
-        margin: 12px 0;
-        position: relative;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-
-        &:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: -45px;
-            width: 45px;
-            height: 1px;
-            background-color: $radio_widget;
-        }
+    &--radio &__field-letter,
+    &--radio &__field-letter::after,
+    &--radio &__label-input-wrapper::before,
+    &--radio &__option::before {
+        background-color: $radio_widget;
     }
-
-    &__option-label-input {
-        flex: 1;
-    }
-
-    &__label-input-wrapper {
-        width: 100%;
-        position: relative;
-
-        &:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: -45px;
-            width: 45px;
-            height: 1px;
-            background-color: $radio_widget;
-        }
-    }
-
-    &__value-block {
-        display: flex;
-        align-items: center;
-        flex-basis: 200px;
-    }
-
-    &__value-label {
-        display: block;
-        flex: 0 auto;
-        margin: 0 12px;
-    } */
 }
 </style>

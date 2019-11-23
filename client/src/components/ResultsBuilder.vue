@@ -5,7 +5,7 @@
         <main class="results-builder__content">
             <div class="results-builder__components-wrapper">
                 <component
-                    v-for="field in statefulFields"
+                    v-for="field in fieldsList"
                     :is="`${field.type}Values`"
                     class="results-builder__item"
                     :field="field"
@@ -20,6 +20,9 @@
 import { SelectFieldValues } from './fields/select_field';
 import { RadioButtonFieldValues } from './fields/radiobutton_field';
 import { CheckBoxFieldValues } from './fields/checkbox_field';
+import { SliderFieldValues } from './fields/slider_field';
+import { TextFieldValues } from './fields/text_field';
+import { TextAreaFieldValues } from './fields/textarea_field';
 
 export default {
     name: 'ResultsBuilder',
@@ -28,6 +31,9 @@ export default {
         SelectFieldValues,
         RadioButtonFieldValues,
         CheckBoxFieldValues,
+        SliderFieldValues,
+        TextFieldValues,
+        TextAreaFieldValues,
     },
 
     props: {
@@ -40,22 +46,6 @@ export default {
     computed: {
         fieldsList() {
             return this.form.layout.reduce((result, current) => result.concat(current.fields), []);
-        },
-
-        statefulFields() {
-            return this.fieldsList.filter(({ type }) =>
-                ['RadioButtonField', 'CheckBoxField', 'SelectField'].includes(type),
-            );
-        },
-    },
-
-    methods: {
-        changeValue(field, fieldName, fieldValue) {
-            console.log(fieldName, fieldValue);
-
-            this.$set(field.params, fieldName, fieldValue);
-
-            // field.params[fieldName] = fieldValue;
         },
     },
 };

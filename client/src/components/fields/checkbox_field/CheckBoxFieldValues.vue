@@ -1,5 +1,5 @@
 <template>
-    <base-field-values :field="field" field-class="checkbox">
+    <base-field-values :field="field" class="field-values--checkbox">
         <div class="field-values__values-editor">
             <div class="field-values__label-input-wrapper">
                 <input-element v-model="field.params.label" class="field-values__label-input" />
@@ -51,52 +51,17 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.checkbox-values {
-    //background-color: $checkbox_widget_light;
-
-    /* padding: 12px 24px; */
-
-    /* &__values-editor {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-between;
+<style lang="scss">
+.field-values {
+    &--checkbox {
+        background-color: $checkbox_widget_light;
     }
 
-    &__option {
-        margin: 12px 0;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
+    &--checkbox &__field-letter,
+    &--checkbox &__field-letter::after,
+    &--checkbox &__label-input-wrapper::before,
+    &--checkbox &__option::before {
+        background-color: $checkbox_widget;
     }
-
-    &__label-input-wrapper {
-        flex: 1;
-        position: relative;
-
-        &:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: -45px;
-            width: 45px;
-            height: 1px;
-            background-color: $checkbox_widget;
-        }
-    }
-
-    &__value-block {
-        display: flex;
-        align-items: center;
-        flex-basis: 200px;
-    }
-
-    &__value-label {
-        display: block;
-        flex: 0 auto;
-        margin: 0 12px;
-    } */
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <base-field-values :field="field" field-class="select">
+    <base-field-values :field="field" class="field-values--select">
         <div class="field-values__label-input-wrapper">
             <input-element v-model="field.params.label" class="field-values__label-input" />
         </div>
@@ -57,33 +57,17 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.select-values {
-    /* &__values-editor {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin: 0 -12px;
+<style lang="scss">
+.field-values {
+    &--select {
+        background-color: $select_widget_light;
     }
 
-    &__option {
-        margin: 6px 0;
+    &--select &__field-letter,
+    &--select &__field-letter::after,
+    &--select &__label-input-wrapper::before,
+    &--select &__option::before {
+        background-color: $select_widget;
     }
-
-    &__value-block {
-        min-width: 300px;
-        margin: 6px 12px;
-        flex: 1;
-        display: flex;
-        align-items: center;
-    }
-
-    &__value-label {
-        display: block;
-        margin-bottom: 6px;
-        flex: 0 auto;
-        margin-right: 12px;
-    } */
 }
 </style>

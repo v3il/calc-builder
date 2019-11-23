@@ -1,5 +1,5 @@
 <template>
-    <div class="field-values" :class="`field-values--${fieldClass}`">
+    <div class="field-values">
         <div class="field-values__letter-column">
             <span class="field-values__field-letter">{{ field.letter }}</span>
         </div>
@@ -19,10 +19,6 @@ export default {
             type: Object,
             required: true,
         },
-
-        fieldClass: {
-            type: String,
-        },
     },
 };
 </script>
@@ -32,6 +28,11 @@ export default {
     padding: 12px 24px;
     border-radius: 6px;
     display: flex;
+
+    $graph_line_top: 18px;
+    $graph_line_left: -44px;
+    $graph_line_width: 45px;
+    $graph_line_thickness: 1px;
 
     &__letter-column {
         flex: auto 0;
@@ -49,15 +50,15 @@ export default {
         display: inline-block;
         border-radius: 6px;
         color: $white;
+        cursor: pointer;
 
         &::after {
             content: '';
             position: absolute;
             top: 0;
-            height: calc(100% - 17px);
+            height: calc(100% - #{$graph_line_top} + 1px);
             left: 50%;
-            width: 1px;
-            background-color: blue;
+            width: $graph_line_thickness;
             z-index: -1;
         }
     }
@@ -80,11 +81,10 @@ export default {
         &::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: -45px;
-            width: 45px;
-            height: 1px;
-            background-color: $radio_widget;
+            top: $graph_line_top;
+            left: $graph_line_left;
+            width: $graph_line_width;
+            height: $graph_line_thickness;
         }
     }
 
@@ -99,11 +99,10 @@ export default {
         &::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: -45px;
-            width: 45px;
-            height: 1px;
-            background-color: $checkbox_widget;
+            top: $graph_line_top;
+            left: $graph_line_left;
+            width: $graph_line_width;
+            height: $graph_line_thickness;
         }
     }
 
@@ -117,39 +116,6 @@ export default {
         display: block;
         flex: 0 auto;
         margin: 0 12px;
-    }
-
-    &--select {
-        background-color: $select_widget_light;
-    }
-
-    &--select &__field-letter,
-    &--select &__field-letter::after,
-    &--select &__label-input-wrapper::before,
-    &--select &__option::before {
-        background-color: $select_widget;
-    }
-
-    &--checkbox {
-        background-color: $checkbox_widget_light;
-    }
-
-    &--checkbox &__field-letter,
-    &--checkbox &__field-letter::after,
-    &--checkbox &__label-input-wrapper::before,
-    &--checkbox &__option::before {
-        background-color: $checkbox_widget;
-    }
-
-    &--radio {
-        background-color: $radio_widget_light;
-    }
-
-    &--radio &__field-letter,
-    &--radio &__field-letter::after,
-    &--radio &__label-input-wrapper::before,
-    &--radio &__option::before {
-        background-color: $radio_widget;
     }
 }
 </style>
