@@ -13,16 +13,26 @@
 
         <select-options-manager
             v-model="fieldData.params.options"
-            :options="{ title: uSign('translate', 'Пункты') }"
+            :options="{
+                createNewOption,
+                title: uSign('translate', 'Пункты'),
+            }"
         ></select-options-manager>
     </div>
 </template>
 
 <script>
 import BaseFieldSettings from '../BaseFieldSettings';
+import RadioButtonOption from '../../../models/RadioButtonOption';
 
 export default {
     name: 'RadioButtonFieldSettings',
     extends: BaseFieldSettings,
+
+    methods: {
+        createNewOption() {
+            return new RadioButtonOption();
+        },
+    },
 };
 </script>

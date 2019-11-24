@@ -61,15 +61,7 @@ export default {
 
         addOption() {
             const optionsListCopy = [...this.value];
-
-            // todo: add id
-            optionsListCopy.push({
-                activatedValue: 100,
-                deactivatedValue: 0,
-                isSelected: false,
-                label: 'Значение',
-                id: Math.random(),
-            });
+            optionsListCopy.push(this.options.createNewOption());
 
             this.$emit('input', optionsListCopy);
         },

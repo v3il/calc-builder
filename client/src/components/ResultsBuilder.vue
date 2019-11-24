@@ -31,6 +31,7 @@ import { SliderFieldValues } from './fields/slider_field';
 import { TextFieldValues } from './fields/text_field';
 import { TextAreaFieldValues } from './fields/textarea_field';
 import RadioButtonOption from '../models/RadioButtonOption';
+import SelectOption from '../models/SelectOption';
 
 export default {
     name: 'ResultsBuilder',
@@ -77,7 +78,15 @@ export default {
         },
 
         addOption(field) {
-            field.params.options.push(new RadioButtonOption());
+            const { type } = field;
+
+            if (type === 'RadioButtonField') {
+                field.params.options.push(new RadioButtonOption());
+            }
+
+            if (type === 'SelectField') {
+                field.params.options.push(new SelectOption());
+            }
         },
     },
 };

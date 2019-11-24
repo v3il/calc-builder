@@ -45,7 +45,7 @@
         </div>
 
         <button class="button field-values__add-option" @click="$emit('add-option')">
-            <i class="material-icons">add</i>
+            {{ uSign('translate', 'Добавить опцию') }}
         </button>
     </base-field-values>
 </template>

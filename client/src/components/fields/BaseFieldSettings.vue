@@ -4,7 +4,7 @@
 import ButtonsGroup from '../field_properties_editors/ButtonsGroup';
 import CheckBoxSelector from '../field_properties_editors/CheckBoxSelector';
 import ColorSelector from '../field_properties_editors/ColorSelector';
-import SelectOptionsManager from '../field_properties_editors/SelectOptionsManager';
+import SelectOptionsManager from '../field_properties_editors/OptionsManager';
 import Slider from '../field_properties_editors/Slider';
 import TextFieldComponent from '../field_properties_editors/TextFieldComponent';
 

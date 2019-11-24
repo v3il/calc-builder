@@ -1,4 +1,4 @@
-export default class RadioButtonOption {
+export default class SelectOption {
     constructor({
         activatedValue = 100,
         deactivatedValue = 0,

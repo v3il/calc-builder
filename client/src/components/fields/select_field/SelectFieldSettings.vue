@@ -13,16 +13,23 @@
 
         <select-options-manager
             v-model="fieldData.params.options"
-            :options="{ title: uSign('translate', 'Пункты') }"
+            :options="{ createNewOption, title: uSign('translate', 'Пункты') }"
         ></select-options-manager>
     </div>
 </template>
 
 <script>
 import BaseFieldSettings from '../BaseFieldSettings';
+import SelectOption from '../../../models/SelectOption';
 
 export default {
     name: 'SelectSettings',
     extends: BaseFieldSettings,
+
+    methods: {
+        createNewOption() {
+            return new SelectOption();
+        },
+    },
 };
 </script>

@@ -62,16 +62,4 @@ export default {
 .property-editor-field_field-element {
     margin: 0;
 }
-
-.el-slider__runway {
-    margin: 9px 0;
-}
-
-.el-slider__bar {
-    background-color: #263238;
-}
-
-.el-slider__button {
-    border-color: #263238;
-}
 </style>

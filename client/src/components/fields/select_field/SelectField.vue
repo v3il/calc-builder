@@ -31,6 +31,7 @@
 <script>
 import FieldBase from '../BaseField.vue';
 import SelectElement from '@/components/ui_elements/SelectElement';
+import SelectOption from '../../../models/SelectOption';
 
 export default {
     name: 'SelectField',
@@ -68,20 +69,15 @@ export default {
 
     data() {
         const defaultOptions = [
-            {
-                activatedValue: 100,
-                deactivatedValue: 0,
+            new SelectOption({
                 isSelected: true,
                 label: this.uSign('translate', 'Значение 1'),
-                id: Math.random(),
-            },
-            {
+            }),
+
+            new SelectOption({
                 activatedValue: 200,
-                deactivatedValue: 0,
-                isSelected: false,
                 label: this.uSign('translate', 'Значение 2'),
-                id: Math.random(),
-            },
+            }),
         ];
 
         return {
