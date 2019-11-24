@@ -43,6 +43,10 @@
                 >clear</i
             >
         </div>
+
+        <button class="button field-values__add-option" @click="$emit('add-option')">
+            <i class="material-icons">add</i>
+        </button>
     </base-field-values>
 </template>
 

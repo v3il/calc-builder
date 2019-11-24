@@ -35,6 +35,8 @@
 import FieldBase from '../BaseField.vue';
 import RadiobuttonElement from '@/components/ui_elements/RadiobuttonElement';
 
+import RadioButtonOption from '../../../models/RadioButtonOption';
+
 export default {
     name: 'RadioButtonField',
 
@@ -59,20 +61,16 @@ export default {
 
     data() {
         const defaultOptions = [
-            {
+            new RadioButtonOption({
                 activatedValue: 100,
-                deactivatedValue: 0,
                 isSelected: true,
-                label: 'Значение 1',
-                id: Math.random(),
-            },
-            {
+                label: 'Новая опция 1',
+            }),
+            new RadioButtonOption({
                 activatedValue: 200,
-                deactivatedValue: 0,
                 isSelected: false,
-                label: 'Значение 2',
-                id: Math.random(),
-            },
+                label: 'Новая опция 2',
+            }),
         ];
 
         return {

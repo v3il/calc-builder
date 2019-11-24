@@ -64,6 +64,11 @@ export default {
         }
     }
 
+    &--radio &__field-letter::after,
+    &--select &__field-letter::after {
+        height: calc(100% - 69px);
+    }
+
     &__remove-field.material-icons,
     &__remove-option.material-icons {
         font-size: 14px;
@@ -116,12 +121,6 @@ export default {
         }
     }
 
-    /* &__option:hover &__remove-option { */
-
-    /*    opacity: 1; */
-
-    /* } */
-
     &__option-label-input {
         flex: 1;
         position: relative;
@@ -141,12 +140,6 @@ export default {
         }
     }
 
-    /* &__label-input-wrapper:hover &__remove-field { */
-
-    /*    opacity: 1; */
-
-    /* } */
-
     &__value-block {
         display: flex;
         align-items: center;
@@ -157,6 +150,14 @@ export default {
         display: block;
         flex: 0 auto;
         margin: 0 12px;
+    }
+
+    &__add-option {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 </style>

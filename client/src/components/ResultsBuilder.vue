@@ -14,6 +14,7 @@
                             :key="field.id"
                             @remove-field="removeField(field)"
                             @remove-option="removeOption(field, $event)"
+                            @add-option="addOption(field)"
                         ></component>
                     </div>
                 </template>
@@ -29,6 +30,7 @@ import { CheckBoxFieldValues } from './fields/checkbox_field';
 import { SliderFieldValues } from './fields/slider_field';
 import { TextFieldValues } from './fields/text_field';
 import { TextAreaFieldValues } from './fields/textarea_field';
+import RadioButtonOption from '../models/RadioButtonOption';
 
 export default {
     name: 'ResultsBuilder',
@@ -72,6 +74,10 @@ export default {
         removeOption(field, optionToRemove) {
             field.params.options = field.params.options.filter(option => option !== optionToRemove);
             this.updateLayout();
+        },
+
+        addOption(field) {
+            field.params.options.push(new RadioButtonOption());
         },
     },
 };
