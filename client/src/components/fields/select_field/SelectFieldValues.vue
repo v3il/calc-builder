@@ -13,7 +13,13 @@
             :key="index"
         >
             <div class="field-values__values-editor">
-                <input-element v-model="option.label" class="field-values__option-label-input" />
+                <input-element
+                    v-model="option.label"
+                    class="field-values__option-label-input"
+                    :options="{
+                        minLength: 1,
+                    }"
+                />
 
                 <label class="field-values__value-block">
                     <span class="field-values__value-label">
@@ -23,6 +29,9 @@
                     <input-element
                         class="field-values__value-input"
                         v-model.number="option.activatedValue"
+                        :options="{
+                            type: 'number',
+                        }"
                     />
                 </label>
 
@@ -32,6 +41,9 @@
                     <input-element
                         class="field-values__value-input"
                         v-model.number="option.deactivatedValue"
+                        :options="{
+                            type: 'number',
+                        }"
                     />
                 </label>
             </div>

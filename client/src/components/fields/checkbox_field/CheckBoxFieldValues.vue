@@ -2,7 +2,13 @@
     <base-field-values :field="field" class="field-values--checkbox">
         <div class="field-values__values-editor">
             <div class="field-values__label-input-wrapper">
-                <input-element v-model="field.params.label" class="field-values__label-input" />
+                <input-element
+                    v-model="field.params.label"
+                    class="field-values__label-input"
+                    :options="{
+                        minLength: 1,
+                    }"
+                />
             </div>
 
             <label class="field-values__value-block">
@@ -13,6 +19,9 @@
                 <input-element
                     class="field-values__value-input"
                     v-model.number="field.params.activatedValue"
+                    :options="{
+                        type: 'number',
+                    }"
                 />
             </label>
 
@@ -24,6 +33,9 @@
                 <input-element
                     class="field-values__value-input text-input"
                     v-model.number="field.params.deactivatedValue"
+                    :options="{
+                        type: 'number',
+                    }"
                 />
             </label>
 
