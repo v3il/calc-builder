@@ -40,6 +40,10 @@
                 title: uSign('translate', 'Значение шага'),
                 type: 'number',
                 validator: validateStep,
+                description: uSign(
+                    'translate',
+                    '(max - min) должно нацело делиться на значение шага',
+                ),
             }"
         ></text-field-component>
     </div>
@@ -55,60 +59,60 @@ export default {
     methods: {
         validateMinValue(value) {
             const { lowerBound, upperBound } = this.getValuesBounds();
-            const numericValue = value.length ? parseInt(value) : 0;
+            const intValue = parseInt(value);
 
-            if (numericValue < lowerBound) {
+            if (intValue < lowerBound) {
                 return lowerBound;
             }
 
-            if (numericValue > upperBound - 1) {
+            if (intValue > upperBound - 1) {
                 return upperBound - 1;
             }
 
-            if (numericValue >= this.fieldData.params.max) {
-                this.fieldData.params.value = numericValue;
-                this.fieldData.params.max = numericValue + 1;
+            if (intValue >= this.fieldData.params.max) {
+                this.fieldData.params.value = intValue;
+                this.fieldData.params.max = intValue + 1;
             }
 
-            return numericValue;
+            return intValue;
         },
 
         validateMaxValue(value) {
             const { lowerBound, upperBound } = this.getValuesBounds();
-            const numericValue = value.length ? parseInt(value) : 0;
+            const intValue = parseInt(value);
 
-            if (numericValue < lowerBound + 1) {
+            if (intValue < lowerBound + 1) {
                 return lowerBound + 1;
             }
 
-            if (numericValue > upperBound) {
+            if (intValue > upperBound) {
                 return upperBound;
             }
 
-            if (numericValue <= this.fieldData.params.min) {
-                this.fieldData.params.value = numericValue;
-                this.fieldData.params.min = numericValue - 1;
+            if (intValue <= this.fieldData.params.min) {
+                this.fieldData.params.value = intValue;
+                this.fieldData.params.min = intValue - 1;
             }
 
-            return numericValue;
+            return intValue;
         },
 
         // todo: step should be divided by (max - min)
         validateStep(value) {
-            const numericValue = typeof value === 'number' ? value : parseInt(value) || 1;
+            const intValue = parseInt(value);
 
-            if (numericValue < 1) {
+            if (intValue < 1) {
                 return 1;
             }
 
             const { min, max } = this.fieldData.params;
             const valuesDiff = Math.abs(max - min);
 
-            if (numericValue >= valuesDiff) {
+            if (intValue >= valuesDiff) {
                 return valuesDiff;
             }
 
-            return numericValue;
+            return intValue;
         },
 
         getValuesBounds() {

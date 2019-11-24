@@ -1,6 +1,6 @@
 <template>
     <input
-        :type="options.type || 'text'"
+        type="text"
         class="input-element"
         :value="value"
         :placeholder="options.placeholder || ''"
@@ -8,7 +8,7 @@
         :style="options.style || {}"
         v-on="{
             ...$listeners,
-            input: onInput,
+            input: () => {},
             blur: onBlur,
         }"
     />
@@ -38,12 +38,6 @@ export default {
     },
 
     methods: {
-        onInput() {
-            if (!this.options.lazy) {
-                this.emitUpdate();
-            }
-        },
-
         onBlur() {
             this.emitUpdate();
         },
@@ -51,8 +45,21 @@ export default {
         emitUpdate() {
             const input = this.$el;
 
-            let value = input.value;
-            const { validator, minLength } = this.options;
+            let value = input.value.trim();
+            const { validator, minLength, type } = this.options;
+
+            if (type === 'number') {
+                try {
+                    const cleanedValue = this.cleanNumericValue(value);
+                    value = cleanedValue.length ? parseFloat(cleanedValue) : 0;
+
+                    if (Number.isNaN(value) || !Number.isFinite(value)) {
+                        value = 0;
+                    }
+                } catch (error) {
+                    value = 0;
+                }
+            }
 
             if (minLength && value.length < minLength) {
                 value = this.prevValue;
@@ -67,6 +74,13 @@ export default {
             input.value = value;
 
             this.$emit('input', value);
+        },
+
+        cleanNumericValue(value) {
+            const isNegativeValue = value.startsWith('-');
+            const cleanedValue = value.replace(/\.{2,}/g, '.').replace(/([^0-9.])/g, '');
+
+            return isNegativeValue ? `-${cleanedValue}` : cleanedValue;
         },
     },
 };

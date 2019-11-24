@@ -2,19 +2,13 @@
     <div class="field-settings__property-component options-manager">
         <h4 class="options-manager__title">{{ options.title }}</h4>
 
-        <div
-            v-for="(option, index) in value"
-            :key="index"
-            class="options-manager__option-item"
-            :class="{ 'options-manager__option-item--default': option.isDefault }"
-        >
+        <div v-for="(option, index) in value" :key="index" class="options-manager__option-item">
             <div class="options-manager__option-data">
                 <text-field-component
                     v-model="option.label"
                     class="options-manager__label-input"
                     :options="{
                         minLength: 1,
-                        lazy: true,
                     }"
                 />
 
