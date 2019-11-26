@@ -49,7 +49,12 @@
         </aside>
 
         <main class="layout-builder__rows-wrapper">
-            <div class="layout-builder__form-content">
+            <draggable
+                v-model="form.layout"
+                class="layout-builder__form-content"
+                v-bind="rowsSortableOptions"
+                @update="onRowSort"
+            >
                 <draggable
                     v-model="row.fields"
                     v-for="(row, rowIndex) in form.layout"
@@ -78,8 +83,16 @@
                         :selected="selectedField && field === selectedField"
                         class="layout-builder__row-item"
                     ></component>
+
+                    <i
+                        v-if="row.fields.length"
+                        class="material-icons js-row-drag-handle layout-builder__row-handle"
+                        >apps</i
+                    >
                 </draggable>
-            </div>
+            </draggable>
+
+            <div class="layout-builder__form-content"></div>
         </main>
     </section>
 </template>
@@ -155,6 +168,13 @@ export default {
                 ghostClass: 'layout-builder__sortable-ghost',
             },
 
+            rowsSortableOptions: {
+                group: { name: 'rows' },
+                handle: '.js-row-drag-handle',
+                sort: true,
+                ghostClass: 'layout-builder__row-sortable-ghost',
+            },
+
             sidebarDraggableOptions: {
                 group: { name: 'items', pull: 'clone', put: false },
                 sort: false,
@@ -224,6 +244,11 @@ export default {
 
         removeEmptyRows() {
             this.form.layout = this.form.layout.filter(({ fields }) => fields.length > 0);
+        },
+
+        onRowSort() {
+            this.ensureEmptyRow();
+            this.updateLayout();
         },
 
         updateLayout() {
@@ -399,6 +424,7 @@ export default {
         flex-wrap: wrap;
         padding: 6px;
         margin: 12px 0;
+        position: relative;
 
         &:first-child {
             margin-top: 6px;
@@ -413,11 +439,30 @@ export default {
         }
     }
 
+    &__row-handle {
+        position: absolute;
+        top: calc(50% - 10px);
+        right: -10px;
+        width: 20px;
+        height: 20px;
+        background: #263238;
+        color: white;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+        box-sizing: content-box;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
     &__layout-row &__widget-item {
         margin: 6px 0;
     }
 
-    &__sortable-ghost {
+    &__sortable-ghost,
+    &__row-sortable-ghost {
         background: $gray;
         flex: 1;
     }
