@@ -29,6 +29,11 @@ const availableFields = [
         type: 'CheckBoxField',
         text: 'Галочка',
     },
+    {
+        id: 'result',
+        type: 'ResultField',
+        text: 'Результат вычисления',
+    },
 ];
 
 export default availableFields;

@@ -107,6 +107,7 @@ import { ButtonField, ButtonFieldSettings } from './fields/button_field';
 import { SliderField, SliderFieldSettings } from './fields/slider_field';
 import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
 import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
+import { ResultField } from './fields/result_field';
 
 import ImageField from './fields/image_field/ImageField.vue';
 
@@ -134,6 +135,7 @@ export default {
         CheckBoxFieldSettings,
         RadioButtonField,
         RadioButtonFieldSettings,
+        ResultField,
 
         ImageField,
     },
@@ -417,6 +419,18 @@ export default {
         }
     }
 
+    &__widget-item--result &__widget-icon {
+        color: $result_widget;
+    }
+
+    &__widget-item--result {
+        border-left-color: $result_widget;
+
+        &:hover {
+            background: linear-gradient(to right, $result_widget_light, $white);
+        }
+    }
+
     // Builder
     &__layout-row {
         border: 1px solid $gray;
@@ -455,6 +469,11 @@ export default {
         box-sizing: content-box;
         font-size: 20px;
         cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: $success;
+        }
     }
 
     &__layout-row &__widget-item {

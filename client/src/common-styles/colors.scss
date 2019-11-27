@@ -22,7 +22,10 @@ $select_widget: #9d81d3;
 $select_widget_light: lighten($select_widget, 30%);
 
 $radio_widget: #f03871;
-$radio_widget_light: lighten($radio_widget, 40%);
+$radio_widget_light: lighten($radio_widget, 38%);
 
 $checkbox_widget: #16a085;
 $checkbox_widget_light: lighten($checkbox_widget, 60%);
+
+$result_widget: #ea7926;
+$result_widget_light: lighten($result_widget, 42%);
