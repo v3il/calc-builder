@@ -1,15 +1,67 @@
 <template>
-    <div class="result-field">Result</div>
+    <field-base
+        :field="field"
+        :disabled="disabled"
+        :selected="selected"
+        @edit-field="$emit('edit-field')"
+        @remove-field="$emit('remove-field')"
+    >
+        <div class="result" :style="style">{{ value }}</div>
+
+        <template v-slot:additionalButtons>
+            <toolbar-edit-formula-button @click="$emit('edit-formula')" />
+        </template>
+    </field-base>
 </template>
 
 <script>
+import FieldBase from '../BaseField.vue';
+
+import ToolbarEditFormulaButton from '../../fields_toolbar/ToolbarEditFormulaButton';
+
 export default {
-    name: 'ResultField',
+    name: 'RadioButtonField',
+
+    components: {
+        FieldBase,
+        ToolbarEditFormulaButton,
+    },
+
+    extends: FieldBase,
+
+    computed: {
+        value() {
+            let result = 0;
+
+            try {
+                result = eval(this.field.params.formula);
+            } catch (error) {
+                result = 0;
+            }
+
+            return this.field.params.template.replace('$RESULT$', result);
+        },
+
+        style() {
+            return {
+                textAlign: this.field.params.textAlign,
+                color: this.field.style.labelColor,
+            };
+        },
+    },
+
+    data() {
+        return {
+            defaultOptions: {
+                template: 'Итог: $$RESULT$',
+                formula: '2 + 2',
+                textAlign: 'right',
+            },
+
+            defaultStyle: {
+                labelColor: '#2c2e32',
+            },
+        };
+    },
 };
 </script>
-
-<style scoped lang="scss">
-.result-field {
-    color: red;
-}
-</style>

@@ -10,6 +10,7 @@
             <slot name="toolbar">
                 <toolbar-drag-button />
                 <toolbar-edit-button @click="$emit('edit-field')" />
+                <slot name="additionalButtons"></slot>
                 <toolbar-remove-button @click="$emit('remove-field')" />
             </slot>
         </fields-params-toolbar>
@@ -105,15 +106,5 @@ export default {
             opacity: 1;
         }
     }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s;
-}
-
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
 }
 </style>

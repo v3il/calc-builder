@@ -16,8 +16,8 @@ export default {
     opacity: 0;
     position: absolute;
     right: 0;
-    width: 100px;
-    top: -18px;
+    width: auto;
+    top: -24px;
     margin: 0;
     background: #000;
     color: white;

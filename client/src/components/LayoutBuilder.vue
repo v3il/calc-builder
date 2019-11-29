@@ -87,7 +87,7 @@
                     <i
                         v-if="row.fields.length"
                         class="material-icons js-row-drag-handle layout-builder__row-handle"
-                        >apps</i
+                        >swap_vert</i
                     >
                 </draggable>
             </draggable>
@@ -107,7 +107,7 @@ import { ButtonField, ButtonFieldSettings } from './fields/button_field';
 import { SliderField, SliderFieldSettings } from './fields/slider_field';
 import { CheckBoxField, CheckBoxFieldSettings } from './fields/checkbox_field';
 import { RadioButtonField, RadioButtonFieldSettings } from './fields/radiobutton_field';
-import { ResultField } from './fields/result_field';
+import { ResultField, ResultFieldSettings } from './fields/result_field';
 
 import ImageField from './fields/image_field/ImageField.vue';
 
@@ -136,6 +136,7 @@ export default {
         RadioButtonField,
         RadioButtonFieldSettings,
         ResultField,
+        ResultFieldSettings,
 
         ImageField,
     },
@@ -437,7 +438,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         padding: 6px;
-        margin: 12px 0;
+        margin: 18px 0;
         position: relative;
 
         &:first-child {
