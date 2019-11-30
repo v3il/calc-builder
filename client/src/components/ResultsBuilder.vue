@@ -30,6 +30,7 @@ import { CheckBoxFieldValues } from './fields/checkbox_field';
 import { SliderFieldValues } from './fields/slider_field';
 import { TextFieldValues } from './fields/text_field';
 import { TextAreaFieldValues } from './fields/textarea_field';
+import { ResultFieldValues } from './fields/result_field';
 import RadioButtonOption from '../models/RadioButtonOption';
 import SelectOption from '../models/SelectOption';
 
@@ -43,6 +44,7 @@ export default {
         SliderFieldValues,
         TextFieldValues,
         TextAreaFieldValues,
+        ResultFieldValues,
     },
 
     props: {

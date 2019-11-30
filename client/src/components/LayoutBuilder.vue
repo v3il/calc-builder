@@ -73,6 +73,7 @@
                         v-for="field in row.fields"
                         @remove-field="removeField(row, field)"
                         @edit-field="triggerFieldEdit(field)"
+                        @edit-formula="$router.push({ name: 'formResults' })"
                         :key="field.id"
                         :is="field.type"
                         :field="field"

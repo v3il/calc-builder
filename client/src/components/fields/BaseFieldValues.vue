@@ -1,16 +1,22 @@
 <template>
     <div class="field-values">
-        <div class="field-values__letter-column">
-            <span class="field-values__field-letter">{{ field.letter }}</span>
-        </div>
+        <h2 class="field-values__title">{{ fieldName }}</h2>
 
-        <div class="field-values__properties-column">
-            <slot></slot>
+        <div class="field-values__info-wrapper">
+            <div class="field-values__letter-column">
+                <span class="field-values__field-letter">{{ field.letter }}</span>
+            </div>
+
+            <div class="field-values__properties-column">
+                <slot></slot>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import availableFields from '../../constants/AvailableFields';
+
 export default {
     name: 'BaseFieldValues',
 
@@ -20,6 +26,17 @@ export default {
             required: true,
         },
     },
+
+    data() {
+        return {
+            fieldName: '',
+        };
+    },
+
+    created() {
+        const fieldModel = availableFields.find(({ type }) => this.field.type === type);
+        this.fieldName = fieldModel ? fieldModel.text : '';
+    },
 };
 </script>
 
@@ -27,8 +44,16 @@ export default {
 .field-values {
     padding: 12px 24px;
     border-radius: 6px;
-    display: flex;
-    position: relative;
+
+    &__title {
+        font-size: 1rem;
+        margin-bottom: 9px;
+    }
+
+    &__info-wrapper {
+        display: flex;
+        position: relative;
+    }
 
     $graph_line_top: 18px;
     $graph_line_left: -44px;
