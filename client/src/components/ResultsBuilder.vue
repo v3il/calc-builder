@@ -1,6 +1,13 @@
 <template>
     <div class="results-builder">
-        <aside class="results-builder__sidebar"></aside>
+        <aside class="results-builder__sidebar">
+            <formula-builder
+                v-for="(resultField, index) in results"
+                :result-field="resultField"
+                :key="index"
+                class="results-builder__formula-editor"
+            ></formula-builder>
+        </aside>
 
         <main class="results-builder__content">
             <div class="results-builder__components-wrapper">
@@ -33,6 +40,7 @@ import { TextAreaFieldValues } from './fields/textarea_field';
 import { ResultFieldValues } from './fields/result_field';
 import RadioButtonOption from '../models/RadioButtonOption';
 import SelectOption from '../models/SelectOption';
+import FormulaBuilder from './FormulaBuilder';
 
 export default {
     name: 'ResultsBuilder',
@@ -45,6 +53,7 @@ export default {
         TextFieldValues,
         TextAreaFieldValues,
         ResultFieldValues,
+        FormulaBuilder,
     },
 
     props: {
@@ -57,6 +66,10 @@ export default {
     computed: {
         fieldsList() {
             return this.form.layout.reduce((result, current) => result.concat(current.fields), []);
+        },
+
+        results() {
+            return this.fieldsList.filter(({ type }) => type === 'ResultField');
         },
     },
 

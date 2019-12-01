@@ -77,6 +77,7 @@
                         :key="field.id"
                         :is="field.type"
                         :field="field"
+                        :fields-list="fieldsList"
                         :data-id="field.id"
                         :disabled="
                             (selectedField && field !== selectedField) || disabledRows.includes(row)

@@ -42,6 +42,10 @@ export default {
             required: true,
         },
 
+        fieldsList: {
+            type: Array,
+        },
+
         disabled: {
             type: Boolean,
             default: false,

@@ -33,8 +33,17 @@ export default {
         value() {
             let result = 0;
 
+            const processedFormula = this.field.params.formula.replace(/[A-Z]\d?/g, fieldLetter => {
+                const field = this.getFieldByLetter(fieldLetter);
+                console.log(field);
+
+                return field && field.params.value ? field.params.value : 0;
+            });
+
+            console.log(processedFormula);
+
             try {
-                result = eval(this.field.params.formula);
+                result = eval(processedFormula);
             } catch (error) {
                 result = 0;
             }
@@ -62,6 +71,12 @@ export default {
                 labelColor: '#2c2e32',
             },
         };
+    },
+
+    methods: {
+        getFieldByLetter(fieldLetter) {
+            return this.fieldsList.find(({ letter }) => fieldLetter === letter);
+        },
     },
 };
 </script>
