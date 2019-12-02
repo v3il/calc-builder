@@ -11,7 +11,5 @@ export default class RadioButtonOption {
         this.isSelected = isSelected;
         this.label = label;
         this.id = id;
-
-        console.log(new.target);
     }
 }

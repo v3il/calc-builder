@@ -36,11 +36,6 @@ export default {
                 ...this.field.style,
             };
         },
-
-        value() {
-            const { isSelected, activatedValue, deactivatedValue } = this.field.params;
-            return isSelected ? activatedValue : deactivatedValue;
-        },
     },
 
     data() {
@@ -56,6 +51,23 @@ export default {
                 labelColor: '#2c2e32',
             },
         };
+    },
+
+    watch: {
+        'field.params': {
+            deep: true,
+            immediate: true,
+            handler(newValue) {
+                if (newValue) {
+                    const { isSelected, activatedValue, deactivatedValue } = newValue;
+                    this.$set(
+                        this.field.params,
+                        'value',
+                        isSelected ? activatedValue : deactivatedValue,
+                    );
+                }
+            },
+        },
     },
 };
 </script>

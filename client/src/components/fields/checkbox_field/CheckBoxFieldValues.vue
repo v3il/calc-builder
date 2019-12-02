@@ -80,10 +80,5 @@ export default {
     &--checkbox &__remove-field {
         background-color: $checkbox_widget;
     }
-
-    &--checkbox &__remove-field {
-        top: 19px;
-        right: -9px;
-    }
 }
 </style>
