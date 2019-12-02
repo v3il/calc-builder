@@ -35,7 +35,7 @@ export default {
 
             const processedFormula = this.field.params.formula.replace(/[A-Z]\d?/g, fieldLetter => {
                 const field = this.getFieldByLetter(fieldLetter);
-                return field && field.params.value ? field.params.value : 0;
+                return field.params.value;
             });
 
             console.log(processedFormula);
@@ -47,13 +47,8 @@ export default {
             }
 
             this.$set(this.field.params, 'value', result);
-            this.$set(
-                this.field.params,
-                'textValue',
-                this.field.params.template.replace('$RESULT$', result),
-            );
 
-            return this.field.params.textValue;
+            return this.field.params.template.replace('$RESULT$', result);
         },
 
         style() {
