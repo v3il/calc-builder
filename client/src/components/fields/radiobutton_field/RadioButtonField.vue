@@ -92,6 +92,26 @@ export default {
             });
         },
     },
+
+    watch: {
+        'field.params': {
+            deep: true,
+            immediate: true,
+            handler(newValue) {
+                if (newValue) {
+                    const { options } = newValue;
+                    const fieldValue = options.reduce((total, currentOption) => {
+                        const { activatedValue, deactivatedValue, isSelected } = currentOption;
+                        const optionValue = isSelected ? activatedValue : deactivatedValue;
+
+                        return total + optionValue;
+                    }, 0);
+
+                    this.$set(this.field.params, 'value', fieldValue);
+                }
+            },
+        },
+    },
 };
 </script>
 
