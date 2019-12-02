@@ -46,7 +46,14 @@ export default {
                 result = 0;
             }
 
-            return this.field.params.template.replace('$RESULT$', result);
+            this.$set(this.field.params, 'value', result);
+            this.$set(
+                this.field.params,
+                'textValue',
+                this.field.params.template.replace('$RESULT$', result),
+            );
+
+            return this.field.params.textValue;
         },
 
         style() {
