@@ -53,19 +53,17 @@ export default {
         };
     },
 
+    created() {
+        this.$set(this.field.params, 'value', 0);
+    },
+
     watch: {
         'field.params': {
             deep: true,
             immediate: true,
             handler(newValue) {
-                if (newValue) {
-                    const { isSelected, activatedValue, deactivatedValue } = newValue;
-                    this.$set(
-                        this.field.params,
-                        'value',
-                        isSelected ? activatedValue : deactivatedValue,
-                    );
-                }
+                const { isSelected, activatedValue, deactivatedValue } = newValue;
+                this.field.params.value = isSelected ? activatedValue : deactivatedValue;
             },
         },
     },

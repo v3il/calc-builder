@@ -54,17 +54,6 @@ export default {
                 ...this.field.style,
             };
         },
-
-        value() {
-            let selectedOption = this.field.params.options.find(item => item.isSelected);
-
-            if (!selectedOption) {
-                selectedOption = this.field.params.options[0];
-                selectedOption.isSelected = true;
-            }
-
-            return selectedOption.activatedValue;
-        },
     },
 
     data() {
@@ -102,22 +91,21 @@ export default {
         },
     },
 
+    created() {
+        this.$set(this.field.params, 'value', 0);
+    },
+
     watch: {
-        'field.params': {
+        'field.params.options': {
             deep: true,
             immediate: true,
-            handler(newValue) {
-                if (newValue) {
-                    const { options } = newValue;
-                    const fieldValue = options.reduce((total, currentOption) => {
-                        const { activatedValue, deactivatedValue, isSelected } = currentOption;
-                        const optionValue = isSelected ? activatedValue : deactivatedValue;
+            handler(options) {
+                this.field.params.value = options.reduce((total, currentOption) => {
+                    const { activatedValue, deactivatedValue, isSelected } = currentOption;
+                    const optionValue = isSelected ? activatedValue : deactivatedValue;
 
-                        return total + optionValue;
-                    }, 0);
-
-                    this.$set(this.field.params, 'value', fieldValue);
-                }
+                    return total + optionValue;
+                }, 0);
             },
         },
     },

@@ -53,10 +53,6 @@ export default {
                 ...this.field.style,
             };
         },
-
-        value() {
-            return this.field.params.options.find(item => item.isSelected).activatedValue;
-        },
     },
 
     data() {
@@ -66,6 +62,7 @@ export default {
                 isSelected: true,
                 label: 'Новая опция 1',
             }),
+
             new RadioButtonOption({
                 activatedValue: 200,
                 isSelected: false,
@@ -93,22 +90,21 @@ export default {
         },
     },
 
+    created() {
+        this.$set(this.field.params, 'value', 0);
+    },
+
     watch: {
-        'field.params': {
+        'field.params.options': {
             deep: true,
             immediate: true,
-            handler(newValue) {
-                if (newValue) {
-                    const { options } = newValue;
-                    const fieldValue = options.reduce((total, currentOption) => {
-                        const { activatedValue, deactivatedValue, isSelected } = currentOption;
-                        const optionValue = isSelected ? activatedValue : deactivatedValue;
+            handler(options) {
+                this.field.params.value = options.reduce((total, currentOption) => {
+                    const { activatedValue, deactivatedValue, isSelected } = currentOption;
+                    const optionValue = isSelected ? activatedValue : deactivatedValue;
 
-                        return total + optionValue;
-                    }, 0);
-
-                    this.$set(this.field.params, 'value', fieldValue);
-                }
+                    return total + optionValue;
+                }, 0);
             },
         },
     },

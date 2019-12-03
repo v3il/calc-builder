@@ -46,7 +46,8 @@ export default {
                 result = 0;
             }
 
-            this.$set(this.field.params, 'value', result);
+            /* eslint-disable-next-line */
+            this.field.params.value = result;
 
             return this.field.params.template.replace('$RESULT$', result);
         },
@@ -77,6 +78,10 @@ export default {
         getFieldByLetter(fieldLetter) {
             return this.fieldsList.find(({ letter }) => fieldLetter === letter);
         },
+    },
+
+    created() {
+        this.$set(this.field.params, 'value', 0);
     },
 };
 </script>
