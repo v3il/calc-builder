@@ -34,6 +34,8 @@
 </template>
 
 <script>
+const SEPARATOR = ' ';
+
 export default {
     name: 'FormulaRenderer',
 
@@ -53,7 +55,7 @@ export default {
 
     computed: {
         elements() {
-            return this.form.split('').filter(item => item !== ' ');
+            return this.form.split(SEPARATOR).filter(item => item !== ' ');
         },
     },
 
@@ -81,13 +83,25 @@ export default {
                     break;
             }
 
-            if (/(\d|\+|-|\*|\/|\(|\))/.test(key)) {
+            if (/(\+|-|\*|\/)/.test(key)) {
+                this.insertOperator(key);
+            }
+
+            if (/[0-9]$/.test(key)) {
+                this.insertDigit(key);
+            }
+
+            if (/(\(|\))/.test(key)) {
                 this.insertSymbols(key);
             }
 
-            console.log(this.elements.join(''));
+            if (/[A-Z]$/.test(key)) {
+                this.insertSymbols(key);
+            }
 
-            this.$emit('change', this.elements.join(''));
+            // console.log(this.elements.join(SEPARATOR));
+
+            this.$emit('change', this.elements.join(SEPARATOR));
         };
 
         document.addEventListener('keydown', keyUpHandler);
@@ -102,13 +116,61 @@ export default {
             return ['+', '-', '*', '/', '='].includes(element);
         },
 
+        isOpenBracket(element) {
+            return element === '(';
+        },
+
+        isCloseBracket(element) {
+            return element === ')';
+        },
+
+        isLetter(element) {
+            console.error(element);
+            return /^[A-Z]$/.test(element);
+        },
+
         insertSymbols(symbols) {
             const newFormula = [...this.elements];
 
             newFormula.splice(this.activeGapIndex, 0, symbols);
 
-            this.form = newFormula.join('');
+            this.form = newFormula.join(SEPARATOR);
             this.activeGapIndex++;
+        },
+
+        insertOperator(operator) {
+            const prevSymbol = this.elements[this.activeGapIndex - 1];
+            const nextSymbol = this.elements[this.activeGapIndex];
+
+            console.log(prevSymbol, nextSymbol);
+
+            if (
+                !(
+                    this.isOperator(prevSymbol) ||
+                    this.isOperator(nextSymbol) ||
+                    this.isOpenBracket(prevSymbol)
+                )
+            ) {
+                this.insertSymbols(operator);
+            }
+        },
+
+        insertDigit(element) {
+            const prevSymbol = this.elements[this.activeGapIndex - 1];
+
+            console.log(prevSymbol, this.isLetter(element));
+
+            if (this.isLetter(prevSymbol)) {
+                const newFormula = this.elements.map((item, index) => {
+                    return index === this.activeGapIndex - 1 ? `${prevSymbol}${element}` : item;
+                });
+
+                console.log(newFormula);
+
+                this.form = newFormula.join(SEPARATOR);
+            } else {
+                this.insertSymbols(element);
+            }
         },
 
         removeSymbolAtLeft() {
@@ -116,7 +178,7 @@ export default {
                 const newFormula = [...this.elements];
                 newFormula.splice(this.activeGapIndex - 1, 1);
 
-                this.form = newFormula.join('');
+                this.form = newFormula.join(SEPARATOR);
                 this.activeGapIndex--;
             }
         },
@@ -129,7 +191,7 @@ export default {
             const newFormula = [...this.elements];
             newFormula.splice(this.activeGapIndex, 1);
 
-            this.form = newFormula.join('');
+            this.form = newFormula.join(SEPARATOR);
         },
 
         moveCursorToLeft() {
