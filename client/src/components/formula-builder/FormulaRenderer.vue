@@ -34,7 +34,7 @@
 </template>
 
 <script>
-const SEPARATOR = ' ';
+const SEPARATOR = '';
 
 export default {
     name: 'FormulaRenderer',
@@ -55,7 +55,15 @@ export default {
 
     computed: {
         elements() {
-            return this.form.split(SEPARATOR).filter(item => item !== ' ');
+            return this.form.split(SEPARATOR);
+        },
+
+        prevSymbol() {
+            return this.elements[this.activeGapIndex - 1];
+        },
+
+        nextSymbol() {
+            return this.elements[this.activeGapIndex];
         },
     },
 
@@ -83,21 +91,29 @@ export default {
                     break;
             }
 
-            if (/(\+|-|\*|\/)/.test(key)) {
+            if (this.isDigit(key)) {
+                this.insertDigit(key);
+            } else if (this.isOperator(key)) {
                 this.insertOperator(key);
+            } else if (this.isLetter(key)) {
+                this.insertLetter(key);
             }
 
-            if (/[0-9]$/.test(key)) {
-                this.insertDigit(key);
-            }
+            // if (/(\+|-|\*|\/)/.test(key)) {
+            //     this.insertOperator(key);
+            // }
+            //
+            // if (/[0-9]$/.test(key)) {
+            //     this.insertDigit(key);
+            // }
 
             if (/(\(|\))/.test(key)) {
                 this.insertSymbols(key);
             }
 
-            if (/[A-Z]$/.test(key)) {
-                this.insertSymbols(key);
-            }
+            // if (/[A-Z]$/.test(key)) {
+            //     this.insertSymbols(key);
+            // }
 
             // console.log(this.elements.join(SEPARATOR));
 
@@ -113,7 +129,7 @@ export default {
 
     methods: {
         isOperator(element) {
-            return ['+', '-', '*', '/', '='].includes(element);
+            return ['+', '-', '*', '/'].includes(element);
         },
 
         isOpenBracket(element) {
@@ -125,8 +141,11 @@ export default {
         },
 
         isLetter(element) {
-            console.error(element);
             return /^[A-Z]$/.test(element);
+        },
+
+        isDigit(element) {
+            return /^[0-9]$/.test(element);
         },
 
         insertSymbols(symbols) {
@@ -139,35 +158,52 @@ export default {
         },
 
         insertOperator(operator) {
-            const prevSymbol = this.elements[this.activeGapIndex - 1];
-            const nextSymbol = this.elements[this.activeGapIndex];
+            const { prevSymbol, nextSymbol } = this;
 
             console.log(prevSymbol, nextSymbol);
 
-            if (
-                !(
-                    this.isOperator(prevSymbol) ||
-                    this.isOperator(nextSymbol) ||
-                    this.isOpenBracket(prevSymbol)
-                )
-            ) {
+            const isInvalidPlace =
+                this.isOperator(prevSymbol) ||
+                this.isOperator(nextSymbol) ||
+                this.isOpenBracket(prevSymbol);
+
+            if (!isInvalidPlace) {
                 this.insertSymbols(operator);
             }
         },
 
         insertDigit(element) {
-            const prevSymbol = this.elements[this.activeGapIndex - 1];
+            const { prevSymbol, nextSymbol } = this;
 
-            console.log(prevSymbol, this.isLetter(element));
+            if (this.isOpenBracket(nextSymbol) && this.isCloseBracket(prevSymbol)) {
+                // (...)2(...) -> (...) * 2 * (...)
+                this.insertSymbols(`*${element}*`);
+            } else if (this.isOpenBracket(nextSymbol)) {
+                // 2(...) -> 2 * (...)
+                this.insertSymbols(`${element}*`);
+            } else if (this.isCloseBracket(prevSymbol)) {
+                // (...)2 -> (...) * 2
+                this.insertSymbols(`*${element}`);
+            } else {
+                this.insertSymbols(element);
+            }
+        },
 
-            if (this.isLetter(prevSymbol)) {
-                const newFormula = this.elements.map((item, index) => {
-                    return index === this.activeGapIndex - 1 ? `${prevSymbol}${element}` : item;
-                });
+        insertLetter(element) {
+            const { prevSymbol, nextSymbol } = this;
 
-                console.log(newFormula);
-
-                this.form = newFormula.join(SEPARATOR);
+            if (
+                (this.isOpenBracket(nextSymbol) && this.isCloseBracket(prevSymbol)) ||
+                (this.isDigit(nextSymbol) && this.isDigit(prevSymbol))
+            ) {
+                // (...)C(...) -> (...) * C * (...)
+                this.insertSymbols(`*${element}*`);
+            } else if (this.isOpenBracket(nextSymbol) || this.isDigit(nextSymbol)) {
+                // C(...) -> C * (...)
+                this.insertSymbols(`${element}*`);
+            } else if (this.isCloseBracket(prevSymbol) || this.isDigit(prevSymbol)) {
+                // (...)C -> (...) * C
+                this.insertSymbols(`*${element}`);
             } else {
                 this.insertSymbols(element);
             }
