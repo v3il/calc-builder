@@ -1,44 +1,29 @@
 <template>
     <div class="formula-renderer">
-        <span class="formula-renderer__element formula-renderer__element--operator">=</span>
-        <template v-for="(element, index) in elements">
-            <div
-                class="formula-renderer__gap"
-                :class="{ 'formula-renderer__gap--active': activeGapIndex === index }"
-                @click="activeGapIndex = index"
-                :key="`gap${index}`"
-            >
-                <span class="formula-renderer__cursor"></span>
-            </div>
+        <formula-element :element="{ item: '=', isOperator: true }" />
 
-            <div
-                :key="index"
-                class="formula-renderer__element"
-                :class="{
-                    'formula-renderer__element--operator': isOperator(element),
-                }"
-                @click="activeGapIndex = index"
-            >
-                {{ element }}
-            </div>
+        <template v-for="element in formulaOM">
+            <formula-gap
+                v-if="element.isGap"
+                :element="element"
+                :key="element.id"
+                @click="activeGapIndex = element.index"
+            />
+
+            <formula-element
+                v-else
+                :element="element"
+                :key="element.id"
+                @click="activeGapIndex = element.index + 1"
+            />
         </template>
-
-        <div
-            class="formula-renderer__gap"
-            :class="{ 'formula-renderer__gap--active': activeGapIndex === elements.length }"
-            @click="activeGapIndex = elements.length"
-        >
-            <span class="formula-renderer__cursor"></span>
-        </div>
-
-        <br />
-        <br />
-
-        {{ formulaOM }}
     </div>
 </template>
 
 <script>
+import FormulaGap from './FormulaGap';
+import FormulaElement from './FormulaElement';
+
 const SEPARATOR = '';
 
 export default {
@@ -49,6 +34,11 @@ export default {
             type: String,
             required: true,
         },
+    },
+
+    components: {
+        FormulaGap,
+        FormulaElement,
     },
 
     data() {
@@ -74,17 +64,19 @@ export default {
             formulaElements.forEach((item, index) => {
                 formulaOM.push({
                     ...gapModel,
+                    index,
                     isActive: index === this.activeGapIndex,
                     id: `gap${index}`,
                 });
 
                 const isOperator = this.isOperator(item);
 
-                formulaOM.push({ isOperator, id: `element${index}` });
+                formulaOM.push({ item, index, isOperator, id: `element${index}` });
             });
 
             formulaOM.push({
                 ...gapModel,
+                index: formulaElements.length,
                 isActive: formulaElements.length === this.activeGapIndex,
                 id: `gap${formulaElements.length}`,
             });
@@ -266,58 +258,5 @@ export default {
 <style scoped lang="scss">
 .formula-renderer {
     display: flex;
-
-    &__element {
-        display: inline-block;
-        text-align: center;
-        margin: 3px 0;
-
-        /* padding: 0 3px; */
-
-        /* width: 26px; */
-        line-height: 26px;
-        box-sizing: border-box;
-
-        /* border: 1px solid #ccc; */
-
-        &--operator {
-            padding: 0 3px;
-        }
-    }
-
-    &__gap {
-        /* width: 10px; */
-        box-sizing: border-box;
-        display: inline-block;
-        cursor: text;
-        margin: 3px 0;
-        padding: 1px;
-
-        /* border: 1px solid #ccc; */
-    }
-
-    &__cursor {
-        display: block;
-        height: 100%;
-        width: 1px;
-        animation: blink 1s infinite;
-        margin: 0 auto;
-        cursor: pointer;
-        background-color: transparent;
-    }
-
-    &__gap--active &__cursor {
-        background-color: #263238;
-    }
-
-    @keyframes blink {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
 }
 </style>
