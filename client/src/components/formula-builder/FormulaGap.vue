@@ -1,5 +1,12 @@
 <template>
-    <div class="formula-gap" :class="{ 'formula-gap--active': element.isActive }" v-on="$listeners">
+    <div
+        class="formula-gap"
+        :class="{
+            'formula-gap--active': element.isActive,
+            'formula-gap--in-var': element.isGapInVariable,
+        }"
+        v-on="$listeners"
+    >
         <span class="formula-cursor" />
     </div>
 </template>
@@ -38,6 +45,10 @@ export default {
 
     &-gap--active &-cursor {
         background-color: $bg_primary_dark;
+    }
+
+    &-gap--in-var {
+        background-color: $input_widget;
     }
 }
 

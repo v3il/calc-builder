@@ -62,16 +62,27 @@ export default {
             const formulaElements = this.form.split(SEPARATOR);
 
             formulaElements.forEach((item, index) => {
+                const isOperator = this.isOperator(item);
+                const isStartOfVariable = this.isLetter(item);
+                const isEndOfVariable =
+                    this.isLetter(formulaElements[index - 1]) && this.isDigit(item);
+
                 formulaOM.push({
                     ...gapModel,
                     index,
-                    isActive: index === this.activeGapIndex,
                     id: `gap${index}`,
+                    isActive: index === this.activeGapIndex,
+                    isGapInVariable: isEndOfVariable,
                 });
 
-                const isOperator = this.isOperator(item);
-
-                formulaOM.push({ item, index, isOperator, id: `element${index}` });
+                formulaOM.push({
+                    item,
+                    index,
+                    isStartOfVariable,
+                    isEndOfVariable,
+                    isOperator,
+                    id: `element${index}`,
+                });
             });
 
             formulaOM.push({
