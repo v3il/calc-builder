@@ -54,10 +54,6 @@ export default {
         },
 
         formulaOM() {
-            const gapModel = {
-                isGap: true,
-            };
-
             const formulaOM = [];
             const formulaElements = this.form.split(SEPARATOR);
 
@@ -68,8 +64,8 @@ export default {
                     this.isLetter(formulaElements[index - 1]) && this.isDigit(item);
 
                 formulaOM.push({
-                    ...gapModel,
                     index,
+                    isGap: true,
                     id: `gap${index}`,
                     isActive: index === this.activeGapIndex,
                     isGapInVariable: isEndOfVariable,
@@ -86,7 +82,7 @@ export default {
             });
 
             formulaOM.push({
-                ...gapModel,
+                isGap: true,
                 index: formulaElements.length,
                 isActive: formulaElements.length === this.activeGapIndex,
                 id: `gap${formulaElements.length}`,
