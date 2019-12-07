@@ -6,10 +6,7 @@
             :key="index"
         >
             {{ result.letter }} | {{ result.params.formula }}
-            <formula-renderer
-                @change="onFormulaChange(result, $event)"
-                :formula="result.params.formula"
-            />
+            <formula-renderer @change="onFormulaChange(result, $event)" :result="result" />
         </div>
     </div>
 </template>

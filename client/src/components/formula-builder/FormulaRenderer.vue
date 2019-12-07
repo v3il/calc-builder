@@ -1,5 +1,5 @@
 <template>
-    <div class="formula-renderer">
+    <div class="formula-renderer" :data-result="result.letter">
         <formula-element :element="{ item: '=', isOperator: true }" />
 
         <template v-for="element in formulaOM">
@@ -30,8 +30,8 @@ export default {
     name: 'FormulaRenderer',
 
     props: {
-        formula: {
-            type: String,
+        result: {
+            type: Object,
             required: true,
         },
     },
@@ -44,18 +44,18 @@ export default {
     data() {
         return {
             activeGapIndex: -1,
-            form: this.formula,
+            formula: this.result.params.formula,
         };
     },
 
     computed: {
         elements() {
-            return this.form.split(SEPARATOR);
+            return this.formula.split(SEPARATOR);
         },
 
         formulaOM() {
             const formulaOM = [];
-            const formulaElements = this.form.split(SEPARATOR);
+            const formulaElements = this.formula.split(SEPARATOR);
 
             formulaElements.forEach((item, index) => {
                 const isOperator = this.isOperator(item);
@@ -101,7 +101,16 @@ export default {
     },
 
     created() {
-        const keyUpHandler = event => {
+        const clickHandler = event => {
+            const { target } = event;
+            const isOutsideClick = !target.closest(`[data-result=${this.result.letter}]`);
+
+            if (isOutsideClick) {
+                this.activeGapIndex = -1;
+            }
+        };
+
+        const keyHandler = event => {
             if (this.activeGapIndex < 0) {
                 return;
             }
@@ -137,10 +146,12 @@ export default {
             this.$emit('change', this.elements.join(SEPARATOR));
         };
 
-        document.addEventListener('keydown', keyUpHandler);
+        document.addEventListener('keydown', keyHandler);
+        document.addEventListener('click', clickHandler);
 
         this.$on('hook:beforeDestroy', () => {
-            document.removeEventListener('keydown', keyUpHandler);
+            document.removeEventListener('keydown', keyHandler);
+            document.removeEventListener('click', clickHandler);
         });
     },
 
@@ -170,7 +181,7 @@ export default {
 
             newFormula.splice(this.activeGapIndex, 0, symbols);
 
-            this.form = newFormula.join(SEPARATOR);
+            this.formula = newFormula.join(SEPARATOR);
             this.activeGapIndex++;
         },
 
@@ -195,7 +206,7 @@ export default {
             if (this.isOpenBracket(nextSymbol) && this.isCloseBracket(prevSymbol)) {
                 // (...)2(...) -> (...) * 2 * (...)
                 this.insertSymbols(`*${element}*`);
-            } else if (this.isOpenBracket(nextSymbol)) {
+            } else if (this.isOpenBracket(nextSymbol) || this.isLetter(nextSymbol)) {
                 // 2(...) -> 2 * (...)
                 this.insertSymbols(`${element}*`);
             } else if (this.isCloseBracket(prevSymbol)) {
@@ -231,7 +242,7 @@ export default {
                 const newFormula = [...this.elements];
                 newFormula.splice(this.activeGapIndex - 1, 1);
 
-                this.form = newFormula.join(SEPARATOR);
+                this.formula = newFormula.join(SEPARATOR);
                 this.activeGapIndex--;
             }
         },
@@ -244,7 +255,7 @@ export default {
             const newFormula = [...this.elements];
             newFormula.splice(this.activeGapIndex, 1);
 
-            this.form = newFormula.join(SEPARATOR);
+            this.formula = newFormula.join(SEPARATOR);
         },
 
         moveCursorToLeft() {
