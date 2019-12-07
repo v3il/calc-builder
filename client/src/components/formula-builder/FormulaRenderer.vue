@@ -30,6 +30,11 @@
         >
             <span class="formula-renderer__cursor"></span>
         </div>
+
+        <br />
+        <br />
+
+        {{ formulaOM }}
     </div>
 </template>
 
@@ -56,6 +61,35 @@ export default {
     computed: {
         elements() {
             return this.form.split(SEPARATOR);
+        },
+
+        formulaOM() {
+            const gapModel = {
+                isGap: true,
+            };
+
+            const formulaOM = [];
+            const formulaElements = this.form.split(SEPARATOR);
+
+            formulaElements.forEach((item, index) => {
+                formulaOM.push({
+                    ...gapModel,
+                    isActive: index === this.activeGapIndex,
+                    id: `gap${index}`,
+                });
+
+                const isOperator = this.isOperator(item);
+
+                formulaOM.push({ isOperator, id: `element${index}` });
+            });
+
+            formulaOM.push({
+                ...gapModel,
+                isActive: formulaElements.length === this.activeGapIndex,
+                id: `gap${formulaElements.length}`,
+            });
+
+            return formulaOM;
         },
 
         prevSymbol() {
@@ -97,25 +131,9 @@ export default {
                 this.insertOperator(key);
             } else if (this.isLetter(key)) {
                 this.insertLetter(key);
-            }
-
-            // if (/(\+|-|\*|\/)/.test(key)) {
-            //     this.insertOperator(key);
-            // }
-            //
-            // if (/[0-9]$/.test(key)) {
-            //     this.insertDigit(key);
-            // }
-
-            if (/(\(|\))/.test(key)) {
+            } else if (this.isOpenBracket(key) || this.isCloseBracket(key)) {
                 this.insertSymbols(key);
             }
-
-            // if (/[A-Z]$/.test(key)) {
-            //     this.insertSymbols(key);
-            // }
-
-            // console.log(this.elements.join(SEPARATOR));
 
             this.$emit('change', this.elements.join(SEPARATOR));
         };
