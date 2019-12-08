@@ -1,22 +1,27 @@
 <template>
     <div class="formula-renderer" :data-result="result.letter">
-        <formula-element :element="{ item: '=', isOperator: true }" />
+        <div class="formula-renderer__result-header">
+            <span class="formula-renderer__result-letter">{{ result.letter }}</span>
+            <formula-element :element="{ item: '=', isOperator: true }" />
+        </div>
 
-        <template v-for="element in formulaOM">
-            <formula-gap
-                v-if="element.isGap"
-                :element="element"
-                :key="element.id"
-                @click="activeGapIndex = element.index"
-            />
+        <div class="formula-renderer__result-formula">
+            <template v-for="element in formulaOM">
+                <formula-gap
+                    v-if="element.isGap"
+                    :element="element"
+                    :key="element.id"
+                    @click="activeGapIndex = element.index"
+                />
 
-            <formula-element
-                v-else
-                :element="element"
-                :key="element.id"
-                @click="activeGapIndex = element.index + 1"
-            />
-        </template>
+                <formula-element
+                    v-else
+                    :element="element"
+                    :key="element.id"
+                    @click="activeGapIndex = element.index + 1"
+                />
+            </template>
+        </div>
     </div>
 </template>
 
@@ -275,6 +280,28 @@ export default {
 
 <style scoped lang="scss">
 .formula-renderer {
-    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    margin: 12px 0;
+
+    &__result-header {
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        padding: 6px;
+    }
+
+    &__result-letter {
+        background-color: $result_widget;
+        color: white;
+        padding: 3px;
+        border-radius: 5px;
+        margin-right: 6px;
+    }
+
+    &__result-formula {
+        display: flex;
+        align-items: stretch;
+        padding: 6px;
+    }
 }
 </style>
