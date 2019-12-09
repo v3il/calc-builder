@@ -1,12 +1,12 @@
 <template>
     <div
+        @click="onElementClick"
         class="formula-element"
         :class="{
             'formula-element--operator': element.isOperator,
             'formula-element--var-start': element.isStartOfVariable,
             'formula-element--var-end': element.isEndOfVariable,
         }"
-        v-on="$listeners"
     >
         {{ element.item }}
     </div>
@@ -19,6 +19,19 @@ export default {
     props: {
         element: {
             type: Object,
+        },
+    },
+
+    methods: {
+        onElementClick(event) {
+            const { offsetX } = event;
+            const elementWidth = this.$el.clientWidth;
+
+            if (offsetX <= elementWidth / 2) {
+                this.$emit('left-side-click');
+            } else {
+                this.$emit('right-side-click');
+            }
         },
     },
 };

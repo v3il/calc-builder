@@ -18,7 +18,8 @@
                     v-else
                     :element="element"
                     :key="element.id"
-                    @click="activeGapIndex = element.index + 1"
+                    @left-side-click="activeGapIndex = element.index"
+                    @right-side-click="activeGapIndex = element.index + 1"
                 />
             </template>
         </div>
@@ -280,14 +281,14 @@ export default {
 
 <style scoped lang="scss">
 .formula-renderer {
-    border: 1px solid #ccc;
-    border-radius: 9px;
     margin: 12px 0;
 
     &__result-header {
         width: 100%;
-        border-bottom: 1px solid #ccc;
         padding: 6px;
+        background: #263238;
+        color: white;
+        border-radius: 6px 6px 0 0;
     }
 
     &__result-letter {
@@ -302,6 +303,8 @@ export default {
         display: flex;
         align-items: stretch;
         padding: 6px;
+        border: 1px solid #263238;
+        border-radius: 0 0 6px 6px;
     }
 }
 </style>
