@@ -1,11 +1,12 @@
 <template>
     <div class="formula-renderer" :data-result="result.letter">
-        <div class="formula-renderer__result-header">
+        <div
+            class="formula-renderer__result-header"
+            @click.self="activeGapIndex = getLastGapIndex()"
+        >
             <span class="formula-renderer__result-letter">{{ result.letter }}</span>
             <formula-element :element="{ item: '=', isOperator: true }" />
-        </div>
 
-        <div class="formula-renderer__result-formula">
             <template v-for="element in formulaOM">
                 <formula-gap
                     v-if="element.isGap"
@@ -23,6 +24,8 @@
                 />
             </template>
         </div>
+
+        <div class="formula-renderer__result-formula"></div>
     </div>
 </template>
 
@@ -275,6 +278,11 @@ export default {
                 this.activeGapIndex++;
             }
         },
+
+        getLastGapIndex() {
+            const lastGap = this.formulaOM[this.formulaOM.length - 1];
+            return lastGap ? lastGap.index : 0;
+        },
     },
 };
 </script>
@@ -289,6 +297,9 @@ export default {
         background: #263238;
         color: white;
         border-radius: 6px 6px 0 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
     &__result-letter {

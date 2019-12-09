@@ -7,9 +7,8 @@
             'formula-element--var-start': element.isStartOfVariable,
             'formula-element--var-end': element.isEndOfVariable,
         }"
-    >
-        {{ element.item }}
-    </div>
+        v-html="fancySymbol"
+    ></div>
 </template>
 
 <script>
@@ -20,6 +19,25 @@ export default {
         element: {
             type: Object,
         },
+    },
+
+    data() {
+        return {
+            fancySymbol: '',
+        };
+    },
+
+    created() {
+        switch (this.element.item) {
+            case '*':
+                this.fancySymbol = '&times;';
+                break;
+            case '/':
+                this.fancySymbol = '&divide;';
+                break;
+            default:
+                this.fancySymbol = this.element.item;
+        }
     },
 
     methods: {

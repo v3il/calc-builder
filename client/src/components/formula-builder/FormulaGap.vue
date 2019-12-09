@@ -31,6 +31,7 @@ export default {
         cursor: text;
         margin: 3px 0;
         padding: 1px;
+        height: 26px;
     }
 
     &-cursor {
@@ -44,7 +45,7 @@ export default {
     }
 
     &-gap--active &-cursor {
-        background-color: $bg_primary_dark;
+        background-color: $white;
     }
 
     &-gap--in-var {
