@@ -40,7 +40,7 @@ export default {
         width: 1px;
         animation: blink 1s infinite;
         margin: 0 auto;
-        cursor: pointer;
+        cursor: text;
         background-color: transparent;
     }
 

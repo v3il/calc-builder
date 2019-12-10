@@ -30,7 +30,7 @@ export default {
     methods: {
         onFormulaChange(result, formula) {
             result.params.formula = formula;
-            console.log(result, formula);
+            // console.log(result, formula);
         },
     },
 };

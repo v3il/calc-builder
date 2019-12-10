@@ -1,5 +1,9 @@
 <template>
-    <div class="formula-renderer" :data-result="result.letter">
+    <div class="formula-renderer" :class="{ 'formula-renderer--active': activeGapIndex >= 0 }">
+        {{ result.params.formula }}
+
+        {{ activeGapIndex }}
+
         <div
             class="formula-renderer__result-header"
             @click.self="activeGapIndex = getLastGapIndex()"
@@ -25,7 +29,11 @@
             </template>
         </div>
 
-        <div class="formula-renderer__result-formula"></div>
+        <div class="formula-renderer__result-formula" v-if="activeGapIndex >= 0">
+            <button @click="activeGapIndex = -1" class="button button--primary">
+                {{ uSign('translate', 'Сохранить') }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -68,14 +76,15 @@ export default {
 
             formulaElements.forEach((item, index) => {
                 const isOperator = this.isOperator(item);
+                const isDigit = this.isDigit(item);
+                const isLetter = this.isLetter(item);
                 const isStartOfVariable = this.isLetter(item);
-                const isEndOfVariable =
-                    this.isLetter(formulaElements[index - 1]) && this.isDigit(item);
+                const isEndOfVariable = this.isLetter(formulaElements[index - 1]) && isDigit;
 
                 formulaOM.push({
                     index,
                     isGap: true,
-                    id: `gap${index}`,
+                    id: `gap${Math.random()}`,
                     isActive: index === this.activeGapIndex,
                     isGapInVariable: isEndOfVariable,
                 });
@@ -86,7 +95,9 @@ export default {
                     isStartOfVariable,
                     isEndOfVariable,
                     isOperator,
-                    id: `element${index}`,
+                    isDigit,
+                    isLetter,
+                    id: `element${Math.random()}`,
                 });
             });
 
@@ -94,7 +105,7 @@ export default {
                 isGap: true,
                 index: formulaElements.length,
                 isActive: formulaElements.length === this.activeGapIndex,
-                id: `gap${formulaElements.length}`,
+                id: `gap${Math.random()}`,
             });
 
             return formulaOM;
@@ -110,16 +121,15 @@ export default {
     },
 
     created() {
-        const clickHandler = event => {
-            const { target } = event;
-            const isOutsideClick = !target.closest(`[data-result=${this.result.letter}]`);
+        document.addEventListener('keydown', this.keyHandler);
+    },
 
-            if (isOutsideClick) {
-                this.activeGapIndex = -1;
-            }
-        };
+    beforeDestroy() {
+        document.removeEventListener('keydown', this.keyHandler);
+    },
 
-        const keyHandler = event => {
+    methods: {
+        keyHandler(event) {
             if (this.activeGapIndex < 0) {
                 return;
             }
@@ -153,18 +163,8 @@ export default {
             }
 
             this.$emit('change', this.elements.join(SEPARATOR));
-        };
+        },
 
-        document.addEventListener('keydown', keyHandler);
-        document.addEventListener('click', clickHandler);
-
-        this.$on('hook:beforeDestroy', () => {
-            document.removeEventListener('keydown', keyHandler);
-            document.removeEventListener('click', clickHandler);
-        });
-    },
-
-    methods: {
         isOperator(element) {
             return ['+', '-', '*', '/'].includes(element);
         },
@@ -188,7 +188,9 @@ export default {
         insertSymbols(symbols) {
             const newFormula = [...this.elements];
 
-            newFormula.splice(this.activeGapIndex, 0, symbols);
+            newFormula.splice(this.activeGapIndex, 0, ...symbols.split(''));
+
+            console.log(newFormula, newFormula.join(SEPARATOR));
 
             this.formula = newFormula.join(SEPARATOR);
             this.activeGapIndex++;
@@ -229,21 +231,19 @@ export default {
         insertLetter(element) {
             const { prevSymbol, nextSymbol } = this;
 
-            if (
-                (this.isOpenBracket(nextSymbol) && this.isCloseBracket(prevSymbol)) ||
-                (this.isDigit(nextSymbol) && this.isDigit(prevSymbol))
-            ) {
-                // (...)C(...) -> (...) * C * (...)
-                this.insertSymbols(`*${element}*`);
-            } else if (this.isOpenBracket(nextSymbol) || this.isDigit(nextSymbol)) {
-                // C(...) -> C * (...)
-                this.insertSymbols(`${element}*`);
-            } else if (this.isCloseBracket(prevSymbol) || this.isDigit(prevSymbol)) {
-                // (...)C -> (...) * C
-                this.insertSymbols(`*${element}`);
-            } else {
-                this.insertSymbols(element);
+            let symbolsToAdd = element;
+
+            // (...)C -> (...) * C
+            if (this.isCloseBracket(prevSymbol) || this.isDigit(prevSymbol)) {
+                symbolsToAdd = `*${symbolsToAdd}`;
             }
+
+            // C(...) -> C * (...)
+            if (this.isOpenBracket(nextSymbol) || this.isDigit(nextSymbol)) {
+                symbolsToAdd = `${symbolsToAdd}*`;
+            }
+
+            this.insertSymbols(symbolsToAdd);
         },
 
         removeSymbolAtLeft() {
@@ -296,10 +296,14 @@ export default {
         padding: 6px;
         background: #263238;
         color: white;
-        border-radius: 6px 6px 0 0;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+    }
+
+    &--active &__result-header {
+        border-radius: 6px 6px 0 0;
     }
 
     &__result-letter {
