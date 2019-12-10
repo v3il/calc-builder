@@ -4,8 +4,9 @@
         class="formula-element"
         :class="{
             'formula-element--operator': element.isOperator,
-            'formula-element--var-start': element.isStartOfVariable,
-            'formula-element--var-end': element.isEndOfVariable,
+            'formula-element--variable': element.isVariable,
+            'formula-element--variable-start': element.isStartOfVariable,
+            'formula-element--variable-end': element.isEndOfVariable,
         }"
         v-html="fancySymbol"
     ></div>
@@ -70,18 +71,17 @@ export default {
             padding: 0 3px;
         }
 
-        &--var-start,
-        &--var-end {
+        &--variable {
             background-color: $input_widget;
             color: $white;
         }
 
-        &--var-start {
+        &--variable-start {
             border-radius: $border_radius 0 0 $border_radius;
             padding-left: 3px;
         }
 
-        &--var-end {
+        &--variable-end {
             border-radius: 0 $border_radius $border_radius 0;
             padding-right: 3px;
         }

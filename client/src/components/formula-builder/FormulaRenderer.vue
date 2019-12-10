@@ -4,6 +4,8 @@
 
         {{ activeGapIndex }}
 
+        {{ variablesRegions }}
+
         <div
             class="formula-renderer__result-header"
             @click.self="activeGapIndex = getLastGapIndex()"
@@ -70,23 +72,42 @@ export default {
             return this.formula.split(SEPARATOR);
         },
 
+        variablesRegions() {
+            return [...this.formula.matchAll(/[A-Z]\d+/g)].map(match => {
+                const varCode = match[0];
+                const start = match.index;
+
+                return {
+                    start,
+                    end: start + varCode.length,
+                };
+            });
+        },
+
         formulaOM() {
             const formulaOM = [];
             const formulaElements = this.formula.split(SEPARATOR);
+
+            const variablesRegions = this.variablesRegions;
 
             formulaElements.forEach((item, index) => {
                 const isOperator = this.isOperator(item);
                 const isDigit = this.isDigit(item);
                 const isLetter = this.isLetter(item);
-                const isStartOfVariable = this.isLetter(item);
-                const isEndOfVariable = this.isLetter(formulaElements[index - 1]) && isDigit;
+
+                const isVariable = variablesRegions.some(
+                    ({ start, end }) => start <= index && end > index,
+                );
+
+                const isStartOfVariable = variablesRegions.some(({ start }) => start === index);
+                const isEndOfVariable = variablesRegions.some(({ end }) => end - 1 === index);
 
                 formulaOM.push({
                     index,
                     isGap: true,
                     id: `gap${Math.random()}`,
                     isActive: index === this.activeGapIndex,
-                    isGapInVariable: isEndOfVariable,
+                    isGapInVariable: isVariable && !isStartOfVariable,
                 });
 
                 formulaOM.push({
@@ -95,6 +116,7 @@ export default {
                     isStartOfVariable,
                     isEndOfVariable,
                     isOperator,
+                    isVariable,
                     isDigit,
                     isLetter,
                     id: `element${Math.random()}`,
@@ -214,18 +236,19 @@ export default {
         insertDigit(element) {
             const { prevSymbol, nextSymbol } = this;
 
-            if (this.isOpenBracket(nextSymbol) && this.isCloseBracket(prevSymbol)) {
-                // (...)2(...) -> (...) * 2 * (...)
-                this.insertSymbols(`*${element}*`);
-            } else if (this.isOpenBracket(nextSymbol) || this.isLetter(nextSymbol)) {
-                // 2(...) -> 2 * (...)
-                this.insertSymbols(`${element}*`);
-            } else if (this.isCloseBracket(prevSymbol)) {
-                // (...)2 -> (...) * 2
-                this.insertSymbols(`*${element}`);
-            } else {
-                this.insertSymbols(element);
+            let symbolsToAdd = element;
+
+            // (...)2 -> (...) * 2
+            if (this.isCloseBracket(prevSymbol)) {
+                symbolsToAdd = `*${symbolsToAdd}`;
             }
+
+            // 2(...) -> 2 * (...)
+            if (this.isOpenBracket(nextSymbol) || this.isLetter(nextSymbol)) {
+                symbolsToAdd = `${symbolsToAdd}*`;
+            }
+
+            this.insertSymbols(symbolsToAdd);
         },
 
         insertLetter(element) {
