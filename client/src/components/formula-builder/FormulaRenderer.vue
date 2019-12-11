@@ -76,10 +76,6 @@ export default {
     },
 
     computed: {
-        elements() {
-            return this.formula.split(SEPARATOR);
-        },
-
         variablesRegions() {
             return [...this.formula.matchAll(/[A-Z]\d+/g)].map(match => {
                 const varCode = match[0];
@@ -102,21 +98,16 @@ export default {
                 const isOperator = this.isOperator(item);
                 const isDigit = this.isDigit(item);
                 const isLetter = this.isLetter(item);
+                const isOpenBracket = this.isOpenBracket(item);
+                const isCloseBracket = this.isCloseBracket(item);
 
-                const isVariable = variablesRegions.some(
+                const regionOfVariable = variablesRegions.find(
                     ({ start, end }) => start <= index && end >= index,
                 );
 
-                const isStartOfVariable = variablesRegions.some(({ start }) => start === index);
-                const isEndOfVariable = variablesRegions.some(({ end }) => end === index);
-
-                // formulaOM.push({
-                //     index,
-                //     isGap: true,
-                //     id: `gap${Math.random()}`,
-                //     isActive: index === this.activeGapIndex,
-                //     isGapInVariable: isVariable && !isStartOfVariable,
-                // });
+                const isVariable = !!regionOfVariable;
+                const isStartOfVariable = regionOfVariable?.start === index;
+                const isEndOfVariable = regionOfVariable?.end === index;
 
                 formulaOM.push({
                     item,
@@ -124,6 +115,8 @@ export default {
                     isStartOfVariable,
                     isEndOfVariable,
                     isOperator,
+                    isOpenBracket,
+                    isCloseBracket,
                     isVariable,
                     isDigit,
                     isLetter,
@@ -131,22 +124,15 @@ export default {
                 });
             });
 
-            // formulaOM.push({
-            //     isGap: true,
-            //     index: formulaElements.length,
-            //     isActive: formulaElements.length === this.activeGapIndex,
-            //     id: `gap${Math.random()}`,
-            // });
-
             return formulaOM;
         },
 
         prevSymbol() {
-            return this.elements[this.activeGapIndex - 1];
+            return this.formulaOM[this.activeGapIndex - 1] || {};
         },
 
         nextSymbol() {
-            return this.elements[this.activeGapIndex];
+            return this.formulaOM[this.activeGapIndex] || {};
         },
     },
 
@@ -192,7 +178,7 @@ export default {
                 this.insertSymbols(key);
             }
 
-            this.$emit('change', this.elements.join(SEPARATOR));
+            this.$emit('change', this.formula);
         },
 
         isOperator(element) {
@@ -216,7 +202,7 @@ export default {
         },
 
         insertSymbols(symbols) {
-            const newFormula = [...this.elements];
+            const newFormula = this.formulaOM.map(({ item }) => item);
 
             newFormula.splice(this.activeGapIndex, 0, ...symbols.split(''));
 
@@ -232,9 +218,7 @@ export default {
             console.log(prevSymbol, nextSymbol);
 
             const isInvalidPlace =
-                this.isOperator(prevSymbol) ||
-                this.isOperator(nextSymbol) ||
-                this.isOpenBracket(prevSymbol);
+                prevSymbol.isOperator || nextSymbol.isOperator || prevSymbol.isOpenBracket;
 
             if (!isInvalidPlace) {
                 this.insertSymbols(operator);
@@ -242,17 +226,18 @@ export default {
         },
 
         insertDigit(element) {
-            const { prevSymbol, nextSymbol } = this;
+            const prevSymbol = this.prevSymbol;
+            const nextSymbol = this.nextSymbol;
 
             let symbolsToAdd = element;
 
             // (...)2 -> (...) * 2
-            if (this.isCloseBracket(prevSymbol)) {
+            if (prevSymbol.isCloseBracket) {
                 symbolsToAdd = `*${symbolsToAdd}`;
             }
 
             // 2(...) -> 2 * (...)
-            if (this.isOpenBracket(nextSymbol) || this.isLetter(nextSymbol)) {
+            if (nextSymbol.isOpenBracket || nextSymbol.isLetter) {
                 symbolsToAdd = `${symbolsToAdd}*`;
             }
 
@@ -260,17 +245,18 @@ export default {
         },
 
         insertLetter(element) {
-            const { prevSymbol, nextSymbol } = this;
+            const prevSymbol = this.prevSymbol;
+            const nextSymbol = this.nextSymbol;
 
             let symbolsToAdd = element;
 
             // (...)C -> (...) * C
-            if (this.isCloseBracket(prevSymbol) || this.isDigit(prevSymbol)) {
+            if (prevSymbol.isCloseBracket || prevSymbol.isDigit) {
                 symbolsToAdd = `*${symbolsToAdd}`;
             }
 
             // C(...) -> C * (...)
-            if (this.isOpenBracket(nextSymbol) || this.isDigit(nextSymbol)) {
+            if (nextSymbol.isOpenBracket || nextSymbol.isDigit) {
                 symbolsToAdd = `${symbolsToAdd}*`;
             }
 
@@ -278,24 +264,27 @@ export default {
         },
 
         removeSymbolAtLeft() {
-            if (this.activeGapIndex > 0) {
-                const newFormula = [...this.elements];
-                newFormula.splice(this.activeGapIndex - 1, 1);
-
-                this.formula = newFormula.join(SEPARATOR);
-                this.activeGapIndex--;
-            }
-        },
-
-        removeSymbolAtRight() {
-            if (this.activeGapIndex === this.elements.length) {
+            if (this.activeGapIndex === 0) {
                 return;
             }
 
-            const newFormula = [...this.elements];
-            newFormula.splice(this.activeGapIndex, 1);
+            this.formula = this.formulaOM
+                .map(({ item }) => item)
+                .filter((item, index) => index !== this.activeGapIndex - 1)
+                .join(SEPARATOR);
 
-            this.formula = newFormula.join(SEPARATOR);
+            this.activeGapIndex--;
+        },
+
+        removeSymbolAtRight() {
+            if (this.activeGapIndex === this.formulaOM.length) {
+                return;
+            }
+
+            this.formula = this.formulaOM
+                .map(({ item }) => item)
+                .filter((item, index) => index !== this.activeGapIndex)
+                .join(SEPARATOR);
         },
 
         moveCursorToLeft() {
@@ -305,14 +294,20 @@ export default {
         },
 
         moveCursorToRight() {
-            if (this.activeGapIndex < this.elements.length) {
+            if (this.activeGapIndex < this.formulaOM.length) {
                 this.activeGapIndex++;
             }
         },
 
         getLastGapIndex() {
-            const lastGap = this.formulaOM[this.formulaOM.length - 1];
-            return lastGap ? lastGap.index : 0;
+            const lastSymbolModel = this.formulaOM[this.formulaOM.length - 1];
+            return lastSymbolModel ? lastSymbolModel.index + 1 : 0;
+        },
+    },
+
+    watch: {
+        'result.params.formula'(value) {
+            this.formula = value;
         },
     },
 };
