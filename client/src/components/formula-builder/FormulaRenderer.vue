@@ -4,8 +4,6 @@
 
         {{ activeGapIndex }}
 
-        {{ variablesRegions }}
-
         <div
             class="formula-renderer__result-header"
             @click.self="activeGapIndex = getLastGapIndex()"
@@ -15,20 +13,30 @@
 
             <template v-for="element in formulaOM">
                 <formula-gap
-                    v-if="element.isGap"
-                    :element="element"
-                    :key="element.id"
+                    :key="`gap${Math.random()}`"
+                    :element="{
+                        isActive: activeGapIndex === element.index,
+                        isGapInVariable: element.isVariable && !element.isStartOfVariable,
+                    }"
                     @click="activeGapIndex = element.index"
                 />
 
                 <formula-element
-                    v-else
                     :element="element"
                     :key="element.id"
                     @left-side-click="activeGapIndex = element.index"
                     @right-side-click="activeGapIndex = element.index + 1"
                 />
             </template>
+
+            <formula-gap
+                :key="`gap${Math.random()}`"
+                :element="{
+                    isActive: activeGapIndex === formulaOM.length,
+                    isGapInVariable: false,
+                }"
+                @click="activeGapIndex = formulaOM.length"
+            />
         </div>
 
         <div class="formula-renderer__result-formula" v-if="activeGapIndex >= 0">
@@ -79,7 +87,7 @@ export default {
 
                 return {
                     start,
-                    end: start + varCode.length,
+                    end: start + varCode.length - 1,
                 };
             });
         },
@@ -96,19 +104,19 @@ export default {
                 const isLetter = this.isLetter(item);
 
                 const isVariable = variablesRegions.some(
-                    ({ start, end }) => start <= index && end > index,
+                    ({ start, end }) => start <= index && end >= index,
                 );
 
                 const isStartOfVariable = variablesRegions.some(({ start }) => start === index);
-                const isEndOfVariable = variablesRegions.some(({ end }) => end - 1 === index);
+                const isEndOfVariable = variablesRegions.some(({ end }) => end === index);
 
-                formulaOM.push({
-                    index,
-                    isGap: true,
-                    id: `gap${Math.random()}`,
-                    isActive: index === this.activeGapIndex,
-                    isGapInVariable: isVariable && !isStartOfVariable,
-                });
+                // formulaOM.push({
+                //     index,
+                //     isGap: true,
+                //     id: `gap${Math.random()}`,
+                //     isActive: index === this.activeGapIndex,
+                //     isGapInVariable: isVariable && !isStartOfVariable,
+                // });
 
                 formulaOM.push({
                     item,
@@ -123,12 +131,12 @@ export default {
                 });
             });
 
-            formulaOM.push({
-                isGap: true,
-                index: formulaElements.length,
-                isActive: formulaElements.length === this.activeGapIndex,
-                id: `gap${Math.random()}`,
-            });
+            // formulaOM.push({
+            //     isGap: true,
+            //     index: formulaElements.length,
+            //     isActive: formulaElements.length === this.activeGapIndex,
+            //     id: `gap${Math.random()}`,
+            // });
 
             return formulaOM;
         },

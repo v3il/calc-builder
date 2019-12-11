@@ -33,7 +33,7 @@ export default {
         value() {
             let result = 0;
 
-            const processedFormula = this.field.params.formula.replace(/[A-Z]\d?/g, fieldLetter => {
+            const processedFormula = this.field.params.formula.replace(/[A-Z]\d+/g, fieldLetter => {
                 const field = this.getFieldByLetter(fieldLetter);
                 return field ? field.params.value : 0;
             });

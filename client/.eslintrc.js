@@ -18,6 +18,7 @@ module.exports = {
                 trailingComma: 'all',
             },
         ],
+        'vue/valid-v-for': 'off',
     },
     parserOptions: {
         parser: 'babel-eslint',
