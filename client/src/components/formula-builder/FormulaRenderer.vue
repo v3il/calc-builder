@@ -1,9 +1,5 @@
 <template>
     <div class="formula-renderer" :class="{ 'formula-renderer--active': activeGapIndex >= 0 }">
-        {{ result.params.formula }}
-
-        {{ activeGapIndex }}
-
         <div
             class="formula-renderer__result-header"
             @click.self="activeGapIndex = getLastGapIndex()"
@@ -17,6 +13,8 @@
                     :element="{
                         isActive: activeGapIndex === element.index,
                         isGapInVariable: element.isVariable && !element.isStartOfVariable,
+                        isGapInNotExistingVariable:
+                            element.isVariable && element.isNotExistingVariable,
                     }"
                     @click="activeGapIndex = element.index"
                 />
@@ -44,6 +42,10 @@
                 {{ uSign('translate', 'Сохранить') }}
             </button>
         </div>
+
+        {{ result.params.formula }}
+
+        {{ activeGapIndex }}
     </div>
 </template>
 
@@ -61,6 +63,10 @@ export default {
             type: Object,
             required: true,
         },
+
+        fieldsList: {
+            type: Array,
+        },
     },
 
     components: {
@@ -76,12 +82,17 @@ export default {
     },
 
     computed: {
+        existingFieldsLetters() {
+            return this.fieldsList.map(({ letter }) => letter);
+        },
+
         variablesRegions() {
             return [...this.formula.matchAll(/[A-Z]\d+/g)].map(match => {
                 const varCode = match[0];
                 const start = match.index;
 
                 return {
+                    varCode,
                     start,
                     end: start + varCode.length - 1,
                 };
@@ -108,16 +119,19 @@ export default {
                 const isVariable = !!regionOfVariable;
                 const isStartOfVariable = regionOfVariable?.start === index;
                 const isEndOfVariable = regionOfVariable?.end === index;
+                const isNotExistingVariable =
+                    isVariable && !this.existingFieldsLetters.includes(regionOfVariable.varCode);
 
                 formulaOM.push({
                     item,
                     index,
+                    isVariable,
+                    isNotExistingVariable,
                     isStartOfVariable,
                     isEndOfVariable,
                     isOperator,
                     isOpenBracket,
                     isCloseBracket,
-                    isVariable,
                     isDigit,
                     isLetter,
                     id: `element${Math.random()}`,
@@ -209,7 +223,7 @@ export default {
             console.log(newFormula, newFormula.join(SEPARATOR));
 
             this.formula = newFormula.join(SEPARATOR);
-            this.activeGapIndex++;
+            this.activeGapIndex += symbols.length;
         },
 
         insertOperator(operator) {
@@ -251,12 +265,12 @@ export default {
             let symbolsToAdd = element;
 
             // (...)C -> (...) * C
-            if (prevSymbol.isCloseBracket || prevSymbol.isDigit) {
+            if (prevSymbol.isCloseBracket || prevSymbol.isDigit || prevSymbol.isLetter) {
                 symbolsToAdd = `*${symbolsToAdd}`;
             }
 
             // C(...) -> C * (...)
-            if (nextSymbol.isOpenBracket || nextSymbol.isDigit) {
+            if (nextSymbol.isOpenBracket || nextSymbol.isLetter) {
                 symbolsToAdd = `${symbolsToAdd}*`;
             }
 

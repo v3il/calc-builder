@@ -1,10 +1,19 @@
 <template>
     <div class="results-builder">
         <aside class="results-builder__sidebar">
-            <formulas-builder
-                :results="results"
-                class="results-builder__formula-editor"
-            ></formulas-builder>
+            <div class="formulas-builder">
+                <div
+                    class="formulas-builder__formula-editor"
+                    v-for="(result, index) in results"
+                    :key="index"
+                >
+                    <formula-renderer
+                        @change="result.params.formula = $event"
+                        :result="result"
+                        :fields-list="fieldsList"
+                    />
+                </div>
+            </div>
         </aside>
 
         <main class="results-builder__content">
@@ -38,7 +47,7 @@ import { TextAreaFieldValues } from './fields/textarea_field';
 import { ResultFieldValues } from './fields/result_field';
 import RadioButtonOption from '../models/RadioButtonOption';
 import SelectOption from '../models/SelectOption';
-import FormulasBuilder from './formula-builder/FormulasBuilder';
+import FormulaRenderer from './formula-builder/FormulaRenderer';
 
 export default {
     name: 'ResultsBuilder',
@@ -51,7 +60,7 @@ export default {
         TextFieldValues,
         TextAreaFieldValues,
         ResultFieldValues,
-        FormulasBuilder,
+        FormulaRenderer,
     },
 
     props: {

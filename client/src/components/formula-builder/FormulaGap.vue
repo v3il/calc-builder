@@ -4,6 +4,7 @@
         :class="{
             'formula-gap--active': element.isActive,
             'formula-gap--in-var': element.isGapInVariable,
+            'formula-gap--in-not-existing-var': element.isGapInNotExistingVariable,
         }"
         v-on="$listeners"
     >
@@ -32,6 +33,7 @@ export default {
         margin: 3px 0;
         padding: 1px;
         height: 26px;
+        position: relative;
     }
 
     &-cursor {
@@ -50,6 +52,19 @@ export default {
 
     &-gap--in-var {
         background-color: $input_widget;
+    }
+
+    &-gap--in-not-existing-var {
+        &::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 2px;
+            background-color: $bg_primary_dark;
+            right: 0;
+            left: 0;
+        }
     }
 }
 

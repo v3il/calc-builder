@@ -5,6 +5,7 @@
         :class="{
             'formula-element--operator': element.isOperator,
             'formula-element--variable': element.isVariable,
+            'formula-element--not-existing-variable': element.isNotExistingVariable,
             'formula-element--variable-start': element.isStartOfVariable,
             'formula-element--variable-end': element.isEndOfVariable,
         }"
@@ -66,6 +67,7 @@ export default {
         margin: 3px 0;
         line-height: 26px;
         box-sizing: border-box;
+        position: relative;
 
         &--operator {
             padding: 0 3px;
@@ -84,6 +86,19 @@ export default {
         &--variable-end {
             border-radius: 0 $border_radius $border_radius 0;
             padding-right: 3px;
+        }
+
+        &--not-existing-variable {
+            &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 2px;
+                background-color: $bg_primary_dark;
+                right: 0;
+                left: 0;
+            }
         }
     }
 }
