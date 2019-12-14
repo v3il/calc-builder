@@ -122,6 +122,8 @@ export default {
                 const isNotExistingVariable =
                     isVariable && !this.existingFieldsLetters.includes(regionOfVariable.varCode);
 
+                const isIncorrect = false;
+
                 formulaOM.push({
                     item,
                     index,
@@ -134,6 +136,7 @@ export default {
                     isCloseBracket,
                     isDigit,
                     isLetter,
+                    isIncorrect,
                     id: `element${Math.random()}`,
                 });
             });
