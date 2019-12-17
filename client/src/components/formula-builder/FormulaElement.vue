@@ -8,8 +8,14 @@
             'formula-element--not-existing-variable': element.isNotExistingVariable,
             'formula-element--variable-start': element.isStartOfVariable,
             'formula-element--variable-end': element.isEndOfVariable,
+            'formula-element--incorrect': element.isIncorrect,
         }"
         v-html="fancySymbol"
+        v-tooltip.bottom="
+            element.isIncorrect
+                ? uSign('translate', 'Некорректный элемент формулы. Будет удалён при сохранении')
+                : ''
+        "
     ></div>
 </template>
 
@@ -59,7 +65,7 @@ export default {
 
 <style scoped lang="scss">
 .formula {
-    $border_radius: 5px;
+    $border_radius: 3px;
 
     &-element {
         display: inline-block;
@@ -89,6 +95,23 @@ export default {
         }
 
         &--not-existing-variable {
+            &::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 2px;
+                background-color: $bg_primary_dark;
+                right: 0;
+                left: 0;
+            }
+        }
+
+        &--incorrect {
+            background-color: $error;
+            color: white;
+            border-radius: $border_radius;
+
             &::after {
                 content: '';
                 position: absolute;

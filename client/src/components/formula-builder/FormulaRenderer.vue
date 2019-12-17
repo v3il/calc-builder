@@ -38,7 +38,7 @@
         </div>
 
         <div class="formula-renderer__result-formula" v-if="activeGapIndex >= 0">
-            <button @click="activeGapIndex = -1" class="button button--primary">
+            <button @click="saveFormula" class="button button--primary">
                 {{ uSign('translate', 'Сохранить') }}
             </button>
         </div>
@@ -141,6 +141,18 @@ export default {
                 });
             });
 
+            formulaOM.forEach((item, index) => {
+                const prevElement = formulaOM[index - 1];
+                const nextElement = formulaOM[index + 1];
+
+                if (
+                    (item.isOperator && prevElement?.isOperator) ||
+                    (item.isOperator && !nextElement)
+                ) {
+                    item.isIncorrect = true;
+                }
+            });
+
             return formulaOM;
         },
 
@@ -162,6 +174,32 @@ export default {
     },
 
     methods: {
+        saveFormula() {
+            let newFormula = this.formulaOM
+                .filter(
+                    ({ isIncorrect, isNotExistingVariable }) =>
+                        !isIncorrect && !isNotExistingVariable,
+                )
+                .map(({ item }) => item);
+
+            console.log(newFormula);
+
+            this.formula = newFormula.join(SEPARATOR);
+            this.activeGapIndex = -1;
+
+            newFormula = this.formulaOM
+                .filter(
+                    ({ isIncorrect, isNotExistingVariable }) =>
+                        !isIncorrect && !isNotExistingVariable,
+                )
+                .map(({ item }) => item);
+
+            console.log(newFormula);
+
+            this.formula = newFormula.join(SEPARATOR);
+            this.activeGapIndex = -1;
+        },
+
         keyHandler(event) {
             if (this.activeGapIndex < 0) {
                 return;
@@ -219,7 +257,7 @@ export default {
         },
 
         insertSymbols(symbols) {
-            const newFormula = this.formulaOM.map(({ item }) => item);
+            let newFormula = this.formulaOM.map(({ item }) => item);
 
             newFormula.splice(this.activeGapIndex, 0, ...symbols.split(''));
 
