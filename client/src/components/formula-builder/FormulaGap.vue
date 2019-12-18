@@ -55,7 +55,7 @@ export default {
     }
 
     &-gap--in-not-existing-var {
-        &::after {
+        &::before {
             content: '';
             position: absolute;
             width: 100%;

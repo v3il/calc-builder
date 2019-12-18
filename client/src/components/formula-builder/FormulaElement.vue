@@ -11,9 +11,9 @@
             'formula-element--incorrect': element.isIncorrect,
         }"
         v-html="fancySymbol"
-        v-tooltip.bottom="
-            element.isIncorrect
-                ? uSign('translate', 'Некорректный элемент формулы. Будет удалён при сохранении')
+        v-tooltip.bottom-start="
+            element.isIncorrect || element.isNotExistingVariable
+                ? uSign('translate', 'Некорректный элемент формулы')
                 : ''
         "
     ></div>

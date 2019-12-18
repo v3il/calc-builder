@@ -143,12 +143,9 @@ export default {
 
             formulaOM.forEach((item, index) => {
                 const prevElement = formulaOM[index - 1];
-                const nextElement = formulaOM[index + 1];
+                // const nextElement = formulaOM[index + 1];
 
-                if (
-                    (item.isOperator && prevElement?.isOperator) ||
-                    (item.isOperator && !nextElement)
-                ) {
+                if (item.isOperator && prevElement?.isOperator) {
                     item.isIncorrect = true;
                 }
             });
@@ -175,28 +172,28 @@ export default {
 
     methods: {
         saveFormula() {
-            let newFormula = this.formulaOM
-                .filter(
-                    ({ isIncorrect, isNotExistingVariable }) =>
-                        !isIncorrect && !isNotExistingVariable,
-                )
+            let newFormula = this.formulaOM.filter(
+                ({ isIncorrect, isNotExistingVariable }) => !isIncorrect && !isNotExistingVariable,
+            );
+
+            const cleanFormula = newFormula
+                .filter((item, index) => {
+                    // const prevItem = newFormula[index - 1];
+                    const nextItem = newFormula[index + 1];
+
+                    if (index === newFormula.length - 1 && item.isOperator) {
+                        return false;
+                    }
+
+                    if (item.isOperator && nextItem?.isCloseBracket) {
+                        return false;
+                    }
+
+                    return true;
+                })
                 .map(({ item }) => item);
 
-            console.log(newFormula);
-
-            this.formula = newFormula.join(SEPARATOR);
-            this.activeGapIndex = -1;
-
-            newFormula = this.formulaOM
-                .filter(
-                    ({ isIncorrect, isNotExistingVariable }) =>
-                        !isIncorrect && !isNotExistingVariable,
-                )
-                .map(({ item }) => item);
-
-            console.log(newFormula);
-
-            this.formula = newFormula.join(SEPARATOR);
+            this.formula = cleanFormula.join(SEPARATOR);
             this.activeGapIndex = -1;
         },
 
