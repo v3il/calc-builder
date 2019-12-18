@@ -176,6 +176,17 @@ export default {
                 ({ isIncorrect, isNotExistingVariable }) => !isIncorrect && !isNotExistingVariable,
             );
 
+            const openBracketsCount = newFormula.filter(({ isOpenBracket }) => isOpenBracket)
+                .length;
+            const closeBracketsCount = newFormula.filter(({ isCloseBracket }) => isCloseBracket)
+                .length;
+
+            console.log(openBracketsCount, closeBracketsCount);
+
+            let processedOpenBrackets = 0;
+            let processedCloseBrackets = 0;
+            const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
+
             const cleanFormula = newFormula
                 .filter((item, index) => {
                     // const prevItem = newFormula[index - 1];
@@ -189,12 +200,32 @@ export default {
                         return false;
                     }
 
+                    if (item.isOpenBracket) {
+                        if (processedOpenBrackets > correctBracketsCount) {
+                            processedOpenBrackets++;
+                            return false;
+                        }
+
+                        processedOpenBrackets++;
+                    }
+
+                    if (item.isCloseBracket) {
+                        if (processedCloseBrackets >= correctBracketsCount) {
+                            processedCloseBrackets++;
+                            return false;
+                        }
+
+                        processedCloseBrackets++;
+                    }
+
                     return true;
                 })
                 .map(({ item }) => item);
 
             this.formula = cleanFormula.join(SEPARATOR);
             this.activeGapIndex = -1;
+
+            this.$emit('change', this.formula);
         },
 
         keyHandler(event) {
@@ -230,7 +261,7 @@ export default {
                 this.insertSymbols(key);
             }
 
-            this.$emit('change', this.formula);
+            // this.$emit('change', this.formula);
         },
 
         isOperator(element) {
