@@ -100,8 +100,30 @@ export default {
         },
 
         formulaOM() {
+            return this.toFormulaOM(this.formula);
+        },
+
+        prevSymbol() {
+            return this.formulaOM[this.activeGapIndex - 1] || {};
+        },
+
+        nextSymbol() {
+            return this.formulaOM[this.activeGapIndex] || {};
+        },
+    },
+
+    created() {
+        document.addEventListener('keydown', this.keyHandler);
+    },
+
+    beforeDestroy() {
+        document.removeEventListener('keydown', this.keyHandler);
+    },
+
+    methods: {
+        toFormulaOM(formulaStr) {
             const formulaOM = [];
-            const formulaElements = this.formula.split(SEPARATOR);
+            const formulaElements = formulaStr.split(SEPARATOR);
 
             const variablesRegions = this.variablesRegions;
 
@@ -153,95 +175,131 @@ export default {
             return formulaOM;
         },
 
-        prevSymbol() {
-            return this.formulaOM[this.activeGapIndex - 1] || {};
-        },
-
-        nextSymbol() {
-            return this.formulaOM[this.activeGapIndex] || {};
-        },
-    },
-
-    created() {
-        document.addEventListener('keydown', this.keyHandler);
-    },
-
-    beforeDestroy() {
-        document.removeEventListener('keydown', this.keyHandler);
-    },
-
-    methods: {
         saveFormula() {
-            const cleanFormula = this.formula
-                .replace(/[A-Z]\d+/g, match =>
-                    this.existingFieldsLetters.includes(match) ? match : '',
-                )
-                .replace(/[+\-*/(]+$/g, '')
-                .replace(/[+\-*/]([+\-*/]+)$/g, '$0')
-                .replace(/([+\-*/]+)\)/g, ')');
+            console.error('Before clean', this.formulaOM.map(({ item }) => item).join(SEPARATOR));
 
-            console.log(cleanFormula);
+            let newFormula = this.formulaOM.filter((elementModel, index) => {
+                const prevElement = this.formulaOM[index - 1];
 
-            return;
+                if (elementModel.isIncorrect) {
+                    return false;
+                }
 
-            // let newFormula = this.formulaOM.filter(
-            //     ({ isIncorrect, isNotExistingVariable }) => !isIncorrect && !isNotExistingVariable,
-            // );
-            //
-            // // const cleanFormula = newFormula.join(SEPARATOR)
-            // //     .replace(/\(+\)+/g, '')
-            // //     .replace(/[-+*/(]$/, '');
-            //
-            // const openBracketsCount = newFormula.filter(({ isOpenBracket }) => isOpenBracket)
-            //     .length;
-            // const closeBracketsCount = newFormula.filter(({ isCloseBracket }) => isCloseBracket)
-            //     .length;
-            //
-            // console.log(openBracketsCount, closeBracketsCount);
-            //
-            // let processedOpenBrackets = 0;
-            // let processedCloseBrackets = 0;
-            // const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
-            //
-            // const cleanFormula = newFormula
-            //     .filter((item, index) => {
-            //         // const prevItem = newFormula[index - 1];
-            //         const nextItem = newFormula[index + 1];
-            //
-            //         if (index === newFormula.length - 1 && item.isOperator) {
-            //             return false;
-            //         }
-            //
-            //         if (item.isOperator && nextItem?.isCloseBracket) {
-            //             return false;
-            //         }
-            //
-            //         if (item.isOpenBracket) {
-            //             if (processedOpenBrackets > correctBracketsCount) {
-            //                 processedOpenBrackets++;
-            //                 return false;
-            //             }
-            //
-            //             processedOpenBrackets++;
-            //         }
-            //
-            //         if (item.isCloseBracket) {
-            //             if (processedCloseBrackets >= correctBracketsCount) {
-            //                 processedCloseBrackets++;
-            //                 return false;
-            //             }
-            //
-            //             processedCloseBrackets++;
-            //         }
-            //
-            //         return true;
-            //     })
-            //     .map(({ item }) => item);
-            //
-            // this.formula = cleanFormula.join(SEPARATOR).replace(/\(+\)+/g, '');
-            // this.activeGapIndex = -1;
-            //
-            // this.$emit('change', this.formula);
+                if (elementModel.isNotExistingVariable) {
+                    return false;
+                }
+
+                if (elementModel.isOperator && prevElement?.isNotExistingVariable) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            const cleanFormulaStr = newFormula.map(({ item }) => item).join(SEPARATOR);
+
+            console.error('After removing incorrect elements', cleanFormulaStr);
+
+            let cleanFormula2 = cleanFormulaStr;
+
+            while (/\(\)/g.test(cleanFormula2)) {
+                cleanFormula2 = cleanFormula2.replace(/\(\)/g, '');
+            }
+
+            cleanFormula2 = cleanFormula2.replace(/[-+*/(]+$/, '');
+
+            console.error('After cleaning 2', cleanFormula2);
+
+            const cleanFormulaOM = this.toFormulaOM(cleanFormula2);
+
+            const openBracketsCount = cleanFormulaOM.filter(({ isOpenBracket }) => isOpenBracket)
+                .length;
+            const closeBracketsCount = cleanFormulaOM.filter(({ isCloseBracket }) => isCloseBracket)
+                .length;
+
+            console.log(openBracketsCount, closeBracketsCount);
+
+            let processedOpenBrackets = 0;
+            let processedCloseBrackets = 0;
+            const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
+
+            const cleanFormula = cleanFormulaOM
+                .filter((item, index) => {
+                    const prevItem = cleanFormulaOM[index - 1];
+                    const nextItem = cleanFormulaOM[index + 1];
+
+                    if (index === cleanFormulaOM.length - 1 && item.isOperator) {
+                        return false;
+                    }
+
+                    if (item.isOperator && nextItem?.isCloseBracket) {
+                        return false;
+                    }
+
+                    if (item.isOpenBracket) {
+                        if (processedOpenBrackets > correctBracketsCount) {
+                            processedOpenBrackets++;
+                            return false;
+                        }
+
+                        const notRemovedCloseBracketsAfter = cleanFormulaOM.filter(
+                            (element, i) => element.isCloseBracket && i > index,
+                        );
+
+                        if (
+                            !notRemovedCloseBracketsAfter.length ||
+                            processedOpenBrackets >= notRemovedCloseBracketsAfter.length
+                        ) {
+                            return false;
+                        }
+
+                        if (nextItem?.isCloseBracket) {
+                            return false;
+                        }
+
+                        console.error(notRemovedCloseBracketsAfter.length);
+
+                        processedOpenBrackets++;
+                    }
+
+                    if (item.isCloseBracket) {
+                        if (processedCloseBrackets >= correctBracketsCount) {
+                            processedCloseBrackets++;
+                            return false;
+                        }
+
+                        const notRemovedOpenBracketsBefore = cleanFormulaOM.filter(
+                            (element, i) => element.isOpenBracket && i < index,
+                        );
+
+                        if (
+                            !notRemovedOpenBracketsBefore.length ||
+                            processedCloseBrackets >= notRemovedOpenBracketsBefore.length
+                        ) {
+                            return false;
+                        }
+
+                        if (prevItem?.isOpenBracket) {
+                            return false;
+                        }
+
+                        processedCloseBrackets++;
+                    }
+
+                    return true;
+                })
+                .map(({ item }) => item);
+
+            console.error('Finally cleaned', cleanFormula.join(SEPARATOR));
+
+            this.formula = cleanFormula
+                .join(SEPARATOR)
+                .replace(/\(+\)+/g, '')
+                .replace(/[-+*/(]+$/g, '');
+
+            this.activeGapIndex = -1;
+
+            this.$emit('change', this.formula);
         },
 
         keyHandler(event) {
@@ -277,7 +335,7 @@ export default {
                 this.insertSymbols(key);
             }
 
-            // this.$emit('change', this.formula);
+            this.$emit('change', this.formula);
         },
 
         isOperator(element) {
