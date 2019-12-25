@@ -206,7 +206,7 @@ export default {
                 cleanFormula2 = cleanFormula2.replace(/\(\)/g, '');
             }
 
-            cleanFormula2 = cleanFormula2.replace(/[-+*/(]+$/, '');
+            cleanFormula2 = cleanFormula2.replace(/[-+*/(]+$/, '').replace(/[-+*/]+\)/, ')');
 
             console.error('After cleaning 2', cleanFormula2);
 
@@ -219,83 +219,127 @@ export default {
 
             console.log(openBracketsCount, closeBracketsCount);
 
-            let processedOpenBrackets = 0;
-            let processedCloseBrackets = 0;
-            const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
+            // let processedOpenBrackets = 0;
+            // let processedCloseBrackets = 0;
+            // const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
 
-            const cleanFormula = cleanFormulaOM
-                .filter((item, index) => {
-                    const prevItem = cleanFormulaOM[index - 1];
-                    const nextItem = cleanFormulaOM[index + 1];
+            let bracketsDiff = cleanFormulaOM.reduce((counter, element) => {
+                const { isOpenBracket, isCloseBracket } = element;
 
-                    if (index === cleanFormulaOM.length - 1 && item.isOperator) {
-                        return false;
-                    }
+                if (isOpenBracket) {
+                    return counter + 1;
+                }
 
-                    if (item.isOperator && nextItem?.isCloseBracket) {
-                        return false;
-                    }
+                if (isCloseBracket) {
+                    return counter - 1;
+                }
+
+                return counter;
+            }, 0);
+
+            let cleanFormula = cleanFormulaOM
+                .filter(item => {
+                    // const prevItem = cleanFormulaOM[index - 1];
+                    // const nextItem = cleanFormulaOM[index + 1];
+
+                    // if (index === cleanFormulaOM.length - 1 && item.isOperator) {
+                    //     return false;
+                    // }
+
+                    // if (item.isOperator && nextItem?.isCloseBracket) {
+                    //     return false;
+                    // }
 
                     if (item.isOpenBracket) {
-                        if (processedOpenBrackets > correctBracketsCount) {
-                            processedOpenBrackets++;
+                        // const bracketsDiff = cleanFormulaOM.reduce((counter, element) => {
+                        //     const { isOpenBracket, isCloseBracket } = element;
+                        //
+                        //     if (isOpenBracket) {
+                        //         return counter + 1;
+                        //     }
+                        //
+                        //     if (isCloseBracket) {
+                        //         return counter - 1;
+                        //     }
+                        //
+                        //     return counter;
+                        // }, 0);
+
+                        if (bracketsDiff > 1) {
+                            bracketsDiff--;
                             return false;
                         }
 
-                        const notRemovedCloseBracketsAfter = cleanFormulaOM.filter(
-                            (element, i) => element.isCloseBracket && i > index,
-                        );
-
-                        if (
-                            !notRemovedCloseBracketsAfter.length ||
-                            processedOpenBrackets >= notRemovedCloseBracketsAfter.length
-                        ) {
-                            return false;
-                        }
-
-                        if (nextItem?.isCloseBracket) {
-                            return false;
-                        }
-
-                        console.error(notRemovedCloseBracketsAfter.length);
-
-                        processedOpenBrackets++;
+                        // console.log(bracketsDiff)
+                        //
+                        // if (processedOpenBrackets > correctBracketsCount) {
+                        //     processedOpenBrackets++;
+                        //     return false;
+                        // }
+                        //
+                        // const notRemovedCloseBracketsAfter = cleanFormulaOM.filter(
+                        //     (element, i) => element.isCloseBracket && i > index,
+                        // );
+                        //
+                        // if (
+                        //     !notRemovedCloseBracketsAfter.length ||
+                        //     processedOpenBrackets >= notRemovedCloseBracketsAfter.length
+                        // ) {
+                        //     return false;
+                        // }
+                        //
+                        // if (nextItem?.isCloseBracket) {
+                        //     return false;
+                        // }
+                        //
+                        // console.error(notRemovedCloseBracketsAfter.length);
+                        //
+                        // processedOpenBrackets++;
                     }
 
                     if (item.isCloseBracket) {
-                        if (processedCloseBrackets >= correctBracketsCount) {
-                            processedCloseBrackets++;
+                        if (bracketsDiff < 1) {
+                            bracketsDiff++;
                             return false;
                         }
 
-                        const notRemovedOpenBracketsBefore = cleanFormulaOM.filter(
-                            (element, i) => element.isOpenBracket && i < index,
-                        );
-
-                        if (
-                            !notRemovedOpenBracketsBefore.length ||
-                            processedCloseBrackets >= notRemovedOpenBracketsBefore.length
-                        ) {
-                            return false;
-                        }
-
-                        if (prevItem?.isOpenBracket) {
-                            return false;
-                        }
-
-                        processedCloseBrackets++;
+                        // if (processedCloseBrackets >= correctBracketsCount) {
+                        //     processedCloseBrackets++;
+                        //     return false;
+                        // }
+                        //
+                        // const notRemovedOpenBracketsBefore = cleanFormulaOM.filter(
+                        //     (element, i) => element.isOpenBracket && i < index,
+                        // );
+                        //
+                        // if (
+                        //     !notRemovedOpenBracketsBefore.length ||
+                        //     processedCloseBrackets >= notRemovedOpenBracketsBefore.length
+                        // ) {
+                        //     return false;
+                        // }
+                        //
+                        // if (prevItem?.isOpenBracket) {
+                        //     return false;
+                        // }
+                        //
+                        // processedCloseBrackets++;
                     }
 
                     return true;
                 })
-                .map(({ item }) => item);
+                .map(({ item }) => item)
+                .join(SEPARATOR);
 
-            console.error('Finally cleaned', cleanFormula.join(SEPARATOR));
+            console.error('Finally cleaned', cleanFormula);
 
-            this.formula = cleanFormula
-                .join(SEPARATOR)
-                .replace(/\(+\)+/g, '')
-                .replace(/[-+*/(]+$/g, '');
+            while (/\(\)/g.test(cleanFormula)) {
+                cleanFormula = cleanFormula.replace(/\(\)/g, '');
+            }
+
+            this.formula = cleanFormula.replace(/[-+*/(]+$/g, '');
+
+            console.error('Super Finally cleaned', this.formula);
 
             this.activeGapIndex = -1;
 
