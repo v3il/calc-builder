@@ -219,10 +219,6 @@ export default {
 
             console.log(openBracketsCount, closeBracketsCount);
 
-            // let processedOpenBrackets = 0;
-            // let processedCloseBrackets = 0;
-            // const correctBracketsCount = Math.min(openBracketsCount, closeBracketsCount);
-
             let bracketsDiff = cleanFormulaOM.reduce((counter, element) => {
                 const { isOpenBracket, isCloseBracket } = element;
 
@@ -239,91 +235,18 @@ export default {
 
             let cleanFormula = cleanFormulaOM
                 .filter(item => {
-                    // const prevItem = cleanFormulaOM[index - 1];
-                    // const nextItem = cleanFormulaOM[index + 1];
-
-                    // if (index === cleanFormulaOM.length - 1 && item.isOperator) {
-                    //     return false;
-                    // }
-
-                    // if (item.isOperator && nextItem?.isCloseBracket) {
-                    //     return false;
-                    // }
-
                     if (item.isOpenBracket) {
-                        // const bracketsDiff = cleanFormulaOM.reduce((counter, element) => {
-                        //     const { isOpenBracket, isCloseBracket } = element;
-                        //
-                        //     if (isOpenBracket) {
-                        //         return counter + 1;
-                        //     }
-                        //
-                        //     if (isCloseBracket) {
-                        //         return counter - 1;
-                        //     }
-                        //
-                        //     return counter;
-                        // }, 0);
-
-                        if (bracketsDiff > 1) {
+                        if (bracketsDiff > 0) {
                             bracketsDiff--;
                             return false;
                         }
-
-                        // console.log(bracketsDiff)
-                        //
-                        // if (processedOpenBrackets > correctBracketsCount) {
-                        //     processedOpenBrackets++;
-                        //     return false;
-                        // }
-                        //
-                        // const notRemovedCloseBracketsAfter = cleanFormulaOM.filter(
-                        //     (element, i) => element.isCloseBracket && i > index,
-                        // );
-                        //
-                        // if (
-                        //     !notRemovedCloseBracketsAfter.length ||
-                        //     processedOpenBrackets >= notRemovedCloseBracketsAfter.length
-                        // ) {
-                        //     return false;
-                        // }
-                        //
-                        // if (nextItem?.isCloseBracket) {
-                        //     return false;
-                        // }
-                        //
-                        // console.error(notRemovedCloseBracketsAfter.length);
-                        //
-                        // processedOpenBrackets++;
                     }
 
                     if (item.isCloseBracket) {
-                        if (bracketsDiff < 1) {
+                        if (bracketsDiff < 0) {
                             bracketsDiff++;
                             return false;
                         }
-
-                        // if (processedCloseBrackets >= correctBracketsCount) {
-                        //     processedCloseBrackets++;
-                        //     return false;
-                        // }
-                        //
-                        // const notRemovedOpenBracketsBefore = cleanFormulaOM.filter(
-                        //     (element, i) => element.isOpenBracket && i < index,
-                        // );
-                        //
-                        // if (
-                        //     !notRemovedOpenBracketsBefore.length ||
-                        //     processedCloseBrackets >= notRemovedOpenBracketsBefore.length
-                        // ) {
-                        //     return false;
-                        // }
-                        //
-                        // if (prevItem?.isOpenBracket) {
-                        //     return false;
-                        // }
-                        //
-                        // processedCloseBrackets++;
                     }
 
                     return true;
