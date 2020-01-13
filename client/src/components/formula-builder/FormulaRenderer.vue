@@ -46,6 +46,10 @@
         {{ result.params.formula }}
 
         {{ activeGapIndex }}
+
+        <br />
+
+        {{ isValidFormula }}
     </div>
 </template>
 
@@ -110,6 +114,22 @@ export default {
         nextSymbol() {
             return this.formulaOM[this.activeGapIndex] || {};
         },
+
+        isValidFormula() {
+            const replacedFormula = this.formula.replace(/[A-Z]\d+/g, fieldLetter => {
+                const field = this.getFieldByLetter(fieldLetter);
+                return field ? field.params.value : 0;
+            });
+
+            console.log(5555, replacedFormula);
+
+            try {
+                eval(replacedFormula);
+                return true;
+            } catch (error) {
+                return false;
+            }
+        },
     },
 
     created() {
@@ -121,6 +141,10 @@ export default {
     },
 
     methods: {
+        getFieldByLetter(fieldLetter) {
+            return this.fieldsList.find(({ letter }) => fieldLetter === letter);
+        },
+
         toFormulaOM(formulaStr) {
             const formulaOM = [];
             const formulaElements = formulaStr.split(SEPARATOR);
@@ -178,91 +202,7 @@ export default {
         saveFormula() {
             console.error('Before clean', this.formulaOM.map(({ item }) => item).join(SEPARATOR));
 
-            let newFormula = this.formulaOM.filter((elementModel, index) => {
-                const prevElement = this.formulaOM[index - 1];
-
-                if (elementModel.isIncorrect) {
-                    return false;
-                }
-
-                if (elementModel.isNotExistingVariable) {
-                    return false;
-                }
-
-                if (elementModel.isOperator && prevElement?.isNotExistingVariable) {
-                    return false;
-                }
-
-                return true;
-            });
-
-            const cleanFormulaStr = newFormula.map(({ item }) => item).join(SEPARATOR);
-
-            console.error('After removing incorrect elements', cleanFormulaStr);
-
-            let cleanFormula2 = cleanFormulaStr;
-
-            while (/\(\)/g.test(cleanFormula2)) {
-                cleanFormula2 = cleanFormula2.replace(/\(\)/g, '');
-            }
-
-            cleanFormula2 = cleanFormula2.replace(/[-+*/(]+$/, '').replace(/[-+*/]+\)/, ')');
-
-            console.error('After cleaning 2', cleanFormula2);
-
-            const cleanFormulaOM = this.toFormulaOM(cleanFormula2);
-
-            const openBracketsCount = cleanFormulaOM.filter(({ isOpenBracket }) => isOpenBracket)
-                .length;
-            const closeBracketsCount = cleanFormulaOM.filter(({ isCloseBracket }) => isCloseBracket)
-                .length;
-
-            console.log(openBracketsCount, closeBracketsCount);
-
-            let bracketsDiff = cleanFormulaOM.reduce((counter, element) => {
-                const { isOpenBracket, isCloseBracket } = element;
-
-                if (isOpenBracket) {
-                    return counter + 1;
-                }
-
-                if (isCloseBracket) {
-                    return counter - 1;
-                }
-
-                return counter;
-            }, 0);
-
-            let cleanFormula = cleanFormulaOM
-                .filter(item => {
-                    if (item.isOpenBracket) {
-                        if (bracketsDiff > 0) {
-                            bracketsDiff--;
-                            return false;
-                        }
-                    }
-
-                    if (item.isCloseBracket) {
-                        if (bracketsDiff < 0) {
-                            bracketsDiff++;
-                            return false;
-                        }
-                    }
-
-                    return true;
-                })
-                .map(({ item }) => item)
-                .join(SEPARATOR);
-
-            console.error('Finally cleaned', cleanFormula);
-
-            while (/\(\)/g.test(cleanFormula)) {
-                cleanFormula = cleanFormula.replace(/\(\)/g, '');
-            }
-
-            this.formula = cleanFormula.replace(/[-+*/(]+$/g, '');
-
-            console.error('Super Finally cleaned', this.formula);
+            this.formula = this.formulaOM.map(({ item }) => item).join(SEPARATOR);
 
             this.activeGapIndex = -1;
 
