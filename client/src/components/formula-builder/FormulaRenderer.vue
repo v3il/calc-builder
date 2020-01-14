@@ -38,12 +38,22 @@
         </div>
 
         <div class="formula-renderer__result-formula" v-if="activeGapIndex >= 0">
-            <button @click="saveFormula" class="button button--primary">
-                {{ uSign('translate', 'Сохранить') }}
-            </button>
+            <div class="formula-renderer__result-operators">
+                <span class="formula-renderer__result-operator" @click="insertSymbols('+')">+</span>
+                <span class="formula-renderer__result-operator" @click="insertSymbols('-')">-</span>
+                <span class="formula-renderer__result-operator" @click="insertSymbols('*')"
+                    >&times;</span
+                >
+                <span class="formula-renderer__result-operator" @click="insertSymbols('/')"
+                    >&divide;</span
+                >
+                <span class="formula-renderer__result-operator" @click="insertSymbols('(')">(</span>
+                <span class="formula-renderer__result-operator" @click="insertSymbols(')')">)</span>
+            </div>
 
             <div class="formula-renderer__result-warning" v-if="!isValidFormula">
-                <i class="material-icons formula-renderer__result-warning-icon">error</i>
+                <i class="material-icons formula-renderer__result-warning-icon">error_outline</i>
+
                 <span class="formula-renderer__result-warning-text">
                     {{
                         uSign(
@@ -199,14 +209,14 @@ export default {
                 });
             });
 
-            formulaOM.forEach((item, index) => {
-                const prevElement = formulaOM[index - 1];
-                // const nextElement = formulaOM[index + 1];
-
-                if (item.isOperator && prevElement?.isOperator) {
-                    item.isIncorrect = true;
-                }
-            });
+            // formulaOM.forEach((item, index) => {
+            //     const prevElement = formulaOM[index - 1];
+            //     // const nextElement = formulaOM[index + 1];
+            //
+            //     if (item.isOperator && prevElement?.isOperator) {
+            //         item.isIncorrect = true;
+            //     }
+            // });
 
             return formulaOM;
         },
@@ -425,14 +435,33 @@ export default {
 
     &__result-warning {
         display: flex;
-
-        /* align-items: center; */
         margin-top: 12px;
     }
 
     &__result-warning-icon {
         color: $error;
         margin-right: 9px;
+    }
+
+    &__result-operators {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    &__result-operator {
+        width: 24px;
+        height: 25px;
+        padding: 6px;
+        background-color: $bg_primary_dark;
+        color: $white;
+        margin: 3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+        font-weight: bold;
     }
 }
 </style>
