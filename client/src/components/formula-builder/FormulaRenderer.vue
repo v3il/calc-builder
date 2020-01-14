@@ -41,6 +41,18 @@
             <button @click="saveFormula" class="button button--primary">
                 {{ uSign('translate', 'Сохранить') }}
             </button>
+
+            <div class="formula-renderer__result-warning" v-if="!isValidFormula">
+                <i class="material-icons formula-renderer__result-warning-icon">error</i>
+                <span class="formula-renderer__result-warning-text">
+                    {{
+                        uSign(
+                            'translate',
+                            'Формула содержит ошибки. Результат вычисления такой формулы будет равняться 0.',
+                        )
+                    }}
+                </span>
+            </div>
         </div>
 
         {{ result.params.formula }}
@@ -390,6 +402,7 @@ export default {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        position: relative;
     }
 
     &--active &__result-header {
@@ -405,11 +418,21 @@ export default {
     }
 
     &__result-formula {
-        display: flex;
-        align-items: stretch;
         padding: 6px;
         border: 1px solid #263238;
         border-radius: 0 0 6px 6px;
+    }
+
+    &__result-warning {
+        display: flex;
+
+        /* align-items: center; */
+        margin-top: 12px;
+    }
+
+    &__result-warning-icon {
+        color: $error;
+        margin-right: 9px;
     }
 }
 </style>
