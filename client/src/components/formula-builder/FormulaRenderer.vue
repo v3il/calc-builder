@@ -1,5 +1,11 @@
 <template>
-    <div class="formula-renderer" :class="{ 'formula-renderer--active': activeGapIndex >= 0 }">
+    <div
+        class="formula-renderer"
+        :class="{
+            'formula-renderer--active': activeGapIndex >= 0,
+            'formula-renderer--invalid': !isValidFormula,
+        }"
+    >
         <div
             class="formula-renderer__result-header"
             @click.self="activeGapIndex = getLastGapIndex()"
@@ -37,6 +43,10 @@
             />
         </div>
 
+        <div class="formula-renderer__formula-warn" v-if="!isValidFormula">
+            <i class="material-icons formula-renderer__formula-warn-icon">error</i>
+        </div>
+
         <div class="formula-renderer__result-formula" v-if="activeGapIndex >= 0">
             <div class="formula-renderer__result-operators">
                 <span class="formula-renderer__result-operator" @click="insertSymbols('+')">+</span>
@@ -64,14 +74,6 @@
                 </span>
             </div>
         </div>
-
-        {{ result.params.formula }}
-
-        {{ activeGapIndex }}
-
-        <br />
-
-        {{ isValidFormula }}
     </div>
 </template>
 
@@ -143,8 +145,6 @@ export default {
                 return field ? field.params.value : 0;
             });
 
-            console.log(5555, replacedFormula);
-
             try {
                 eval(replacedFormula);
                 return true;
@@ -155,10 +155,12 @@ export default {
     },
 
     created() {
+        document.addEventListener('click', this.clickHandler);
         document.addEventListener('keydown', this.keyHandler);
     },
 
     beforeDestroy() {
+        document.removeEventListener('click', this.clickHandler);
         document.removeEventListener('keydown', this.keyHandler);
     },
 
@@ -221,16 +223,6 @@ export default {
             return formulaOM;
         },
 
-        saveFormula() {
-            console.error('Before clean', this.formulaOM.map(({ item }) => item).join(SEPARATOR));
-
-            this.formula = this.formulaOM.map(({ item }) => item).join(SEPARATOR);
-
-            this.activeGapIndex = -1;
-
-            this.$emit('change', this.formula);
-        },
-
         keyHandler(event) {
             if (this.activeGapIndex < 0) {
                 return;
@@ -265,6 +257,16 @@ export default {
             }
 
             this.$emit('change', this.formula);
+        },
+
+        clickHandler(event) {
+            const { target } = event;
+            const clickedOutside = !this.$el.contains(target);
+
+            if (clickedOutside) {
+                this.activeGapIndex = -1;
+                this.$emit('change', this.formula);
+            }
         },
 
         isOperator(element) {
@@ -402,6 +404,7 @@ export default {
 <style scoped lang="scss">
 .formula-renderer {
     margin: 12px 0;
+    position: relative;
 
     &__result-header {
         width: 100%;
@@ -462,6 +465,17 @@ export default {
         justify-content: center;
         border-radius: 3px;
         font-weight: bold;
+    }
+
+    &__formula-warn {
+        color: #d61333;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 3px;
+        border-radius: 50%;
+        background: white;
+        line-height: 10px;
     }
 }
 </style>
