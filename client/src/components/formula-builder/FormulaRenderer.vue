@@ -263,6 +263,15 @@ export default {
             const { target } = event;
             const clickedOutside = !this.$el.contains(target);
 
+            const isLetterElement = [
+                'formula-renderer__result-letter',
+                'field-values__field-letter',
+            ].some(elementClass => target.classList.contains(elementClass));
+
+            if (isLetterElement && this.activeGapIndex >= 0) {
+                return this.insertSymbols(target.textContent);
+            }
+
             if (clickedOutside) {
                 this.activeGapIndex = -1;
                 this.$emit('change', this.formula);
