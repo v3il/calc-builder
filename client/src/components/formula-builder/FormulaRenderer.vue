@@ -111,7 +111,18 @@ export default {
 
     computed: {
         existingFieldsLetters() {
-            return this.fieldsList.map(({ letter }) => letter);
+            return this.fieldsList
+                .filter(
+                    ({ type, letter }) =>
+                        [
+                            'SliderField',
+                            'RadioButtonField',
+                            'SelectField',
+                            'CheckBoxField',
+                            'ResultField',
+                        ].includes(type) && letter !== this.result.letter,
+                )
+                .map(({ letter }) => letter);
         },
 
         variablesRegions() {
@@ -192,6 +203,10 @@ export default {
                 const isNotExistingVariable =
                     isVariable && !this.existingFieldsLetters.includes(regionOfVariable.varCode);
 
+                if (isVariable) {
+                    console.log(item);
+                }
+
                 const isIncorrect = false;
 
                 formulaOM.push({
@@ -256,7 +271,7 @@ export default {
                 this.insertSymbols(key);
             }
 
-            this.$emit('change', this.formula);
+            this.saveFormula();
         },
 
         clickHandler(event) {
@@ -274,8 +289,12 @@ export default {
 
             if (clickedOutside) {
                 this.activeGapIndex = -1;
-                this.$emit('change', this.formula);
+                this.saveFormula();
             }
+        },
+
+        saveFormula() {
+            this.$emit('change', this.formula);
         },
 
         isOperator(element) {
