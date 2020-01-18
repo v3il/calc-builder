@@ -26,6 +26,10 @@
         color: $color_primary;
         cursor: default;
     }
+
+    & + button {
+        margin-left: 12px;
+    }
 }
 
 .button--primary {

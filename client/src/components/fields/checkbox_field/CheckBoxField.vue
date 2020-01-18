@@ -3,7 +3,7 @@
         :field="field"
         :disabled="disabled"
         :selected="selected"
-        @edit-field="$emit('edit-field')"
+        @edit-field="$refs.settingsDialog.open()"
         @remove-field="$emit('remove-field')"
     >
         <checkbox-element
@@ -13,6 +13,24 @@
                 label: field.params.label,
             }"
         />
+
+        <v-dialog ref="settingsDialog">
+            <template slot="header">
+                {{ uSign('translate', 'Редактирование настроек поля') }}
+            </template>
+
+            <check-box-field-values :field="field" />
+
+            <template slot="footer">
+                <button class="button button--primary">
+                    {{ uSign('translate', 'Сохранить') }}
+                </button>
+
+                <button class="button" @click="$refs.settingsDialog.triggerClose()">
+                    {{ uSign('translate', 'Закрыть') }}
+                </button>
+            </template>
+        </v-dialog>
     </field-base>
 </template>
 
@@ -20,12 +38,18 @@
 import FieldBase from '../BaseField.vue';
 import CheckboxElement from '@/components/ui_elements/CheckboxElement';
 
+import CheckBoxFieldValues from './CheckBoxFieldValues';
+
+import VDialog from '../../Dialog';
+
 export default {
     name: 'RadioButtonField',
 
     components: {
         FieldBase,
         CheckboxElement,
+        VDialog,
+        CheckBoxFieldValues,
     },
 
     extends: FieldBase,
@@ -55,6 +79,12 @@ export default {
 
     created() {
         this.$set(this.field.params, 'value', 0);
+
+        console.log(this.$refs);
+    },
+
+    mounted() {
+        // console.log(this.$refs.settingsDialog.open())
     },
 
     watch: {

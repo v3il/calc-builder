@@ -42,8 +42,8 @@ export default {
 
 <style lang="scss">
 .field-values {
-    padding: 12px 24px;
     border-radius: 6px;
+    padding: 9px 0;
 
     &__title {
         font-size: 1rem;
@@ -72,7 +72,7 @@ export default {
     }
 
     &__field-letter {
-        padding: 9px 12px;
+        padding: 7px 10px;
         display: inline-block;
         border-radius: 6px;
         color: $white;
