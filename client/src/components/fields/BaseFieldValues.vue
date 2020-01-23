@@ -43,7 +43,7 @@ export default {
 <style lang="scss">
 .field-values {
     border-radius: 6px;
-    padding: 9px 0;
+    padding: 9px 12px;
 
     &__title {
         font-size: 1rem;
@@ -56,7 +56,7 @@ export default {
     }
 
     $graph_line_top: 18px;
-    $graph_line_left: -44px;
+    $graph_line_left: -42px;
     $graph_line_width: 45px;
     $graph_line_thickness: 1px;
 

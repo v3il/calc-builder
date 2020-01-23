@@ -70,7 +70,7 @@ export default {
 <style lang="scss">
 .field-values {
     &--checkbox {
-        //background-color: $checkbox_widget_light;
+        background-color: $checkbox_widget_light;
     }
 
     &--checkbox &__field-letter,
