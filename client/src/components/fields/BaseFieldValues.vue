@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss">
 .field-values {
-    border-radius: 6px;
+    border-radius: 5px;
     padding: 9px 12px;
 
     &__title {
