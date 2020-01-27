@@ -258,7 +258,8 @@ export default {
 
         updateLayout() {
             console.log('Update');
-            this.$store.dispatch('updateData');
+            // this.$store.dispatch('updateData');
+            this.$emit('form-changed', this.form);
         },
 
         handleDragStart(row) {

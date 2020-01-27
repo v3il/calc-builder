@@ -53,6 +53,7 @@
                 ref="optionsComponent"
                 :is="currentComponent"
                 :form="currentForm"
+                @form-changed="onFormUpdate"
             ></component>
         </div>
 
@@ -95,9 +96,6 @@ import ResultsBuilder from '../components/ResultsBuilder';
 
 import VDialog from '@/components/Dialog';
 
-const cloneDeep = require('lodash/cloneDeep');
-const isEqual = require('lodash/isEqual');
-
 const layoutBuilderComponentId = 'layout-builder';
 const resultsBuilderComponentId = 'results-builder';
 
@@ -118,7 +116,7 @@ export default {
         },
 
         hasChanges() {
-            return !isEqual(this.currentForm, this.currentFormOriginal);
+            return this.currentFormHistory.length > 1;
         },
     },
 
@@ -129,13 +127,19 @@ export default {
     },
 
     methods: {
+        onFormUpdate(formConfig) {
+            this.currentFormHistory.push(formConfig);
+            console.log('Layout changed', this.currentFormHistory.length);
+        },
+
         saveFormData() {
             if (this.currentComponent === layoutBuilderComponentId) {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
+            this.currentForm = this.currentFormHistory.pop();
             this.$store.dispatch('updateForm', this.currentForm);
-            this.currentFormOriginal = cloneDeep(this.currentForm);
+            this.currentFormHistory = [this.currentForm];
         },
 
         discardFormData() {
@@ -143,7 +147,8 @@ export default {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
-            this.currentForm = cloneDeep(this.currentFormOriginal);
+            this.currentForm = this.currentFormHistory[0];
+            this.currentFormHistory = [this.currentForm];
         },
 
         saveChanges() {
@@ -166,7 +171,6 @@ export default {
     data() {
         return {
             currentForm: null,
-            currentFormOriginal: null,
 
             navItems: [
                 { routeName: 'formLayout', label: this.uSign('translate', 'Разметка формы') },
@@ -174,6 +178,8 @@ export default {
             ],
 
             resolveNavigation: null,
+
+            currentFormHistory: [],
         };
     },
 
@@ -181,8 +187,9 @@ export default {
         const formId = +this.$route.params.id;
         const selectedForm = this.allCalculators.find(({ id }) => id === formId);
 
-        this.currentFormOriginal = selectedForm;
-        this.currentForm = cloneDeep(selectedForm);
+        this.currentFormHistory.push(selectedForm);
+
+        this.currentForm = selectedForm;
     },
 
     beforeRouteLeave(to, from, next) {
