@@ -24,13 +24,14 @@
             </ul>
 
             <div class="form-editor__actions">
-                <button
-                    class="button button--danger form-editor__discard-btn"
-                    @click="discardFormData"
-                    :disabled="!hasChanges"
-                >
-                    {{ uSign('translate', 'Сбросить изменения') }}
-                </button>
+                <!--                <button-->
+                <!--                    v-if="false"-->
+                <!--                    class="button button&#45;&#45;danger form-editor__discard-btn"-->
+                <!--                    @click="discardFormData"-->
+                <!--                    :disabled="!hasChanges"-->
+                <!--                >-->
+                <!--                    {{ uSign('translate', 'Сбросить изменения') }}-->
+                <!--                </button>-->
 
                 <button
                     class="button button--success form-editor__submit-btn"
@@ -53,38 +54,37 @@
                 ref="optionsComponent"
                 :is="currentComponent"
                 :form="currentForm"
-                @form-changed="onFormUpdate"
             ></component>
         </div>
 
-        <v-dialog
-            ref="confirmNav"
-            :max-width="600"
-            class="form-editor__confirm-dialog"
-            @close="cancelNavigation"
-        >
-            {{ uSign('translate', 'У данной формы есть несохраненные данные. Сохранить?') }}
+        <!--        <v-dialog-->
+        <!--            ref="confirmNav"-->
+        <!--            :max-width="600"-->
+        <!--            class="form-editor__confirm-dialog"-->
+        <!--            @close="cancelNavigation"-->
+        <!--        >-->
+        <!--            {{ uSign('translate', 'У данной формы есть несохраненные данные. Сохранить?') }}-->
 
-            <template v-slot:footer="{ closePopup }">
-                <button
-                    class="button button--success form-editor__save-and-nav"
-                    @click="saveChanges"
-                >
-                    {{ uSign('translate', 'Сохранить и перейти') }}
-                </button>
+        <!--            <template v-slot:footer="{ closePopup }">-->
+        <!--                <button-->
+        <!--                    class="button button&#45;&#45;success form-editor__save-and-nav"-->
+        <!--                    @click="saveChanges"-->
+        <!--                >-->
+        <!--                    {{ uSign('translate', 'Сохранить и перейти') }}-->
+        <!--                </button>-->
 
-                <button
-                    class="button button--danger form-editor__discard-and-nav"
-                    @click="discardChanges"
-                >
-                    {{ uSign('translate', 'Сбросить и перейти') }}
-                </button>
+        <!--                <button-->
+        <!--                    class="button button&#45;&#45;danger form-editor__discard-and-nav"-->
+        <!--                    @click="discardChanges"-->
+        <!--                >-->
+        <!--                    {{ uSign('translate', 'Сбросить и перейти') }}-->
+        <!--                </button>-->
 
-                <button class="button form-editor__cancel-nav" @click="cancelNavigation">
-                    {{ uSign('translate', 'Отменить переход') }}
-                </button>
-            </template>
-        </v-dialog>
+        <!--                <button class="button form-editor__cancel-nav" @click="cancelNavigation">-->
+        <!--                    {{ uSign('translate', 'Отменить переход') }}-->
+        <!--                </button>-->
+        <!--            </template>-->
+        <!--        </v-dialog>-->
     </div>
 </template>
 
@@ -127,45 +127,45 @@ export default {
     },
 
     methods: {
-        onFormUpdate(formConfig) {
-            this.currentFormHistory.push(formConfig);
-            console.log('Layout changed', this.currentFormHistory.length);
-        },
+        // onFormUpdate(formConfig) {
+        //     this.currentFormHistory.push(formConfig);
+        //     console.log('Layout changed', this.currentFormHistory.length);
+        // },
 
         saveFormData() {
             if (this.currentComponent === layoutBuilderComponentId) {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
-            this.currentForm = this.currentFormHistory.pop();
+            // this.currentForm = this.currentFormHistory.pop();
             this.$store.dispatch('updateForm', this.currentForm);
-            this.currentFormHistory = [this.currentForm];
+            // this.currentFormHistory = [this.currentForm];
         },
 
-        discardFormData() {
-            if (this.currentComponent === layoutBuilderComponentId) {
-                this.$refs.optionsComponent.saveEditedField();
-            }
-
-            this.currentForm = this.currentFormHistory[0];
-            this.currentFormHistory = [this.currentForm];
-        },
-
-        saveChanges() {
-            this.$refs.confirmNav.triggerClose();
-            this.saveFormData();
-            this.resolveNavigation();
-        },
-
-        discardChanges() {
-            this.$refs.confirmNav.triggerClose();
-            this.resolveNavigation();
-        },
-
-        cancelNavigation() {
-            this.$refs.confirmNav.triggerClose();
-            this.resolveNavigation(false);
-        },
+        // discardFormData() {
+        //     if (this.currentComponent === layoutBuilderComponentId) {
+        //         this.$refs.optionsComponent.saveEditedField();
+        //     }
+        //
+        //     this.currentForm = this.currentFormHistory[0];
+        //     this.currentFormHistory = [this.currentForm];
+        // },
+        //
+        // saveChanges() {
+        //     this.$refs.confirmNav.triggerClose();
+        //     this.saveFormData();
+        //     this.resolveNavigation();
+        // },
+        //
+        // discardChanges() {
+        //     this.$refs.confirmNav.triggerClose();
+        //     this.resolveNavigation();
+        // },
+        //
+        // cancelNavigation() {
+        //     this.$refs.confirmNav.triggerClose();
+        //     this.resolveNavigation(false);
+        // },
     },
 
     data() {
@@ -193,12 +193,14 @@ export default {
     },
 
     beforeRouteLeave(to, from, next) {
-        if (this.hasChanges) {
-            this.resolveNavigation = next;
-            this.$refs.confirmNav.open();
-        } else {
-            next();
-        }
+        next();
+
+        // if (this.hasChanges) {
+        //     this.resolveNavigation = next;
+        //     this.$refs.confirmNav.open();
+        // } else {
+        //     next();
+        // }
     },
 };
 </script>
