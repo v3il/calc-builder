@@ -437,10 +437,11 @@ export default {
 
     // Builder
     &__layout-row {
-        border: 1px solid $gray;
+        border: 1px dashed $gray;
         display: flex;
         flex-wrap: wrap;
         padding: 6px;
+        border-radius: 6px;
         margin: 18px 0;
         position: relative;
 

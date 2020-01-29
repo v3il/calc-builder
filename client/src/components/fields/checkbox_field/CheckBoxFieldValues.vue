@@ -11,37 +11,37 @@
                 />
             </div>
 
-            <!--            <label class="field-values__value-block">-->
-            <!--                <span class="field-values__value-label">-->
-            <!--                    {{ uSign('translate', 'Вкл.') }}-->
-            <!--                </span>-->
+            <label class="field-values__value-block">
+                <span class="field-values__value-label">
+                    {{ uSign('translate', 'Вкл.') }}
+                </span>
 
-            <!--                <input-element-->
-            <!--                    class="field-values__value-input"-->
-            <!--                    v-model.number="field.params.activatedValue"-->
-            <!--                    :options="{-->
-            <!--                        type: 'number',-->
-            <!--                    }"-->
-            <!--                />-->
-            <!--            </label>-->
+                <input-element
+                    class="field-values__value-input"
+                    v-model.number="field.params.activatedValue"
+                    :options="{
+                        type: 'number',
+                    }"
+                />
+            </label>
 
-            <!--            <label class="field-values__value-block">-->
-            <!--                <span class="field-values__value-label">-->
-            <!--                    {{ uSign('translate', 'Выкл.') }}-->
-            <!--                </span>-->
+            <label class="field-values__value-block">
+                <span class="field-values__value-label">
+                    {{ uSign('translate', 'Выкл.') }}
+                </span>
 
-            <!--                <input-element-->
-            <!--                    class="field-values__value-input text-input"-->
-            <!--                    v-model.number="field.params.deactivatedValue"-->
-            <!--                    :options="{-->
-            <!--                        type: 'number',-->
-            <!--                    }"-->
-            <!--                />-->
-            <!--            </label>-->
+                <input-element
+                    class="field-values__value-input text-input"
+                    v-model.number="field.params.deactivatedValue"
+                    :options="{
+                        type: 'number',
+                    }"
+                />
+            </label>
 
-            <!--            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"-->
-            <!--                >clear</i-->
-            <!--            >-->
+            <i @click="$emit('remove-field')" class="material-icons field-values__remove-field"
+                >clear</i
+            >
         </div>
     </base-field-values>
 </template>

@@ -44,7 +44,7 @@ export default {
                 label: this.uSign('translate', 'Заголовок поля'),
                 activatedValue: 100,
                 deactivatedValue: 0,
-                isSelected: false,
+                isSelected: true,
             },
 
             defaultStyle: {
@@ -60,7 +60,6 @@ export default {
     watch: {
         'field.params': {
             deep: true,
-            immediate: true,
             handler(newValue) {
                 const { isSelected, activatedValue, deactivatedValue } = newValue;
                 this.field.params.value = isSelected ? activatedValue : deactivatedValue;

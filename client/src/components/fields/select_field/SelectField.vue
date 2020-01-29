@@ -98,7 +98,7 @@ export default {
     watch: {
         'field.params.options': {
             deep: true,
-            immediate: true,
+            // immediate: true,
             handler(options) {
                 this.field.params.value = options.reduce((total, currentOption) => {
                     const { activatedValue, deactivatedValue, isSelected } = currentOption;

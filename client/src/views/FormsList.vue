@@ -17,11 +17,17 @@
                     <div class="calculators__name">{{ calc.name || ' ' }}</div>
 
                     <div class="calculators__actions">
-                        <button class="button button--success" @click="edit(calc)">
+                        <button
+                            class="button button--success calculators__edit"
+                            @click="edit(calc)"
+                        >
                             Редактировать
                         </button>
 
-                        <button class="button button--danger" @click="remove(calc)">
+                        <button
+                            class="button button--danger calculators__remove"
+                            @click="remove(calc)"
+                        >
                             Удалить
                         </button>
                     </div>
@@ -86,9 +92,6 @@ export default {
 .page {
     display: flex;
     flex-direction: column;
-
-    /* padding: 12px 24px; */
-
     min-height: 100vh;
 }
 
@@ -148,10 +151,7 @@ export default {
         .calculators__preview {
             width: 100%;
             height: 150px;
-            background:
- url('http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg') no-repeat
-                top;
-            background-size: cover;
+            background-color: darkblue;
         }
 
         .calculators__name {
@@ -162,6 +162,10 @@ export default {
             display: flex;
             justify-content: center;
             margin: 0 6px 12px;
+        }
+
+        .calculators__edit {
+            margin-right: 12px;
         }
     }
 }

@@ -83,6 +83,8 @@ export default {
             ...this.defaultStyle,
             ...this.field.style,
         });
+
+        console.log('created');
     },
 };
 </script>

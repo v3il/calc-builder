@@ -41,7 +41,7 @@ export default new Vuex.Store({
                 name: `Форма ${id}`,
                 layout: [{ fields: [] }],
                 contentMaxWidth: 750,
-                backgroundImageSrc: 'http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg',
+                // backgroundImageSrc: 'http://humor.fm/uploads/posts/2016-03/17/umndflr0wjc.jpg',
             });
 
             localStorage.setItem('Calcs', JSON.stringify(state.calculators));
