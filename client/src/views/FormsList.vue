@@ -1,45 +1,37 @@
 <template>
     <div class="page">
         <div class="header">
-            <div class="header_title">Список созданных форм</div>
+            <div class="header_title">{{ uSign('translate', 'Список созданных форм') }}</div>
         </div>
 
         <div class="content">
             <div class="calculators">
-                {{ isAuthorized }}
-                {{ createdForms }}
+                <div class="calculators__item" v-for="form in createdForms" :key="form.id">
+                    <div class="calculators__preview"></div>
 
-                <div class="calculators__item" v-for="(calc, index) in allCalculators" :key="index">
-                    <div
-                        class="calculators__preview"
-                        :style="{
-                            backgroundImage: `url(${calc.backgroundImageSrc})`,
-                        }"
-                    ></div>
-
-                    <div class="calculators__name">{{ calc.name || ' ' }}</div>
+                    <div class="calculators__name">{{ form.name || ' ' }}</div>
 
                     <div class="calculators__actions">
                         <button
                             class="button button--success calculators__edit"
-                            @click="edit(calc)"
+                            @click="editForm(form)"
                         >
-                            Редактировать
+                            {{ uSign('translate', 'Редактировать') }}
                         </button>
 
                         <button
                             class="button button--danger calculators__remove"
-                            @click="remove(calc)"
+                            @click="removeForm(form)"
                         >
-                            Удалить
+                            {{ uSign('translate', 'Удалить') }}
                         </button>
                     </div>
                 </div>
 
                 <div class="calculators__item calculators__item--prompt">
                     <div class="calculators__actions">
-                        <button class="button button--primary" @click="add">
-                            Создать
+                        <button class="button button--primary" @click="addForm">
+                            {{ uSign('translate', 'Создать') }}
                         </button>
                     </div>
                 </div>
@@ -49,47 +41,27 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapActions, mapState } = createNamespacedHelpers('forms');
 
 export default {
-    name: 'MainPage',
+    name: 'FormsList',
 
     computed: {
-        ...mapGetters(['allCalculators', 'selectedCalculator']),
-
-        ...mapState('auth', ['isAuthorized']),
-
-        ...mapState('forms', ['createdForms']),
-    },
-
-    data() {
-        return {
-            drawer: true,
-        };
-    },
-
-    props: {
-        source: String,
+        ...mapState(['createdForms', 'selectedForm']),
     },
 
     methods: {
-        edit(calc) {
-            // this.$store.dispatch('selectCalc', calc);
+        ...mapActions(['addForm', 'removeForm']),
+
+        editForm(selectedForm) {
+            const { id } = selectedForm;
+
             this.$router.push({
                 name: 'formLayout',
-                params: {
-                    id: calc.id,
-                },
+                params: { id },
             });
-        },
-
-        add() {
-            this.$store.dispatch('addCalculator');
-            // this.$router.push('/constructor');
-        },
-
-        remove(calc) {
-            this.$store.dispatch('removeCalculator', calc);
         },
     },
 };
