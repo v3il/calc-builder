@@ -11,7 +11,6 @@ export default {
 
     state: {
         createdForms: JSON.parse(localStorage.getItem(localStorageKey)) || [],
-        selectedForm: null,
     },
 
     getters: {},
@@ -35,8 +34,8 @@ export default {
             saveFormsList(state.createdForms);
         },
 
-        SELECT_FORM(state, selectedForm) {
-            state.selectedForm = selectedForm;
+        SAVE_FORMS(state) {
+            saveFormsList(state.createdForms);
         },
     },
 
@@ -49,8 +48,8 @@ export default {
             context.commit('REMOVE_FORM', payload);
         },
 
-        selectForm(context, payload) {
-            context.commit('SELECT_FORM', payload);
+        saveForms(context) {
+            context.commit('SAVE_FORMS');
         },
     },
 };

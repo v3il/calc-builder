@@ -9,7 +9,7 @@
                 <div class="calculators__item" v-for="form in createdForms" :key="form.id">
                     <div class="calculators__preview"></div>
 
-                    <div class="calculators__name">{{ form.name || ' ' }}</div>
+                    <div class="calculators__name">{{ form.name || '' }}</div>
 
                     <div class="calculators__actions">
                         <button
@@ -49,7 +49,7 @@ export default {
     name: 'FormsList',
 
     computed: {
-        ...mapState(['createdForms', 'selectedForm']),
+        ...mapState(['createdForms']),
     },
 
     methods: {

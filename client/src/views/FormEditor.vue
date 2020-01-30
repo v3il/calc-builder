@@ -2,7 +2,7 @@
     <div class="form-editor">
         <div class="form-editor__header">
             <div class="form-editor__header-title">
-                {{ currentForm.name }}
+                {{ selectedForm.name }}
             </div>
 
             <ul class="form-editor__header-nav">
@@ -53,7 +53,7 @@
             <component
                 ref="optionsComponent"
                 :is="currentComponent"
-                :form="currentForm"
+                :form="selectedForm"
             ></component>
         </div>
 
@@ -89,12 +89,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+import { createNamespacedHelpers } from 'vuex';
 import LayoutBuilder from '../components/LayoutBuilder';
 import ResultsBuilder from '../components/ResultsBuilder';
 
 import VDialog from '@/components/Dialog';
+
+const { mapActions, mapState } = createNamespacedHelpers('forms');
 
 const layoutBuilderComponentId = 'layout-builder';
 const resultsBuilderComponentId = 'results-builder';
@@ -103,16 +104,15 @@ export default {
     name: 'CalcConstructor',
 
     computed: {
-        ...mapGetters(['allCalculators']),
+        ...mapState(['createdForms']),
 
         currentComponent() {
-            switch (this.$route.name) {
-                case 'formResults':
-                    return resultsBuilderComponentId;
-                case 'formLayout':
-                default:
-                    return layoutBuilderComponentId;
-            }
+            const mapping = {
+                formLayout: layoutBuilderComponentId,
+                formResults: resultsBuilderComponentId,
+            };
+
+            return mapping[this.$route.name] || layoutBuilderComponentId;
         },
 
         hasChanges() {
@@ -127,6 +127,8 @@ export default {
     },
 
     methods: {
+        ...mapActions(['saveForms']),
+
         // onFormUpdate(formConfig) {
         //     this.currentFormHistory.push(formConfig);
         //     console.log('Layout changed', this.currentFormHistory.length);
@@ -137,8 +139,10 @@ export default {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
+            this.saveForms();
+
             // this.currentForm = this.currentFormHistory.pop();
-            this.$store.dispatch('updateForm', this.currentForm);
+            // this.$store.dispatch('updateForm', this.currentForm);
             // this.currentFormHistory = [this.currentForm];
         },
 
@@ -170,7 +174,7 @@ export default {
 
     data() {
         return {
-            currentForm: null,
+            selectedForm: null,
 
             navItems: [
                 { routeName: 'formLayout', label: this.uSign('translate', 'Разметка формы') },
@@ -185,22 +189,7 @@ export default {
 
     created() {
         const formId = +this.$route.params.id;
-        const selectedForm = this.allCalculators.find(({ id }) => id === formId);
-
-        this.currentFormHistory.push(selectedForm);
-
-        this.currentForm = selectedForm;
-    },
-
-    beforeRouteLeave(to, from, next) {
-        next();
-
-        // if (this.hasChanges) {
-        //     this.resolveNavigation = next;
-        //     this.$refs.confirmNav.open();
-        // } else {
-        //     next();
-        // }
+        this.selectedForm = this.createdForms.find(({ id }) => id === formId);
     },
 };
 </script>
