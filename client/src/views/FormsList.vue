@@ -6,6 +6,9 @@
 
         <div class="content">
             <div class="calculators">
+                {{ isAuthorized }}
+                {{ createdForms }}
+
                 <div class="calculators__item" v-for="(calc, index) in allCalculators" :key="index">
                     <div
                         class="calculators__preview"
@@ -46,13 +49,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
     name: 'MainPage',
 
     computed: {
         ...mapGetters(['allCalculators', 'selectedCalculator']),
+
+        ...mapState('auth', ['isAuthorized']),
+
+        ...mapState('forms', ['createdForms']),
     },
 
     data() {

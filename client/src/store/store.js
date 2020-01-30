@@ -1,12 +1,20 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import auth from './auth';
+import forms from './forms';
+
 import getNextId from '@/utils/getNextId';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     // strict: true,
+
+    modules: {
+        auth,
+        forms,
+    },
 
     state: {
         calculators: JSON.parse(localStorage.getItem('Calcs')) || [],
