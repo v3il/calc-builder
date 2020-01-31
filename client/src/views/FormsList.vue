@@ -1,8 +1,35 @@
 <template>
     <div class="page">
-        <div class="header">
-            <div class="header_title">{{ uSign('translate', 'Список созданных форм') }}</div>
-        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header">
+            <h1 class="navbar-brand">{{ uSign('translate', 'Список созданных форм') }}</h1>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarText"
+                aria-controls="navbarText"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item disabled">
+                        <span class="navbar-text">{{
+                            uSign('translate', 'Здравствуйте, %s!', [userLogin])
+                        }}</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript://" @click="triggerLogout">{{
+                            uSign('translate', 'Выйти')
+                        }}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
         <div class="content">
             <div class="calculators">
@@ -41,19 +68,24 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-
-const { mapActions, mapState } = createNamespacedHelpers('forms');
+import { mapActions, mapState } from 'vuex';
 
 export default {
     name: 'FormsList',
 
     computed: {
-        ...mapState(['createdForms']),
+        ...mapState('forms', ['createdForms']),
+    },
+
+    data() {
+        return {
+            userLogin: '',
+        };
     },
 
     methods: {
-        ...mapActions(['addForm', 'removeForm']),
+        ...mapActions('forms', ['addForm', 'removeForm']),
+        ...mapActions('auth', ['logout']),
 
         editForm(selectedForm) {
             const { id } = selectedForm;
@@ -63,6 +95,19 @@ export default {
                 params: { id },
             });
         },
+
+        async triggerLogout() {
+            try {
+                await this.logout();
+                this.$router.replace({ name: 'login' });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+    },
+
+    created() {
+        this.userLogin = this.$store.state.auth.currentUser.login;
     },
 };
 </script>
@@ -75,22 +120,7 @@ export default {
 }
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    background-color: #263238;
-    border-color: #263238;
-    color: #fff;
-    align-items: center;
-    display: flex;
-    padding: 0 24px;
-    box-shadow:
- 0 2px 4px -1px rgba(0, 0, 0, 0.2),
- 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-        0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    z-index: 3;
+    background-color: #263238 !important;
 }
 
 .header_title {
