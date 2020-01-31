@@ -1,6 +1,6 @@
 <template>
     <div class="auth-form">
-        <form class="form-signin">
+        <form class="form-signin" @submit.prevent="triggerLogin">
             <div class="text-center mb-4">
                 <h1 class="h3 mb-3 font-weight-normal">
                     {{ uSign('translate', 'Вход на сайт') }}
@@ -11,10 +11,11 @@
                 <label for="inputEmail">{{ uSign('translate', 'Email') }}</label>
 
                 <input
-                    type="email"
+                    type="text"
                     id="inputEmail"
                     class="form-control"
                     :placeholder="uSign('translate', 'Email')"
+                    v-model="userLogin"
                     required
                     autofocus
                 />
@@ -28,6 +29,7 @@
                     id="inputPassword"
                     class="form-control"
                     :placeholder="uSign('translate', 'Пароль')"
+                    v-model="userPassword"
                     required
                 />
             </div>
@@ -38,6 +40,10 @@
                         uSign('translate', 'Запомнить меня')
                     }}</label
                 >
+            </div>
+
+            <div class="alert alert-danger" role="alert" v-if="authError">
+                {{ uSign('translate', 'Неправильный логин или пароль') }}
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -54,8 +60,43 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapActions } = createNamespacedHelpers('auth');
+
 export default {
     name: 'LoginPage',
+
+    data() {
+        return {
+            userLogin: '',
+            userPassword: '',
+            authError: false,
+        };
+    },
+
+    methods: {
+        ...mapActions(['login']),
+
+        async triggerLogin() {
+            try {
+                this.authError = false;
+
+                const isAuthorized = await this.login({
+                    login: this.userLogin,
+                    password: this.userPassword,
+                });
+
+                if (isAuthorized) {
+                    this.$router.replace({ name: 'home' });
+                } else {
+                    this.authError = true;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+    },
 };
 </script>
 
