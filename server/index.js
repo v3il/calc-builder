@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const boot = require('./boot');
 
@@ -11,11 +13,10 @@ app.use(bodyParser.json('combine'));
 
 boot(app);
 
-app.listen(3000);
-
+app.listen(process.env.PORT);
 
 app.get('/', (req, res) => {
     res.send({
-        test: 1
-    })
-})
+        test: 1,
+    });
+});
