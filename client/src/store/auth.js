@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export default {
     namespaced: true,
 
@@ -21,16 +23,30 @@ export default {
     },
 
     actions: {
-        login(context, user) {
+        async login(context, user) {
             const { login, password } = user;
-            const isValidUser = [login, password].every(item => item === 'admin');
 
-            if (isValidUser) {
-                context.commit('AUTH', user);
-                return true;
+            try {
+                /*const r = */ await axios.post('http://localhost:3000/login', {
+                    login,
+                    password,
+                });
+
+                // context.commit('AUTH', user);
+                // return true;
+            } catch (e) {
+                console.log(e);
+                return false;
             }
 
-            return false;
+            // const isValidUser = [login, password].every(item => item === 'admin');
+            //
+            // if (isValidUser) {
+            //     context.commit('AUTH', user);
+            //     return true;
+            // }
+            //
+            // return false;
         },
 
         register(context, user) {
