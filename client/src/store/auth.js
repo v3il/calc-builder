@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios';
 
 export default {
     namespaced: true,
@@ -27,31 +27,29 @@ export default {
             const { login, password } = user;
 
             try {
-                /*const r = */ await axios.post('http://localhost:3000/login', {
+                await axios.post('/login', {
                     login,
                     password,
                 });
 
-                // context.commit('AUTH', user);
-                // return true;
-            } catch (e) {
-                console.log(e);
-                return false;
+                context.commit('AUTH', user);
+                return true;
+            } catch (error) {
+                throw error;
             }
-
-            // const isValidUser = [login, password].every(item => item === 'admin');
-            //
-            // if (isValidUser) {
-            //     context.commit('AUTH', user);
-            //     return true;
-            // }
-            //
-            // return false;
         },
 
-        register(context, user) {
+        async register(context, user) {
             const { login, password } = user;
-            console.log(login, password);
+
+            try {
+                return axios.post('/register', {
+                    login,
+                    password,
+                });
+            } catch (error) {
+                throw error;
+            }
         },
 
         logout(context) {

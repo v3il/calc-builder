@@ -1,6 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+const bcrypt = require('bcrypt');
+
 const knexInstance = require('./knexInstance');
 
 module.exports = () => {
@@ -32,7 +34,13 @@ module.exports = () => {
                         return done(null, false);
                     }
 
-                    return done(null, users[0]);
+                    const isCorrectPassword = await bcrypt.compare(password, users[0].password);
+
+                    if (isCorrectPassword) {
+                        return done(null, users[0]);
+                    }
+
+                    return done(null, false);
                 } catch (error) {
                     done(error);
                 }
