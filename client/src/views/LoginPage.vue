@@ -34,14 +34,6 @@
                 />
             </div>
 
-            <div class="checkbox mb-3">
-                <label
-                    ><input type="checkbox" value="remember-me" />{{
-                        uSign('translate', 'Запомнить меня')
-                    }}</label
-                >
-            </div>
-
             <div class="alert alert-danger" role="alert" v-if="authError">
                 {{ uSign('translate', 'Неправильный логин или пароль') }}
             </div>
