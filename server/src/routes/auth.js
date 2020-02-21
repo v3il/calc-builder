@@ -1,5 +1,6 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const knexInstance = require('../knexInstance');
 
@@ -78,7 +79,29 @@ module.exports = app => {
                 password: encryptedPassword,
             });
 
+            const createdUsers = await knexInstance('users')
+                .where({
+                    id: newUserIds[0],
+                })
+                .select();
+
+            console.log(createdUsers[0]);
+
+            const token = jwt.sign({ id: createdUsers[0].id, login: createdUsers[0].login }, process.env.JWT_SECRET, {
+                expiresIn: '7d',
+            });
+
+            console.log(request.cookies)
+
+            response.cookie('jwt_token', token, {
+                httpOnly: false,
+                maxAge: 900000,
+            });
+
+            console.log(token)
+
             response.status(200).json({
+                // token,
                 created: true,
                 userId: newUserIds[0],
             });
