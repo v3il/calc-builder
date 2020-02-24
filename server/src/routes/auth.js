@@ -7,32 +7,57 @@ const knexInstance = require('../knexInstance');
 module.exports = app => {
     app.post(
         '/login',
-        (request, response, next) => {
-            passport.authenticate('local', (error, user) => {
-                if (error) {
-                    return response.status(500).json({
-                        error: error.message,
-                    });
+        // (request, response, next) => {
+        //     passport.authenticate('local', (error, user) => {
+        //         if (error) {
+        //             return response.status(500).json({
+        //                 error: error.message,
+        //             });
+        //         }
+        //
+        //         if (!user) {
+        //             return response.status(500).json({
+        //                 error: error.message,
+        //             });
+        //         }
+        //
+        //         request.logIn(user, function(err) {
+        //             if (err) {
+        //                 return next(err);
+        //             }
+        //
+        //             return response.redirect('/users/' + user.username);
+        //         });
+        //     })(request, response, next);
+        // },
+        async (request, response) => {
+            console.log(request.user);
+
+            // const data = await request.loginAsync({ id: 1 });
+            //
+            // try {
+            //     console.log(request.user)
+            //     console.log(data)
+            //
+            //     response.status(200).json({
+            //         status: 'Ok',
+            //     });
+            // } catch (error) {
+            //     console.log(error);
+            // }
+
+            // Инициализируем сессию пользователя
+            request.login({ id: 1 }, (err, data) => {
+                if (err) {
+                    return response.status(500);
                 }
 
-                if (!user) {
-                    return response.status(500).json({
-                        error: error.message,
-                    });
-                }
+                console.log(request.user)
+                console.log(data)
 
-                request.logIn(user, function(err) {
-                    if (err) {
-                        return next(err);
-                    }
-
-                    return response.redirect('/users/' + user.username);
+                response.status(200).json({
+                    status: 'Ok',
                 });
-            })(request, response, next);
-        },
-        (request, response) => {
-            response.status(200).json({
-                status: 'Ok',
             });
         },
     );
@@ -87,18 +112,18 @@ module.exports = app => {
 
             console.log(createdUsers[0]);
 
-            const token = jwt.sign({ id: createdUsers[0].id, login: createdUsers[0].login }, process.env.JWT_SECRET, {
-                expiresIn: '7d',
-            });
-
-            console.log(request.cookies)
-
-            response.cookie('jwt_token', token, {
-                httpOnly: false,
-                maxAge: 900000,
-            });
-
-            console.log(token)
+            // const token = jwt.sign({ id: createdUsers[0].id, login: createdUsers[0].login }, process.env.JWT_SECRET, {
+            //     expiresIn: '7d',
+            // });
+            //
+            // console.log(request.cookies)
+            //
+            // response.cookie('jwt_token', token, {
+            //     httpOnly: false,
+            //     maxAge: 900000,
+            // });
+            //
+            // console.log(token)
 
             response.status(200).json({
                 // token,
