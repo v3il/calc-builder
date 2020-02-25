@@ -31,7 +31,16 @@ module.exports = app => {
         //     })(request, response, next);
         // },
         async (request, response) => {
-            console.log(request.user);
+            console.log(request.body);
+
+            const token = jwt.sign({ id: 123, login: 222 }, process.env.JWT_SECRET, {
+                expiresIn: '7d',
+            });
+
+            response.status(200).json({
+                token,
+                auth: true,
+            });
 
             // const data = await request.loginAsync({ id: 1 });
             //
@@ -47,18 +56,18 @@ module.exports = app => {
             // }
 
             // Инициализируем сессию пользователя
-            request.login({ id: 1 }, (err, data) => {
-                if (err) {
-                    return response.status(500);
-                }
-
-                console.log(request.user)
-                console.log(data)
-
-                response.status(200).json({
-                    status: 'Ok',
-                });
-            });
+            // request.login({ id: 1 }, (err, data) => {
+            //     if (err) {
+            //         return response.status(500);
+            //     }
+            //
+            //     console.log(request.user)
+            //     console.log(data)
+            //
+            //     response.status(200).json({
+            //         status: 'Ok',
+            //     });
+            // });
         },
     );
 
