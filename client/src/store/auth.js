@@ -1,5 +1,7 @@
 import axios from '../axios';
 
+import authTokenService from '../service/authTokenService';
+
 const localStorageKey = 'jwt_token';
 
 export default {
@@ -37,15 +39,16 @@ export default {
 
                 const { auth, token } = response.data;
 
+                console.log(token);
+
+                authTokenService.setToken(token);
+
                 console.log(auth, token);
 
-                const r = await axios.get('/forms', {
-                    headers: {
-                        authorization: `Bearer ${token}`,
-                    },
-                });
+                const r = await axios.get('/forms');
 
                 console.log(r.data);
+                console.log(r.status);
 
                 context.commit('AUTH', user);
                 return true;
