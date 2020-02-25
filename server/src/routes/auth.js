@@ -5,71 +5,61 @@ const jwt = require('jsonwebtoken');
 const knexInstance = require('../knexInstance');
 
 module.exports = app => {
-    app.post(
-        '/login',
-        // (request, response, next) => {
-        //     passport.authenticate('local', (error, user) => {
-        //         if (error) {
-        //             return response.status(500).json({
-        //                 error: error.message,
-        //             });
-        //         }
-        //
-        //         if (!user) {
-        //             return response.status(500).json({
-        //                 error: error.message,
-        //             });
-        //         }
-        //
-        //         request.logIn(user, function(err) {
-        //             if (err) {
-        //                 return next(err);
-        //             }
-        //
-        //             return response.redirect('/users/' + user.username);
-        //         });
-        //     })(request, response, next);
-        // },
-        async (request, response) => {
-            console.log(request.body);
+    app.post('/login', async (request, response) => {
+        const { login, password } = request.body;
 
-            const token = jwt.sign({ id: 123, login: 222 }, process.env.JWT_SECRET, {
-                expiresIn: '7d',
+        if (!(login && login.length >= 4)) {
+            return response.status(400).json({
+                error: 'Логин не может быть меньше, чем 4 символа',
+            });
+        }
+
+        if (!(password && password.length >= 6)) {
+            return response.status(400).json({
+                error: 'Пароль не может быть меньше, чем 6 символов',
+            });
+        }
+
+        try {
+            const users = await knexInstance('users')
+                .where({ login })
+                .select();
+
+            if (!users.length) {
+                return response.status(400).json({
+                    error: 'Неправильный логин',
+                });
+            }
+
+            const user = users[0];
+
+            const salt = await bcrypt.genSalt(3);
+            const encryptedPassword = await bcrypt.hashSync(password, salt);
+
+            if (user.password !== encryptedPassword) {
+                return response.status(400).json({
+                    error: 'Неправильный пароль',
+                });
+            }
+
+            const userPublicData = { id: user.id, login: user.login };
+
+            const token = jwt.sign(userPublicData, process.env.JWT_SECRET, {
+                expiresIn: process.env.JWT_DURATION,
             });
 
             response.status(200).json({
                 token,
-                auth: true,
+                user: userPublicData,
             });
+        } catch (error) {
+            console.error(error);
 
-            // const data = await request.loginAsync({ id: 1 });
-            //
-            // try {
-            //     console.log(request.user)
-            //     console.log(data)
-            //
-            //     response.status(200).json({
-            //         status: 'Ok',
-            //     });
-            // } catch (error) {
-            //     console.log(error);
-            // }
-
-            // Инициализируем сессию пользователя
-            // request.login({ id: 1 }, (err, data) => {
-            //     if (err) {
-            //         return response.status(500);
-            //     }
-            //
-            //     console.log(request.user)
-            //     console.log(data)
-            //
-            //     response.status(200).json({
-            //         status: 'Ok',
-            //     });
-            // });
-        },
-    );
+            response.status(500).json({
+                error: error.message,
+            });
+        }
+    });
 
     app.post('/register', async (request, response) => {
         const { login, password } = request.body;

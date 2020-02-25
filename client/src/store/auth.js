@@ -2,15 +2,12 @@ import axios from '../axios';
 
 import authTokenService from '../service/authTokenService';
 
-const localStorageKey = 'jwt_token';
-
 export default {
     namespaced: true,
 
     state: {
         isAuthorized: false,
         currentUser: null,
-        token: localStorage.getItem(localStorageKey),
     },
 
     getters: {},
@@ -37,18 +34,9 @@ export default {
                     password,
                 });
 
-                const { auth, token } = response.data;
-
-                console.log(token);
+                const { token, user } = response.data;
 
                 authTokenService.setToken(token);
-
-                console.log(auth, token);
-
-                const r = await axios.get('/forms');
-
-                console.log(r.data);
-                console.log(r.status);
 
                 context.commit('AUTH', user);
                 return true;

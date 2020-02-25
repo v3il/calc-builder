@@ -35,7 +35,7 @@
             </div>
 
             <div class="alert alert-danger" role="alert" v-if="authError">
-                {{ uSign('translate', 'Неправильный логин или пароль') }}
+                {{ authError }}
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -63,7 +63,7 @@ export default {
         return {
             userLogin: '',
             userPassword: '',
-            authError: false,
+            authError: '',
         };
     },
 
@@ -72,20 +72,17 @@ export default {
 
         async triggerLogin() {
             try {
-                this.authError = false;
+                this.authError = '';
 
-                const isAuthorized = await this.login({
+                await this.login({
                     login: this.userLogin,
                     password: this.userPassword,
                 });
 
-                if (isAuthorized) {
-                    this.$router.replace({ name: 'home' });
-                } else {
-                    this.authError = true;
-                }
+                this.$router.replace({ name: 'home' });
             } catch (error) {
                 console.error(error);
+                this.authError = error.response.data.error;
             }
         },
     },
