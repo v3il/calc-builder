@@ -74,24 +74,16 @@ export default {
 
         async triggerRegister() {
             try {
-                this.authError = false;
+                this.authError = '';
 
                 await this.register({
                     login: this.userLogin,
                     password: this.userPassword,
                 });
 
-                this.$router.replace({ name: 'login' });
-
-                // console.log(response)
-                // console.log(response.response)
-
-                // if (isAuthorized) {
-                //     this.$router.replace({ name: 'home' });
-                // } else {
-                //     this.authError = true;
-                // }
+                this.$router.replace({ name: 'home' });
             } catch (error) {
+                console.error(error);
                 this.authError = error.response.data.error;
             }
         },

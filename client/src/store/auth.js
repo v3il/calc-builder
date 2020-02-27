@@ -49,10 +49,16 @@ export default {
             const { login, password } = user;
 
             try {
-                return axios.post('/register', {
+                const response = await axios.post('/register', {
                     login,
                     password,
                 });
+
+                const { token, user } = response.data;
+
+                authTokenService.setToken(token);
+
+                context.commit('AUTH', user);
             } catch (error) {
                 throw error;
             }
