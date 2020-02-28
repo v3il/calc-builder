@@ -7,21 +7,23 @@ export default {
 
     state: {
         isAuthorized: false,
-        currentUser: null,
+        currentUser: {},
     },
 
     getters: {},
 
     mutations: {
-        AUTH(state, user) {
-            state.isAuthorized = true;
-            state.currentUser = user;
-        },
-
-        LOGOUT(state) {
-            state.isAuthorized = false;
-            state.currentUser = null;
-        },
+        // AUTH(state, user) {
+        //     // state.isAuthorized = true;
+        //     // state.currentUser = user;
+        // },
+        //
+        // LOGOUT(state) {
+        //     authTokenService.removeToken();
+        //
+        //     // state.isAuthorized = false;
+        //     // state.currentUser = null;
+        // },
     },
 
     actions: {
@@ -34,11 +36,11 @@ export default {
                     password,
                 });
 
-                const { token, user } = response.data;
+                const { token } = response.data;
 
-                authTokenService.setToken(token);
+                authTokenService.saveToken(token);
 
-                context.commit('AUTH', user);
+                // context.commit('AUTH', user);
                 return true;
             } catch (error) {
                 throw error;
@@ -54,18 +56,19 @@ export default {
                     password,
                 });
 
-                const { token, user } = response.data;
+                const { token } = response.data;
 
-                authTokenService.setToken(token);
+                authTokenService.saveToken(token);
 
-                context.commit('AUTH', user);
+                // context.commit('AUTH', user);
             } catch (error) {
                 throw error;
             }
         },
 
-        logout(context) {
-            context.commit('LOGOUT');
+        logout() {
+            authTokenService.removeToken();
+            // context.commit('LOGOUT');
         },
     },
 };

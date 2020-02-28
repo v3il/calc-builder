@@ -70,6 +70,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
+import axios from '../axios';
+
 export default {
     name: 'FormsList',
 
@@ -107,6 +109,8 @@ export default {
     },
 
     created() {
+        axios.get('/forms');
+
         this.userLogin = this.$store.state.auth.currentUser.login;
     },
 };
