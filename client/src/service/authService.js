@@ -1,79 +1,75 @@
 import axios from '../axios';
 
-const localStorageKey = 'jwt_token';
+const localStorageKey = 'jwt';
 
-let jwtTokenData = readJWTData();
+class AuthService {
+    constructor() {
+        try {
+            const tokenData = localStorage.getItem(localStorageKey);
+            this.jwtTokenData = tokenData ? JSON.parse(tokenData) : {};
+        } catch (error) {
+            this.jwtTokenData = {};
+        }
+    }
 
-export default {
-    isAuthorized,
+    _saveToken(token) {
+        this.jwtTokenData = { token, ...this._parseJwt(token) };
 
-    login,
-    logout,
-    register,
+        console.log(this.jwtTokenData);
+
+        localStorage.setItem(localStorageKey, JSON.stringify(this.jwtTokenData));
+    }
+
+    _removeToken() {
+        this.jwtTokenData = {};
+        localStorage.removeItem(localStorageKey);
+    }
 
     getTokenData() {
-        return jwtTokenData;
-    },
-};
+        return this.jwtTokenData;
+    }
 
-function readJWTData() {
-    try {
-        const tokenData = localStorage.getItem(localStorageKey);
-        return tokenData ? JSON.parse(tokenData) : {};
-    } catch (error) {
-        return {};
+    isAuthorized() {
+        const { exp: expires } = this.jwtTokenData;
+
+        console.log(this.jwtTokenData);
+
+        return this.jwtTokenData.id && Date.now() / 1000 <= expires;
+    }
+
+    async _authRequest(url, user) {
+        const response = await axios.post(url, user);
+        const { token } = response.data;
+
+        this._saveToken(token);
+    }
+
+    login(user) {
+        return this._authRequest('/login', user);
+    }
+
+    register(user) {
+        return this._authRequest('/register', user);
+    }
+
+    logout() {
+        this._removeToken();
+    }
+
+    _parseJwt(token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join(''),
+        );
+
+        return JSON.parse(jsonPayload);
     }
 }
 
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(
-        atob(base64)
-            .split('')
-            .map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join(''),
-    );
-
-    return JSON.parse(jsonPayload);
-}
-
-function saveToken(token) {
-    jwtTokenData = parseJwt(token);
-    jwtTokenData.token = token;
-
-    localStorage.setItem(localStorageKey, JSON.stringify(jwtTokenData));
-
-    console.log(jwtTokenData);
-}
-
-function removeToken() {
-    jwtTokenData = {};
-    localStorage.removeItem(localStorageKey);
-}
-
-function isAuthorized() {
-    const { exp: expires } = jwtTokenData;
-    return jwtTokenData.id && Date.now() / 1000 <= expires;
-}
-
-async function authRequest(url, user) {
-    const response = await axios.post(url, user);
-    const { token } = response.data;
-
-    saveToken(token);
-}
-
-async function login(user) {
-    authRequest('/login', user);
-}
-
-async function register(user) {
-    authRequest('/register', user);
-}
-
-function logout() {
-    removeToken();
-}
+export default new AuthService();
