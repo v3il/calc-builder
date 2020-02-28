@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import authTokenService from './service/authTokenService';
+import authService from './service/authService';
 
 import router from './router';
 
@@ -9,7 +9,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
-    const { token } = authTokenService.getToken();
+    const { token } = authService.getTokenData();
     config.headers.authorization = `Bearer ${token}`;
     return config;
 });
@@ -18,7 +18,7 @@ instance.interceptors.response.use(
     response => response,
     error => {
         if (403 === error.response.status) {
-            authTokenService.removeToken();
+            authService.logout();
             router.replace({ name: 'login' });
         } else {
             return Promise.reject(error);

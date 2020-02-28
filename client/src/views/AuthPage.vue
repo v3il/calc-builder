@@ -1,9 +1,13 @@
 <template>
-    <div class="auth-form">
-        <form class="form-signin" @submit.prevent="triggerLogin">
+    <div class="auth-form" :key="$route.name">
+        <form class="form-signin" @submit.prevent="auth">
             <div class="text-center mb-4">
                 <h1 class="h3 mb-3 font-weight-normal">
-                    {{ uSign('translate', 'Вход на сайт') }}
+                    {{
+                        isLoginAction
+                            ? uSign('translate', 'Вход на сайт')
+                            : uSign('translate', 'Регистрация')
+                    }}
                 </h1>
             </div>
 
@@ -34,17 +38,23 @@
                 />
             </div>
 
-            <div class="alert alert-danger" role="alert" v-if="authError">
-                {{ authError }}
-            </div>
+            <div class="alert alert-danger" role="alert" v-if="authError">{{ authError }}</div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">
-                {{ uSign('translate', 'Войти') }}
+                {{
+                    isLoginAction
+                        ? uSign('translate', 'Войти')
+                        : uSign('translate', 'Зарегистрироваться')
+                }}
             </button>
 
             <div class="text-center auth-form__register-link">
-                <router-link :to="{ name: 'register' }">
+                <router-link :to="{ name: 'register' }" v-if="isLoginAction">
                     {{ uSign('translate', 'Зарегистрироваться') }}
+                </router-link>
+
+                <router-link :to="{ name: 'login' }" v-else>
+                    {{ uSign('translate', 'Войти') }}
                 </router-link>
             </div>
         </form>
@@ -52,32 +62,39 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-
-const { mapActions } = createNamespacedHelpers('auth');
+import authService from '../service/authService';
 
 export default {
-    name: 'LoginPage',
+    name: 'AuthPage',
 
     data() {
         return {
+            isLoginAction: true,
             userLogin: '',
             userPassword: '',
             authError: '',
         };
     },
 
-    methods: {
-        ...mapActions(['login']),
+    created() {
+        this.isLoginAction = this.$route.name === 'login';
+    },
 
-        async triggerLogin() {
+    methods: {
+        async auth() {
             try {
                 this.authError = '';
 
-                await this.login({
+                const requestData = {
                     login: this.userLogin,
                     password: this.userPassword,
-                });
+                };
+
+                if (this.isLoginAction) {
+                    await authService.login(requestData);
+                } else {
+                    await authService.register(requestData);
+                }
 
                 this.$router.replace({ name: 'home' });
             } catch (error) {

@@ -42,10 +42,7 @@ async function login(request, response) {
             expiresIn: process.env.JWT_DURATION,
         });
 
-        response.json({
-            token,
-            user: userPublicData,
-        });
+        response.json({ token });
     } catch (error) {
         console.error(error);
 
@@ -96,7 +93,7 @@ async function register(request, response) {
             expiresIn: process.env.JWT_DURATION,
         });
 
-        response.json({ token, user: userPublicData });
+        response.json({ token });
     } catch (error) {
         console.error(error);
 
