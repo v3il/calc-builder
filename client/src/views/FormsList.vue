@@ -72,6 +72,8 @@ import { mapActions, mapState } from 'vuex';
 
 import axios from '../axios';
 
+import authService from '../service/authService';
+
 export default {
     name: 'FormsList',
 
@@ -87,7 +89,7 @@ export default {
 
     methods: {
         ...mapActions('forms', ['addForm', 'removeForm']),
-        ...mapActions('auth', ['logout']),
+        // ...mapActions('auth', ['logout']),
 
         editForm(selectedForm) {
             const { id } = selectedForm;
@@ -100,7 +102,7 @@ export default {
 
         async triggerLogout() {
             try {
-                await this.logout();
+                authService.logout();
                 this.$router.replace({ name: 'login' });
             } catch (error) {
                 console.log(error);
@@ -111,7 +113,7 @@ export default {
     created() {
         axios.get('/forms');
 
-        this.userLogin = this.$store.state.auth.currentUser.login;
+        this.userLogin = authService.getTokenData().login;
     },
 };
 </script>

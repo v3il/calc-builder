@@ -42,6 +42,8 @@ function parseJwt(token) {
 
 function saveToken(token) {
     jwtTokenData = parseJwt(token);
+    jwtTokenData.token = token;
+
     localStorage.setItem(localStorageKey, JSON.stringify(jwtTokenData));
 
     console.log(jwtTokenData);
@@ -54,21 +56,22 @@ function removeToken() {
 
 function isAuthorized() {
     const { exp: expires } = jwtTokenData;
-    return jwtTokenData.hasOwnProperty('token') && Date.now() / 1000 <= expires;
+    return jwtTokenData.id && Date.now() / 1000 <= expires;
+}
+
+async function authRequest(url, user) {
+    const response = await axios.post(url, user);
+    const { token } = response.data;
+
+    saveToken(token);
 }
 
 async function login(user) {
-    const response = await axios.post('/login', user);
-    const { token } = response.data;
-
-    saveToken(token);
+    authRequest('/login', user);
 }
 
 async function register(user) {
-    const response = await axios.post('/register', user);
-    const { token } = response.data;
-
-    saveToken(token);
+    authRequest('/register', user);
 }
 
 function logout() {
