@@ -1,16 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import store from './store';
-
 import FormsList from './views/FormsList';
 import FormEditor from './views/FormEditor';
-import LoginPage from './views/LoginPage';
-import RegisterPage from './views/RegisterPage';
+import AuthPage from './views/AuthPage';
 
-// import CommonSettings from "./components/CommonSettings.vue";
 import LayoutBuilder from './components/LayoutBuilder.vue';
 import ResultsBuilder from './components/ResultsBuilder.vue';
+
+import authTokenService from './service/authService';
 
 Vue.use(Router);
 
@@ -21,12 +19,12 @@ const router = new Router({
         {
             path: '/login',
             name: 'login',
-            component: LoginPage,
+            component: AuthPage,
         },
         {
             path: '/register',
             name: 'register',
-            component: RegisterPage,
+            component: AuthPage,
         },
         {
             path: '/',
@@ -49,8 +47,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+    const isAuthorized = authTokenService.isAuthorized();
+
+    if (['login', 'register'].includes(to.name) && isAuthorized) {
+        return next({ name: 'home' });
+    }
+
     if (to.meta.requiresAuth) {
-        if (store.state.auth.isAuthorized) {
+        if (isAuthorized) {
             next();
         } else {
             next({ name: 'login' });

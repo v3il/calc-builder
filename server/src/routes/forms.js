@@ -8,12 +8,10 @@ module.exports = app => {
 
         try {
             const userForms = await knexInstance('forms')
-                .where({
-                    user_id: user.id,
-                })
+                .where({ user_id: user.id })
                 .select();
 
-            response.status(200).json(userForms);
+            response.json(userForms);
         } catch (error) {
             response.status(500).send({
                 error: error.message,
