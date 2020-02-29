@@ -33,7 +33,7 @@
 
         <div class="content">
             <div class="calculators">
-                <div class="calculators__item" v-for="form in createdForms" :key="form.id">
+                <div class="calculators__item" v-for="form in forms" :key="form.id">
                     <div class="calculators__preview"></div>
 
                     <div class="calculators__name">{{ form.name || '' }}</div>
@@ -57,7 +57,7 @@
 
                 <div class="calculators__item calculators__item--prompt">
                     <div class="calculators__actions">
-                        <button class="button button--primary" @click="addForm">
+                        <button class="button button--primary" @click="createForm">
                             {{ uSign('translate', 'Создать') }}
                         </button>
                     </div>
@@ -68,8 +68,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-
 import axios from '../axios';
 
 import authService from '../service/authService';
@@ -77,19 +75,26 @@ import authService from '../service/authService';
 export default {
     name: 'FormsList',
 
-    computed: {
-        ...mapState('forms', ['createdForms']),
-    },
-
     data() {
         return {
-            userLogin: '',
+            userLogin: authService.getTokenData().login,
+            forms: [],
         };
     },
 
     methods: {
-        ...mapActions('forms', ['addForm', 'removeForm']),
-        // ...mapActions('auth', ['logout']),
+        async triggerLogout() {
+            try {
+                authService.logout();
+                this.$router.replace({ name: 'login' });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        async createForm() {
+            console.log({});
+        },
 
         editForm(selectedForm) {
             const { id } = selectedForm;
@@ -100,20 +105,18 @@ export default {
             });
         },
 
-        async triggerLogout() {
-            try {
-                authService.logout();
-                this.$router.replace({ name: 'login' });
-            } catch (error) {
-                console.log(error);
-            }
+        async removeForm(form) {
+            console.log(form);
         },
     },
 
-    created() {
-        axios.get('/forms');
-
-        this.userLogin = authService.getTokenData().login;
+    async created() {
+        try {
+            const response = await axios.get('/forms');
+            this.forms = response.data;
+        } catch (error) {
+            console.error(error);
+        }
     },
 };
 </script>
