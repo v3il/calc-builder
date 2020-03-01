@@ -7,6 +7,8 @@ module.exports = app => {
     app.post('/login', login);
     app.post('/register', register);
     app.post('/logout', logout);
+
+    app.get('/login/google', loginGoogle);
 };
 
 async function login(request, response) {
@@ -105,4 +107,11 @@ async function register(request, response) {
 
 async function logout(request, response) {
     response.json({ success: true });
+}
+
+async function loginGoogle(request, response) {
+    console.log('Login google');
+    response.json({
+        ok: 1,
+    });
 }
