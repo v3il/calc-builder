@@ -38,6 +38,8 @@
                 />
             </div>
 
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
             <div class="alert alert-danger" role="alert" v-if="authError">{{ authError }}</div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -73,11 +75,22 @@ export default {
             userLogin: '',
             userPassword: '',
             authError: '',
+
+            clientId: '1007870238067-9deqefc58jldns02l90tg93ehbagi9d7.apps.googleusercontent.com',
+            clientSecret: 'fzFcjMw2OkEF81_9XAbawyU8',
         };
     },
 
     created() {
         this.isLoginAction = this.$route.name === 'login';
+
+        window.onSignIn = function(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        };
     },
 
     methods: {
@@ -102,6 +115,8 @@ export default {
                 this.authError = error.response.data.error;
             }
         },
+
+        loginButton() {},
     },
 };
 </script>
