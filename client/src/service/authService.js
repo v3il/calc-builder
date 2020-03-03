@@ -1,5 +1,7 @@
 import axios from '../axios';
 
+import googleAuthService from './googleAuthService';
+
 const localStorageKey = 'jwt';
 
 class AuthService {
@@ -52,8 +54,18 @@ class AuthService {
         return this._authRequest('/register', user);
     }
 
-    logout() {
+    async logout() {
         this._removeToken();
+
+        const instance = await googleAuthService.getInstance();
+        instance.disconnect();
+    }
+
+    async loginWithGoogle(googleIdtoken) {
+        const response = await axios.post('/login/google', { token: googleIdtoken });
+        const { token } = response.data;
+
+        this._saveToken(token);
     }
 
     _parseJwt(token) {

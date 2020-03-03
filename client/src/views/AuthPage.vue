@@ -38,8 +38,6 @@
                 />
             </div>
 
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
             <div class="alert alert-danger" role="alert" v-if="authError">{{ authError }}</div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -59,12 +57,15 @@
                     {{ uSign('translate', 'Войти') }}
                 </router-link>
             </div>
+
+            <font-awesome-icon class="js-google" :icon="['fab', 'google']" />
         </form>
     </div>
 </template>
 
 <script>
 import authService from '../service/authService';
+import googleAuthService from '../service/googleAuthService';
 
 export default {
     name: 'AuthPage',
@@ -76,21 +77,23 @@ export default {
             userPassword: '',
             authError: '',
 
-            clientId: '1007870238067-9deqefc58jldns02l90tg93ehbagi9d7.apps.googleusercontent.com',
-            clientSecret: 'fzFcjMw2OkEF81_9XAbawyU8',
+            googleSignInParams: {
+                client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+            },
         };
     },
 
-    created() {
+    async mounted() {
         this.isLoginAction = this.$route.name === 'login';
 
-        window.onSignIn = function(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        };
+        const instance = await googleAuthService.getInstance();
+
+        instance.attachClickHandler(
+            document.querySelector('.js-google'),
+            {},
+            this.onSignInSuccess,
+            this.onSignInError,
+        );
     },
 
     methods: {
@@ -116,7 +119,19 @@ export default {
             }
         },
 
-        loginButton() {},
+        async onSignInSuccess(googleUser) {
+            try {
+                const idToken = googleUser.getAuthResponse().id_token;
+                await authService.loginWithGoogle(idToken);
+                this.$router.replace({ name: 'home' });
+            } catch (error) {
+                this.authError = error.message;
+            }
+        },
+
+        onSignInError(error) {
+            this.authError = error.message;
+        },
     },
 };
 </script>

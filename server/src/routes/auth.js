@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const { OAuth2Client } = require('google-auth-library');
+
 const knexInstance = require('../knexInstance');
 
 module.exports = app => {
@@ -8,7 +10,7 @@ module.exports = app => {
     app.post('/register', register);
     app.post('/logout', logout);
 
-    app.get('/login/google', loginGoogle);
+    app.post('/login/google', loginGoogle);
 };
 
 async function login(request, response) {
@@ -110,8 +112,63 @@ async function logout(request, response) {
 }
 
 async function loginGoogle(request, response) {
-    console.log('Login google');
-    response.json({
-        ok: 1,
-    });
+    const { token } = request.body;
+
+    if (!token) {
+        response.status(400).json({
+            error: 'Не указан id_token',
+        });
+    }
+
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const client = new OAuth2Client(clientId);
+
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: clientId,
+        });
+
+        const payload = ticket.getPayload();
+
+        const userId = payload.sub;
+        const email = payload.email;
+
+        const usersByGoogleUserId = await knexInstance('users')
+            .where({ google_id: userId })
+            .select();
+
+        let user;
+
+        if (usersByGoogleUserId.length) {
+            user = usersByGoogleUserId[0];
+        } else {
+            const ids = await knexInstance('users').insert({
+                email,
+                login: '',
+                password: '',
+                google_id: userId,
+            });
+
+            const insertedUsers = await knexInstance('users')
+                .where({ id: ids[0] })
+                .select();
+
+            user = insertedUsers[0];
+        }
+
+        const userPublicData = { id: user.id, login: user.email };
+
+        const jwtToken = jwt.sign(userPublicData, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_DURATION,
+        });
+
+        response.json({ token: jwtToken });
+    } catch (error) {
+        console.error(error);
+
+        response.status(500).json({
+            error: error.message,
+        });
+    }
 }

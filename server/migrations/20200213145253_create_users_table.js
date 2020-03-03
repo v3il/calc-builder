@@ -4,6 +4,7 @@ exports.up = function(knex) {
         table.string('login').notNullable();
         table.string('password').notNullable();
         table.string('email').defaultTo('');
+        table.string('google_id').defaultTo(null);
     });
 };
 
