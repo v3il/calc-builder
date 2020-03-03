@@ -20,7 +20,6 @@
                     class="form-control"
                     :placeholder="uSign('translate', 'Email')"
                     v-model="userLogin"
-                    required
                     autofocus
                 />
             </div>
@@ -34,19 +33,28 @@
                     class="form-control"
                     :placeholder="uSign('translate', 'Пароль')"
                     v-model="userPassword"
-                    required
                 />
             </div>
 
             <div class="alert alert-danger" role="alert" v-if="authError">{{ authError }}</div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-                {{
-                    isLoginAction
-                        ? uSign('translate', 'Войти')
-                        : uSign('translate', 'Зарегистрироваться')
-                }}
-            </button>
+            <div class="form-auth-buttons">
+                <button class="btn btn-primary btn-block" type="submit">
+                    {{
+                        isLoginAction
+                            ? uSign('translate', 'Войти')
+                            : uSign('translate', 'Зарегистрироваться')
+                    }}
+                </button>
+
+                <button class="btn btn-primary js-login-with-google" type="button">
+                    <font-awesome-icon :icon="['fab', 'google']" />
+                </button>
+
+                <button class="btn btn-primary js-login-with-google" type="button">
+                    <font-awesome-icon :icon="['fab', 'facebook-f']" />
+                </button>
+            </div>
 
             <div class="text-center auth-form__register-link">
                 <router-link :to="{ name: 'register' }" v-if="isLoginAction">
@@ -57,8 +65,6 @@
                     {{ uSign('translate', 'Войти') }}
                 </router-link>
             </div>
-
-            <font-awesome-icon class="js-google" :icon="['fab', 'google']" />
         </form>
     </div>
 </template>
@@ -76,10 +82,6 @@ export default {
             userLogin: '',
             userPassword: '',
             authError: '',
-
-            googleSignInParams: {
-                client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-            },
         };
     },
 
@@ -89,7 +91,7 @@ export default {
         const instance = await googleAuthService.getInstance();
 
         instance.attachClickHandler(
-            document.querySelector('.js-google'),
+            document.querySelector('.js-login-with-google'),
             {},
             this.onSignInSuccess,
             this.onSignInError,
@@ -161,5 +163,17 @@ export default {
 
 .form-label-group > label {
     font-weight: bold;
+}
+
+.form-auth-buttons {
+    display: flex;
+
+    .btn {
+        margin-right: 9px;
+    }
+
+    .btn:last-child {
+        margin-right: 0;
+    }
 }
 </style>

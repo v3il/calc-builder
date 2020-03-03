@@ -6,10 +6,10 @@ import router from './router';
 import store from './store';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faGoogle);
+library.add([faGoogle, faFacebookF]);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
