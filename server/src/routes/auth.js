@@ -13,9 +13,9 @@ module.exports = app => {
 };
 
 async function login(request, response) {
-    const { login, password } = request.body;
+    const { email, password } = request.body;
 
-    if (!login) {
+    if (!email) {
         throw new HTTPErrors.BadRequestError('Не задан логин');
     }
 
@@ -23,7 +23,7 @@ async function login(request, response) {
         throw new HTTPErrors.BadRequestError('Не задан пароль');
     }
 
-    const users = await usersService.find({ login });
+    const users = await usersService.find({ email });
 
     if (!users.length) {
         throw new HTTPErrors.BadRequestError('Неправильный логин');
@@ -45,9 +45,9 @@ async function login(request, response) {
 }
 
 async function register(request, response) {
-    const { login, password } = request.body;
+    const { email, password } = request.body;
 
-    if (!(login && login.trim().length > 0)) {
+    if (!(email && email.trim().length > 0)) {
         throw new HTTPErrors.BadRequestError('Не задан логин');
     }
 
@@ -55,16 +55,16 @@ async function register(request, response) {
         throw new HTTPErrors.BadRequestError('Не задан пароль');
     }
 
-    const usersWithSameLogin = await usersService.find({ login });
+    const usersWithSameLogin = await usersService.find({ email });
 
     if (usersWithSameLogin.length) {
-        throw new HTTPErrors.BadRequestError(`Пользователь с логином "${login}" уже существует`);
+        throw new HTTPErrors.BadRequestError(`Пользователь с почтой "${email}" уже существует`);
     }
 
     const encryptedPassword = await usersService.hashPassword(password);
 
     const user = await usersService.insertAndReturn({
-        login,
+        email,
         password: encryptedPassword,
     });
 
@@ -97,7 +97,7 @@ async function loginGoogle(request, response) {
 
     const { sub: userId, email } = ticket.getPayload();
 
-    const usersByGoogleUserId = await usersService.find({ google_id: userId });
+    const usersByGoogleUserId = await usersService.find({ googleId: userId });
 
     let user;
 
@@ -106,9 +106,7 @@ async function loginGoogle(request, response) {
     } else {
         const insertedUsers = await usersService.insertAndReturn({
             email,
-            login: '',
-            password: '',
-            google_id: userId,
+            googleId: userId,
         });
 
         user = insertedUsers[0];

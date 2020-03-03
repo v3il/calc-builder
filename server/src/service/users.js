@@ -20,7 +20,7 @@ class UsersService {
     }
 
     extractUserPublicData(user) {
-        return { id: user.id, login: user.login };
+        return { id: user.id, email: user.email };
     }
 
     async hashPassword(password) {

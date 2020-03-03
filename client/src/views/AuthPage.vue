@@ -19,7 +19,7 @@
                     id="inputEmail"
                     class="form-control"
                     :placeholder="uSign('translate', 'Email')"
-                    v-model="userLogin"
+                    v-model="userEmail"
                     autofocus
                 />
             </div>
@@ -51,7 +51,7 @@
                     <font-awesome-icon :icon="['fab', 'google']" />
                 </button>
 
-                <button class="btn btn-primary js-login-with-google" type="button">
+                <button class="btn btn-primary js-login-with-facebook" type="button">
                     <font-awesome-icon :icon="['fab', 'facebook-f']" />
                 </button>
             </div>
@@ -79,7 +79,7 @@ export default {
     data() {
         return {
             isLoginAction: true,
-            userLogin: '',
+            userEmail: '',
             userPassword: '',
             authError: '',
         };
@@ -104,7 +104,7 @@ export default {
                 this.authError = '';
 
                 const requestData = {
-                    login: this.userLogin,
+                    email: this.userEmail,
                     password: this.userPassword,
                 };
 
