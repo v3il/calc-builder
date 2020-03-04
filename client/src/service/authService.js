@@ -1,6 +1,7 @@
 import axios from '../axios';
 
 import googleAuthService from './googleAuthService';
+import facebookAuthService from './facebookAuthService';
 
 const localStorageKey = 'jwt';
 
@@ -59,10 +60,22 @@ class AuthService {
 
         const instance = await googleAuthService.getInstance();
         instance.disconnect();
+
+        const facebookInstance = facebookAuthService.getInstance();
+        facebookInstance.logout(response => {
+            console.log(response);
+        });
     }
 
     async loginWithGoogle(googleIdtoken) {
         const response = await axios.post('/login/google', { token: googleIdtoken });
+        const { token } = response.data;
+
+        this._saveToken(token);
+    }
+
+    async loginWithFacebook(accessToken, userId) {
+        const response = await axios.post('/login/facebook', { accessToken, userId });
         const { token } = response.data;
 
         this._saveToken(token);

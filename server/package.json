@@ -10,6 +10,7 @@
   "author": "Dima Kit",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^3.0.8",
     "body-parser": "^1.18.3",
     "connect-session-knex": "^1.5.0",
@@ -20,6 +21,7 @@
     "express-async-errors": "^3.1.1",
     "express-jwt": "^5.3.1",
     "express-session": "^1.17.0",
+    "facebook-node-sdk": "^0.2.0",
     "google-auth-library": "^5.10.1",
     "http-custom-errors": "^8.0.0",
     "knex": "^0.20.9",

@@ -7,9 +7,9 @@ const { usersService } = require('../service');
 module.exports = app => {
     app.post('/login', login);
     app.post('/register', register);
-    app.post('/logout', logout);
 
     app.post('/login/google', loginGoogle);
+    app.post('/login/facebook', loginFacebook);
 };
 
 async function login(request, response) {
@@ -76,10 +76,6 @@ async function register(request, response) {
     });
 }
 
-async function logout(request, response) {
-    response.json({ success: true });
-}
-
 async function loginGoogle(request, response) {
     const { token } = request.body;
 
@@ -107,6 +103,47 @@ async function loginGoogle(request, response) {
         const insertedUsers = await usersService.insertAndReturn({
             email,
             googleId: userId,
+        });
+
+        user = insertedUsers[0];
+    }
+
+    const userPublicData = usersService.extractUserPublicData(user);
+
+    response.json({
+        token: usersService.generateToken(userPublicData),
+        user: userPublicData,
+    });
+}
+
+const axios = require('axios');
+
+async function loginFacebook(request, response) {
+    const { accessToken, userId } = request.body;
+
+    if (!accessToken) {
+        throw new HTTPErrors.BadRequestError('Не задан accessToken');
+    }
+
+    if (!userId) {
+        throw new HTTPErrors.BadRequestError('Не задан userId');
+    }
+
+    const url = `https://graph.facebook.com/v2.6/${userId}?fields=email&access_token=${accessToken}`;
+
+    const fbResponse = await axios.get(url);
+    const { email, id } = fbResponse.data;
+
+    const usersByFacebookUserId = await usersService.find({ facebookId: id });
+
+    let user;
+
+    if (usersByFacebookUserId.length) {
+        user = usersByFacebookUserId[0];
+    } else {
+        const insertedUsers = await usersService.insertAndReturn({
+            email,
+            facebookId: id,
         });
 
         user = insertedUsers[0];

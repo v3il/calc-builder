@@ -51,7 +51,7 @@
                     <font-awesome-icon :icon="['fab', 'google']" />
                 </button>
 
-                <button class="btn btn-primary js-login-with-facebook" type="button">
+                <button class="btn btn-primary" type="button" @click="loginWithFacebook">
                     <font-awesome-icon :icon="['fab', 'facebook-f']" />
                 </button>
             </div>
@@ -72,6 +72,7 @@
 <script>
 import authService from '../service/authService';
 import googleAuthService from '../service/googleAuthService';
+import facebookAuthService from '../service/facebookAuthService';
 
 export default {
     name: 'AuthPage',
@@ -133,6 +134,18 @@ export default {
 
         onSignInError(error) {
             this.authError = error.message;
+        },
+
+        async loginWithFacebook() {
+            const fb = facebookAuthService.getInstance();
+
+            fb.login(async response => {
+                const accessToken = response.authResponse.accessToken;
+                const userId = response.authResponse.userID;
+
+                await authService.loginWithFacebook(accessToken, userId);
+                this.$router.replace({ name: 'home' });
+            });
         },
     },
 };
