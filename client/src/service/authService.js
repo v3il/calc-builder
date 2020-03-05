@@ -1,74 +1,81 @@
 import axios from '../axios';
 
-const localStorageKey = 'jwt';
+import googleAuthService from './googleAuthService';
+import facebookAuthService from './facebookAuthService';
+
+const tokenLocalStorageKey = 'forms_builder_token';
+const userLocalStorageKey = 'forms_builder_user';
 
 class AuthService {
     constructor() {
         try {
-            const tokenData = localStorage.getItem(localStorageKey);
-            this.jwtTokenData = tokenData ? JSON.parse(tokenData) : {};
+            this.tokenData = JSON.parse(localStorage.getItem(tokenLocalStorageKey)) || {};
+            this.userData = JSON.parse(localStorage.getItem(userLocalStorageKey)) || {};
         } catch (error) {
-            this.jwtTokenData = {};
+            this.tokenData = {};
+            this.userData = {};
         }
     }
 
-    _saveToken(token) {
-        this.jwtTokenData = { token, ...this._parseJwt(token) };
+    _saveData(tokenData, userData) {
+        this.tokenData = tokenData;
+        this.userData = userData;
 
-        console.log(this.jwtTokenData);
-
-        localStorage.setItem(localStorageKey, JSON.stringify(this.jwtTokenData));
+        localStorage.setItem(tokenLocalStorageKey, JSON.stringify(tokenData));
+        localStorage.setItem(userLocalStorageKey, JSON.stringify(userData));
     }
 
-    _removeToken() {
-        this.jwtTokenData = {};
-        localStorage.removeItem(localStorageKey);
+    _removeData() {
+        this.tokenData = {};
+        this.userData = {};
+
+        localStorage.removeItem(tokenLocalStorageKey);
+        localStorage.removeItem(userLocalStorageKey);
     }
 
-    getTokenData() {
-        return this.jwtTokenData;
+    getUser() {
+        return this.userData;
+    }
+
+    getToken() {
+        return this.tokenData.token;
     }
 
     isAuthorized() {
-        const { exp: expires } = this.jwtTokenData;
-
-        console.log(this.jwtTokenData);
-
-        return this.jwtTokenData.id && Date.now() / 1000 <= expires;
-    }
-
-    async _authRequest(url, user) {
-        const response = await axios.post(url, user);
-        const { token } = response.data;
-
-        this._saveToken(token);
+        return this.tokenData.expires && this.tokenData.expires * 1000 > Date.now();
     }
 
     login(user) {
-        return this._authRequest('/login', user);
+        return this._authRequest('/login/local', user);
     }
 
     register(user) {
         return this._authRequest('/register', user);
     }
 
-    logout() {
-        this._removeToken();
+    loginWithGoogle(googleIdToken) {
+        return this._authRequest('/login/google', { token: googleIdToken });
     }
 
-    _parseJwt(token) {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-                .split('')
-                .map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                })
-                .join(''),
-        );
+    loginWithFacebook(accessToken, userId) {
+        return this._authRequest('/login/facebook', { accessToken, userId });
+    }
 
-        return JSON.parse(jsonPayload);
+    async logout() {
+        this._removeData();
+
+        const instance = await googleAuthService.getInstance();
+        instance.disconnect();
+
+        const facebookInstance = facebookAuthService.getInstance();
+        facebookInstance.logout();
+    }
+
+    async _authRequest(url, data) {
+        const response = await axios.post(url, data);
+        const { tokenData, userData } = response.data;
+
+        this._saveData(tokenData, userData);
     }
 }
 

@@ -1,108 +1,158 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const HTTPErrors = require('http-custom-errors');
 
-const knexInstance = require('../knexInstance');
+const { OAuth2Client } = require('google-auth-library');
+
+const { usersService } = require('../service');
 
 module.exports = app => {
-    app.post('/login', login);
     app.post('/register', register);
-    app.post('/logout', logout);
+
+    app.post('/login/local', loginLocal);
+    app.post('/login/google', loginGoogle);
+    app.post('/login/facebook', loginFacebook);
 };
 
-async function login(request, response) {
-    const { login, password } = request.body;
+async function loginLocal(request, response) {
+    const { email, password } = request.body;
 
-    if (!login) {
-        return response.status(400).json({ error: 'Неправильный логин' });
+    if (!email) {
+        throw new HTTPErrors.BadRequestError('Не задан логин');
     }
 
     if (!password) {
-        return response.status(400).json({ error: 'Неправильный пароль' });
+        throw new HTTPErrors.BadRequestError('Не задан пароль');
     }
 
-    try {
-        const users = await knexInstance('users')
-            .where({ login })
-            .select();
+    const users = await usersService.find({ email });
 
-        if (!users.length) {
-            return response.status(400).json({ error: 'Неправильный логин' });
-        }
-
-        const user = users[0];
-        const isValidPassword = await bcrypt.compare(password, user.password);
-
-        if (!isValidPassword) {
-            return response.status(400).json({ error: 'Неправильный пароль' });
-        }
-
-        const userPublicData = { id: user.id, login: user.login };
-
-        const token = jwt.sign(userPublicData, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_DURATION,
-        });
-
-        response.json({ token });
-    } catch (error) {
-        console.error(error);
-
-        response.status(500).json({
-            error: error.message,
-        });
+    if (!users.length) {
+        throw new HTTPErrors.BadRequestError('Неправильный логин');
     }
+
+    const user = users[0];
+    const isValidPassword = await usersService.comparePasswords(password, user.password);
+
+    if (!isValidPassword) {
+        throw new HTTPErrors.BadRequestError('Неправильный пароль');
+    }
+
+    const userPublicData = usersService.extractUserPublicData(user);
+
+    response.json({
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
+    });
 }
 
 async function register(request, response) {
-    const { login, password } = request.body;
+    const { email, password } = request.body;
 
-    if (!(login && login.trim().length > 0)) {
-        return response.status(400).json({ error: 'Неправильный логин' });
+    if (!(email && email.trim().length > 0)) {
+        throw new HTTPErrors.BadRequestError('Не задан логин');
     }
 
     if (!(password && password.trim().length > 4)) {
-        return response.status(400).json({ error: 'Неправильный пароль' });
+        throw new HTTPErrors.BadRequestError('Не задан пароль');
     }
 
-    try {
-        const usersWithSameLogin = await knexInstance('users')
-            .where({ login })
-            .select();
+    const usersWithSameLogin = await usersService.find({ email });
 
-        if (usersWithSameLogin.length) {
-            return response.status(400).json({
-                error: `Пользователь с логином "${login}" уже существует`,
-            });
-        }
-
-        const salt = await bcrypt.genSalt(3);
-        const encryptedPassword = await bcrypt.hashSync(password, salt);
-
-        const newUserIds = await knexInstance('users').insert({
-            login,
-            password: encryptedPassword,
-        });
-
-        const createdUsers = await knexInstance('users')
-            .where({ id: newUserIds[0] })
-            .select();
-
-        const user = createdUsers[0];
-        const userPublicData = { id: user.id, login: user.login };
-
-        const token = jwt.sign(userPublicData, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_DURATION,
-        });
-
-        response.json({ token });
-    } catch (error) {
-        console.error(error);
-
-        response.status(500).json({
-            error: error.message,
-        });
+    if (usersWithSameLogin.length) {
+        throw new HTTPErrors.BadRequestError(`Пользователь с почтой "${email}" уже существует`);
     }
+
+    const encryptedPassword = await usersService.hashPassword(password);
+
+    const createdUsers = await usersService.insertAndReturn({
+        email,
+        password: encryptedPassword,
+    });
+
+    const userPublicData = usersService.extractUserPublicData(createdUsers[0]);
+
+    response.json({
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
+    });
 }
 
-async function logout(request, response) {
-    response.json({ success: true });
+async function loginGoogle(request, response) {
+    const { token } = request.body;
+
+    if (!token) {
+        throw new HTTPErrors.BadRequestError('Не задан token');
+    }
+
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const client = new OAuth2Client(clientId);
+
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: clientId,
+    });
+
+    const { sub: userId, email } = ticket.getPayload();
+
+    const usersByGoogleUserId = await usersService.find({ googleId: userId });
+
+    let user;
+
+    if (usersByGoogleUserId.length) {
+        user = usersByGoogleUserId[0];
+    } else {
+        const insertedUsers = await usersService.insertAndReturn({
+            email,
+            googleId: userId,
+        });
+
+        user = insertedUsers[0];
+    }
+
+    const userPublicData = usersService.extractUserPublicData(user);
+
+    response.json({
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
+    });
+}
+
+const axios = require('axios');
+
+async function loginFacebook(request, response) {
+    const { accessToken, userId } = request.body;
+
+    if (!accessToken) {
+        throw new HTTPErrors.BadRequestError('Не задан accessToken');
+    }
+
+    if (!userId) {
+        throw new HTTPErrors.BadRequestError('Не задан userId');
+    }
+
+    const url = `https://graph.facebook.com/v2.6/${userId}?fields=email&access_token=${accessToken}`;
+
+    const fbResponse = await axios.get(url);
+    const { email, id } = fbResponse.data;
+
+    const usersByFacebookUserId = await usersService.find({ facebookId: id });
+
+    let user;
+
+    if (usersByFacebookUserId.length) {
+        user = usersByFacebookUserId[0];
+    } else {
+        const insertedUsers = await usersService.insertAndReturn({
+            email,
+            facebookId: id,
+        });
+
+        user = insertedUsers[0];
+    }
+
+    const userPublicData = usersService.extractUserPublicData(user);
+
+    response.json({
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
+    });
 }

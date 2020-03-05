@@ -19,8 +19,7 @@
                     id="inputEmail"
                     class="form-control"
                     :placeholder="uSign('translate', 'Email')"
-                    v-model="userLogin"
-                    required
+                    v-model="userEmail"
                     autofocus
                 />
             </div>
@@ -34,19 +33,28 @@
                     class="form-control"
                     :placeholder="uSign('translate', 'Пароль')"
                     v-model="userPassword"
-                    required
                 />
             </div>
 
             <div class="alert alert-danger" role="alert" v-if="authError">{{ authError }}</div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-                {{
-                    isLoginAction
-                        ? uSign('translate', 'Войти')
-                        : uSign('translate', 'Зарегистрироваться')
-                }}
-            </button>
+            <div class="form-auth-buttons">
+                <button class="btn btn-primary btn-block" type="submit">
+                    {{
+                        isLoginAction
+                            ? uSign('translate', 'Войти')
+                            : uSign('translate', 'Зарегистрироваться')
+                    }}
+                </button>
+
+                <button class="btn btn-primary js-login-with-google" type="button">
+                    <font-awesome-icon :icon="['fab', 'google']" />
+                </button>
+
+                <button class="btn btn-primary" type="button" @click="loginWithFacebook">
+                    <font-awesome-icon :icon="['fab', 'facebook-f']" />
+                </button>
+            </div>
 
             <div class="text-center auth-form__register-link">
                 <router-link :to="{ name: 'register' }" v-if="isLoginAction">
@@ -63,6 +71,8 @@
 
 <script>
 import authService from '../service/authService';
+import googleAuthService from '../service/googleAuthService';
+import facebookAuthService from '../service/facebookAuthService';
 
 export default {
     name: 'AuthPage',
@@ -70,14 +80,15 @@ export default {
     data() {
         return {
             isLoginAction: true,
-            userLogin: '',
+            userEmail: '',
             userPassword: '',
             authError: '',
         };
     },
 
-    created() {
+    async mounted() {
         this.isLoginAction = this.$route.name === 'login';
+        this.initGoogleAuth();
     },
 
     methods: {
@@ -86,7 +97,7 @@ export default {
                 this.authError = '';
 
                 const requestData = {
-                    login: this.userLogin,
+                    email: this.userEmail,
                     password: this.userPassword,
                 };
 
@@ -101,6 +112,39 @@ export default {
                 console.error(error);
                 this.authError = error.response.data.error;
             }
+        },
+
+        async initGoogleAuth() {
+            const instance = await googleAuthService.getInstance();
+
+            instance.attachClickHandler(
+                document.querySelector('.js-login-with-google'),
+                {},
+                async googleUser => {
+                    try {
+                        const idToken = googleUser.getAuthResponse().id_token;
+                        await authService.loginWithGoogle(idToken);
+                        this.$router.replace({ name: 'home' });
+                    } catch (error) {
+                        this.authError = error.message;
+                    }
+                },
+                error => {
+                    this.authError = error.message;
+                },
+            );
+        },
+
+        async loginWithFacebook() {
+            const fb = facebookAuthService.getInstance();
+
+            fb.login(async response => {
+                const accessToken = response.authResponse.accessToken;
+                const userId = response.authResponse.userID;
+
+                await authService.loginWithFacebook(accessToken, userId);
+                this.$router.replace({ name: 'home' });
+            });
         },
     },
 };
@@ -131,5 +175,17 @@ export default {
 
 .form-label-group > label {
     font-weight: bold;
+}
+
+.form-auth-buttons {
+    display: flex;
+
+    .btn {
+        margin-right: 9px;
+    }
+
+    .btn:last-child {
+        margin-right: 0;
+    }
 }
 </style>

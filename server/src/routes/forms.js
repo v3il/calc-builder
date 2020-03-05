@@ -6,6 +6,8 @@ module.exports = app => {
     app.get('/forms', authGuard, async (request, response) => {
         const user = request.user;
 
+        return response.json([])
+
         try {
             const userForms = await knexInstance('forms')
                 .where({ user_id: user.id })
