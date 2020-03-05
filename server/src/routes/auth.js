@@ -5,14 +5,14 @@ const { OAuth2Client } = require('google-auth-library');
 const { usersService } = require('../service');
 
 module.exports = app => {
-    app.post('/login', login);
     app.post('/register', register);
 
+    app.post('/login/local', loginLocal);
     app.post('/login/google', loginGoogle);
     app.post('/login/facebook', loginFacebook);
 };
 
-async function login(request, response) {
+async function loginLocal(request, response) {
     const { email, password } = request.body;
 
     if (!email) {
@@ -39,8 +39,8 @@ async function login(request, response) {
     const userPublicData = usersService.extractUserPublicData(user);
 
     response.json({
-        token: usersService.generateToken(userPublicData),
-        user: userPublicData,
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
     });
 }
 
@@ -63,16 +63,16 @@ async function register(request, response) {
 
     const encryptedPassword = await usersService.hashPassword(password);
 
-    const user = await usersService.insertAndReturn({
+    const createdUsers = await usersService.insertAndReturn({
         email,
         password: encryptedPassword,
     });
 
-    const userPublicData = usersService.extractUserPublicData(user);
+    const userPublicData = usersService.extractUserPublicData(createdUsers[0]);
 
     response.json({
-        token: usersService.generateToken(userPublicData),
-        user: userPublicData,
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
     });
 }
 
@@ -111,8 +111,8 @@ async function loginGoogle(request, response) {
     const userPublicData = usersService.extractUserPublicData(user);
 
     response.json({
-        token: usersService.generateToken(userPublicData),
-        user: userPublicData,
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
     });
 }
 
@@ -152,7 +152,7 @@ async function loginFacebook(request, response) {
     const userPublicData = usersService.extractUserPublicData(user);
 
     response.json({
-        token: usersService.generateToken(userPublicData),
-        user: userPublicData,
+        tokenData: usersService.generateTokenData(userPublicData),
+        userData: userPublicData,
     });
 }

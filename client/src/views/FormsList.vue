@@ -77,7 +77,7 @@ export default {
 
     data() {
         return {
-            userLogin: authService.getTokenData().email + ' ' + authService.getTokenData().id,
+            userLogin: authService.getUser().email + ' ' + authService.getUser().id,
             forms: [],
         };
     },

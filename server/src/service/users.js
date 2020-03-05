@@ -28,10 +28,15 @@ class UsersService {
         return bcrypt.hashSync(password, salt);
     }
 
-    generateToken(userPublicData) {
-        return jwt.sign(userPublicData, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_DURATION,
+    generateTokenData(userPublicData) {
+        const tokenDuration = 60 * 60 * 24 * 7;
+
+        const expires = Math.floor(Date.now() / 1000 + tokenDuration);
+        const token = jwt.sign(userPublicData, process.env.JWT_SECRET, {
+            expiresIn: tokenDuration,
         });
+
+        return { token, expires };
     }
 }
 

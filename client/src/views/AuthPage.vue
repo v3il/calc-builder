@@ -88,15 +88,7 @@ export default {
 
     async mounted() {
         this.isLoginAction = this.$route.name === 'login';
-
-        const instance = await googleAuthService.getInstance();
-
-        instance.attachClickHandler(
-            document.querySelector('.js-login-with-google'),
-            {},
-            this.onSignInSuccess,
-            this.onSignInError,
-        );
+        this.initGoogleAuth();
     },
 
     methods: {
@@ -122,18 +114,25 @@ export default {
             }
         },
 
-        async onSignInSuccess(googleUser) {
-            try {
-                const idToken = googleUser.getAuthResponse().id_token;
-                await authService.loginWithGoogle(idToken);
-                this.$router.replace({ name: 'home' });
-            } catch (error) {
-                this.authError = error.message;
-            }
-        },
+        async initGoogleAuth() {
+            const instance = await googleAuthService.getInstance();
 
-        onSignInError(error) {
-            this.authError = error.message;
+            instance.attachClickHandler(
+                document.querySelector('.js-login-with-google'),
+                {},
+                async googleUser => {
+                    try {
+                        const idToken = googleUser.getAuthResponse().id_token;
+                        await authService.loginWithGoogle(idToken);
+                        this.$router.replace({ name: 'home' });
+                    } catch (error) {
+                        this.authError = error.message;
+                    }
+                },
+                error => {
+                    this.authError = error.message;
+                },
+            );
         },
 
         async loginWithFacebook() {
