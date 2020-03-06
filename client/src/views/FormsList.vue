@@ -36,18 +36,18 @@
                 <div class="calculators__item" v-for="form in forms" :key="form.id">
                     <div class="calculators__preview"></div>
 
-                    <div class="calculators__name">{{ form.name || '' }}</div>
+                    <div class="calculators__name">{{ form.name }} #{{ form.id }}</div>
 
                     <div class="calculators__actions">
                         <button
-                            class="button button--success calculators__edit"
+                            class="btn btn-success btn-sm calculators__edit"
                             @click="editForm(form)"
                         >
                             {{ uSign('translate', 'Редактировать') }}
                         </button>
 
                         <button
-                            class="button button--danger calculators__remove"
+                            class="btn btn-danger btn-sm calculators__remove"
                             @click="removeForm(form)"
                         >
                             {{ uSign('translate', 'Удалить') }}
@@ -57,7 +57,7 @@
 
                 <div class="calculators__item calculators__item--prompt">
                     <div class="calculators__actions">
-                        <button class="button button--primary" @click="createForm">
+                        <button class="btn btn-primary btn-sm" @click="createForm">
                             {{ uSign('translate', 'Создать') }}
                         </button>
                     </div>
@@ -77,7 +77,7 @@ export default {
 
     data() {
         return {
-            userLogin: authService.getUser().email + ' ' + authService.getUser().id,
+            userLogin: authService.getUser().email,
             forms: [],
         };
     },
@@ -93,7 +93,15 @@ export default {
         },
 
         async createForm() {
-            console.log({});
+            try {
+                const response = await axios.post('/forms/create');
+
+                console.log(response.data.form);
+
+                this.forms.push(response.data.form);
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         editForm(selectedForm) {
@@ -148,7 +156,7 @@ export default {
 
 .calculators {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-column-gap: 18px;
     grid-row-gap: 18px;
     padding: 24px;

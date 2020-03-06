@@ -1,29 +1,28 @@
 const authGuard = require('../guards');
 
-const knexInstance = require('../knexInstance');
+const { formsService } = require('../service');
 
 module.exports = app => {
     app.get('/forms', authGuard, async (request, response) => {
-        const user = request.user;
+        const { id } = request.user;
+        const forms = await formsService.find({ userid: id });
 
-        return response.json([])
-
-        try {
-            const userForms = await knexInstance('forms')
-                .where({ user_id: user.id })
-                .select();
-
-            response.json(userForms);
-        } catch (error) {
-            response.status(500).send({
-                error: error.message,
-            });
-        }
+        response.json(forms);
     });
 
-    app.post('/forms', (request, response) => {
-        response.status(200).json({
-            status: 'Ok',
+    app.post('/forms/create', authGuard, async (request, response) => {
+        const { id } = request.user;
+
+        const form = {
+            name: 'Форма',
+            layout: [{ fields: [] }],
+            userid: id,
+        };
+
+        const insertedForms = await formsService.insertAndReturn(form);
+
+        response.json({
+            form: insertedForms[0],
         });
     });
 };
