@@ -114,7 +114,14 @@ export default {
         },
 
         async removeForm(form) {
-            console.log(form);
+            if (confirm(`Удалить форму ${form.name} #${form.id}?`)) {
+                try {
+                    await axios.delete(`/forms/${form.id}`);
+                    this.forms = this.forms.filter(item => item.id !== form.id);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         },
     },
 

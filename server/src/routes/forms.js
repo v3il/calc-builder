@@ -1,3 +1,5 @@
+const HTTPErrors = require('http-custom-errors');
+
 const authGuard = require('../guards');
 
 const { formsService } = require('../service');
@@ -15,7 +17,7 @@ module.exports = app => {
 
         const form = {
             name: 'Форма',
-            layout: [{ fields: [] }],
+            layout: JSON.stringify([{ fields: [] }]),
             userid: id,
         };
 
@@ -24,5 +26,23 @@ module.exports = app => {
         response.json({
             form: insertedForms[0],
         });
+    });
+
+    app.delete('/forms/:id', authGuard, async (request, response) => {
+        const { id: userId } = request.user;
+        const { id: formId } = request.params;
+
+        const formToRemove = await formsService.findOne({
+            id: formId,
+            userid: userId,
+        });
+
+        if (!formToRemove) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        const removed = await formsService.remove({ id: formId });
+
+        response.json({ removed });
     });
 };

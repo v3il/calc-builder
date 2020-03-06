@@ -15,8 +15,17 @@ module.exports = class BaseService {
             .select();
     }
 
+    async findOne(where) {
+        const rows = await this.find(where);
+        return rows[0];
+    }
+
     async insertAndReturn(data) {
         const ids = await this.knex().insert(data);
         return this.find({ id: ids[0] });
+    }
+
+    async remove(where) {
+        return this.knex().where(where).del();
     }
 };
