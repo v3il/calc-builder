@@ -93,6 +93,8 @@ import { createNamespacedHelpers } from 'vuex';
 import LayoutBuilder from '../components/LayoutBuilder';
 import ResultsBuilder from '../components/ResultsBuilder';
 
+import axios from '../axios';
+
 import VDialog from '@/components/Dialog';
 
 const { mapActions, mapState } = createNamespacedHelpers('forms');
@@ -187,9 +189,17 @@ export default {
         };
     },
 
-    created() {
+    async created() {
         const formId = +this.$route.params.id;
-        this.selectedForm = this.createdForms.find(({ id }) => id === formId);
+
+        console.log(formId);
+
+        try {
+            const response = await axios.get(`/forms/${formId}`);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     },
 };
 </script>

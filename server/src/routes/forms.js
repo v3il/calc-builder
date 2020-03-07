@@ -12,6 +12,18 @@ module.exports = app => {
         response.json(forms);
     });
 
+    app.get('/forms/:id', authGuard, async (request, response) => {
+        const { id: userId } = request.user;
+        const { id: formId } = request.params;
+        const form = await formsService.findOne({ userid: userId, id: formId });
+
+        if (!form) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        response.json(form);
+    });
+
     app.post('/forms/create', authGuard, async (request, response) => {
         const { id } = request.user;
 
