@@ -96,8 +96,6 @@ export default {
             try {
                 const response = await axios.post('/forms/create');
 
-                console.log(response.data.form);
-
                 this.forms.push(response.data.form);
             } catch (error) {
                 console.log(error);

@@ -54,6 +54,7 @@
                 ref="optionsComponent"
                 :is="currentComponent"
                 :form="selectedForm"
+                v-if="selectedForm"
             ></component>
         </div>
 
@@ -89,15 +90,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
 import LayoutBuilder from '../components/LayoutBuilder';
 import ResultsBuilder from '../components/ResultsBuilder';
 
 import axios from '../axios';
 
 import VDialog from '@/components/Dialog';
-
-const { mapActions, mapState } = createNamespacedHelpers('forms');
 
 const layoutBuilderComponentId = 'layout-builder';
 const resultsBuilderComponentId = 'results-builder';
@@ -106,7 +104,7 @@ export default {
     name: 'CalcConstructor',
 
     computed: {
-        ...mapState(['createdForms']),
+        // ...mapState(['createdForms']),
 
         currentComponent() {
             const mapping = {
@@ -129,7 +127,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['saveForms']),
+        // ...mapActions(['saveForms']),
 
         // onFormUpdate(formConfig) {
         //     this.currentFormHistory.push(formConfig);
@@ -141,7 +139,7 @@ export default {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
-            this.saveForms();
+            // this.saveForms();
 
             // this.currentForm = this.currentFormHistory.pop();
             // this.$store.dispatch('updateForm', this.currentForm);
@@ -196,6 +194,7 @@ export default {
 
         try {
             const response = await axios.get(`/forms/${formId}`);
+            this.selectedForm = response.data;
             console.log(response.data);
         } catch (error) {
             console.log(error);
