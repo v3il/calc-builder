@@ -56,6 +56,8 @@
                 :form="selectedForm"
                 v-if="selectedForm"
             ></component>
+
+            <div v-else>Loading...</div>
         </div>
 
         <!--        <v-dialog-->
@@ -188,7 +190,7 @@ export default {
     },
 
     async created() {
-        const formId = +this.$route.params.id;
+        const formId = this.$route.params.id;
 
         console.log(formId);
 

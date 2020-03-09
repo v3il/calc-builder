@@ -32,6 +32,10 @@
         </nav>
 
         <div class="content">
+            {{ loading }}
+
+            {{ createdForms }}
+
             <div class="calculators">
                 <div class="calculators__item" v-for="form in forms" :key="form.id">
                     <div class="calculators__preview"></div>
@@ -70,7 +74,11 @@
 <script>
 import axios from '../axios';
 
+import { createNamespacedHelpers } from 'vuex';
+
 import authService from '../service/authService';
+
+const { mapState, mapActions } = createNamespacedHelpers('forms');
 
 export default {
     name: 'FormsList',
@@ -82,7 +90,13 @@ export default {
         };
     },
 
+    computed: {
+        ...mapState(['createdForms', 'loading']),
+    },
+
     methods: {
+        ...mapActions(['loadForms']),
+
         async triggerLogout() {
             try {
                 authService.logout();
@@ -124,12 +138,14 @@ export default {
     },
 
     async created() {
-        try {
-            const response = await axios.get('/forms');
-            this.forms = response.data;
-        } catch (error) {
-            console.error(error);
-        }
+        this.loadForms();
+
+        // try {
+        //     const response = await axios.get('/forms');
+        //     this.forms = response.data;
+        // } catch (error) {
+        //     console.error(error);
+        // }
     },
 };
 </script>
