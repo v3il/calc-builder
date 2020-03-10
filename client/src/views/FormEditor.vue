@@ -1,7 +1,7 @@
 <template>
     <div class="form-editor">
         <div class="form-editor__header">
-            <div class="form-editor__header-title">
+            <div class="form-editor__header-title" v-if="selectedForm">
                 {{ selectedForm.name }}
             </div>
 
@@ -48,6 +48,8 @@
                 </button>
             </div>
         </div>
+
+        {{ selectedForm }}
 
         <div class="form-editor__content">
             <component
@@ -118,7 +120,7 @@ export default {
         },
 
         hasChanges() {
-            return this.currentFormHistory.length > 1;
+            return false; //this.currentFormHistory.length > 1;
         },
     },
 
@@ -197,7 +199,7 @@ export default {
         try {
             const response = await axios.get(`/forms/${formId}`);
             this.selectedForm = response.data;
-            console.log(response.data);
+            console.warn(response.data);
         } catch (error) {
             console.log(error);
         }

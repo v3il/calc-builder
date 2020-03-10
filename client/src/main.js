@@ -3,7 +3,7 @@ import VTooltip from 'v-tooltip';
 
 import App from './App.vue';
 import router from './router';
-import store from './store';
+// import store from './store';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons';
@@ -32,6 +32,6 @@ Vue.mixin({
 
 new Vue({
     router,
-    store,
+    // store,
     render: h => h(App),
 }).$mount('#app');

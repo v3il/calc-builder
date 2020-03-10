@@ -4,12 +4,26 @@ const authGuard = require('../guards');
 
 const { formsService } = require('../service');
 
+const DEFAULT_LAYOUT = [{ fields: [] }];
+
 module.exports = app => {
     app.get('/forms', authGuard, async (request, response) => {
         const { id } = request.user;
         const forms = await formsService.find({ userid: id });
 
-        response.json(forms);
+        const processedForms = forms.map(form => {
+            try {
+                form.layout = JSON.parse(form.layout);
+            } catch (e) {
+                form.layout = DEFAULT_LAYOUT;
+            }
+
+           console.log(form.layout)
+
+            return form
+        });
+
+        response.json(processedForms);
     });
 
     app.get('/forms/:id', authGuard, async (request, response) => {
@@ -21,6 +35,12 @@ module.exports = app => {
             throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
         }
 
+        try {
+            form.layout = JSON.parse(form.layout);
+        } catch (e) {
+            form.layout = DEFAULT_LAYOUT;
+        }
+
         response.json(form);
     });
 
@@ -29,7 +49,7 @@ module.exports = app => {
 
         const form = {
             name: 'Форма',
-            layout: JSON.stringify([{ fields: [] }]),
+            layout: JSON.stringify(DEFAULT_LAYOUT),
             userid: id,
         };
 
