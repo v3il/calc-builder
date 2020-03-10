@@ -1,72 +1,108 @@
 <template>
-    <div class="page">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header">
-            <h1 class="navbar-brand">{{ uSign('translate', 'Список созданных форм') }}</h1>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarText"
-                aria-controls="navbarText"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <base-page-layout>
+        {{ forms }}
 
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item disabled">
-                        <span class="navbar-text">{{
-                            uSign('translate', 'Здравствуйте, %s!', [userLogin])
-                        }}</span>
-                    </li>
+        <div class="calculators">
+            <div class="calculators__item" v-for="form in forms" :key="form.id">
+                <div class="calculators__preview"></div>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript://" @click="triggerLogout">{{
-                            uSign('translate', 'Выйти')
-                        }}</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                <div class="calculators__name">{{ form.name }} #{{ form.id }}</div>
 
-        <div class="content">
-            {{ forms }}
+                <div class="calculators__actions">
+                    <button
+                        class="btn btn-success btn-sm calculators__edit"
+                        @click="editForm(form)"
+                    >
+                        {{ uSign('translate', 'Редактировать') }}
+                    </button>
 
-            <div class="calculators">
-                <div class="calculators__item" v-for="form in forms" :key="form.id">
-                    <div class="calculators__preview"></div>
-
-                    <div class="calculators__name">{{ form.name }} #{{ form.id }}</div>
-
-                    <div class="calculators__actions">
-                        <button
-                            class="btn btn-success btn-sm calculators__edit"
-                            @click="editForm(form)"
-                        >
-                            {{ uSign('translate', 'Редактировать') }}
-                        </button>
-
-                        <button
-                            class="btn btn-danger btn-sm calculators__remove"
-                            @click="removeForm(form)"
-                        >
-                            {{ uSign('translate', 'Удалить') }}
-                        </button>
-                    </div>
+                    <button
+                        class="btn btn-danger btn-sm calculators__remove"
+                        @click="removeForm(form)"
+                    >
+                        {{ uSign('translate', 'Удалить') }}
+                    </button>
                 </div>
+            </div>
 
-                <div class="calculators__item calculators__item--prompt">
-                    <div class="calculators__actions">
-                        <button class="btn btn-primary btn-sm" @click="createForm">
-                            {{ uSign('translate', 'Создать') }}
-                        </button>
-                    </div>
+            <div class="calculators__item calculators__item--prompt">
+                <div class="calculators__actions">
+                    <button class="btn btn-primary btn-sm" @click="createForm">
+                        {{ uSign('translate', 'Создать') }}
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+    </base-page-layout>
+
+    <!--    <div class="page">-->
+    <!--        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header">-->
+    <!--            <h1 class="navbar-brand">{{ uSign('translate', 'Список созданных форм') }}</h1>-->
+    <!--            <button-->
+    <!--                class="navbar-toggler"-->
+    <!--                type="button"-->
+    <!--                data-toggle="collapse"-->
+    <!--                data-target="#navbarText"-->
+    <!--                aria-controls="navbarText"-->
+    <!--                aria-expanded="false"-->
+    <!--                aria-label="Toggle navigation"-->
+    <!--            >-->
+    <!--                <span class="navbar-toggler-icon"></span>-->
+    <!--            </button>-->
+
+    <!--            <div class="collapse navbar-collapse" id="navbarText">-->
+    <!--                <ul class="navbar-nav ml-auto">-->
+    <!--                    <li class="nav-item disabled">-->
+    <!--                        <span class="navbar-text">{{-->
+    <!--                            uSign('translate', 'Здравствуйте, %s!', [userLogin])-->
+    <!--                        }}</span>-->
+    <!--                    </li>-->
+
+    <!--                    <li class="nav-item">-->
+    <!--                        <a class="nav-link" href="javascript://" @click="triggerLogout">{{-->
+    <!--                            uSign('translate', 'Выйти')-->
+    <!--                        }}</a>-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </nav>-->
+
+    <!--        <div class="content">-->
+    <!--            {{ forms }}-->
+
+    <!--            <div class="calculators">-->
+    <!--                <div class="calculators__item" v-for="form in forms" :key="form.id">-->
+    <!--                    <div class="calculators__preview"></div>-->
+
+    <!--                    <div class="calculators__name">{{ form.name }} #{{ form.id }}</div>-->
+
+    <!--                    <div class="calculators__actions">-->
+    <!--                        <button-->
+    <!--                            class="btn btn-success btn-sm calculators__edit"-->
+    <!--                            @click="editForm(form)"-->
+    <!--                        >-->
+    <!--                            {{ uSign('translate', 'Редактировать') }}-->
+    <!--                        </button>-->
+
+    <!--                        <button-->
+    <!--                            class="btn btn-danger btn-sm calculators__remove"-->
+    <!--                            @click="removeForm(form)"-->
+    <!--                        >-->
+    <!--                            {{ uSign('translate', 'Удалить') }}-->
+    <!--                        </button>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+
+    <!--                <div class="calculators__item calculators__item&#45;&#45;prompt">-->
+    <!--                    <div class="calculators__actions">-->
+    <!--                        <button class="btn btn-primary btn-sm" @click="createForm">-->
+    <!--                            {{ uSign('translate', 'Создать') }}-->
+    <!--                        </button>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </template>
 
 <script>
@@ -74,8 +110,14 @@ import axios from '../axios';
 
 import authService from '../service/authService';
 
+import BasePageLayout from './BasePageLayout';
+
 export default {
     name: 'FormsList',
+
+    components: {
+        BasePageLayout,
+    },
 
     data() {
         return {
@@ -137,30 +179,6 @@ export default {
 </script>
 
 <style lang="scss">
-.page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.header {
-    background-color: #263238 !important;
-}
-
-.header_title {
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.content {
-    margin-top: 64px;
-    height: calc(100vh - 64px);
-}
-
 .calculators {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

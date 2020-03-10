@@ -7,9 +7,10 @@
 <style lang="scss">
 @import 'common-styles/common-styles';
 
-html {
+html,
+body {
     font-size: 15px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 * {
