@@ -293,7 +293,7 @@ export default {
     // Sidebar
     &__sidebar {
         width: 450px;
-        padding: 24px;
+        padding: 24px 0;
         background-color: #fff;
         border-right: 1px solid rgba(0, 0, 0, 0.12);
         overflow-x: hidden;

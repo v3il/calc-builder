@@ -90,6 +90,7 @@ export default {
 }
 
 .content {
+    padding: 0 15px;
     margin-top: 64px;
     height: calc(100vh - 64px);
 }
