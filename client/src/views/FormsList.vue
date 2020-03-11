@@ -1,5 +1,9 @@
 <template>
     <base-page-layout>
+        <template v-slot:title>
+            {{ uSign('translate', 'Список созданных форм') }}
+        </template>
+
         {{ forms }}
 
         <div class="calculators">
@@ -34,81 +38,10 @@
             </div>
         </div>
     </base-page-layout>
-
-    <!--    <div class="page">-->
-    <!--        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header">-->
-    <!--            <h1 class="navbar-brand">{{ uSign('translate', 'Список созданных форм') }}</h1>-->
-    <!--            <button-->
-    <!--                class="navbar-toggler"-->
-    <!--                type="button"-->
-    <!--                data-toggle="collapse"-->
-    <!--                data-target="#navbarText"-->
-    <!--                aria-controls="navbarText"-->
-    <!--                aria-expanded="false"-->
-    <!--                aria-label="Toggle navigation"-->
-    <!--            >-->
-    <!--                <span class="navbar-toggler-icon"></span>-->
-    <!--            </button>-->
-
-    <!--            <div class="collapse navbar-collapse" id="navbarText">-->
-    <!--                <ul class="navbar-nav ml-auto">-->
-    <!--                    <li class="nav-item disabled">-->
-    <!--                        <span class="navbar-text">{{-->
-    <!--                            uSign('translate', 'Здравствуйте, %s!', [userLogin])-->
-    <!--                        }}</span>-->
-    <!--                    </li>-->
-
-    <!--                    <li class="nav-item">-->
-    <!--                        <a class="nav-link" href="javascript://" @click="triggerLogout">{{-->
-    <!--                            uSign('translate', 'Выйти')-->
-    <!--                        }}</a>-->
-    <!--                    </li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--        </nav>-->
-
-    <!--        <div class="content">-->
-    <!--            {{ forms }}-->
-
-    <!--            <div class="calculators">-->
-    <!--                <div class="calculators__item" v-for="form in forms" :key="form.id">-->
-    <!--                    <div class="calculators__preview"></div>-->
-
-    <!--                    <div class="calculators__name">{{ form.name }} #{{ form.id }}</div>-->
-
-    <!--                    <div class="calculators__actions">-->
-    <!--                        <button-->
-    <!--                            class="btn btn-success btn-sm calculators__edit"-->
-    <!--                            @click="editForm(form)"-->
-    <!--                        >-->
-    <!--                            {{ uSign('translate', 'Редактировать') }}-->
-    <!--                        </button>-->
-
-    <!--                        <button-->
-    <!--                            class="btn btn-danger btn-sm calculators__remove"-->
-    <!--                            @click="removeForm(form)"-->
-    <!--                        >-->
-    <!--                            {{ uSign('translate', 'Удалить') }}-->
-    <!--                        </button>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-
-    <!--                <div class="calculators__item calculators__item&#45;&#45;prompt">-->
-    <!--                    <div class="calculators__actions">-->
-    <!--                        <button class="btn btn-primary btn-sm" @click="createForm">-->
-    <!--                            {{ uSign('translate', 'Создать') }}-->
-    <!--                        </button>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </template>
 
 <script>
 import axios from '../axios';
-
-import authService from '../service/authService';
 
 import BasePageLayout from './BasePageLayout';
 
@@ -121,21 +54,11 @@ export default {
 
     data() {
         return {
-            userLogin: authService.getUser().email,
             forms: [],
         };
     },
 
     methods: {
-        async triggerLogout() {
-            try {
-                authService.logout();
-                this.$router.replace({ name: 'login' });
-            } catch (error) {
-                console.log(error);
-            }
-        },
-
         async createForm() {
             try {
                 const response = await axios.post('/forms/create');

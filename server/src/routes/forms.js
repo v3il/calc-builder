@@ -4,24 +4,12 @@ const authGuard = require('../guards');
 
 const { formsService } = require('../service');
 
-const DEFAULT_LAYOUT = [{ fields: [] }];
-
 module.exports = app => {
     app.get('/forms', authGuard, async (request, response) => {
         const { id } = request.user;
         const forms = await formsService.find({ userid: id });
 
-        const processedForms = forms.map(form => {
-            try {
-                form.layout = JSON.parse(form.layout);
-            } catch (e) {
-                form.layout = DEFAULT_LAYOUT;
-            }
-
-           console.log(form.layout)
-
-            return form
-        });
+        const processedForms = forms.map(form => formsService.unpackForm(form));
 
         response.json(processedForms);
     });
@@ -35,24 +23,13 @@ module.exports = app => {
             throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
         }
 
-        try {
-            form.layout = JSON.parse(form.layout);
-        } catch (e) {
-            form.layout = DEFAULT_LAYOUT;
-        }
-
-        response.json(form);
+        response.json(formsService.unpackForm(form));
     });
 
     app.post('/forms/create', authGuard, async (request, response) => {
         const { id } = request.user;
 
-        const form = {
-            name: 'Форма',
-            layout: JSON.stringify(DEFAULT_LAYOUT),
-            userid: id,
-        };
-
+        const form = formsService.getEmptyForm(id);
         const insertedForms = await formsService.insertAndReturn(form);
 
         response.json({

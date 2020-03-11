@@ -1,7 +1,9 @@
 <template>
     <div class="page">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top header">
-            <h1 class="navbar-brand">{{ uSign('translate', 'Список созданных форм1') }}</h1>
+            <h1 class="navbar-brand">
+                <slot name="title"></slot>
+            </h1>
 
             <button
                 class="navbar-toggler"
