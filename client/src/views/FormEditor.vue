@@ -161,8 +161,6 @@ export default {
     name: 'CalcConstructor',
 
     computed: {
-        // ...mapState(['createdForms']),
-
         currentComponent() {
             const mapping = {
                 formLayout: layoutBuilderComponentId,
@@ -185,8 +183,6 @@ export default {
     },
 
     methods: {
-        // ...mapActions(['saveForms']),
-
         // onFormUpdate(formConfig) {
         //     this.currentFormHistory.push(formConfig);
         //     console.log('Layout changed', this.currentFormHistory.length);
@@ -247,8 +243,6 @@ export default {
 
     async created() {
         const formId = this.$route.params.id;
-
-        console.log(formId);
 
         try {
             const response = await axios.get(`/forms/${formId}`);
