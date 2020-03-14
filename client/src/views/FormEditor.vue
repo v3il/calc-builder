@@ -188,10 +188,13 @@ export default {
         //     console.log('Layout changed', this.currentFormHistory.length);
         // },
 
-        saveFormData() {
+        async saveFormData() {
             if (this.currentComponent === layoutBuilderComponentId) {
                 this.$refs.optionsComponent.saveEditedField();
             }
+
+            const response = await axios.put('/forms/save', this.currentForm);
+            console.log(response.data);
 
             // this.saveForms();
 
