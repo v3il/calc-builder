@@ -25,6 +25,12 @@ module.exports = class BaseService {
         return this.find({ id: ids[0] });
     }
 
+    async update(where, data) {
+        return this.knex()
+            .where(where)
+            .update(data);
+    }
+
     async remove(where) {
         return this.knex().where(where).del();
     }

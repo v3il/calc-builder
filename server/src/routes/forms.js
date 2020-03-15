@@ -58,7 +58,19 @@ module.exports = app => {
     app.put('/forms/save', authGuard, async (request, response) => {
         const form = request.body;
 
-        console.log(form)
+        const { id: formId, layout } = form;
+        const { id: userId } = request.user;
+
+        const formToUpdate = await formsService.findOne({
+            id: formId,
+            userid: userId,
+        });
+
+        if (!formToUpdate) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        await formsService.update({ id: formId }, { layout: JSON.stringify(layout) });
 
         response.json({ success: 1 });
     });
