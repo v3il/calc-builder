@@ -66,6 +66,8 @@
                 </router-link>
             </div>
         </form>
+
+        <a :href="il">Instagram</a>
     </div>
 </template>
 
@@ -87,6 +89,8 @@ export default {
     },
 
     async mounted() {
+        this.il = 'https://localhost:3000/login/instagram';
+
         this.isLoginAction = this.$route.name === 'login';
         this.initGoogleAuth();
     },
