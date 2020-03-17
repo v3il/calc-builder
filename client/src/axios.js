@@ -5,7 +5,7 @@ import authService from './service/authService';
 import router from './router';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://localhost:3000',
 });
 
 instance.interceptors.request.use(config => {
