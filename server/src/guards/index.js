@@ -11,6 +11,7 @@ module.exports = async (request, response, next) => {
     const token = authorization.split(' ')[1];
 
     try {
+        // TODO: check user id in DB
         request.user = jwt.verify(token, process.env.JWT_SECRET) || {};
         next();
     } catch (error) {

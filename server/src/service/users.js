@@ -1,18 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const knexInstance = require('../knexInstance');
+const BaseService = require('./base');
 
-class UsersService {
-    find(where) {
-        return knexInstance('users')
-            .where(where)
-            .select();
-    }
-
-    async insertAndReturn(user) {
-        const newUserIds = await knexInstance('users').insert(user);
-        return this.find({ id: newUserIds[0] });
+class UsersService extends BaseService {
+    constructor() {
+        super('users');
     }
 
     comparePasswords(rawPassword, encryptedPassword) {

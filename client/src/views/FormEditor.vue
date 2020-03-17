@@ -1,21 +1,21 @@
 <template>
-    <div class="form-editor">
-        <div class="form-editor__header">
-            <div class="form-editor__header-title">
+    <base-page-layout>
+        <template v-slot:title>
+            <span v-if="selectedForm">
                 {{ selectedForm.name }}
-            </div>
+            </span>
+        </template>
 
-            <ul class="form-editor__header-nav">
-                <li
-                    v-for="(navItem, index) in navItems"
-                    :key="index"
-                    class="form-editor__header-nav-item"
-                    :class="{
-                        'form-editor__header-nav-item--active': $route.name === navItem.routeName,
-                    }"
-                >
+        {{ selectedForm ? selectedForm.layout : 'a' }}
+
+        <div style="    display: flex;">
+            <ul class="nav nav-tabs" style="flex: 1;">
+                <li v-for="(navItem, index) in navItems" :key="index" class="nav-item">
                     <router-link
-                        class="form-editor__header-nav-link"
+                        class="nav-link"
+                        :class="{
+                            active: $route.name === navItem.routeName,
+                        }"
                         :to="{ name: navItem.routeName }"
                     >
                         {{ navItem.label }}
@@ -23,25 +23,17 @@
                 </li>
             </ul>
 
-            <div class="form-editor__actions">
-                <!--                <button-->
-                <!--                    v-if="false"-->
-                <!--                    class="button button&#45;&#45;danger form-editor__discard-btn"-->
-                <!--                    @click="discardFormData"-->
-                <!--                    :disabled="!hasChanges"-->
-                <!--                >-->
-                <!--                    {{ uSign('translate', 'Сбросить изменения') }}-->
-                <!--                </button>-->
-
+            <div class="form-editor__actions" style="margin-left: 36px;">
                 <button
-                    class="button button--success form-editor__submit-btn"
+                    class="btn btn-primary btn-sm1 form-editor__submit-btn"
                     @click="saveFormData"
+                    style="margin-right: 12px;"
                 >
                     {{ uSign('translate', 'Сохранить') }}
                 </button>
 
                 <button
-                    class="button form-editor__move-back-btn"
+                    class="btn btn-secondary btn-sm1 form-editor__move-back-btn"
                     @click="$router.push({ name: 'home' })"
                 >
                     {{ uSign('translate', 'Назад') }}
@@ -54,48 +46,115 @@
                 ref="optionsComponent"
                 :is="currentComponent"
                 :form="selectedForm"
+                v-if="selectedForm"
             ></component>
+
+            <div v-else>Loading...</div>
         </div>
+    </base-page-layout>
 
-        <!--        <v-dialog-->
-        <!--            ref="confirmNav"-->
-        <!--            :max-width="600"-->
-        <!--            class="form-editor__confirm-dialog"-->
-        <!--            @close="cancelNavigation"-->
-        <!--        >-->
-        <!--            {{ uSign('translate', 'У данной формы есть несохраненные данные. Сохранить?') }}-->
+    <!--    <div class="form-editor">-->
+    <!--        <div class="form-editor__header">-->
+    <!--            <div class="form-editor__header-title" v-if="selectedForm">-->
+    <!--                {{ selectedForm.name }}-->
+    <!--            </div>-->
 
-        <!--            <template v-slot:footer="{ closePopup }">-->
-        <!--                <button-->
-        <!--                    class="button button&#45;&#45;success form-editor__save-and-nav"-->
-        <!--                    @click="saveChanges"-->
-        <!--                >-->
-        <!--                    {{ uSign('translate', 'Сохранить и перейти') }}-->
-        <!--                </button>-->
+    <!--            <ul class="form-editor__header-nav">-->
+    <!--                <li-->
+    <!--                    v-for="(navItem, index) in navItems"-->
+    <!--                    :key="index"-->
+    <!--                    class="form-editor__header-nav-item"-->
+    <!--                    :class="{-->
+    <!--                        'form-editor__header-nav-item&#45;&#45;active': $route.name === navItem.routeName,-->
+    <!--                    }"-->
+    <!--                >-->
+    <!--                    <router-link-->
+    <!--                        class="form-editor__header-nav-link"-->
+    <!--                        :to="{ name: navItem.routeName }"-->
+    <!--                    >-->
+    <!--                        {{ navItem.label }}-->
+    <!--                    </router-link>-->
+    <!--                </li>-->
+    <!--            </ul>-->
 
-        <!--                <button-->
-        <!--                    class="button button&#45;&#45;danger form-editor__discard-and-nav"-->
-        <!--                    @click="discardChanges"-->
-        <!--                >-->
-        <!--                    {{ uSign('translate', 'Сбросить и перейти') }}-->
-        <!--                </button>-->
+    <!--            <div class="form-editor__actions">-->
+    <!--                &lt;!&ndash;                <button&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    v-if="false"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    class="button button&#45;&#45;danger form-editor__discard-btn"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    @click="discardFormData"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    :disabled="!hasChanges"&ndash;&gt;-->
+    <!--                &lt;!&ndash;                >&ndash;&gt;-->
+    <!--                &lt;!&ndash;                    {{ uSign('translate', 'Сбросить изменения') }}&ndash;&gt;-->
+    <!--                &lt;!&ndash;                </button>&ndash;&gt;-->
 
-        <!--                <button class="button form-editor__cancel-nav" @click="cancelNavigation">-->
-        <!--                    {{ uSign('translate', 'Отменить переход') }}-->
-        <!--                </button>-->
-        <!--            </template>-->
-        <!--        </v-dialog>-->
-    </div>
+    <!--                <button-->
+    <!--                    class="button button&#45;&#45;success form-editor__submit-btn"-->
+    <!--                    @click="saveFormData"-->
+    <!--                >-->
+    <!--                    {{ uSign('translate', 'Сохранить') }}-->
+    <!--                </button>-->
+
+    <!--                <button-->
+    <!--                    class="button form-editor__move-back-btn"-->
+    <!--                    @click="$router.push({ name: 'home' })"-->
+    <!--                >-->
+    <!--                    {{ uSign('translate', 'Назад') }}-->
+    <!--                </button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+
+    <!--        {{ selectedForm }}-->
+
+    <!--        <div class="form-editor__content">-->
+    <!--            <component-->
+    <!--                ref="optionsComponent"-->
+    <!--                :is="currentComponent"-->
+    <!--                :form="selectedForm"-->
+    <!--                v-if="selectedForm"-->
+    <!--            ></component>-->
+
+    <!--            <div v-else>Loading...</div>-->
+    <!--        </div>-->
+
+    <!--        &lt;!&ndash;        <v-dialog&ndash;&gt;-->
+    <!--        &lt;!&ndash;            ref="confirmNav"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            :max-width="600"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            class="form-editor__confirm-dialog"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            @close="cancelNavigation"&ndash;&gt;-->
+    <!--        &lt;!&ndash;        >&ndash;&gt;-->
+    <!--        &lt;!&ndash;            {{ uSign('translate', 'У данной формы есть несохраненные данные. Сохранить?') }}&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;            <template v-slot:footer="{ closePopup }">&ndash;&gt;-->
+    <!--        &lt;!&ndash;                <button&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    class="button button&#45;&#45;success form-editor__save-and-nav"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    @click="saveChanges"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                >&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    {{ uSign('translate', 'Сохранить и перейти') }}&ndash;&gt;-->
+    <!--        &lt;!&ndash;                </button>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;                <button&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    class="button button&#45;&#45;danger form-editor__discard-and-nav"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    @click="discardChanges"&ndash;&gt;-->
+    <!--        &lt;!&ndash;                >&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    {{ uSign('translate', 'Сбросить и перейти') }}&ndash;&gt;-->
+    <!--        &lt;!&ndash;                </button>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;                <button class="button form-editor__cancel-nav" @click="cancelNavigation">&ndash;&gt;-->
+    <!--        &lt;!&ndash;                    {{ uSign('translate', 'Отменить переход') }}&ndash;&gt;-->
+    <!--        &lt;!&ndash;                </button>&ndash;&gt;-->
+    <!--        &lt;!&ndash;            </template>&ndash;&gt;-->
+    <!--        &lt;!&ndash;        </v-dialog>&ndash;&gt;-->
+    <!--    </div>-->
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
 import LayoutBuilder from '../components/LayoutBuilder';
 import ResultsBuilder from '../components/ResultsBuilder';
 
-import VDialog from '@/components/Dialog';
+import axios from '../axios';
 
-const { mapActions, mapState } = createNamespacedHelpers('forms');
+import VDialog from '@/components/Dialog';
+import BasePageLayout from './BasePageLayout';
 
 const layoutBuilderComponentId = 'layout-builder';
 const resultsBuilderComponentId = 'results-builder';
@@ -104,8 +163,6 @@ export default {
     name: 'CalcConstructor',
 
     computed: {
-        ...mapState(['createdForms']),
-
         currentComponent() {
             const mapping = {
                 formLayout: layoutBuilderComponentId,
@@ -116,7 +173,7 @@ export default {
         },
 
         hasChanges() {
-            return this.currentFormHistory.length > 1;
+            return false; //this.currentFormHistory.length > 1;
         },
     },
 
@@ -124,22 +181,24 @@ export default {
         LayoutBuilder,
         ResultsBuilder,
         VDialog,
+        BasePageLayout,
     },
 
     methods: {
-        ...mapActions(['saveForms']),
-
         // onFormUpdate(formConfig) {
         //     this.currentFormHistory.push(formConfig);
         //     console.log('Layout changed', this.currentFormHistory.length);
         // },
 
-        saveFormData() {
+        async saveFormData() {
             if (this.currentComponent === layoutBuilderComponentId) {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
-            this.saveForms();
+            const response = await axios.post('/forms/save', this.selectedForm);
+            console.log(response.data);
+
+            // this.saveForms();
 
             // this.currentForm = this.currentFormHistory.pop();
             // this.$store.dispatch('updateForm', this.currentForm);
@@ -187,9 +246,16 @@ export default {
         };
     },
 
-    created() {
-        const formId = +this.$route.params.id;
-        this.selectedForm = this.createdForms.find(({ id }) => id === formId);
+    async created() {
+        const formId = this.$route.params.id;
+
+        try {
+            const response = await axios.get(`/forms/${formId}`);
+            this.selectedForm = response.data;
+            console.warn(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     },
 };
 </script>
@@ -199,70 +265,5 @@ export default {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
-    &__header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 64px;
-        background-color: #263238;
-        border-color: #263238;
-        color: #fff;
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 24px;
-        box-shadow:
- 0 2px 4px -1px rgba(0, 0, 0, 0.2),
- 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-            0 1px 10px 0 rgba(0, 0, 0, 0.12);
-        z-index: 3;
-    }
-
-    &__header-title {
-        font-size: 20px;
-        font-weight: 500;
-        letter-spacing: 0.02em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    &__header-nav {
-        list-style: none;
-        display: flex;
-        height: 100%;
-    }
-
-    &__header-nav-item {
-        margin: 0 24px;
-        display: flex;
-        align-items: center;
-        border-bottom: 4px solid transparent;
-        transition: border-bottom-color 0.3s;
-    }
-
-    &__header-nav-item--active,
-    &__header-nav-item:hover {
-        border-bottom-color: $success;
-    }
-
-    &__header-nav-link {
-        color: $white;
-        text-decoration: none;
-    }
-
-    &__content {
-        margin-top: 64px;
-        height: calc(100vh - 64px);
-    }
-
-    &__discard-btn,
-    &__submit-btn,
-    &__save-and-nav,
-    &__discard-and-nav {
-        margin-right: 12px;
-    }
 }
 </style>

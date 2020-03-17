@@ -1,29 +1,77 @@
+const HTTPErrors = require('http-custom-errors');
+
 const authGuard = require('../guards');
 
-const knexInstance = require('../knexInstance');
+const { formsService } = require('../service');
 
 module.exports = app => {
     app.get('/forms', authGuard, async (request, response) => {
-        const user = request.user;
+        const { id } = request.user;
+        const forms = await formsService.find({ userid: id });
 
-        return response.json([])
+        const processedForms = forms.map(form => formsService.unpackForm(form));
 
-        try {
-            const userForms = await knexInstance('forms')
-                .where({ user_id: user.id })
-                .select();
-
-            response.json(userForms);
-        } catch (error) {
-            response.status(500).send({
-                error: error.message,
-            });
-        }
+        response.json(processedForms);
     });
 
-    app.post('/forms', (request, response) => {
-        response.status(200).json({
-            status: 'Ok',
+    app.get('/forms/:id', authGuard, async (request, response) => {
+        const { id: userId } = request.user;
+        const { id: formId } = request.params;
+        const form = await formsService.findOne({ userid: userId, id: formId });
+
+        if (!form) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        response.json(formsService.unpackForm(form));
+    });
+
+    app.post('/forms/create', authGuard, async (request, response) => {
+        const { id } = request.user;
+
+        const form = formsService.getEmptyForm(id);
+        const insertedForms = await formsService.insertAndReturn(form);
+
+        response.json({
+            form: insertedForms[0],
         });
+    });
+
+    app.delete('/forms/:id', authGuard, async (request, response) => {
+        const { id: userId } = request.user;
+        const { id: formId } = request.params;
+
+        const formToRemove = await formsService.findOne({
+            id: formId,
+            userid: userId,
+        });
+
+        if (!formToRemove) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        const removed = await formsService.remove({ id: formId });
+
+        response.json({ removed });
+    });
+
+    app.post('/forms/save', authGuard, async (request, response) => {
+        const form = request.body;
+
+        const { id: formId, layout } = form;
+        const { id: userId } = request.user;
+
+        const formToUpdate = await formsService.findOne({
+            id: formId,
+            userid: userId,
+        });
+
+        if (!formToUpdate) {
+            throw HTTPErrors.BadRequest('Форма не пренадлежит вам!');
+        }
+
+        await formsService.update({ id: formId }, { layout: JSON.stringify(layout) });
+
+        response.json({ success: 1 });
     });
 };
