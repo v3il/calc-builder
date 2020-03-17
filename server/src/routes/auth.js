@@ -1,7 +1,6 @@
 const HTTPErrors = require('http-custom-errors');
 
 const axios = require('axios');
-const querystring = require('querystring');
 
 const { OAuth2Client } = require('google-auth-library');
 
@@ -13,55 +12,6 @@ module.exports = app => {
     app.post('/login/local', loginLocal);
     app.post('/login/google', loginGoogle);
     app.post('/login/facebook', loginFacebook);
-
-    const clientId = '';
-    const clientSecret = '';
-    const redirect = 'https://localhost:3000/login/instagram/callback';
-
-    app.get('/login/instagram', function (request, response) {
-        response.redirect(
-            `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirect}&scope=user_profile,user_media&response_type=code`,
-        );
-    });
-
-    app.get('/login/instagram/callback', async (request, response) => {
-        // console.log(request.query);
-
-        const d = {
-            client_id: clientId,
-            client_secret: clientSecret,
-            grant_type: 'authorization_code',
-            redirect_uri: redirect,
-            code: request.query.code,
-        };
-
-        // console.log(d)
-
-        try {
-            const r = await axios.post(
-                'https://api.instagram.com/oauth/access_token',
-                querystring.stringify(d),
-            );
-
-            console.log(r.data);
-
-            const userId = r.data.user_id;
-            const token = r.data.access_token;
-
-            console.log(userId, token)
-            console.log(`https://graph.instagram.com/${userId}?fields=id,username&access_token=${token}`)
-
-            const r2 = await axios.get(
-                `https://graph.instagram.com/me?fields=id,username,email&access_token=${token}`,
-            );
-
-            console.log(r2.data);
-        } catch (e) {
-            console.log(e)
-        }
-
-        response.redirect('http://localhost:8080/login');
-    });
 };
 
 async function loginLocal(request, response) {
