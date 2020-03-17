@@ -55,7 +55,7 @@ module.exports = app => {
         response.json({ removed });
     });
 
-    app.put('/forms/save', authGuard, async (request, response) => {
+    app.post('/forms/save', authGuard, async (request, response) => {
         const form = request.body;
 
         const { id: formId, layout } = form;

@@ -6,6 +6,8 @@
             </span>
         </template>
 
+        {{ selectedForm ? selectedForm.layout : 'a' }}
+
         <div style="    display: flex;">
             <ul class="nav nav-tabs" style="flex: 1;">
                 <li v-for="(navItem, index) in navItems" :key="index" class="nav-item">
@@ -193,7 +195,7 @@ export default {
                 this.$refs.optionsComponent.saveEditedField();
             }
 
-            const response = await axios.put('/forms/save', this.currentForm);
+            const response = await axios.post('/forms/save', this.selectedForm);
             console.log(response.data);
 
             // this.saveForms();
