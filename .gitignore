@@ -1,6 +1,8 @@
 .idea
 
 server/node_modules
+server/server.cert
+server/server.key
 .env
 
 .DS_Store

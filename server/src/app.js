@@ -1,3 +1,6 @@
+const https = require('https');
+const fs = require('fs');
+
 require('dotenv').config();
 
 require('express-async-errors');
@@ -14,4 +17,16 @@ app.use(bodyParser.json('combine'));
 
 require('./routes')(app);
 
-app.listen(process.env.PORT || 3000);
+https
+    .createServer(
+        {
+            key: fs.readFileSync('server.key'),
+            cert: fs.readFileSync('server.cert'),
+        },
+        app,
+    )
+    .listen(process.env.PORT || 3000, function() {
+        console.log('Example app listening on port 3000! Go to https://localhost:3000/');
+    });
+
+// app.listen(process.env.PORT || 3000);

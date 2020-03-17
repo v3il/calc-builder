@@ -1,5 +1,7 @@
 const HTTPErrors = require('http-custom-errors');
 
+const axios = require('axios');
+
 const { OAuth2Client } = require('google-auth-library');
 
 const { usersService } = require('../service');
@@ -115,8 +117,6 @@ async function loginGoogle(request, response) {
         userData: userPublicData,
     });
 }
-
-const axios = require('axios');
 
 async function loginFacebook(request, response) {
     const { accessToken, userId } = request.body;
